@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <title>معمل الدكتور جابر شحاتة | أحدث التحاليل والباقات الشاملة</title>
+  <title>معمل الدكتور جابر شحاتة | التميز في التحاليل الطبية</title>
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- Lucide Icons -->
@@ -21,9 +21,42 @@
     }
     body {
       font-family: 'Tajawal', 'Noto Kufi Arabic', sans-serif;
-      background: #0a0c10;
+      transition: background-color 0.3s ease, color 0.2s ease;
       overflow-x: hidden;
       scroll-behavior: smooth;
+    }
+    /* Light & Dark mode variables */
+    body.dark-mode {
+      background-color: #0a0c10;
+      color: #e2e8f0;
+    }
+    body.light-mode {
+      background-color: #f0f4f8;
+      color: #1e293b;
+    }
+    /* Global card styling dynamic */
+    body.light-mode .glass-card {
+      background: rgba(255, 255, 255, 0.75);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(0, 150, 200, 0.3);
+      color: #0f172a;
+    }
+    body.dark-mode .glass-card {
+      background: rgba(20, 24, 34, 0.65);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(0, 255, 255, 0.2);
+    }
+    body.light-mode .glass-table {
+      background: rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(8px);
+    }
+    body.light-mode .glass-table td {
+      color: #1e293b;
+    }
+    body.light-mode .input-glass {
+      background: rgba(255, 255, 255, 0.8);
+      border-color: #0a7b8c;
+      color: #0f172a;
     }
     .neon-text {
       text-shadow: 0 0 5px rgba(0, 255, 255, 0.7), 0 0 10px rgba(0, 255, 255, 0.5);
@@ -32,29 +65,12 @@
       box-shadow: 0 0 8px rgba(0, 212, 255, 0.6);
       transition: all 0.3s ease;
     }
-    .neon-border:hover {
-      box-shadow: 0 0 15px rgba(0, 212, 255, 0.9);
-    }
     .glass-card {
-      background: rgba(20, 24, 34, 0.65);
-      backdrop-filter: blur(12px);
-      border: 1px solid rgba(0, 255, 255, 0.2);
       border-radius: 1.5rem;
       transition: transform 0.3s ease, border-color 0.2s;
     }
     .glass-card:hover {
-      border-color: rgba(0, 212, 255, 0.6);
       transform: translateY(-5px);
-    }
-    .input-glass {
-      background: rgba(15, 20, 30, 0.7);
-      border: 1px solid rgba(0, 255, 255, 0.3);
-      backdrop-filter: blur(4px);
-    }
-    .input-glass:focus {
-      outline: none;
-      border-color: #0ff;
-      box-shadow: 0 0 12px rgba(0, 255, 255, 0.4);
     }
     .btn-neon {
       background: linear-gradient(90deg, #00c6ff, #0072ff);
@@ -64,292 +80,267 @@
     .btn-neon:hover {
       background-position: right center;
       box-shadow: 0 0 12px #00c6ff;
-      transform: scale(1.02);
     }
-    .glass-table {
-      background: rgba(10, 15, 25, 0.6);
-      backdrop-filter: blur(8px);
-      border-collapse: separate;
-      border-spacing: 0;
-      width: 100%;
+    /* Side drawer menu (hamburger) */
+    .side-drawer {
+      position: fixed;
+      top: 0;
+      right: -320px;
+      width: 300px;
+      height: 100vh;
+      z-index: 1000;
+      transition: right 0.3s ease;
+      backdrop-filter: blur(20px);
+      background: rgba(10, 15, 30, 0.95);
+      border-left: 1px solid rgba(0, 255, 255, 0.4);
+      box-shadow: -5px 0 25px rgba(0,0,0,0.5);
     }
-    .glass-table th {
-      background: rgba(0, 180, 216, 0.2);
-      padding: 1rem;
-      font-weight: 700;
-      color: #a5f3ff;
-      border-bottom: 1px solid rgba(0, 255, 255, 0.3);
+    body.light-mode .side-drawer {
+      background: rgba(240, 248, 255, 0.95);
+      border-left-color: #0b9fbf;
     }
-    .glass-table td {
-      padding: 0.9rem 1rem;
-      border-bottom: 1px solid rgba(0, 255, 255, 0.1);
-      color: #e2e8f0;
+    .side-drawer.open {
+      right: 0;
     }
-    .glass-table tr:hover td {
-      background: rgba(0, 212, 255, 0.08);
+    .drawer-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.5);
+      z-index: 999;
+      display: none;
+    }
+    .drawer-overlay.active {
+      display: block;
     }
     .badge-time {
       background: #0e2a2f;
       color: #0ff;
       border-radius: 40px;
       padding: 0.2rem 0.8rem;
-      font-size: 0.75rem;
+      font-size: 0.7rem;
       font-weight: bold;
-      display: inline-block;
     }
-    ::-webkit-scrollbar {
-      width: 6px;
-    }
-    ::-webkit-scrollbar-track {
-      background: #0f1117;
-    }
-    ::-webkit-scrollbar-thumb {
-      background: #0ff3;
-      border-radius: 20px;
+    body.light-mode .badge-time {
+      background: #cbf0f5;
+      color: #006f7a;
     }
     html {
-      scroll-padding-top: 90px;
+      scroll-padding-top: 80px;
     }
   </style>
 </head>
-<body class="text-gray-200 antialiased">
+<body class="dark-mode">
 
-  <!-- animated bg -->
-  <div class="fixed inset-0 -z-10 overflow-hidden">
-    <div class="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-[#05070a] via-[#0a101c] to-[#000000]"></div>
-    <div class="absolute top-40 -left-20 w-96 h-96 rounded-full bg-cyan-500/10 blur-[100px]"></div>
-    <div class="absolute bottom-20 right-10 w-80 h-80 rounded-full bg-blue-600/10 blur-[120px]"></div>
-  </div>
-
-  <!-- Topbar quick info: phone + address -->
-  <div class="hidden md:flex justify-between items-center bg-black/40 backdrop-blur-sm border-b border-cyan-500/20 py-2 px-8 text-sm text-cyan-200/80">
-    <div class="flex items-center gap-4">
-      <div class="flex items-center gap-1"><i data-lucide="phone" class="w-3.5 h-3.5"></i> <span dir="ltr">01015090991</span></div>
-      <div class="flex items-center gap-1"><i data-lucide="map-pin" class="w-3.5 h-3.5"></i> أبو المطامير - مساكن الإرشاد - أمام النيابة الإدارية</div>
+  <!-- Overlay for drawer -->
+  <div id="drawerOverlay" class="drawer-overlay"></div>
+  
+  <!-- Side Drawer Menu -->
+  <div id="sideDrawer" class="side-drawer p-6 overflow-y-auto">
+    <div class="flex justify-between items-center mb-8 border-b border-cyan-500/30 pb-3">
+      <span class="text-2xl font-bold text-cyan-300">☰ القائمة</span>
+      <button id="closeDrawerBtn" class="text-cyan-200 hover:text-white"><i data-lucide="x" class="w-6 h-6"></i></button>
     </div>
-    <div class="text-cyan-300 text-xs">⚕️ خدمة 24 ساعة - دقة وسرعة</div>
+    <ul class="space-y-6 text-right">
+      <li><a href="#about-lab" class="flex items-center gap-3 text-lg hover:text-cyan-300 transition"><i data-lucide="building-2" class="w-5 h-5"></i> حول المعمل</a></li>
+      <li><a href="#health-tips" class="flex items-center gap-3 text-lg hover:text-cyan-300 transition"><i data-lucide="stethoscope" class="w-5 h-5"></i> نصائح طبية</a></li>
+      <li><a href="#all-tests" class="flex items-center gap-3 text-lg hover:text-cyan-300 transition"><i data-lucide="list-checks" class="w-5 h-5"></i> قائمة التحاليل</a></li>
+      <li><a href="#packages" class="flex items-center gap-3 text-lg hover:text-cyan-300 transition"><i data-lucide="package" class="w-5 h-5"></i> الباقات الشاملة</a></li>
+      <li><a href="#home-service" class="flex items-center gap-3 text-lg hover:text-cyan-300 transition"><i data-lucide="truck" class="w-5 h-5"></i> الزيارة المنزلية</a></li>
+    </ul>
+    <div class="mt-12 pt-6 border-t border-cyan-500/30 text-sm text-gray-300">
+      <div class="flex items-center gap-2"><i data-lucide="phone"></i> 01015090991</div>
+      <div class="flex items-center gap-2 mt-2"><i data-lucide="map-pin"></i> أبو المطامير - مساكن الإرشاد</div>
+    </div>
   </div>
 
-  <!-- NAVBAR -->
-  <nav class="sticky top-0 w-full z-50 py-3 px-6 md:px-12 backdrop-blur-xl bg-black/40 border-b border-cyan-500/30 shadow-md">
-    <div class="max-w-7xl mx-auto flex justify-between items-center">
+  <!-- top bar + navbar -->
+  <div class="sticky top-0 z-40 backdrop-blur-xl bg-black/50 dark:bg-black/50 light:bg-white/70 border-b border-cyan-500/30 transition-colors">
+    <div class="hidden md:flex justify-between items-center px-6 py-2 text-xs text-cyan-200/80">
+      <div class="flex gap-4"><span dir="ltr">📞 01015090991</span> <span>📍 أبو المطامير - مساكن الإرشاد - أمام النيابة</span></div>
+      <button id="themeToggle" class="bg-cyan-800/40 px-3 py-1 rounded-full flex items-center gap-1 text-sm"><i data-lucide="moon" class="w-3.5 h-3.5"></i> الوضع الليلي/النهاري</button>
+    </div>
+    <nav class="px-6 py-3 flex justify-between items-center">
       <div class="flex items-center gap-3">
-        <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-cyan-400 to-blue-600 flex items-center justify-center neon-border">
-          <i data-lucide="microscope" class="w-5 h-5 text-white"></i>
-        </div>
+        <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-cyan-400 to-blue-600 flex items-center justify-center shadow-md"><i data-lucide="microscope" class="w-5 h-5 text-white"></i></div>
         <span class="text-xl font-extrabold bg-gradient-to-l from-cyan-300 to-blue-400 bg-clip-text text-transparent">معمل د. جابر شحاتة</span>
       </div>
-      <div class="hidden md:flex gap-6 text-sm font-medium">
-        <a href="#home" class="hover:text-cyan-400 transition">الرئيسية</a>
-        <a href="#all-tests" class="hover:text-cyan-400 transition">التحاليل</a>
-        <a href="#packages" class="hover:text-cyan-400 transition">باقات شاملة</a>
-        <a href="#home-service" class="hover:text-cyan-400 transition">زيارة منزلية</a>
+      <div class="flex items-center gap-3">
+        <button id="hamburgerBtn" class="relative w-8 h-8 flex flex-col justify-center items-center gap-1.5 focus:outline-none z-30">
+          <span class="w-6 h-0.5 bg-cyan-300 rounded-full transition-all"></span>
+          <span class="w-6 h-0.5 bg-cyan-300 rounded-full transition-all"></span>
+          <span class="w-6 h-0.5 bg-cyan-300 rounded-full transition-all"></span>
+        </button>
+        <button id="resultsPortalBtn" class="px-4 py-1.5 rounded-full bg-cyan-600/20 border border-cyan-400/60 text-cyan-300 font-bold flex items-center gap-1 text-sm"><i data-lucide="flask-conical" class="w-4 h-4"></i> بوابة النتائج</button>
       </div>
-      <button id="resultsBtn" class="px-4 py-1.5 rounded-full bg-cyan-600/20 border border-cyan-400/60 text-cyan-300 font-bold flex items-center gap-2 hover:bg-cyan-500/30 transition text-sm">
-        <i data-lucide="flask-conical" class="w-4 h-4"></i> بوابة النتائج
-      </button>
-    </div>
-  </nav>
+    </nav>
+  </div>
 
-  <!-- HERO section with contact mobile friendly -->
-  <section id="home" class="pt-20 pb-12 px-6 md:px-12">
-    <div class="max-w-7xl mx-auto grid lg:grid-cols-2 gap-10 items-center">
+  <!-- Hero Section -->
+  <section class="pt-12 pb-8 px-6 md:px-12">
+    <div class="max-w-7xl mx-auto flex flex-col md:flex-row gap-10 items-center">
       <div data-aos="fade-up">
-        <div class="inline-flex items-center gap-2 bg-cyan-500/10 rounded-full px-4 py-1.5 border border-cyan-500/30 mb-5">
-          <span class="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span>
-          <span class="text-cyan-300 text-sm font-semibold">معمل رقمي متكامل</span>
-        </div>
-        <h1 class="text-4xl md:text-6xl font-black leading-tight mb-4">
-          <span class="bg-gradient-to-l from-white via-cyan-100 to-cyan-300 bg-clip-text text-transparent">دقة متطورة</span><br>
-          <span class="neon-text text-cyan-300">نتائج فائقة السرعة</span>
-        </h1>
-        <div class="flex flex-wrap gap-4 mt-6">
-          <div class="flex items-center gap-2 bg-black/40 p-2 rounded-xl border border-cyan-500/30"><i data-lucide="phone-call" class="w-4 h-4 text-cyan-300"></i><span dir="ltr" class="font-mono">01015090991</span></div>
-          <div class="flex items-center gap-2 bg-black/40 p-2 rounded-xl border border-cyan-500/30"><i data-lucide="map-pin" class="w-4 h-4 text-cyan-300"></i><span class="text-sm">أبو المطامير - مساكن الإرشاد</span></div>
-        </div>
-        <div class="mt-6 flex gap-4">
-          <a href="#all-tests" class="btn-neon px-6 py-2.5 rounded-full text-white font-bold shadow-lg">استعراض التحاليل</a>
-          <a href="#packages" class="px-6 py-2.5 rounded-full border border-cyan-400/70 text-cyan-300 font-semibold hover:bg-cyan-500/10">باقات شاملة</a>
-        </div>
+        <h1 class="text-4xl md:text-6xl font-black leading-tight"><span class="bg-gradient-to-l from-white via-cyan-100 to-cyan-300 bg-clip-text text-transparent">معمل الدكتور</span><br><span class="neon-text text-cyan-300">جابر شحاتة</span></h1>
+        <p class="text-gray-300 my-4 max-w-lg">تحاليل دقيقة، أحدث التقنيات، وأسعار تنافسية مع خدمة سحب منزلي.</p>
+        <div class="flex gap-3 mt-2"><span class="glass-card px-3 py-1 text-sm">⏱ نتائج سريعة</span><span class="glass-card px-3 py-1 text-sm">🏆 دقة معتمدة</span></div>
       </div>
-      <div data-aos="fade-left" class="relative flex justify-center">
-        <img src="https://images.unsplash.com/photo-1579684385127-1ef15d5088b2?w=600&auto=format" alt="طبيب تحاليل" class="rounded-3xl shadow-2xl object-cover w-full max-w-md border border-cyan-400/40 glass-card p-1">
+      <img src="https://images.unsplash.com/photo-1581595219315-bbbb0aa61a93?w=500&auto=format" class="rounded-2xl shadow-2xl max-w-sm border border-cyan-400/40 glass-card p-1">
+    </div>
+  </section>
+
+  <!-- About Lab & Health Tips combined section -->
+  <section id="about-lab" class="px-6 md:px-12 py-8">
+    <div class="max-w-7xl mx-auto grid md:grid-cols-2 gap-8">
+      <div class="glass-card p-6" data-aos="fade-right">
+        <div class="flex items-center gap-2 text-cyan-300 text-xl font-bold"><i data-lucide="building-2"></i> حول المعمل</div>
+        <p class="mt-3 leading-relaxed">معمل الدكتور جابر شحاتة للتحاليل الطبية يقع في أبو المطامير، مساكن الإرشاد، ويعمل بأحدث الأجهزة الألمانية. يتميز بالدقة المتناهية، فريق طبي متخصص، وسرعة النتائج. نقدم خدمة السحب المنزلي لكبار السن وأصحاب الظروف الخاصة.</p>
+      </div>
+      <div id="health-tips" class="glass-card p-6" data-aos="fade-left">
+        <div class="flex items-center gap-2 text-cyan-300 text-xl font-bold"><i data-lucide="heart"></i> نصائح طبية</div>
+        <ul class="mt-3 space-y-2 list-disc pr-5">
+          <li>⚕️ يفضل عمل تحاليل دورية كل 6 أشهر للاطمئنان على الصحة</li>
+          <li>🥗 الصيام قبل تحليل السكر والدهون لمدة 10-12 ساعة يعطي أدق النتائج</li>
+          <li>💧 شرب الماء يساعد في سهولة سحب العينة الوريدية</li>
+          <li>📱 يمكنك متابعة نتائجك عبر بوابة النتائج الإلكترونية</li>
+        </ul>
       </div>
     </div>
   </section>
 
-  <!-- ============== ALL TESTS TABLE (Comprehensive) ============== -->
+  <!-- =========== قائمة التحاليل منفصلة بشكل احترافي ========== -->
   <section id="all-tests" class="py-12 px-6 md:px-12">
     <div class="max-w-7xl mx-auto" data-aos="fade-up">
-      <div class="text-center mb-10">
-        <h2 class="text-3xl md:text-4xl font-extrabold"><span class="text-cyan-300">قاعدة التحاليل</span> الشاملة</h2>
-        <p class="text-gray-400 mt-2">أكثر من 40 تحليلاً علمياً دقيقاً + الأسعار + مدة النتيجة</p>
-        <div class="w-20 h-1 bg-cyan-400 mx-auto mt-3 rounded-full"></div>
-      </div>
+      <div class="text-center mb-8"><h2 class="text-3xl font-extrabold"><span class="text-cyan-300">قائمة التحاليل</span> الطبية الشاملة</h2><div class="w-20 h-1 bg-cyan-400 mx-auto mt-2 rounded-full"></div></div>
       <div class="overflow-x-auto rounded-2xl glass-card p-1">
-        <table class="glass-table w-full text-right">
-          <thead>
-            <tr><th>اسم التحليل</th><th>السعر (جنية)</th><th>مدة النتيجة</th></tr>
-          </thead>
-          <tbody>
-            <tr><td>صورة دم كاملة (CBC)</td><td>120</td><td><span class="badge-time">ساعتان</span></td></tr>
-            <tr><td>وظائف كبد (ALT, AST, GGT)</td><td>180</td><td><span class="badge-time">4 ساعات</span></td></tr>
-            <tr><td>وظائف كلى (يوريا - كرياتينين)</td><td>150</td><td><span class="badge-time">3 ساعات</span></td></tr>
-            <tr><td>فيتامين د (Vitamin D)</td><td>250</td><td><span class="badge-time">6 ساعات</span></td></tr>
-            <tr><td>فيتامين ب12 (B12)</td><td>200</td><td><span class="badge-time">6 ساعات</span></td></tr>
-            <tr><td>هرمون الغدة الدرقية (TSH)</td><td>160</td><td><span class="badge-time">4 ساعات</span></td></tr>
-            <tr><td>T3 - T4 كامل</td><td>280</td><td><span class="badge-time">5 ساعات</span></td></tr>
-            <tr><td>سكر صائم / فاطر</td><td>50</td><td><span class="badge-time">ساعة</span></td></tr>
-            <tr><td>سكر تراكمي (HbA1c)</td><td>180</td><td><span class="badge-time">3 ساعات</span></td></tr>
-            <tr><td>دهون ثلاثية & كوليسترول كامل</td><td>220</td><td><span class="badge-time">4 ساعات</span></td></tr>
-            <tr><td>HDL / LDL</td><td>140</td><td><span class="badge-time">4 ساعات</span></td></tr>
-            <tr><td>حديد & (Ferritin)</td><td>210</td><td><span class="badge-time">5 ساعات</span></td></tr>
-            <tr><td>تحليل هرمون الحليب (Prolactin)</td><td>190</td><td><span class="badge-time">6 ساعات</span></td></tr>
-            <tr><td>هرمون الذكورة (Testosterone)</td><td>250</td><td><span class="badge-time">8 ساعات</span></td></tr>
-            <tr><td>تحليل بول كامل</td><td>60</td><td><span class="badge-time">ساعة</span></td></tr>
-            <tr><td>زراعة بول + حساسية</td><td>320</td><td><span class="badge-time">48 ساعة</span></td></tr>
-            <tr><td>PCR فيروس كورونا</td><td>450</td><td><span class="badge-time">12 ساعة</span></td></tr>
-            <tr><td>علامات أورام (CA125)</td><td>400</td><td><span class="badge-time">24 ساعة</span></td></tr>
-            <tr><td>علامات أورام البروستاتا (PSA)</td><td>380</td><td><span class="badge-time">24 ساعة</span></td></tr>
-            <tr><td>الإنزيمات القلبية (Troponin)</td><td>500</td><td><span class="badge-time">ساعتان</span></td></tr>
-            <tr><td>سرعة الترسيب (ESR)</td><td>70</td><td><span class="badge-time">ساعتان</span></td></tr>
-            <tr><td>تحليل سيولة (PT, PTT)</td><td>180</td><td><span class="badge-time">3 ساعات</span></td></tr>
-            <tr><td>فيروس بي (HBsAg)</td><td>150</td><td><span class="badge-time">6 ساعات</span></td></tr>
-            <tr><td>فيروس سي (HCV Ab)</td><td>160</td><td><span class="badge-time">6 ساعات</span></td></tr>
-            <tr><td>هرمون الخصوبة FSH/LH</td><td>260</td><td><span class="badge-time">7 ساعات</span></td></tr>
-            <tr><td>هرمون البروجسترون</td><td>190</td><td><span class="badge-time">6 ساعات</span></td></tr>
-            <tr><td>خلايا الدم البيضاء التفريقية</td><td>100</td><td><span class="badge-time">ساعتان</span></td></tr>
+        <table class="w-full text-right border-collapse">
+          <thead class="bg-cyan-900/30"><tr><th class="p-3">التحليل</th><th>السعر (جنية)</th><th>مدة النتيجة</th></tr></thead>
+          <tbody class="divide-y divide-cyan-500/20">
+            <tr><td class="p-3">صورة دم كاملة CBC</td><td>120</td><td><span class="badge-time">2 ساعة</span></td></tr>
+            <tr><td class="p-3">وظائف كبد</td><td>180</td><td><span class="badge-time">4 ساعات</span></td></tr>
+            <tr><td class="p-3">وظائف كلى</td><td>150</td><td><span class="badge-time">3 ساعات</span></td></tr>
+            <tr><td class="p-3">فيتامين د Vitamin D</td><td>250</td><td><span class="badge-time">6 ساعات</span></td></tr>
+            <tr><td class="p-3">فيتامين ب12</td><td>200</td><td><span class="badge-time">6 ساعات</span></td></tr>
+            <tr><td class="p-3">هرمون الغدة TSH</td><td>160</td><td><span class="badge-time">4 ساعات</span></td></tr>
+            <tr><td class="p-3">سكر تراكمي HbA1c</td><td>180</td><td><span class="badge-time">3 ساعات</span></td></tr>
+            <tr><td class="p-3">دهون كاملة (كوليسترول)</td><td>220</td><td><span class="badge-time">4 ساعات</span></td></tr>
+            <tr><td class="p-3">هرمون الذكورة Testosterone</td><td>250</td><td><span class="badge-time">8 ساعات</span></td></tr>
+            <tr><td class="p-3">تحليل بول كامل</td><td>60</td><td><span class="badge-time">1 ساعة</span></td></tr>
+            <tr><td class="p-3">علامات أورام CA125</td><td>400</td><td><span class="badge-time">24 ساعة</span></td></tr>
           </tbody>
         </table>
-        <p class="text-xs text-center text-cyan-300/50 p-3">*أسعار خاصة لعملاء الزيارات المنزلية — خصم 10% على الباقات</p>
+        <p class="text-center text-xs text-cyan-300/70 p-2">+ أكثر من 40 تحليلاً متوفراً (استفسار: 01015090991)</p>
       </div>
     </div>
   </section>
 
-  <!-- ============== PACKAGES (شامل) ============== -->
-  <section id="packages" class="py-16 px-6 md:px-12">
-    <div class="max-w-7xl mx-auto">
-      <div data-aos="fade-up" class="text-center mb-12">
-        <span class="bg-cyan-500/20 px-4 py-1 rounded-full text-cyan-200 text-sm">حلول متكاملة</span>
-        <h2 class="text-3xl md:text-5xl font-black mt-3">باقات <span class="text-cyan-300 neon-text">شاملة مخبرية</span></h2>
-        <p class="text-gray-300 max-w-2xl mx-auto mt-3">بأفضل الأسعار ونتائج فورية — اختر الباقة المناسبة لك</p>
-      </div>
-      <div class="grid md:grid-cols-3 gap-8">
-        <!-- باقة أساسية -->
-        <div class="glass-card p-7 text-center" data-aos="flip-up">
-          <i data-lucide="heart-pulse" class="w-12 h-12 text-cyan-300 mx-auto mb-4"></i>
-          <h3 class="text-2xl font-bold">باقة العافية الأساسية</h3>
-          <p class="text-gray-300 text-sm my-3">صورة دم كاملة + سكر صائم + دهون + وظائف كبد وكلى</p>
-          <div class="text-3xl font-extrabold text-cyan-300 my-3">499 <span class="text-base">جنية</span></div>
-          <ul class="text-right space-y-2 text-sm my-4">
-            <li class="flex gap-2"><i data-lucide="check" class="w-4 h-4 text-cyan-300"></i> 5 تحاليل أساسية</li>
-            <li class="flex gap-2"><i data-lucide="clock" class="w-4 h-4 text-cyan-300"></i> النتائج خلال 4 ساعات</li>
-            <li class="flex gap-2"><i data-lucide="home" class="w-4 h-4 text-cyan-300"></i> خصم على السحب المنزلي</li>
-          </ul>
-          <button class="package-btn w-full py-2 rounded-full border border-cyan-400 text-cyan-300 hover:bg-cyan-500/20 transition" data-package="باقة العافية الأساسية - 499 ج">اختر الباقة</button>
-        </div>
-        <!-- باقة احترافية -->
-        <div class="glass-card p-7 text-center border-cyan-400 relative" data-aos="flip-up" data-aos-delay="150">
-          <div class="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-cyan-500 text-black text-xs font-bold px-3 py-0.5 rounded-full">الأكثر طلباً</div>
-          <i data-lucide="activity" class="w-12 h-12 text-cyan-300 mx-auto mb-4"></i>
-          <h3 class="text-2xl font-bold">باقة الفحص الشامل</h3>
-          <p class="text-gray-300 text-sm my-3">CBC + فيتامين د + B12 + غدة درقية + دهون كاملة + وظائف كبد وكلى</p>
-          <div class="text-3xl font-extrabold text-cyan-300 my-3">899 <span class="text-base">جنية</span></div>
-          <ul class="text-right space-y-2 text-sm my-4">
-            <li class="flex gap-2"><i data-lucide="badge-check" class="w-4 h-4 text-cyan-300"></i> 8 فحوصات حيوية</li>
-            <li class="flex gap-2"><i data-lucide="clock" class="w-4 h-4 text-cyan-300"></i> النتائج خلال 6 ساعات</li>
-            <li class="flex gap-2"><i data-lucide="truck" class="w-4 h-4 text-cyan-300"></i> خصم 20% على الزيارة المنزلية</li>
-          </ul>
-          <button class="package-btn w-full py-2 rounded-full bg-gradient-to-r from-cyan-600 to-blue-600 text-white shadow-md" data-package="باقة الفحص الشامل - 899 ج">اختر الباقة</button>
-        </div>
-        <!-- باقة VIP الذهبية -->
-        <div class="glass-card p-7 text-center" data-aos="flip-up" data-aos-delay="300">
-          <i data-lucide="crown" class="w-12 h-12 text-cyan-300 mx-auto mb-4"></i>
-          <h3 class="text-2xl font-bold">باقة VIP الذهبية</h3>
-          <p class="text-gray-300 text-sm my-3">شامل كل التحاليل الهرمونية + فيتامينات + علامات أورام أساسية + إنزيمات القلب</p>
-          <div class="text-3xl font-extrabold text-cyan-300 my-3">1899 <span class="text-base">جنية</span></div>
-          <ul class="text-right space-y-2 text-sm my-4">
-            <li class="flex gap-2"><i data-lucide="gem" class="w-4 h-4 text-cyan-300"></i> أكثر من 20 تحليلاً</li>
-            <li class="flex gap-2"><i data-lucide="clock" class="w-4 h-4 text-cyan-300"></i> أولوية النتائج خلال 8 ساعات</li>
-            <li class="flex gap-2"><i data-lucide="users" class="w-4 h-4 text-cyan-300"></i> استشارة طبية مجانية</li>
-          </ul>
-          <button class="package-btn w-full py-2 rounded-full border border-cyan-400 text-cyan-300 hover:bg-cyan-500/20 transition" data-package="باقة VIP الذهبية - 1899 ج">اختر الباقة</button>
-        </div>
-      </div>
+  <!-- باقات شاملة -->
+  <section id="packages" class="py-12 px-6 md:px-12">
+    <div class="max-w-7xl mx-auto text-center mb-8"><h2 class="text-3xl font-bold">باقات <span class="text-cyan-300">شاملة مخبرية</span></h2></div>
+    <div class="grid md:grid-cols-3 gap-8">
+      <div class="glass-card p-6 text-center"><i data-lucide="heart-pulse" class="w-10 h-10 text-cyan-300 mx-auto"></i><h3 class="text-xl font-bold mt-2">أساسية</h3><p class="text-sm">CBC + سكر + وظائف كبد/كلى</p><div class="text-2xl text-cyan-300 my-2">499 ج</div><button class="packageSelectBtn border border-cyan-400 px-4 py-1 rounded-full text-sm" data-pkg="الباقة الأساسية 499 ج">اختر</button></div>
+      <div class="glass-card p-6 text-center relative border-cyan-400"><div class="absolute -top-2 left-1/2 transform -translate-x-1/2 bg-cyan-500 text-black text-xs px-2 rounded-full">الأفضل</div><i data-lucide="activity" class="w-10 h-10 text-cyan-300 mx-auto"></i><h3 class="text-xl font-bold mt-2">فحص شامل</h3><p class="text-sm">فيتامينات + غدة + دهون + صورة دم</p><div class="text-2xl text-cyan-300 my-2">899 ج</div><button class="packageSelectBtn bg-gradient-to-r from-cyan-600 to-blue-600 px-4 py-1 rounded-full text-white" data-pkg="الباقة الشاملة 899 ج">اختر</button></div>
+      <div class="glass-card p-6 text-center"><i data-lucide="crown" class="w-10 h-10 text-cyan-300 mx-auto"></i><h3 class="text-xl font-bold mt-2">VIP ذهبية</h3><p class="text-sm">هرمونات شاملة + فيتامينات + أورام أساسية</p><div class="text-2xl text-cyan-300 my-2">1899 ج</div><button class="packageSelectBtn border border-cyan-400 px-4 py-1 rounded-full text-sm" data-pkg="باقة VIP الذهبية 1899 ج">اختر</button></div>
     </div>
   </section>
 
-  <!-- ============== HOME VISIT REQUEST ============== -->
-  <section id="home-service" class="py-12 px-6 md:px-12">
+  <!-- طلب زيارة منزلية -->
+  <section id="home-service" class="px-6 md:px-12 pb-16">
     <div class="max-w-5xl mx-auto glass-card p-6 md:p-8" data-aos="zoom-in">
-      <div class="grid md:grid-cols-2 gap-8">
-        <div>
-          <div class="flex gap-2 text-cyan-300"><i data-lucide="syringe"></i><span class="font-bold text-lg">خدمة الزيارة المنزلية الفورية</span></div>
-          <p class="my-3 text-gray-200">فريقنا يصل إلى عنوانك: <span class="text-cyan-300 font-mono text-sm">أبو المطامير - مساكن الإرشاد أمام النيابة الإدارية</span></p>
-          <div class="bg-cyan-950/40 p-3 rounded-xl mt-4"><i data-lucide="phone" class="inline w-4 h-4"></i> للاتصال المباشر: <span dir="ltr" class="font-bold text-lg">01015090991</span></div>
-        </div>
-        <form id="homeVisitForm" class="space-y-4">
-          <input type="text" id="fullName" placeholder="الاسم بالكامل" class="input-glass w-full rounded-xl p-3 text-white" required>
-          <input type="tel" id="phone" placeholder="رقم الجوال" class="input-glass w-full rounded-xl p-3 text-white" required>
-          <input type="text" id="address" value="أبو المطامير - مساكن الإرشاد" class="input-glass w-full rounded-xl p-3 text-white">
-          <select id="testPackageSelect" class="input-glass w-full rounded-xl p-3 text-white">
-            <option value="" class="bg-gray-800">اختر باقة أو تحليل (اختياري)</option>
-            <option>باقة العافية الأساسية</option>
-            <option>باقة الفحص الشامل</option>
-            <option>باقة VIP الذهبية</option>
-            <option>تحليل فردي (سيتم تحديده)</option>
-          </select>
-          <button type="submit" class="w-full btn-neon py-3 rounded-xl text-white font-bold flex gap-2 justify-center"><i data-lucide="send"></i> طلب زيارة منزلية</button>
-          <div id="formMessage" class="text-cyan-200 text-center text-sm"></div>
-        </form>
-      </div>
+      <h3 class="text-2xl font-bold text-center mb-4">🚑 طلب زيارة منزلية فورية</h3>
+      <form id="homeVisitForm2" class="grid md:grid-cols-2 gap-4">
+        <input type="text" id="visitName" placeholder="الاسم الكامل" class="input-glass rounded-xl p-3" required>
+        <input type="tel" id="visitPhone" placeholder="رقم الجوال" class="input-glass rounded-xl p-3" required>
+        <input type="text" id="visitAddress" placeholder="العنوان (بالتفصيل)" class="input-glass rounded-xl p-3 md:col-span-2" value="أبو المطامير - مساكن الإرشاد">
+        <button type="submit" class="md:col-span-2 btn-neon py-3 rounded-xl font-bold text-white flex gap-2 justify-center"><i data-lucide="send"></i> إرسال طلب الزيارة</button>
+        <div id="visitMsg" class="text-center text-cyan-300 text-sm md:col-span-2"></div>
+      </form>
+      <div class="text-center text-sm mt-3">أو اتصل على <span dir="ltr" class="font-mono text-cyan-300">01015090991</span></div>
     </div>
   </section>
 
-  <!-- FOOTER مع العنوان ورقم الدكتور -->
-  <footer class="border-t border-cyan-500/20 py-8 mt-8 bg-black/30 backdrop-blur-sm px-6">
-    <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between gap-6 text-sm">
-      <div><i data-lucide="map-pin" class="inline w-4 h-4"></i> العنوان: أبو المطامير - مساكن الإرشاد - أمام النيابة الإدارية</div>
-      <div><i data-lucide="phone" class="inline w-4 h-4"></i> رقم الدكتور: <span dir="ltr" class="font-mono">01015090991</span> (واتساب واتصال)</div>
-      <div class="text-cyan-300">© 2025 معمل الدكتور جابر شحاتة - دقة مستقبلية</div>
-    </div>
+  <footer class="border-t border-cyan-500/20 py-6 text-center text-sm backdrop-blur-sm">
+    <p>📍 العنوان: أبو المطامير - مساكن الإرشاد - أمام النيابة الإدارية | 📞 رقم الدكتور: 01015090991</p>
+    <p class="text-cyan-300/70 mt-1">© 2025 معمل الدكتور جابر شحاتة - جميع التحاليل والباقات الشاملة</p>
   </footer>
 
+  <!-- Portal Modal (بوابة النتائج) -->
+  <div id="resultsModal" class="fixed inset-0 bg-black/70 backdrop-blur-md flex items-center justify-center z-50 hidden transition-all">
+    <div class="glass-card w-11/12 max-w-md p-6 text-center">
+      <i data-lucide="flask-conical" class="w-12 h-12 text-cyan-300 mx-auto"></i>
+      <h3 class="text-2xl font-bold mt-2">بوابة النتائج</h3>
+      <p class="text-sm mt-1">أدخل رقم الهاتف أو كود التحليل لاستلام النتائج</p>
+      <input type="text" id="resultCode" placeholder="مثال: 01015090991" class="input-glass w-full mt-4 p-2 rounded-xl text-center">
+      <button id="submitResult" class="mt-4 btn-neon px-6 py-2 rounded-full w-full">استعلام</button>
+      <button id="closeModalBtn" class="mt-3 text-gray-400 text-sm">إغلاق</button>
+    </div>
+  </div>
+
   <script>
-    document.addEventListener("DOMContentLoaded", function() {
+    document.addEventListener("DOMContentLoaded", () => {
       lucide.createIcons();
       AOS.init({ duration: 800, once: true });
 
-      // نتائج البوابة
-      document.getElementById('resultsBtn')?.addEventListener('click', () => {
-        alert("🔐 بوابة النتائج: سيتم تحويلك إلى منصة متابعة النتائج قريباً. للمساعدة اتصل 01015090991");
+      // Theme toggling light/dark
+      const themeBtn = document.getElementById('themeToggle');
+      const body = document.body;
+      themeBtn.addEventListener('click', () => {
+        if(body.classList.contains('dark-mode')) {
+          body.classList.remove('dark-mode');
+          body.classList.add('light-mode');
+        } else {
+          body.classList.remove('light-mode');
+          body.classList.add('dark-mode');
+        }
+        lucide.createIcons();
       });
 
-      // باقات شراء (تنبيه باختيار الباقة)
-      document.querySelectorAll('.package-btn').forEach(btn => {
+      // Drawer menu logic
+      const drawer = document.getElementById('sideDrawer');
+      const overlay = document.getElementById('drawerOverlay');
+      const hamburger = document.getElementById('hamburgerBtn');
+      const closeDrawer = document.getElementById('closeDrawerBtn');
+
+      function openDrawer() { drawer.classList.add('open'); overlay.classList.add('active'); document.body.style.overflow = 'hidden'; }
+      function closeDrawerFunc() { drawer.classList.remove('open'); overlay.classList.remove('active'); document.body.style.overflow = ''; }
+      hamburger.addEventListener('click', openDrawer);
+      closeDrawer.addEventListener('click', closeDrawerFunc);
+      overlay.addEventListener('click', closeDrawerFunc);
+      document.querySelectorAll('#sideDrawer a').forEach(link => link.addEventListener('click', closeDrawerFunc));
+
+      // Results Modal Portal active with fake check
+      const resultsBtn = document.getElementById('resultsPortalBtn');
+      const modal = document.getElementById('resultsModal');
+      const closeModal = document.getElementById('closeModalBtn');
+      const submitResultBtn = document.getElementById('submitResult');
+      resultsBtn.addEventListener('click', () => { modal.classList.remove('hidden'); lucide.createIcons(); });
+      closeModal.addEventListener('click', () => modal.classList.add('hidden'));
+      submitResultBtn.addEventListener('click', () => {
+        const code = document.getElementById('resultCode').value.trim();
+        if(!code) alert('الرجاء إدخال رقم الجوال أو كود التحليل');
+        else alert(`✨ جاري عرض نتائج التحاليل للرقم/الكود: ${code}\nسيتم تحويلك إلى لوحة النتائج الخاصة بك خلال لحظات. يمكنك التواصل مع الدعم 01015090991`);
+        modal.classList.add('hidden');
+      });
+
+      // باقات اختيار alert
+      document.querySelectorAll('.packageSelectBtn').forEach(btn => {
         btn.addEventListener('click', (e) => {
-          e.preventDefault();
-          const packageName = btn.getAttribute('data-package');
-          alert(`✨ تم اختيار ${packageName} بنجاح. سيتم الاتصال بك لتأكيد الطلب أو يمكنك طلب زيارة منزلية من القسم المخصص.`);
+          const pkg = btn.getAttribute('data-pkg');
+          alert(`✅ تم اختيار ${pkg} بنجاح. سيتم التواصل معك لتأكيد الحجز والموعد.`);
         });
       });
 
-      // نموذج الزيارة المنزلية مع إضافة الباقة
-      const form = document.getElementById('homeVisitForm');
-      const msgDiv = document.getElementById('formMessage');
-      form.addEventListener('submit', (e) => {
+      // Home visit form handling
+      const visitForm = document.getElementById('homeVisitForm2');
+      const visitMsg = document.getElementById('visitMsg');
+      visitForm.addEventListener('submit', (e) => {
         e.preventDefault();
-        const name = document.getElementById('fullName').value.trim();
-        const phone = document.getElementById('phone').value.trim();
-        if (!name || !phone) {
-          msgDiv.innerHTML = "❌ الرجاء إدخال الاسم ورقم الجوال";
-          return;
-        }
-        const selected = document.getElementById('testPackageSelect').value;
-        msgDiv.innerHTML = "✅ جاري إرسال طلب الزيارة...";
+        const name = document.getElementById('visitName').value.trim();
+        const phone = document.getElementById('visitPhone').value.trim();
+        if(!name || !phone) { visitMsg.innerHTML = "❌ يرجى إدخال الاسم ورقم الهاتف"; return; }
+        visitMsg.innerHTML = "⏳ جاري إرسال الطلب...";
         setTimeout(() => {
-          msgDiv.innerHTML = `✅ تم استلام طلب الزيارة المنزلية لـ ${name} ، الخدمة: ${selected || "تحاليل عامة"} . سيتصل بك فريقنا خلال 30 دقيقة. الرقم: 01015090991`;
-          form.reset();
+          visitMsg.innerHTML = "✅ تم استلام طلب الزيارة المنزلية بنجاح ! سيتصل بك مندوبنا خلال 30 دقيقة. (01015090991)";
+          visitForm.reset();
+          setTimeout(() => visitMsg.innerHTML = "", 4000);
         }, 800);
       });
     });
