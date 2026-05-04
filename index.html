@@ -3,125 +3,70 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>تكنو لاب | للتحاليل الطبية المتقدمة</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&display=swap" rel="stylesheet">
-    <script src="https://unpkg.com/lucide@latest"></script>
+    <title>معمل تكنو لاب - للتحاليل الطبية</title>
     <style>
-        body { font-family: 'Tajawal', sans-serif; scroll-behavior: smooth; }
-        .hero-gradient { background: radial-gradient(circle at top right, #eff6ff 0%, #ffffff 100%); }
-        .glass { background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(10px); }
+        :root { --primary: #2563eb; --dark: #1e293b; --light: #f8fafc; }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: var(--light); color: var(--dark); line-height: 1.6; }
+        nav { background: white; padding: 1rem 5%; display: flex; justify-content: space-between; align-items: center; shadow: 0 2px 10px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        .logo { font-size: 1.5rem; font-weight: bold; color: var(--primary); }
+        .btn { background: var(--primary); color: white; padding: 0.7rem 1.5rem; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; text-decoration: none; }
+        .hero { padding: 100px 5%; display: flex; flex-wrap: wrap; align-items: center; gap: 2rem; background: linear-gradient(135deg, #fff 0%, #e0e7ff 100%); }
+        .hero-text { flex: 1; min-width: 300px; }
+        .hero-text h1 { font-size: 3rem; margin-bottom: 1.5rem; color: #0f172a; }
+        .hero-text p { font-size: 1.2rem; margin-bottom: 2rem; color: #475569; }
+        .hero-img { flex: 1; min-width: 300px; text-align: center; }
+        .hero-img img { max-width: 100%; border-radius: 20px; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1); }
+        .features { padding: 50px 5%; display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; }
+        .card { background: white; padding: 2rem; border-radius: 15px; text-align: center; transition: 0.3s; border: 1px solid #e2e8f0; }
+        .card:hover { transform: translateY(-10px); box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
+        .card i { font-size: 2.5rem; color: var(--primary); margin-bottom: 1rem; display: block; }
+        .card h3 { margin-bottom: 1rem; }
+        footer { background: #0f172a; color: white; text-align: center; padding: 2rem; margin-top: 50px; }
     </style>
 </head>
-<body class="bg-white text-slate-800">
+<body>
 
-    <nav class="sticky top-0 z-50 glass border-b border-blue-50">
-        <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-            <div class="flex items-center gap-2">
-                <div class="bg-blue-600 p-2 rounded-xl shadow-lg shadow-blue-200">
-                    <i data-lucide="microscope" class="text-white w-6 h-6"></i>
-                </div>
-                <span class="text-2xl font-black text-slate-900">تكنو<span class="text-blue-600">لاب</span></span>
-            </div>
-            <div class="hidden md:flex gap-8 font-bold text-slate-600">
-                <a href="#" class="hover:text-blue-600 transition">الرئيسية</a>
-                <a href="#services" class="hover:text-blue-600 transition">خدماتنا</a>
-                <a href="#about" class="hover:text-blue-600 transition">عن المعمل</a>
-            </div>
-            <button class="bg-slate-900 text-white px-6 py-2.5 rounded-full font-bold hover:bg-blue-600 transition shadow-lg">بوابة النتائج</button>
-        </div>
+    <nav>
+        <div class="logo">🔬 تكنو لاب</div>
+        <a href="#" class="btn">نتائج التحاليل</a>
     </nav>
 
-    <section class="hero-gradient py-16 lg:py-24 overflow-hidden">
-        <div class="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-12 items-center">
-            <div>
-                <span class="bg-blue-100 text-blue-700 px-4 py-1.5 rounded-full text-sm font-bold tracking-wide">معتمد دولياً ISO 15189</span>
-                <h1 class="text-5xl lg:text-7xl font-black text-slate-900 mt-6 leading-tight">
-                    دقة تشخيصية <br>
-                    <span class="text-blue-600">تمنحك الأمان</span>
-                </h1>
-                <p class="text-slate-600 text-lg mt-6 leading-relaxed max-w-lg">
-                    نحن نؤمن أن خلف كل عينة حياة تستحق الرعاية. نوفر لك أدق النتائج باستخدام تكنولوجيا الذكاء الاصطناعي والمعدات الألمانية.
-                </p>
-                <div class="flex flex-wrap gap-4 mt-10">
-                    <button class="bg-blue-600 text-white px-8 py-4 rounded-2xl font-bold text-lg hover:scale-105 transition shadow-xl shadow-blue-200 flex items-center gap-2">
-                        <i data-lucide="home"></i> طلب سحب منزلي
-                    </button>
-                    <button class="bg-white border-2 border-slate-200 px-8 py-4 rounded-2xl font-bold text-lg hover:bg-slate-50 transition">باقات الفحص</button>
-                </div>
+    <section class="hero">
+        <div class="hero-text">
+            <h1>دقة تشخيصية <br><span style="color:var(--primary)">تمنحك الطمأنينة</span></h1>
+            <p>نحن نستخدم أحدث التقنيات العالمية لضمان دقة فحوصاتك الطبية. صحتك هي أولويتنا القصوى.</p>
+            <div style="display:flex; gap:10px;">
+                <button class="btn">طلب سحب منزلي</button>
+                <button class="btn" style="background:#1e293b">باقات الفحص</button>
             </div>
-            <div class="relative">
-                <div class="absolute -inset-4 bg-blue-400 blur-[100px] opacity-10 rounded-full"></div>
-                <img src="https://images.unsplash.com/photo-1579154204601-0154f3516ac5?auto=format&fit=crop&q=80" class="rounded-[40px] shadow-2xl relative z-10 border-8 border-white" alt="Lab">
-            </div>
+        </div>
+        <div class="hero-img">
+            <img src="https://images.unsplash.com/photo-1579154204601-0154f3516ac5?q=80&w=600" alt="Lab">
         </div>
     </section>
 
-    <div class="bg-white border-y border-slate-100 py-12">
-        <div class="max-w-7xl mx-auto px-6 grid grid-cols-2 lg:grid-cols-4 gap-8">
-            <div class="text-center">
-                <div class="text-4xl font-black text-slate-900">+50,000</div>
-                <div class="text-blue-600 font-bold mt-1">مريض واثق بنا</div>
-            </div>
-            <div class="text-center border-r border-slate-100">
-                <div class="text-4xl font-black text-slate-900">99.9%</div>
-                <div class="text-blue-600 font-bold mt-1">دقة النتائج</div>
-            </div>
-            <div class="text-center border-r border-slate-100">
-                <div class="text-4xl font-black text-slate-900">24/7</div>
-                <div class="text-blue-600 font-bold mt-1">خدمة طوارئ</div>
-            </div>
-            <div class="text-center border-r border-slate-100">
-                <div class="text-4xl font-black text-slate-900">120</div>
-                <div class="text-blue-600 font-bold mt-1">فحص تخصصي</div>
-            </div>
+    <section class="features">
+        <div class="card">
+            <div style="font-size: 40px;">⏱️</div>
+            <h3>سرعة النتائج</h3>
+            <p>استلم نتائجك خلال أقل من 24 ساعة عبر الواتساب أو الموقع.</p>
         </div>
-    </div>
-
-    <section id="services" class="py-20 px-6 max-w-7xl mx-auto">
-        <div class="text-center mb-16">
-            <h2 class="text-3xl font-black text-slate-900">خدماتنا المتميزة</h2>
-            <p class="text-slate-500 mt-4 text-lg">كل ما تحتاجه للاطمئنان على صحتك في مكان واحد</p>
+        <div class="card">
+            <div style="font-size: 40px;">🛡️</div>
+            <h3>دقة متناهية</h3>
+            <p>أجهزة معتمدة دولياً لضمان أعلى مستويات الدقة في التشخيص.</p>
         </div>
-        <div class="grid md:grid-cols-3 gap-8">
-            <div class="bg-slate-50 p-8 rounded-3xl border border-transparent hover:border-blue-200 transition group">
-                <div class="bg-blue-600 w-12 h-12 rounded-xl flex items-center justify-center mb-6 group-hover:rotate-12 transition">
-                    <i data-lucide="activity" class="text-white"></i>
-                </div>
-                <h3 class="text-xl font-bold mb-4">تحاليل شاملة</h3>
-                <p class="text-slate-500 leading-relaxed">كافة الفحوصات الروتينية والدورية بأحدث التقنيات العالمية.</p>
-            </div>
-            <div class="bg-slate-50 p-8 rounded-3xl border border-transparent hover:border-blue-200 transition group">
-                <div class="bg-blue-600 w-12 h-12 rounded-xl flex items-center justify-center mb-6 group-hover:rotate-12 transition">
-                    <i data-lucide="dna" class="text-white"></i>
-                </div>
-                <h3 class="text-xl font-bold mb-4">البصمة الوراثية</h3>
-                <p class="text-slate-500 leading-relaxed">فحوصات الـ DNA والوراثة المتقدمة بدقة لا تضاهى.</p>
-            </div>
-            <div class="bg-slate-50 p-8 rounded-3xl border border-transparent hover:border-blue-200 transition group">
-                <div class="bg-blue-600 w-12 h-12 rounded-xl flex items-center justify-center mb-6 group-hover:rotate-12 transition">
-                    <i data-lucide="heart-pulse" class="text-white"></i>
-                </div>
-                <h3 class="text-xl font-bold mb-4">فحص ما قبل الزواج</h3>
-                <p class="text-slate-500 leading-relaxed">باقات خاصة للمقبلين على الزواج لضمان حياة صحية سعيدة.</p>
-            </div>
+        <div class="card">
+            <div style="font-size: 40px;">🏠</div>
+            <h3>زيارة منزلية</h3>
+            <p>فريق متخصص يصلك لحد البيت لسحب العينات بكل أمان.</p>
         </div>
     </section>
 
-    <footer class="bg-slate-900 text-white py-12 px-6">
-        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
-            <div class="text-2xl font-black italic">تكنو<span class="text-blue-500">لاب</span></div>
-            <p class="text-slate-400">© 2026 جميع الحقوق محفوظة لمعمل تكنولاب</p>
-            <div class="flex gap-6">
-                <i data-lucide="instagram" class="w-6 h-6 cursor-pointer hover:text-blue-400"></i>
-                <i data-lucide="facebook" class="w-6 h-6 cursor-pointer hover:text-blue-400"></i>
-                <i data-lucide="phone" class="w-6 h-6 cursor-pointer hover:text-blue-400"></i>
-            </div>
-        </div>
+    <footer>
+        <p> جميع الحقوق محفوظة © معمل تكنو لاب 2026</p>
     </footer>
 
-    <script>
-        lucide.createIcons();
-    </script>
 </body>
 </html>
