@@ -3,180 +3,260 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>معمل دكتور جابر شحاتة</title>
+    <title>قائمة الطعام الرقمية - مطعم الذواقة</title>
+    
+    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://unpkg.com/lucide@latest"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts - Tajawal -->
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    
     <style>
         body {
-            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Tajawal', sans-serif;
         }
-        .btn-hover {
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        
+        .scale-hover {
+            transition: all 0.2s ease-in-out;
         }
-        .btn-hover:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 20px 25px -5px rgba(0, 0,0, 0.1), 0 10px 10px -5px rgba(0, 0,0, 0.04);
+        
+        .scale-hover:hover {
+            transform: scale(0.98);
         }
-        .icon-bg {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        
+        .scale-hover:active {
+            transform: scale(0.96);
         }
-        .profile-img {
-            width: 120px;
-            height: 120px;
-            object-fit: cover;
-            border: 5px solid white;
-            box-shadow: 0 20px 25px -5px rgba(0, 0,0, 0.1);
+        
+        .card-shadow {
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08), 0 4px 6px rgba(0, 0, 0, 0.05);
         }
-        @media (max-width: 640px) {
-            .profile-img {
-                width: 100px;
-                height: 100px;
-            }
+        
+        .icon-circle {
+            width: 40px;
+            height: 40px;
+            border-radius: 9999px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
     </style>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'tajawal': ['Tajawal', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
 </head>
-<body class="min-h-screen py-8 px-4 sm:px-6 lg:px-8">
-    <div class="max-w-md mx-auto">
-        <!-- Header -->
-        <div class="text-center mb-12">
-            <div class="mx-auto w-32 sm:w-36 mb-6">
-                <img src="https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" 
-                     alt="دكتور جابر شحاتة" 
-                     class="profile-img rounded-full mx-auto block">
+<body class="bg-gray-50 min-h-screen p-4 md:p-6">
+    <!-- Header Section -->
+    <div class="text-center mb-8 md:mb-12">
+        <!-- Restaurant Logo -->
+        <div class="mx-auto w-24 h-24 md:w-32 md:h-32 mb-6 md:mb-8 rounded-3xl overflow-hidden card-shadow">
+            <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1974&q=80" 
+                 alt="مطعم الذواقة" 
+                 class="w-full h-full object-cover">
+        </div>
+        
+        <!-- Restaurant Name -->
+        <h1 class="text-3xl md:text-4xl lg:text-5xl font-black text-gray-900 mb-3 leading-tight">
+            مطعم الذواقة
+        </h1>
+        
+        <!-- Restaurant Description -->
+        <p class="text-lg md:text-xl text-gray-600 font-medium max-w-md mx-auto leading-relaxed">
+            أشهى المأكولات العربية والعالمية بجودة فائقة ونكهات لا تُنسى
+        </p>
+    </div>
+
+    <!-- Menu Categories -->
+    <div class="space-y-4 max-w-md mx-auto">
+        <!-- Appetizers -->
+        <a href="#" class="group block w-full p-6 rounded-3xl bg-white card-shadow scale-hover border border-gray-100 hover:border-gray-200 transition-all duration-300">
+            <div class="flex items-center justify-between">
+                <!-- Chevron Icon -->
+                <div class="w-10 h-10 bg-gradient-to-l from-orange-500 to-red-500 rounded-2xl flex items-center justify-center text-white shadow-lg group-hover:scale-110 transition-transform">
+                    <i class="fas fa-chevron-left text-sm"></i>
+                </div>
+                
+                <!-- Category Name -->
+                <div class="flex-1 text-center mx-4">
+                    <h3 class="text-xl md:text-2xl font-black text-gray-900 mb-1">المقبلات</h3>
+                    <p class="text-sm text-gray-500 font-medium">حبيبات مقبلات شهية</p>
+                </div>
+                
+                <!-- Category Icon -->
+                <div class="icon-circle bg-gradient-to-r from-green-500 to-emerald-500 shadow-lg">
+                    <i class="fas fa-seedling text-white text-lg"></i>
+                </div>
             </div>
-            <h1 class="text-3xl sm:text-4xl font-black text-gray-800 mb-2">
-                دكتور جابر شحاتة
-            </h1>
-            <p class="text-lg text-gray-600 font-medium">معمل تحاليل طبية</p>
-        </div>
+        </a>
 
-        <!-- Buttons List -->
-        <div class="space-y-4">
-            <!-- تحليل الدم -->
-            <a href="#" class="group btn-hover block bg-white rounded-3xl p-6 shadow-lg border border-gray-100">
-                <div class="flex items-center space-x-4 space-x-reverse">
-                    <div class="w-14 h-14 icon-bg rounded-2xl flex items-center justify-center flex-shrink-0 shadow-lg">
-                        <i class="fas fa-tint text-white text-xl"></i>
-                    </div>
-                    <div class="flex-1 min-w-0">
-                        <h3 class="text-xl font-bold text-gray-800 mb-1 group-hover:text-blue-600 transition-colors">تحليل الدم الكامل</h3>
-                        <p class="text-sm text-gray-500">CBC - تحليل شامل للدم</p>
-                    </div>
+        <!-- Grills -->
+        <a href="#" class="group block w-full p-6 rounded-3xl bg-white card-shadow scale-hover border border-gray-100 hover:border-gray-200 transition-all duration-300">
+            <div class="flex items-center justify-between">
+                <!-- Chevron Icon -->
+                <div class="w-10 h-10 bg-gradient-to-l from-orange-500 to-red-500 rounded-2xl flex items-center justify-center text-white shadow-lg group-hover:scale-110 transition-transform">
+                    <i class="fas fa-chevron-left text-sm"></i>
                 </div>
-            </a>
-
-            <!-- تحليل السكر -->
-            <a href="#" class="group btn-hover block bg-white rounded-3xl p-6 shadow-lg border border-gray-100">
-                <div class="flex items-center space-x-4 space-x-reverse">
-                    <div class="w-14 h-14 bg-gradient-to-r from-green-400 to-green-500 rounded-2xl flex items-center justify-center flex-shrink-0 shadow-lg">
-                        <i class="fas fa-candy-cane text-white text-xl"></i>
-                    </div>
-                    <div class="flex-1 min-w-0">
-                        <h3 class="text-xl font-bold text-gray-800 mb-1 group-hover:text-green-600 transition-colors">تحليل السكر</h3>
-                        <p class="text-sm text-gray-500">FBS - تحليل سكر الصائم</p>
-                    </div>
+                
+                <!-- Category Name -->
+                <div class="flex-1 text-center mx-4">
+                    <h3 class="text-xl md:text-2xl font-black text-gray-900 mb-1">المشويات</h3>
+                    <p class="text-sm text-gray-500 font-medium">لحوم مشوية على الفحم</p>
                 </div>
-            </a>
-
-            <!-- تحليل الكوليسترول -->
-            <a href="#" class="group btn-hover block bg-white rounded-3xl p-6 shadow-lg border border-gray-100">
-                <div class="flex items-center space-x-4 space-x-reverse">
-                    <div class="w-14 h-14 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-2xl flex items-center justify-center flex-shrink-0 shadow-lg">
-                        <i class="fas fa-heartbeat text-white text-xl"></i>
-                    </div>
-                    <div class="flex-1 min-w-0">
-                        <h3 class="text-xl font-bold text-gray-800 mb-1 group-hover:text-orange-600 transition-colors">تحليل الكوليسترول</h3>
-                        <p class="text-sm text-gray-500">Lipid Profile - الدهون</p>
-                    </div>
+                
+                <!-- Category Icon -->
+                <div class="icon-circle bg-gradient-to-r from-red-500 to-pink-500 shadow-lg">
+                    <i class="fas fa-fire text-white text-lg"></i>
                 </div>
-            </a>
+            </div>
+        </a>
 
-            <!-- وظائف الكبد -->
-            <a href="#" class="group btn-hover block bg-white rounded-3xl p-6 shadow-lg border border-gray-100">
-                <div class="flex items-center space-x-4 space-x-reverse">
-                    <div class="w-14 h-14 bg-gradient-to-r from-red-400 to-pink-500 rounded-2xl flex items-center justify-center flex-shrink-0 shadow-lg">
-                        <i class="fas fa-lungs text-white text-xl"></i>
-                    </div>
-                    <div class="flex-1 min-w-0">
-                        <h3 class="text-xl font-bold text-gray-800 mb-1 group-hover:text-pink-600 transition-colors">وظائف الكبد</h3>
-                        <p class="text-sm text-gray-500">LFT - تحاليل الكبد الكاملة</p>
-                    </div>
+        <!-- Main Dishes -->
+        <a href="#" class="group block w-full p-6 rounded-3xl bg-white card-shadow scale-hover border border-gray-100 hover:border-gray-200 transition-all duration-300">
+            <div class="flex items-center justify-between">
+                <!-- Chevron Icon -->
+                <div class="w-10 h-10 bg-gradient-to-l from-orange-500 to-red-500 rounded-2xl flex items-center justify-center text-white shadow-lg group-hover:scale-110 transition-transform">
+                    <i class="fas fa-chevron-left text-sm"></i>
                 </div>
-            </a>
-
-            <!-- وظائف الكلى -->
-            <a href="#" class="group btn-hover block bg-white rounded-3xl p-6 shadow-lg border border-gray-100">
-                <div class="flex items-center space-x-4 space-x-reverse">
-                    <div class="w-14 h-14 bg-gradient-to-r from-blue-400 to-indigo-500 rounded-2xl flex items-center justify-center flex-shrink-0 shadow-lg">
-                        <i class="fas fa-kidneys text-white text-xl"></i>
-                    </div>
-                    <div class="flex-1 min-w-0">
-                        <h3 class="text-xl font-bold text-gray-800 mb-1 group-hover:text-indigo-600 transition-colors">وظائف الكلى</h3>
-                        <p class="text-sm text-gray-500">KFT - تحاليل الكلى</p>
-                    </div>
+                
+                <!-- Category Name -->
+                <div class="flex-1 text-center mx-4">
+                    <h3 class="text-xl md:text-2xl font-black text-gray-900 mb-1">الأطباق الرئيسية</h3>
+                    <p class="text-sm text-gray-500 font-medium">متنوعة ومميزة</p>
                 </div>
-            </a>
-
-            <!-- فيتامين D -->
-            <a href="#" class="group btn-hover block bg-white rounded-3xl p-6 shadow-lg border border-gray-100">
-                <div class="flex items-center space-x-4 space-x-reverse">
-                    <div class="w-14 h-14 bg-gradient-to-r from-purple-400 to-violet-500 rounded-2xl flex items-center justify-center flex-shrink-0 shadow-lg">
-                        <i class="fas fa-sun text-white text-xl"></i>
-                    </div>
-                    <div class="flex-1 min-w-0">
-                        <h3 class="text-xl font-bold text-gray-800 mb-1 group-hover:text-purple-600 transition-colors">فيتامين D</h3>
-                        <p class="text-sm text-gray-500">25-OH Vitamin D</p>
-                    </div>
+                
+                <!-- Category Icon -->
+                <div class="icon-circle bg-gradient-to-r from-blue-500 to-indigo-500 shadow-lg">
+                    <i class="fas fa-drumstick-bite text-white text-lg"></i>
                 </div>
-            </a>
+            </div>
+        </a>
 
-            <!-- هرمونات الغدة الدرقية -->
-            <a href="#" class="group btn-hover block bg-white rounded-3xl p-6 shadow-lg border border-gray-100">
-                <div class="flex items-center space-x-4 space-x-reverse">
-                    <div class="w-14 h-14 bg-gradient-to-r from-teal-400 to-cyan-500 rounded-2xl flex items-center justify-center flex-shrink-0 shadow-lg">
-                        <i class="fas fa-brain text-white text-xl"></i>
-                    </div>
-                    <div class="flex-1 min-w-0">
-                        <h3 class="text-xl font-bold text-gray-800 mb-1 group-hover:text-teal-600 transition-colors">هرمونات الغدة الدرقية</h3>
-                        <p class="text-sm text-gray-500">TSH, T3, T4</p>
-                    </div>
+        <!-- Rice Dishes -->
+        <a href="#" class="group block w-full p-6 rounded-3xl bg-white card-shadow scale-hover border border-gray-100 hover:border-gray-200 transition-all duration-300">
+            <div class="flex items-center justify-between">
+                <!-- Chevron Icon -->
+                <div class="w-10 h-10 bg-gradient-to-l from-orange-500 to-red-500 rounded-2xl flex items-center justify-center text-white shadow-lg group-hover:scale-110 transition-transform">
+                    <i class="fas fa-chevron-left text-sm"></i>
                 </div>
-            </a>
-
-            <!-- حجز موعد -->
-            <a href="#" class="group btn-hover block bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-3xl p-6 shadow-xl border-0 mt-6">
-                <div class="flex items-center space-x-4 space-x-reverse">
-                    <div class="w-14 h-14 bg-white/20 rounded-2xl flex items-center justify-center flex-shrink-0 backdrop-blur-sm">
-                        <i class="fas fa-calendar-check text-white text-xl"></i>
-                    </div>
-                    <div class="flex-1 min-w-0 text-center sm:text-right">
-                        <h3 class="text-xl font-bold mb-1">حجز موعد</h3>
-                        <p class="text-blue-100">احجز موعدك الآن</p>
-                    </div>
+                
+                <!-- Category Name -->
+                <div class="flex-1 text-center mx-4">
+                    <h3 class="text-xl md:text-2xl font-black text-gray-900 mb-1">أطباق الأرز</h3>
+                    <p class="text-sm text-gray-500 font-medium">كبسة ومندي أصلية</p>
                 </div>
-            </a>
-        </div>
+                
+                <!-- Category Icon -->
+                <div class="icon-circle bg-gradient-to-r from-yellow-500 to-orange-500 shadow-lg">
+                    <i class="fas fa-utensils text-white text-lg"></i>
+                </div>
+            </div>
+        </a>
 
-        <!-- Footer -->
-        <div class="mt-12 text-center">
-            <p class="text-sm text-gray-500">© 2024 معمل دكتور جابر شحاتة. جميع الحقوق محفوظة.</p>
-        </div>
+        <!-- Desserts -->
+        <a href="#" class="group block w-full p-6 rounded-3xl bg-white card-shadow scale-hover border border-gray-100 hover:border-gray-200 transition-all duration-300">
+            <div class="flex items-center justify-between">
+                <!-- Chevron Icon -->
+                <div class="w-10 h-10 bg-gradient-to-l from-orange-500 to-red-500 rounded-2xl flex items-center justify-center text-white shadow-lg group-hover:scale-110 transition-transform">
+                    <i class="fas fa-chevron-left text-sm"></i>
+                </div>
+                
+                <!-- Category Name -->
+                <div class="flex-1 text-center mx-4">
+                    <h3 class="text-xl md:text-2xl font-black text-gray-900 mb-1">الحلويات</h3>
+                    <p class="text-sm text-gray-500 font-medium">حلاوة الختام</p>
+                </div>
+                
+                <!-- Category Icon -->
+                <div class="icon-circle bg-gradient-to-r from-purple-500 to-pink-500 shadow-lg">
+                    <i class="fas fa-ice-cream text-white text-lg"></i>
+                </div>
+            </div>
+        </a>
+
+        <!-- Drinks -->
+        <a href="#" class="group block w-full p-6 rounded-3xl bg-white card-shadow scale-hover border border-gray-100 hover:border-gray-200 transition-all duration-300">
+            <div class="flex items-center justify-between">
+                <!-- Chevron Icon -->
+                <div class="w-10 h-10 bg-gradient-to-l from-orange-500 to-red-500 rounded-2xl flex items-center justify-center text-white shadow-lg group-hover:scale-110 transition-transform">
+                    <i class="fas fa-chevron-left text-sm"></i>
+                </div>
+                
+                <!-- Category Name -->
+                <div class="flex-1 text-center mx-4">
+                    <h3 class="text-xl md:text-2xl font-black text-gray-900 mb-1">المشروبات</h3>
+                    <p class="text-sm text-gray-500 font-medium">عوامل ومشروبات ساخنة</p>
+                </div>
+                
+                <!-- Category Icon -->
+                <div class="icon-circle bg-gradient-to-r from-cyan-500 to-blue-500 shadow-lg">
+                    <i class="fas fa-mug-hot text-white text-lg"></i>
+                </div>
+            </div>
+        </a>
+    </div>
+
+    <!-- Bottom Info -->
+    <div class="mt-12 text-center text-sm text-gray-500">
+        <p>📱 قائمة رقمية | حديثة التحديث</p>
     </div>
 
     <script>
-        // إضافة تأثيرات تفاعلية إضافية
-        document.addEventListener('DOMContentLoaded', function() {
-            const buttons = document.querySelectorAll('.btn-hover');
-            buttons.forEach(btn => {
-                btn.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    // يمكن إضافة وظائف JavaScript هنا
-                    alert('قريباً سيتم توجيهك للخدمة المطلوبة');
-                });
+        // Add click ripple effect
+        document.querySelectorAll('.scale-hover').forEach(card => {
+            card.addEventListener('click', function(e) {
+                // Create ripple effect
+                const ripple = document.createElement('span');
+                const rect = this.getBoundingClientRect();
+                const size = Math.max(rect.width, rect.height);
+                const x = e.clientX - rect.left - size / 2;
+                const y = e.clientY - rect.top - size / 2;
+                
+                ripple.style.cssText = `
+                    position: absolute;
+                    width: ${size}px;
+                    height: ${size}px;
+                    left: ${x}px;
+                    top: ${y}px;
+                    background: radial-gradient(circle, rgba(59,130,246,0.3) 0%, transparent 70%);
+                    border-radius: 50%;
+                    transform: scale(0);
+                    animation: ripple 0.6s ease-out;
+                    pointer-events: none;
+                `;
+                
+                this.style.position = 'relative';
+                this.style.overflow = 'hidden';
+                this.appendChild(ripple);
+                
+                setTimeout(() => {
+                    ripple.remove();
+                }, 600);
             });
         });
+
+        // Add CSS for ripple animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes ripple {
+                to {
+                    transform: scale(2);
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(style);
     </script>
 </body>
 </html>
