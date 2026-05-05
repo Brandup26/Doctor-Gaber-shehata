@@ -1,437 +1,739 @@
-// app/page.tsx - ملف واحد يحتوي على كل صفحات الموقع (Full Website in One File)
-"use client";
-
-import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import {
-  Menu,
-  X,
-  FlaskConical,
-  Home,
-  Microscope,
-  Calendar,
-  FileText,
-  User,
-  ChevronLeft,
-  Shield,
-  Clock,
-  Award,
-  Phone,
-  Mail,
-  MapPin,
-  Activity,
-  Heart,
-  Brain,
-  Stethoscope,
-  Sparkles,
-  Star,
-  CheckCircle,
-  Search,
-  Droplet,
-  Eye,
-  ThumbsUp,
-  Filter,
-  ChevronDown,
-  ArrowRight,
-  Syringe,
-  MessageSquare,
-  Send,
-  Facebook,
-  Twitter,
-  Instagram,
-  Linkedin,
-  AlertCircle
-} from "lucide-react";
-
-export default function FullMedicalLabWebsite() {
-  // ========== STATES ==========
-  const [scrolled, setScrolled] = useState(false);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [currentPage, setCurrentPage] = useState<"home" | "tests" | "appointments" | "contact">("home");
-  
-  // Tests Page States
-  const [searchQuery, setSearchQuery] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState("الكل");
-  const [showFilters, setShowFilters] = useState(false);
-  
-  // Appointments Page States
-  const [appointmentStep, setAppointmentStep] = useState(1);
-  const [appointmentSubmitted, setAppointmentSubmitted] = useState(false);
-  const [appointmentForm, setAppointmentForm] = useState({
-    name: "", phone: "", email: "", testType: "", date: "", time: "", serviceType: "home", address: ""
-  });
-  
-  // Contact Page States
-  const [contactSubmitted, setContactSubmitted] = useState(false);
-  const [contactForm, setContactForm] = useState({ name: "", phone: "", email: "", subject: "", message: "" });
-
-  useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 20);
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
-  // ========== DATA ==========
-  const navLinks = [
-    { name: "الرئيسية", id: "home" as const, icon: Home },
-    { name: "قائمة التحاليل", id: "tests" as const, icon: Microscope },
-    { name: "حجز موعد", id: "appointments" as const, icon: Calendar },
-    { name: "اتصل بنا", id: "contact" as const, icon: Phone },
-  ];
-
-  const stats = [
-    { value: "+٥٠,٠٠٠", label: "مريض وثقوا بنا", icon: User, color: "from-blue-500 to-cyan-500" },
-    { value: "٩٩.٧%", label: "دقة النتائج", icon: Activity, color: "from-emerald-500 to-teal-500" },
-    { value: "٢٤/٧", label: "دعم فني", icon: Clock, color: "from-purple-500 to-pink-500" },
-    { value: "معتمد", label: "NABL + ISO", icon: Award, color: "from-amber-500 to-orange-500" },
-  ];
-
-  const features = [
-    { icon: Sparkles, title: "نتائج دقيقة", desc: "أحدث التقنيات المخبرية العالمية", color: "text-blue-600", bg: "bg-blue-50" },
-    { icon: Clock, title: "سرعة فائقة", desc: "نتائج خلال ٢٤ ساعة", color: "text-emerald-600", bg: "bg-emerald-50" },
-    { icon: Home, title: "سحب منزلي", desc: "خدمة مجانية لجميع المناطق", color: "text-purple-600", bg: "bg-purple-50" },
-    { icon: Shield, title: "سرية تامة", desc: "نحمي خصوصية بياناتك", color: "text-amber-600", bg: "bg-amber-50" },
-  ];
-
-  const categories = ["الكل", "تحاليل الدم", "الهرمونات", "الفيتامينات", "القلب", "الكبد والكلى", "الغدة"];
-  
-  const tests = [
-    { id: 1, name: "صورة دم كاملة CBC", category: "تحاليل الدم", price: "١٢٠", time: "٤ ساعات", preparation: "صيام ٨ ساعات", popular: true },
-    { id: 2, name: "دهون ثلاثية Triglycerides", category: "تحاليل الدم", price: "٨٠", time: "٦ ساعات", preparation: "صيام ١٢ ساعة", popular: false },
-    { id: 3, name: "هرمون الغدة TSH", category: "الهرمونات", price: "١٠٠", time: "٢٤ ساعة", preparation: "بدون صيام", popular: true },
-    { id: 4, name: "فيتامين د Vitamin D", category: "الفيتامينات", price: "١٥٠", time: "٢٤ ساعة", preparation: "بدون صيام", popular: true },
-    { id: 5, name: "إنزيمات القلب Troponin", category: "القلب", price: "٢٠٠", time: "٣ ساعات", preparation: "بدون صيام", popular: false },
-    { id: 6, name: "وظائف الكبد LFT", category: "الكبد والكلى", price: "١٨٠", time: "٨ ساعات", preparation: "صيام ١٠ ساعات", popular: false },
-    { id: 7, name: "وظائف الكلى RFT", category: "الكبد والكلى", price: "١٦٠", time: "٨ ساعات", preparation: "صيام ٨ ساعات", popular: true },
-    { id: 8, name: "هرمون الحديد Ferritin", category: "الهرمونات", price: "١٣٠", time: "٢٤ ساعة", preparation: "صيام ٨ ساعات", popular: false },
-    { id: 9, name: "فيتامين ب ١٢ B12", category: "الفيتامينات", price: "١١٠", time: "٢٤ ساعة", preparation: "بدون صيام", popular: false },
-    { id: 10, name: "سكر تراكمي HbA1c", category: "تحاليل الدم", price: "٩٠", time: "٤ ساعات", preparation: "بدون صيام", popular: true },
-  ];
-
-  const timeSlots = ["٨:00 ص", "٩:00 ص", "١٠:00 ص", "١١:00 ص", "١٢:00 م", "١:00 م", "٢:00 م", "٣:00 م", "٤:00 م", "٥:00 م"];
-  const testOptions = ["صورة دم كاملة CBC", "دهون ثلاثية", "هرمون الغدة TSH", "فيتامين د", "وظائف الكبد", "وظائف الكلى", "سكر تراكمي", "تحليل بول كامل", "أخرى"];
-
-  const contactInfo = [
-    { icon: Phone, title: "اتصل بنا", details: ["٩٢٠٠٠٥٦٦٦", "٠١١ ٤٥٦ ٧٨٩٠"], color: "blue" },
-    { icon: Mail, title: "البريد الإلكتروني", details: ["info@medlab.com", "support@medlab.com"], color: "cyan" },
-    { icon: MapPin, title: "العنوان", details: ["الرياض - حي العليا", "برج العليا - الطابق ٥"], color: "green" },
-    { icon: Clock, title: "ساعات العمل", details: ["السبت - الخميس: ٨ص - ١٠م", "الجمعة: مغلق"], color: "purple" },
-  ];
-
-  const filteredTests = tests.filter(test => {
-    const matchesSearch = test.name.toLowerCase().includes(searchQuery.toLowerCase());
-    const matchesCategory = selectedCategory === "الكل" || test.category === selectedCategory;
-    return matchesSearch && matchesCategory;
-  });
-
-  const handleAppointmentSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (appointmentStep === 1) {
-      if (appointmentForm.name && appointmentForm.phone) setAppointmentStep(2);
-    } else if (appointmentStep === 2) {
-      if (appointmentForm.testType && appointmentForm.date && appointmentForm.time) setAppointmentStep(3);
-    } else if (appointmentStep === 3) {
-      if (appointmentForm.serviceType === "home" && !appointmentForm.address) return;
-      setAppointmentSubmitted(true);
-    }
-  };
-
-  const handleContactSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setContactSubmitted(true);
-    setTimeout(() => setContactSubmitted(false), 3000);
-    setContactForm({ name: "", phone: "", email: "", subject: "", message: "" });
-  };
-
-  // ========== RENDER PAGE CONTENT ==========
-  const renderPage = () => {
-    switch (currentPage) {
-      case "tests":
-        return (
-          <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50/30 pt-20">
-            <div className="bg-gradient-to-r from-blue-600 via-cyan-500 to-blue-600 text-white py-16">
-              <div className="max-w-7xl mx-auto px-4">
-                <button onClick={() => setCurrentPage("home")} className="inline-flex items-center gap-2 text-white/80 hover:text-white mb-6 transition">
-                  <ArrowRight className="w-4 h-4" /> العودة للرئيسية
-                </button>
-                <h1 className="text-3xl md:text-4xl font-bold mb-4">قائمة التحاليل الطبية</h1>
-                <p className="text-white/80 text-lg">اختر التحليل المناسب لك من بين أكثر من ٨٠٠ نوع</p>
-              </div>
-            </div>
-            <div className="max-w-7xl mx-auto px-4 py-12">
-              <div className="mb-8">
-                <div className="flex flex-col md:flex-row gap-4">
-                  <div className="flex-1 relative">
-                    <Search className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5" />
-                    <input type="text" placeholder="ابحث عن تحليل..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="w-full pr-12 pl-4 py-3 rounded-xl border border-gray-200 focus:border-blue-400 focus:outline-none bg-white" />
-                  </div>
-                  <button onClick={() => setShowFilters(!showFilters)} className="flex items-center justify-center gap-2 px-6 py-3 bg-white border rounded-xl hover:border-blue-400">
-                    <Filter className="w-5 h-5" /> تصفية <ChevronDown className={`w-4 h-4 transition-transform ${showFilters ? "rotate-180" : ""}`} />
-                  </button>
-                </div>
-                <div className={`mt-4 ${showFilters ? "block" : "hidden md:block"}`}>
-                  <div className="flex flex-wrap gap-2">
-                    {categories.map((cat) => (
-                      <button key={cat} onClick={() => setSelectedCategory(cat)} className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${selectedCategory === cat ? "bg-blue-600 text-white shadow-md" : "bg-white text-gray-600 hover:bg-gray-100 border"}`}>{cat}</button>
-                    ))}
-                  </div>
-                </div>
-              </div>
-              <div className="mb-6 text-gray-500 text-sm">عرض {filteredTests.length} من أصل {tests.length} تحليل</div>
-              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {filteredTests.map((test, idx) => (
-                  <motion.div key={test.id} initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: idx * 0.05 }} whileHover={{ y: -5 }} className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all p-6">
-                    <div className="flex justify-between items-start mb-3">
-                      <div className="flex items-center gap-2">
-                        {test.category === "تحاليل الدم" && <Droplet className="w-5 h-5 text-red-500" />}
-                        {test.category === "الهرمونات" && <Activity className="w-5 h-5 text-purple-500" />}
-                        {test.category === "الفيتامينات" && <Eye className="w-5 h-5 text-green-500" />}
-                        {test.category === "القلب" && <Heart className="w-5 h-5 text-rose-500" />}
-                        <span className="text-xs text-gray-400 bg-gray-100 px-2 py-0.5 rounded">{test.category}</span>
-                      </div>
-                      {test.popular && <span className="text-xs bg-amber-100 text-amber-700 px-2 py-0.5 rounded-full flex items-center gap-1"><ThumbsUp className="w-3 h-3" /> الأكثر طلباً</span>}
-                    </div>
-                    <h3 className="text-lg font-bold text-gray-800 mb-3">{test.name}</h3>
-                    <div className="space-y-2 mb-4">
-                      <div className="flex justify-between text-sm"><span className="text-gray-500">السعر:</span><span className="font-semibold text-blue-600">{test.price} ريال</span></div>
-                      <div className="flex justify-between text-sm"><span className="text-gray-500">مدة النتيجة:</span><span className="text-gray-700 flex items-center gap-1"><Clock className="w-3 h-3" />{test.time}</span></div>
-                      <div className="flex justify-between text-sm"><span className="text-gray-500">التحضير:</span><span className="text-gray-700">{test.preparation}</span></div>
-                    </div>
-                    <div className="flex gap-2 mt-4">
-                      <button onClick={() => { setCurrentPage("appointments"); setAppointmentForm({ ...appointmentForm, testType: test.name }); }} className="flex-1 bg-gradient-to-r from-blue-600 to-cyan-500 text-white py-2.5 rounded-xl font-semibold text-sm">اطلب التحليل</button>
-                      <button className="px-4 py-2.5 border rounded-xl text-gray-600 hover:border-blue-400">التفاصيل</button>
-                    </div>
-                  </motion.div>
-                ))}
-              </div>
-              {filteredTests.length === 0 && <div className="text-center py-12"><p className="text-gray-500">لا توجد نتائج مطابقة لبحثك</p></div>}
-              <div className="mt-16 bg-gradient-to-r from-blue-50 to-cyan-50 rounded-2xl p-8 text-center">
-                <Stethoscope className="w-12 h-12 text-blue-600 mx-auto mb-4" />
-                <h3 className="text-2xl font-bold text-gray-800 mb-2">تحتاج مساعدة في اختيار التحليل المناسب؟</h3>
-                <p className="text-gray-600 mb-4">فريقنا الطبي جاهز لإرشادك</p>
-                <button onClick={() => setCurrentPage("contact")} className="bg-blue-600 text-white px-6 py-2.5 rounded-xl font-semibold">تواصل مع مستشار طبي</button>
-              </div>
-            </div>
-          </div>
-        );
-
-      case "appointments":
-        if (appointmentSubmitted) {
-          return (
-            <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50/30 flex items-center justify-center pt-20">
-              <div className="max-w-md mx-auto px-4 text-center">
-                <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6"><CheckCircle className="w-10 h-10 text-green-600" /></motion.div>
-                <h1 className="text-2xl font-bold text-gray-800 mb-3">تم إرسال طلبك بنجاح!</h1>
-                <p className="text-gray-600 mb-6">سيتواصل معك فريقنا خلال ٣٠ دقيقة لتأكيد الموعد</p>
-                <button onClick={() => { setCurrentPage("home"); setAppointmentSubmitted(false); setAppointmentStep(1); setAppointmentForm({ name: "", phone: "", email: "", testType: "", date: "", time: "", serviceType: "home", address: "" }); }} className="bg-blue-600 text-white px-6 py-3 rounded-xl font-semibold">العودة للرئيسية</button>
-              </div>
-            </div>
-          );
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>معمل الدكتور جابر شحاتة | التحاليل الطبية الدقيقة</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Google Font - Tajawal -->
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+    
+    <!-- AOS Animation CDN -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    
+    <style>
+        * {
+            font-family: 'Tajawal', sans-serif;
         }
-        return (
-          <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50/30 pt-20">
-            <div className="bg-gradient-to-r from-blue-600 via-cyan-500 to-blue-600 text-white py-16">
-              <div className="max-w-7xl mx-auto px-4">
-                <button onClick={() => setCurrentPage("home")} className="inline-flex items-center gap-2 text-white/80 hover:text-white mb-6"><ArrowRight className="w-4 h-4" /> العودة للرئيسية</button>
-                <h1 className="text-3xl md:text-4xl font-bold mb-4">حجز موعد تحليل</h1>
-                <p className="text-white/80 text-lg">احجز موعدك الآن في المنزل أو في أحد فروعنا</p>
-              </div>
-            </div>
-            <div className="max-w-4xl mx-auto px-4 py-12">
-              <div className="flex justify-between mb-12">
-                {[{ num: 1, title: "البيانات الشخصية", icon: User }, { num: 2, title: "نوع التحليل", icon: Syringe }, { num: 3, title: "تأكيد الموعد", icon: Calendar }].map((s, idx) => (
-                  <div key={idx} className="flex-1 text-center">
-                    <div className={`w-10 h-10 rounded-full flex items-center justify-center mx-auto mb-2 transition-all ${appointmentStep >= s.num ? "bg-blue-600 text-white shadow-lg" : "bg-gray-200 text-gray-500"}`}>{appointmentStep > s.num ? <CheckCircle className="w-5 h-5" /> : <s.icon className="w-5 h-5" />}</div>
-                    <div className={`text-sm font-medium ${appointmentStep >= s.num ? "text-blue-600" : "text-gray-400"}`}>{s.title}</div>
-                  </div>
-                ))}
-              </div>
-              <motion.div key={appointmentStep} initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} className="bg-white rounded-2xl shadow-xl p-6 md:p-8">
-                <form onSubmit={handleAppointmentSubmit}>
-                  {appointmentStep === 1 && (<div className="space-y-5"><h2 className="text-xl font-bold text-gray-800 mb-4">البيانات الشخصية</h2>
-                    <div><label className="block text-sm font-medium text-gray-700 mb-2">الاسم الكامل</label><div className="relative"><User className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5" /><input type="text" required className="w-full pr-12 pl-4 py-3 border rounded-xl focus:border-blue-400 focus:outline-none" placeholder="أدخل اسمك الكامل" value={appointmentForm.name} onChange={(e) => setAppointmentForm({ ...appointmentForm, name: e.target.value })} /></div></div>
-                    <div><label className="block text-sm font-medium text-gray-700 mb-2">رقم الجوال</label><div className="relative"><Phone className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5" /><input type="tel" required className="w-full pr-12 pl-4 py-3 border rounded-xl focus:border-blue-400 focus:outline-none" placeholder="٠٥XXXXXXXX" value={appointmentForm.phone} onChange={(e) => setAppointmentForm({ ...appointmentForm, phone: e.target.value })} /></div></div>
-                    <div><label className="block text-sm font-medium text-gray-700 mb-2">البريد الإلكتروني (اختياري)</label><div className="relative"><Mail className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5" /><input type="email" className="w-full pr-12 pl-4 py-3 border rounded-xl focus:border-blue-400 focus:outline-none" placeholder="example@email.com" value={appointmentForm.email} onChange={(e) => setAppointmentForm({ ...appointmentForm, email: e.target.value })} /></div></div></div>)}
-                  {appointmentStep === 2 && (<div className="space-y-5"><h2 className="text-xl font-bold text-gray-800 mb-4">اختر التحليل والموعد</h2>
-                    <div><label className="block text-sm font-medium text-gray-700 mb-2">نوع التحليل</label><select required className="w-full px-4 py-3 border rounded-xl focus:border-blue-400 focus:outline-none" value={appointmentForm.testType} onChange={(e) => setAppointmentForm({ ...appointmentForm, testType: e.target.value })}><option value="">اختر التحليل</option>{testOptions.map((opt) => (<option key={opt} value={opt}>{opt}</option>))}</select></div>
-                    <div><label className="block text-sm font-medium text-gray-700 mb-2">تاريخ الموعد</label><div className="relative"><Calendar className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5" /><input type="date" required className="w-full pr-12 pl-4 py-3 border rounded-xl focus:border-blue-400 focus:outline-none" min={new Date().toISOString().split("T")[0]} value={appointmentForm.date} onChange={(e) => setAppointmentForm({ ...appointmentForm, date: e.target.value })} /></div></div>
-                    <div><label className="block text-sm font-medium text-gray-700 mb-2">الوقت المناسب</label><div className="grid grid-cols-3 gap-2">{timeSlots.map((slot) => (<button key={slot} type="button" className={`py-2 rounded-lg border transition-all ${appointmentForm.time === slot ? "bg-blue-600 text-white border-blue-600" : "border-gray-200 text-gray-600 hover:border-blue-400"}`} onClick={() => setAppointmentForm({ ...appointmentForm, time: slot })}>{slot}</button>))}</div></div></div>)}
-                  {appointmentStep === 3 && (<div className="space-y-5"><h2 className="text-xl font-bold text-gray-800 mb-4">تأكيد التفاصيل</h2>
-                    <div><label className="block text-sm font-medium text-gray-700 mb-3">طريقة الخدمة</label><div className="grid grid-cols-2 gap-3"><button type="button" className={`p-4 rounded-xl border-2 transition-all ${appointmentForm.serviceType === "home" ? "border-blue-600 bg-blue-50" : "border-gray-200"}`} onClick={() => setAppointmentForm({ ...appointmentForm, serviceType: "home" })}><Home className="w-6 h-6 mx-auto mb-2 text-blue-600" /><span className="font-semibold">سحب عينات من المنزل</span><p className="text-xs text-gray-500">خدمة مجانية</p></button><button type="button" className={`p-4 rounded-xl border-2 transition-all ${appointmentForm.serviceType === "lab" ? "border-blue-600 bg-blue-50" : "border-gray-200"}`} onClick={() => setAppointmentForm({ ...appointmentForm, serviceType: "lab" })}><MapPin className="w-6 h-6 mx-auto mb-2 text-green-600" /><span className="font-semibold">زيارة المعمل</span><p className="text-xs text-gray-500">أقرب فرع لك</p></button></div></div>
-                    {appointmentForm.serviceType === "home" && (<div><label className="block text-sm font-medium text-gray-700 mb-2">العنوان بالتفصيل</label><textarea required rows={3} className="w-full px-4 py-3 border rounded-xl focus:border-blue-400 focus:outline-none" placeholder="اكتب عنوانك بالكامل" value={appointmentForm.address} onChange={(e) => setAppointmentForm({ ...appointmentForm, address: e.target.value })} /></div>)}
-                    <div className="bg-gray-50 rounded-xl p-4"><h3 className="font-bold mb-3">ملخص الطلب:</h3><div className="space-y-2 text-sm"><div className="flex justify-between"><span className="text-gray-600">الاسم:</span><span className="font-medium">{appointmentForm.name}</span></div><div className="flex justify-between"><span className="text-gray-600">رقم الجوال:</span><span className="font-medium">{appointmentForm.phone}</span></div><div className="flex justify-between"><span className="text-gray-600">نوع التحليل:</span><span className="font-medium">{appointmentForm.testType || "لم يحدد"}</span></div><div className="flex justify-between"><span className="text-gray-600">الموعد:</span><span className="font-medium">{appointmentForm.date} - {appointmentForm.time}</span></div></div></div></div>)}
-                  <div className="flex gap-3 mt-8 pt-4 border-t">
-                    {appointmentStep > 1 && <button type="button" onClick={() => setAppointmentStep(appointmentStep - 1)} className="px-6 py-3 border rounded-xl font-semibold hover:bg-gray-50">السابق</button>}
-                    <button type="submit" className="flex-1 bg-gradient-to-r from-blue-600 to-cyan-500 text-white py-3 rounded-xl font-semibold">{appointmentStep === 3 ? "إرسال الطلب" : "التالي"}</button>
-                  </div>
-                </form>
-              </motion.div>
-              <div className="mt-8 bg-amber-50 border border-amber-200 rounded-xl p-4 flex gap-3"><AlertCircle className="w-5 h-5 text-amber-600" /><div className="text-sm text-amber-800"><p className="font-semibold">ملاحظة مهمة:</p><p>لتحاليل الصيام، يرجى الصيام لمدة ٨-١٢ ساعة قبل الموعد</p></div></div>
-            </div>
-          </div>
-        );
+        
+        body {
+            background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
+        }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #1a1a2e;
+            border-radius: 10px;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 10px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+        }
+        
+        /* Glassmorphism Effect */
+        .glass {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .glass-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .glass-card:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transform: translateY(-5px);
+        }
+        
+        /* Gradient Text */
+        .gradient-text {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        /* Neon Glow Effect */
+        .neon-glow {
+            box-shadow: 0 0 20px rgba(102, 126, 234, 0.3);
+        }
+        
+        .neon-glow:hover {
+            box-shadow: 0 0 30px rgba(102, 126, 234, 0.5);
+        }
+        
+        /* Floating Animation */
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+        
+        .float-animation {
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        /* Pulse Animation */
+        @keyframes pulse {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 0.8; }
+        }
+        
+        .pulse-bg {
+            animation: pulse 4s ease-in-out infinite;
+        }
+        
+        /* Rotate Animation */
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        .rotate-slow {
+            animation: rotate 20s linear infinite;
+        }
+        
+        /* Button Hover Effect */
+        .btn-gradient {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            transition: all 0.3s ease;
+        }
+        
+        .btn-gradient:hover {
+            background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+            transform: scale(1.05);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+        }
+        
+        /* Input Focus Effect */
+        .input-focus:focus {
+            box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.3);
+            border-color: #667eea;
+            outline: none;
+        }
+        
+        /* Service Card Icon Animation */
+        .service-icon {
+            transition: all 0.3s ease;
+        }
+        
+        .glass-card:hover .service-icon {
+            transform: scale(1.1) rotate(5deg);
+        }
+        
+        /* Modal Animation */
+        @keyframes modalFadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+        
+        .modal-animation {
+            animation: modalFadeIn 0.3s ease-out;
+        }
+        
+        /* Loading Spinner */
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        .spinner {
+            animation: spin 0.5s linear infinite;
+        }
+    </style>
+</head>
+<body class="text-white">
 
-      case "contact":
-        return (
-          <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50/30 pt-20">
-            <div className="bg-gradient-to-r from-blue-600 via-cyan-500 to-blue-600 text-white py-16">
-              <div className="max-w-7xl mx-auto px-4">
-                <button onClick={() => setCurrentPage("home")} className="inline-flex items-center gap-2 text-white/80 hover:text-white mb-6"><ArrowRight className="w-4 h-4" /> العودة للرئيسية</button>
-                <h1 className="text-3xl md:text-4xl font-bold mb-4">تواصل معنا</h1>
-                <p className="text-white/80 text-lg">فريقنا جاهز للإجابة على استفساراتك</p>
-              </div>
+    <!-- ========== MODAL FOR HOME VISIT REQUEST ========== -->
+    <div id="modal" class="fixed inset-0 bg-black/80 backdrop-blur-md z-50 hidden items-center justify-center p-4" style="display: none;">
+        <div class="glass rounded-2xl max-w-md w-full p-8 modal-animation">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-2xl font-bold gradient-text">طلب زيارة منزلية</h3>
+                <button onclick="closeModal()" class="text-gray-400 hover:text-white text-2xl">&times;</button>
             </div>
-            <div className="max-w-7xl mx-auto px-4 py-12">
-              <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
-                {contactInfo.map((info, idx) => (
-                  <motion.div key={idx} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: idx * 0.1 }} className="bg-white rounded-2xl p-6 text-center shadow-lg">
-                    <div className={`w-14 h-14 bg-${info.color}-100 rounded-xl flex items-center justify-center mx-auto mb-4`}><info.icon className={`w-6 h-6 text-${info.color}-600`} /></div>
-                    <h3 className="font-bold text-gray-800 mb-2">{info.title}</h3>
-                    {info.details.map((detail, i) => (<p key={i} className="text-gray-600 text-sm">{detail}</p>))}
-                  </motion.div>
-                ))}
-              </div>
-              <div className="grid lg:grid-cols-2 gap-8">
-                <div className="bg-white rounded-2xl shadow-xl p-6 md:p-8">
-                  <div className="flex items-center gap-3 mb-6"><MessageSquare className="w-6 h-6 text-blue-600" /><h2 className="text-xl font-bold text-gray-800">أرسل لنا رسالة</h2></div>
-                  <form onSubmit={handleContactSubmit} className="space-y-4">
-                    <div><label className="block text-sm font-medium text-gray-700 mb-2">الاسم الكامل</label><input type="text" required className="w-full px-4 py-3 border rounded-xl focus:border-blue-400 focus:outline-none" value={contactForm.name} onChange={(e) => setContactForm({ ...contactForm, name: e.target.value })} /></div>
-                    <div className="grid md:grid-cols-2 gap-4"><div><label className="block text-sm font-medium text-gray-700 mb-2">رقم الجوال</label><input type="tel" required className="w-full px-4 py-3 border rounded-xl focus:border-blue-400 focus:outline-none" value={contactForm.phone} onChange={(e) => setContactForm({ ...contactForm, phone: e.target.value })} /></div><div><label className="block text-sm font-medium text-gray-700 mb-2">البريد الإلكتروني</label><input type="email" required className="w-full px-4 py-3 border rounded-xl focus:border-blue-400 focus:outline-none" value={contactForm.email} onChange={(e) => setContactForm({ ...contactForm, email: e.target.value })} /></div></div>
-                    <div><label className="block text-sm font-medium text-gray-700 mb-2">الموضوع</label><input type="text" required className="w-full px-4 py-3 border rounded-xl focus:border-blue-400 focus:outline-none" value={contactForm.subject} onChange={(e) => setContactForm({ ...contactForm, subject: e.target.value })} /></div>
-                    <div><label className="block text-sm font-medium text-gray-700 mb-2">الرسالة</label><textarea required rows={5} className="w-full px-4 py-3 border rounded-xl focus:border-blue-400 focus:outline-none" value={contactForm.message} onChange={(e) => setContactForm({ ...contactForm, message: e.target.value })} /></div>
-                    <button type="submit" className="w-full bg-gradient-to-r from-blue-600 to-cyan-500 text-white py-3 rounded-xl font-semibold flex items-center justify-center gap-2"><Send className="w-5 h-5" /> إرسال الرسالة</button>
-                  </form>
-                  {contactSubmitted && (<div className="mt-4 p-3 bg-green-50 rounded-xl text-green-700 text-sm text-center flex items-center justify-center gap-2"><CheckCircle className="w-4 h-4" /> تم إرسال رسالتك بنجاح</div>)}
+            <form id="visitRequestForm" onsubmit="submitRequest(event)">
+                <div class="mb-4">
+                    <label class="block text-gray-300 text-sm mb-2">الاسم الكامل</label>
+                    <input type="text" required class="w-full px-4 py-2 glass rounded-lg focus:outline-none input-focus text-white" placeholder="أدخل اسمك">
                 </div>
-                <div className="space-y-6">
-                  <div className="bg-white rounded-2xl shadow-xl overflow-hidden"><div className="p-6 border-b"><h3 className="font-bold">موقعنا على الخريطة</h3></div><div className="h-64 bg-gray-200"><iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3624.068!2d46.675!3d24.713!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3e2f0382d8b1b3c5%3A0x8b3b2a1f5e6d7c8a!2sRiyadh!5e0!3m2!1sen!2s!4v1700000000000!5m2!1sen!2s" width="100%" height="100%" style={{ border: 0 }} allowFullScreen loading="lazy" title="موقع المعمل" /></div></div>
-                  <div className="bg-white rounded-2xl shadow-xl p-6"><h3 className="font-bold mb-4">تابعنا على وسائل التواصل</h3><div className="flex gap-4">{[{ icon: Facebook, color: "bg-blue-600" }, { icon: Twitter, color: "bg-sky-500" }, { icon: Instagram, color: "bg-pink-600" }, { icon: Linkedin, color: "bg-blue-700" }].map((social, idx) => (<motion.a key={idx} href="#" whileHover={{ scale: 1.1 }} className={`${social.color} w-12 h-12 rounded-full flex items-center justify-center text-white shadow-md`}><social.icon className="w-5 h-5" /></motion.a>))}</div></div>
-                  <div className="bg-gradient-to-r from-blue-50 to-cyan-50 rounded-2xl p-6"><h3 className="font-bold mb-2">خدمة العملاء ٢٤ ساعة</h3><div className="space-y-2"><div className="flex items-center gap-2"><Phone className="w-4 h-4 text-blue-600" /> واتساب: ٩٢٠٠٠٥٦٦٦</div><div className="flex items-center gap-2"><Mail className="w-4 h-4 text-blue-600" /> info@medlab.com</div></div></div>
+                <div class="mb-4">
+                    <label class="block text-gray-300 text-sm mb-2">رقم الجوال</label>
+                    <input type="tel" required class="w-full px-4 py-2 glass rounded-lg focus:outline-none input-focus text-white" placeholder="٠٥XXXXXXXX">
                 </div>
-              </div>
-            </div>
-          </div>
-        );
-
-      default: // HOME PAGE
-        return (
-          <>
-            {/* Hero Section */}
-            <section className="relative min-h-screen flex items-center overflow-hidden pt-20">
-              <div className="absolute inset-0">
-                <div className="absolute top-20 right-10 w-96 h-96 bg-gradient-to-br from-blue-400/20 to-cyan-400/20 rounded-full blur-3xl animate-pulse" />
-                <div className="absolute bottom-20 left-10 w-80 h-80 bg-gradient-to-tr from-purple-400/20 to-pink-400/20 rounded-full blur-3xl animate-pulse delay-1000" />
-              </div>
-              <div className="max-w-7xl mx-auto px-4 relative z-10 py-20">
-                <div className="grid lg:grid-cols-2 gap-12 items-center">
-                  <motion.div initial={{ opacity: 0, x: -50 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.7 }}>
-                    <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }} className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-blue-500/10 to-cyan-500/10 text-blue-600 text-sm font-semibold mb-6"><Sparkles className="w-4 h-4" /><span>أفضل معمل تحاليل في المملكة ٢٠٢٤</span></motion.div>
-                    <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }} className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6"><span className="text-gray-800">صحتك تبدأ</span><span className="block bg-gradient-to-l from-blue-600 via-cyan-500 to-blue-600 bg-clip-text text-transparent">من تحليل دقيق</span></motion.h1>
-                    <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }} className="text-lg text-gray-600 mb-8 leading-relaxed">أكثر من ٨٠٠ نوع من التحاليل الطبية بأعلى معايير الدقة. نتائج سريعة، أسعار شفافة، وخدمة سحب عينات مجانية من المنزل.</motion.p>
-                    <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 }} className="flex flex-col sm:flex-row gap-4">
-                      <button onClick={() => setCurrentPage("tests")} className="bg-gradient-to-r from-blue-600 to-cyan-500 text-white px-8 py-3.5 rounded-full font-semibold shadow-lg hover:shadow-xl transition-all text-lg flex items-center gap-2"><Microscope className="w-5 h-5" /> استكشف قائمة التحاليل</button>
-                      <button onClick={() => setCurrentPage("appointments")} className="border-2 border-gray-300 bg-white text-gray-700 px-8 py-3.5 rounded-full font-semibold hover:border-blue-500 hover:text-blue-500 transition-all text-lg">حجز موعد الآن</button>
-                    </motion.div>
-                    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.7 }} className="flex flex-wrap items-center gap-6 mt-10 pt-6 border-t border-gray-200">
-                      <div className="flex -space-x-2">{["أ", "ح", "م", "س"].map((letter, i) => (<div key={i} className="w-9 h-9 rounded-full bg-gradient-to-br from-gray-300 to-gray-400 border-2 border-white flex items-center justify-center text-white text-xs font-bold">{letter}</div>))}</div>
-                      <div className="flex items-center gap-2">{[...Array(5)].map((_, i) => (<Star key={i} className="w-4 h-4 fill-amber-400 text-amber-400" />))}<span className="text-sm text-gray-600">(٤.٩ من ٥ - ١٢,٣٤٥ تقييم)</span></div>
-                    </motion.div>
-                  </motion.div>
-                  <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.7, delay: 0.2 }} className="relative">
-                    <div className="relative rounded-3xl overflow-hidden shadow-2xl">
-                      <div className="absolute inset-0 bg-gradient-to-t from-blue-600/40 to-transparent z-10" />
-                      <img src="https://images.unsplash.com/photo-1581595219315-b187dd40c322?w=800&h=600&fit=crop" alt="Medical Laboratory" className="w-full h-auto object-cover" />
-                      <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-6 z-20"><p className="text-white font-bold text-xl">أحدث أجهزة التحليل</p><p className="text-white/80 text-sm">تقنية AI - دقة ٩٩.٩٪</p></div>
-                    </div>
-                    <motion.div animate={{ y: [0, -10, 0] }} transition={{ repeat: Infinity, duration: 3 }} className="absolute -top-5 -right-5 bg-white rounded-2xl shadow-xl p-4 flex items-center gap-3"><div className="w-12 h-12 bg-gradient-to-br from-emerald-500 to-teal-500 rounded-xl flex items-center justify-center"><CheckCircle className="w-6 h-6 text-white" /></div><div><p className="font-bold text-sm">معتمد دولياً</p><p className="text-xs text-gray-500">ISO 15189:2022</p></div></motion.div>
-                  </motion.div>
+                <div class="mb-4">
+                    <label class="block text-gray-300 text-sm mb-2">العنوان</label>
+                    <textarea required rows="3" class="w-full px-4 py-2 glass rounded-lg focus:outline-none input-focus text-white" placeholder="العنوان بالتفصيل"></textarea>
                 </div>
-              </div>
-            </section>
-
-            {/* Stats Section */}
-            <section className="py-16 bg-white/50 backdrop-blur-sm">
-              <div className="max-w-7xl mx-auto px-4">
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-                  {stats.map((stat, idx) => (
-                    <motion.div key={idx} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} transition={{ delay: idx * 0.1 }} viewport={{ once: true }} className="text-center p-6 rounded-2xl bg-white shadow-lg"><div className={`w-14 h-14 mx-auto bg-gradient-to-br ${stat.color} rounded-2xl flex items-center justify-center mb-3`}><stat.icon className="w-6 h-6 text-white" /></div><div className="text-2xl font-bold text-gray-800">{stat.value}</div><div className="text-sm text-gray-500">{stat.label}</div></motion.div>
-                  ))}
+                <div class="mb-4">
+                    <label class="block text-gray-300 text-sm mb-2">نوع التحليل المطلوب</label>
+                    <select class="w-full px-4 py-2 glass rounded-lg focus:outline-none input-focus text-white">
+                        <option value="صورة دم كاملة">صورة دم كاملة</option>
+                        <option value="تحليل السكر">تحليل السكر</option>
+                        <option value="وظائف الكبد">وظائف الكبد</option>
+                        <option value="وظائف الكلى">وظائف الكلى</option>
+                        <option value="هرمونات الغدة">هرمونات الغدة</option>
+                        <option value="فيتامين د">فيتامين د</option>
+                        <option value="أخرى">أخرى</option>
+                    </select>
                 </div>
-              </div>
-            </section>
-
-            {/* Features Section */}
-            <section className="py-20">
-              <div className="max-w-7xl mx-auto px-4">
-                <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} viewport={{ once: true }} className="text-center mb-12"><h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-4">لماذا تختار معمل التحاليل؟</h2><p className="text-gray-600">نقدم لك تجربة فريدة تجمع بين الدقة والراحة والثقة</p></motion.div>
-                <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-                  {features.map((feature, idx) => (
-                    <motion.div key={idx} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} transition={{ delay: idx * 0.1 }} viewport={{ once: true }} whileHover={{ y: -5 }} className="bg-white rounded-2xl p-6 text-center shadow-lg"><div className={`${feature.bg} w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-4`}><feature.icon className={`w-8 h-8 ${feature.color}`} /></div><h3 className="font-bold text-lg text-gray-800 mb-2">{feature.title}</h3><p className="text-gray-500 text-sm">{feature.desc}</p></motion.div>
-                  ))}
-                </div>
-              </div>
-            </section>
-
-            {/* CTA Section */}
-            <section className="py-20 bg-gradient-to-r from-blue-600 via-cyan-500 to-blue-600">
-              <div className="max-w-4xl mx-auto px-4 text-center">
-                <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} viewport={{ once: true }}><h2 className="text-3xl md:text-4xl font-bold text-white mb-4">جاهز لتبدأ رحلة صحتك؟</h2><p className="text-white/80 text-lg mb-8">تصفح قائمة التحاليل المتاحة واختر ما يناسبك</p><button onClick={() => setCurrentPage("tests")} className="bg-white text-blue-600 px-8 py-3.5 rounded-full font-bold text-lg shadow-lg hover:shadow-xl transition-all inline-flex items-center gap-2"><Microscope className="w-5 h-5" /> استعرض قائمة التحاليل</button></motion.div>
-              </div>
-            </section>
-          </>
-        );
-    }
-  };
-
-  // ========== MAIN RENDER ==========
-  return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50/30 font-sans" dir="rtl">
-      {/* Navbar */}
-      <motion.nav initial={{ y: -100 }} animate={{ y: 0 }} transition={{ duration: 0.5 }} className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${scrolled ? "bg-white/90 backdrop-blur-xl shadow-xl border-b border-gray-100" : "bg-white/60 backdrop-blur-md"}`}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16 md:h-20">
-            <div className="flex items-center gap-2 cursor-pointer" onClick={() => setCurrentPage("home")}>
-              <motion.div whileHover={{ rotate: 360, scale: 1.1 }} transition={{ duration: 0.5 }} className="w-10 h-10 bg-gradient-to-br from-blue-600 to-cyan-500 rounded-xl flex items-center justify-center shadow-lg"><FlaskConical className="w-5 h-5 text-white" /></motion.div>
-              <div><span className="font-bold text-xl text-gray-800">معمل<span className="bg-gradient-to-r from-blue-600 to-cyan-500 bg-clip-text text-transparent">التحاليل</span></span><p className="text-[9px] text-gray-400 -mt-1">دقة · ثقة · تميز</p></div>
-            </div>
-            <div className="hidden md:flex items-center gap-6">
-              {navLinks.map((link) => (
-                <button key={link.id} onClick={() => setCurrentPage(link.id)} className={`text-gray-600 hover:text-blue-600 transition-all duration-300 font-medium flex items-center gap-1 ${currentPage === link.id ? "text-blue-600" : ""}`}><link.icon className="w-4 h-4" />{link.name}</button>
-              ))}
-              <button className="bg-gradient-to-r from-blue-600 to-cyan-500 text-white px-6 py-2.5 rounded-full font-semibold shadow-md hover:shadow-xl transition-all">بوابة المرضى</button>
-            </div>
-            <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)} className="md:hidden p-2 rounded-lg bg-gray-50">{mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}</button>
-          </div>
+                <button type="submit" class="btn-gradient w-full py-3 rounded-lg font-bold text-white transition-all">
+                    إرسال الطلب
+                </button>
+            </form>
         </div>
-        <AnimatePresence>
-          {mobileMenuOpen && (
-            <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} exit={{ opacity: 0, height: 0 }} className="md:hidden bg-white/95 backdrop-blur-xl border-t shadow-xl">
-              <div className="px-4 py-4 space-y-3">
-                {navLinks.map((link) => (<button key={link.id} onClick={() => { setCurrentPage(link.id); setMobileMenuOpen(false); }} className="flex items-center gap-3 text-gray-700 hover:text-blue-600 py-3 px-4 rounded-xl hover:bg-blue-50 w-full"><link.icon className="w-5 h-5" />{link.name}</button>))}
-                <button className="w-full bg-gradient-to-r from-blue-600 to-cyan-500 text-white py-3 rounded-xl font-semibold mt-2">بوابة المرضى</button>
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </motion.nav>
-
-      {/* Page Content */}
-      {renderPage()}
-
-      {/* Footer (only show on home page) */}
-      {currentPage === "home" && (
-        <footer className="bg-gray-900 text-white pt-16 pb-8">
-          <div className="max-w-7xl mx-auto px-4">
-            <div className="grid md:grid-cols-4 gap-8 mb-12">
-              <div><div className="flex items-center gap-2 mb-4"><FlaskConical className="w-8 h-8 text-cyan-400" /><span className="font-bold text-xl">معمل التحاليل</span></div><p className="text-gray-400 text-sm">أحدث المعامل الطبية في المملكة</p></div>
-              <div><h4 className="font-bold mb-4">روابط سريعة</h4><ul className="space-y-2 text-gray-400 text-sm"><li><button onClick={() => setCurrentPage("home")} className="hover:text-white">الرئيسية</button></li><li><button onClick={() => setCurrentPage("tests")} className="hover:text-white">قائمة التحاليل</button></li><li><button onClick={() => setCurrentPage("appointments")} className="hover:text-white">حجز موعد</button></li><li><button onClick={() => setCurrentPage("contact")} className="hover:text-white">اتصل بنا</button></li></ul></div>
-              <div><h4 className="font-bold mb-4">الخدمات</h4><ul className="space-y-2 text-gray-400 text-sm"><li><button onClick={() => setCurrentPage("tests")} className="hover:text-white">جميع التحاليل</button></li><li><button onClick={() => setCurrentPage("appointments")} className="hover:text-white">سحب عينات المنزل</button></li><li><button onClick={() => setCurrentPage("tests")} className="hover:text-white">الباقات الصحية</button></li></ul></div>
-              <div><h4 className="font-bold mb-4">تواصل معنا</h4><ul className="space-y-2 text-gray-400 text-sm"><li className="flex items-center gap-2"><Phone className="w-4 h-4" /> ٩٢٠٠٠٥٦٦٦</li><li className="flex items-center gap-2"><Mail className="w-4 h-4" /> info@medlab.com</li><li className="flex items-center gap-2"><MapPin className="w-4 h-4" /> الرياض - المملكة العربية السعودية</li></ul></div>
-            </div>
-            <div className="border-t border-gray-800 pt-8 text-center text-gray-500 text-sm">© ٢٠٢٤ معمل التحاليل الطبي - جميع الحقوق محفوظة</div>
-          </div>
-        </footer>
-      )}
     </div>
-  );
-}
+
+    <!-- ========== MAIN CONTENT ========== -->
+    
+    <!-- Animated Background Elements -->
+    <div class="fixed inset-0 overflow-hidden pointer-events-none">
+        <div class="absolute top-20 left-10 w-64 h-64 bg-purple-600 rounded-full blur-3xl opacity-20 rotate-slow"></div>
+        <div class="absolute bottom-20 right-10 w-80 h-80 bg-blue-600 rounded-full blur-3xl opacity-20 rotate-slow" style="animation-direction: reverse;"></div>
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-indigo-600 rounded-full blur-3xl opacity-10 pulse-bg"></div>
+    </div>
+
+    <!-- ========== NAVBAR ========== -->
+    <nav class="fixed top-0 left-0 right-0 z-40 glass py-4 px-6 shadow-lg">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <div class="w-12 h-12 bg-gradient-to-br from-purple-600 to-blue-600 rounded-2xl flex items-center justify-center neon-glow">
+                    <i class="fas fa-flask text-white text-xl"></i>
+                </div>
+                <div>
+                    <h1 class="text-xl font-bold">معمل الدكتور <span class="gradient-text">جابر شحاتة</span></h1>
+                    <p class="text-xs text-gray-400">تحاليل دقيقة - نتائج سريعة</p>
+                </div>
+            </div>
+            <div class="hidden md:flex gap-8">
+                <a href="#home" class="hover:text-purple-400 transition">الرئيسية</a>
+                <a href="#services" class="hover:text-purple-400 transition">الخدمات</a>
+                <a href="#about" class="hover:text-purple-400 transition">عن المعمل</a>
+                <a href="#contact" class="hover:text-purple-400 transition">اتصل بنا</a>
+            </div>
+            <button onclick="openModal()" class="btn-gradient px-6 py-2 rounded-full font-bold text-sm hidden md:block">
+                <i class="fas fa-home ml-2"></i>
+                طلب زيارة منزلية
+            </button>
+            <button id="mobileMenuBtn" class="md:hidden text-2xl">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+        
+        <!-- Mobile Menu -->
+        <div id="mobileMenu" class="hidden md:hidden mt-4 flex flex-col gap-3 pt-4 border-t border-white/10">
+            <a href="#home" class="hover:text-purple-400 transition py-2">الرئيسية</a>
+            <a href="#services" class="hover:text-purple-400 transition py-2">الخدمات</a>
+            <a href="#about" class="hover:text-purple-400 transition py-2">عن المعمل</a>
+            <a href="#contact" class="hover:text-purple-400 transition py-2">اتصل بنا</a>
+            <button onclick="openModal()" class="btn-gradient py-2 rounded-full font-bold">
+                <i class="fas fa-home ml-2"></i>
+                طلب زيارة منزلية
+            </button>
+        </div>
+    </nav>
+
+    <!-- ========== HERO SECTION ========== -->
+    <section id="home" class="min-h-screen flex items-center justify-center pt-24 pb-16 px-6">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div data-aos="fade-right" data-aos-duration="1000">
+                    <div class="inline-flex items-center gap-2 px-4 py-2 glass rounded-full text-sm mb-6">
+                        <i class="fas fa-certificate text-purple-400"></i>
+                        <span>معتمد دولياً - ISO 15189</span>
+                    </div>
+                    <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6">
+                        دقة التحليل
+                        <span class="gradient-text block">تلتقي بالتميز الطبي</span>
+                    </h1>
+                    <p class="text-gray-300 text-lg mb-8 leading-relaxed">
+                        أكثر من ٥٠ ألف مريض وثقوا بنا. أحدث التقنيات المخبرية، نتائج دقيقة خلال ٢٤ ساعة، 
+                        خدمة سحب عينات من المنزل مجاناً مع الدكتور جابر شحاتة.
+                    </p>
+                    <div class="flex flex-col sm:flex-row gap-4">
+                        <button onclick="openModal()" class="btn-gradient px-8 py-3 rounded-full font-bold text-lg flex items-center justify-center gap-2">
+                            <i class="fas fa-truck-medical"></i>
+                            اطلب زيارة منزلية مجانية
+                        </button>
+                        <button class="glass px-8 py-3 rounded-full font-bold text-lg hover:bg-white/10 transition">
+                            <i class="fas fa-chart-line ml-2"></i>
+                            عرض النتائج
+                        </button>
+                    </div>
+                    
+                    <!-- Trust Badges -->
+                    <div class="flex flex-wrap items-center gap-6 mt-10 pt-6 border-t border-white/10">
+                        <div class="flex -space-x-2">
+                            <div class="w-10 h-10 rounded-full bg-gradient-to-br from-gray-600 to-gray-700 border-2 border-white flex items-center justify-center text-sm font-bold">أ</div>
+                            <div class="w-10 h-10 rounded-full bg-gradient-to-br from-gray-600 to-gray-700 border-2 border-white flex items-center justify-center text-sm font-bold">م</div>
+                            <div class="w-10 h-10 rounded-full bg-gradient-to-br from-gray-600 to-gray-700 border-2 border-white flex items-center justify-center text-sm font-bold">ج</div>
+                            <div class="w-10 h-10 rounded-full bg-gradient-to-br from-gray-600 to-gray-700 border-2 border-white flex items-center justify-center text-sm font-bold">ش</div>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <i class="fas fa-star text-yellow-400"></i>
+                            <i class="fas fa-star text-yellow-400"></i>
+                            <i class="fas fa-star text-yellow-400"></i>
+                            <i class="fas fa-star text-yellow-400"></i>
+                            <i class="fas fa-star text-yellow-400"></i>
+                            <span class="text-sm text-gray-400">(٤.٩ من ٥ - ١٢,٣٤٥ تقييم)</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div data-aos="fade-left" data-aos-duration="1000" class="relative">
+                    <div class="glass rounded-3xl overflow-hidden shadow-2xl neon-glow">
+                        <div class="absolute inset-0 bg-gradient-to-t from-purple-900/40 to-transparent z-10"></div>
+                        <img src="https://images.unsplash.com/photo-1579154204601-0154f3516ac5?w=800&h=600&fit=crop" alt="معمل الدكتور جابر شحاتة" class="w-full h-auto object-cover">
+                        <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-6 z-20">
+                            <p class="text-white font-bold text-xl">أحدث أجهزة التحليل</p>
+                            <p class="text-white/80 text-sm">تقنية AI - دقة ٩٩.٩٪</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Floating Badge -->
+                    <div class="absolute -top-5 -right-5 glass rounded-2xl p-4 float-animation" style="backdrop-filter: blur(20px);">
+                        <div class="flex items-center gap-3">
+                            <div class="w-12 h-12 bg-gradient-to-br from-green-500 to-emerald-500 rounded-xl flex items-center justify-center">
+                                <i class="fas fa-check-circle text-white text-xl"></i>
+                            </div>
+                            <div>
+                                <p class="font-bold text-sm">معتمد دولياً</p>
+                                <p class="text-xs text-gray-300">NABL + ISO 15189</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== STATS SECTION ========== -->
+    <section class="py-16 px-6">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+                <div data-aos="zoom-in" data-aos-duration="800" class="glass-card rounded-2xl p-6 text-center">
+                    <div class="w-16 h-16 bg-gradient-to-br from-purple-500 to-blue-500 rounded-2xl flex items-center justify-center mx-auto mb-3">
+                        <i class="fas fa-users text-2xl"></i>
+                    </div>
+                    <div class="text-3xl font-bold gradient-text">+٥٠,٠٠٠</div>
+                    <div class="text-sm text-gray-400">مريض وثقوا بنا</div>
+                </div>
+                <div data-aos="zoom-in" data-aos-duration="800" data-aos-delay="100" class="glass-card rounded-2xl p-6 text-center">
+                    <div class="w-16 h-16 bg-gradient-to-br from-emerald-500 to-teal-500 rounded-2xl flex items-center justify-center mx-auto mb-3">
+                        <i class="fas fa-chart-line text-2xl"></i>
+                    </div>
+                    <div class="text-3xl font-bold gradient-text">٩٩.٧%</div>
+                    <div class="text-sm text-gray-400">دقة النتائج</div>
+                </div>
+                <div data-aos="zoom-in" data-aos-duration="800" data-aos-delay="200" class="glass-card rounded-2xl p-6 text-center">
+                    <div class="w-16 h-16 bg-gradient-to-br from-pink-500 to-rose-500 rounded-2xl flex items-center justify-center mx-auto mb-3">
+                        <i class="fas fa-clock text-2xl"></i>
+                    </div>
+                    <div class="text-3xl font-bold gradient-text">٢٤/٧</div>
+                    <div class="text-sm text-gray-400">دعم فني</div>
+                </div>
+                <div data-aos="zoom-in" data-aos-duration="800" data-aos-delay="300" class="glass-card rounded-2xl p-6 text-center">
+                    <div class="w-16 h-16 bg-gradient-to-br from-amber-500 to-orange-500 rounded-2xl flex items-center justify-center mx-auto mb-3">
+                        <i class="fas fa-microscope text-2xl"></i>
+                    </div>
+                    <div class="text-3xl font-bold gradient-text">+٨٠٠</div>
+                    <div class="text-sm text-gray-400">نوع تحليل</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== SERVICES SECTION ========== -->
+    <section id="services" class="py-20 px-6">
+        <div class="max-w-7xl mx-auto">
+            <div data-aos="fade-up" data-aos-duration="800" class="text-center mb-12">
+                <div class="inline-flex items-center gap-2 px-4 py-2 glass rounded-full text-sm mb-4">
+                    <i class="fas fa-microscope text-purple-400"></i>
+                    <span>خدماتنا المتكاملة</span>
+                </div>
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">جميع التحاليل في <span class="gradient-text">مكان واحد</span></h2>
+                <p class="text-gray-400 max-w-2xl mx-auto">نقدم أكثر من ٨٠٠ نوع من التحاليل الطبية بأعلى معايير الدقة والجودة</p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Service Card 1 -->
+                <div data-aos="fade-up" data-aos-duration="800" data-aos-delay="100" class="glass-card rounded-2xl p-8 cursor-pointer group">
+                    <div class="service-icon w-16 h-16 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-2xl flex items-center justify-center mb-4">
+                        <i class="fas fa-droplet text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">تحاليل الدم الشاملة</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">أكثر من ١٠٠ نوع من تحاليل الدم بدقة متناهية</p>
+                    <div class="mt-4 flex items-center gap-2 text-purple-400 text-sm group-hover:gap-3 transition-all">
+                        <span>اعرف التفاصيل</span>
+                        <i class="fas fa-arrow-left text-xs"></i>
+                    </div>
+                </div>
+                
+                <!-- Service Card 2 -->
+                <div data-aos="fade-up" data-aos-duration="800" data-aos-delay="200" class="glass-card rounded-2xl p-8 cursor-pointer group">
+                    <div class="service-icon w-16 h-16 bg-gradient-to-br from-purple-500 to-pink-500 rounded-2xl flex items-center justify-center mb-4">
+                        <i class="fas fa-home text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">سحب عينات المنزل</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">خدمة مجانية خلال ٦٠ دقيقة ٢٤ ساعة طوال أيام الأسبوع</p>
+                    <div class="mt-4 flex items-center gap-2 text-purple-400 text-sm group-hover:gap-3 transition-all">
+                        <span>اعرف التفاصيل</span>
+                        <i class="fas fa-arrow-left text-xs"></i>
+                    </div>
+                </div>
+                
+                <!-- Service Card 3 -->
+                <div data-aos="fade-up" data-aos-duration="800" data-aos-delay="300" class="glass-card rounded-2xl p-8 cursor-pointer group">
+                    <div class="service-icon w-16 h-16 bg-gradient-to-br from-emerald-500 to-teal-500 rounded-2xl flex items-center justify-center mb-4">
+                        <i class="fas fa-microscope text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">الفحص المجهري الدقيق</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">تشخيص دقيق باستخدام أحدث التقنيات المجهرية</p>
+                    <div class="mt-4 flex items-center gap-2 text-purple-400 text-sm group-hover:gap-3 transition-all">
+                        <span>اعرف التفاصيل</span>
+                        <i class="fas fa-arrow-left text-xs"></i>
+                    </div>
+                </div>
+                
+                <!-- Service Card 4 -->
+                <div data-aos="fade-up" data-aos-duration="800" data-aos-delay="400" class="glass-card rounded-2xl p-8 cursor-pointer group">
+                    <div class="service-icon w-16 h-16 bg-gradient-to-br from-rose-500 to-red-500 rounded-2xl flex items-center justify-center mb-4">
+                        <i class="fas fa-heartbeat text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">رعاية القلب والشرايين</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">باقة متكاملة لصحة القلب مع تحليل إنزيمات القلب</p>
+                    <div class="mt-4 flex items-center gap-2 text-purple-400 text-sm group-hover:gap-3 transition-all">
+                        <span>اعرف التفاصيل</span>
+                        <i class="fas fa-arrow-left text-xs"></i>
+                    </div>
+                </div>
+                
+                <!-- Service Card 5 -->
+                <div data-aos="fade-up" data-aos-duration="800" data-aos-delay="500" class="glass-card rounded-2xl p-8 cursor-pointer group">
+                    <div class="service-icon w-16 h-16 bg-gradient-to-br from-indigo-500 to-purple-500 rounded-2xl flex items-center justify-center mb-4">
+                        <i class="fas fa-brain text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">تحاليل الأعصاب والهرمونات</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">تشخيص أمراض الجهاز العصبي والهرمونات بدقة</p>
+                    <div class="mt-4 flex items-center gap-2 text-purple-400 text-sm group-hover:gap-3 transition-all">
+                        <span>اعرف التفاصيل</span>
+                        <i class="fas fa-arrow-left text-xs"></i>
+                    </div>
+                </div>
+                
+                <!-- Service Card 6 -->
+                <div data-aos="fade-up" data-aos-duration="800" data-aos-delay="600" class="glass-card rounded-2xl p-8 cursor-pointer group">
+                    <div class="service-icon w-16 h-16 bg-gradient-to-br from-amber-500 to-orange-500 rounded-2xl flex items-center justify-center mb-4">
+                        <i class="fas fa-bone text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">تحاليل العظام والفيتامينات</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">قياس كثافة المعادن والفيتامينات الأساسية</p>
+                    <div class="mt-4 flex items-center gap-2 text-purple-400 text-sm group-hover:gap-3 transition-all">
+                        <span>اعرف التفاصيل</span>
+                        <i class="fas fa-arrow-left text-xs"></i>
+                    </div>
+                </div>
+            </div>
+            
+            <div data-aos="fade-up" data-aos-duration="800" class="text-center mt-12">
+                <button class="glass px-8 py-3 rounded-full font-semibold hover:bg-white/10 transition inline-flex items-center gap-2">
+                    عرض جميع الخدمات
+                    <i class="fas fa-arrow-left text-sm"></i>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== FEATURES SECTION ========== -->
+    <section class="py-20 px-6">
+        <div class="max-w-7xl mx-auto">
+            <div data-aos="fade-up" data-aos-duration="800" class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">لماذا تختار <span class="gradient-text">معمل الدكتور جابر شحاتة؟</span></h2>
+                <p class="text-gray-400 max-w-2xl mx-auto">نقدم لك تجربة فريدة تجمع بين الدقة والراحة والثقة</p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div data-aos="flip-left" data-aos-duration="800" class="glass-card rounded-2xl p-6 text-center">
+                    <div class="w-16 h-16 mx-auto bg-blue-500/20 rounded-2xl flex items-center justify-center mb-4">
+                        <i class="fas fa-microchip text-3xl text-blue-400"></i>
+                    </div>
+                    <h3 class="font-bold text-lg mb-2">نتائج دقيقة</h3>
+                    <p class="text-gray-400 text-sm">أحدث التقنيات المخبرية العالمية</p>
+                </div>
+                <div data-aos="flip-left" data-aos-duration="800" data-aos-delay="100" class="glass-card rounded-2xl p-6 text-center">
+                    <div class="w-16 h-16 mx-auto bg-green-500/20 rounded-2xl flex items-center justify-center mb-4">
+                        <i class="fas fa-bolt text-3xl text-green-400"></i>
+                    </div>
+                    <h3 class="font-bold text-lg mb-2">سرعة فائقة</h3>
+                    <p class="text-gray-400 text-sm">نتائج خلال ٢٤ ساعة</p>
+                </div>
+                <div data-aos="flip-left" data-aos-duration="800" data-aos-delay="200" class="glass-card rounded-2xl p-6 text-center">
+                    <div class="w-16 h-16 mx-auto bg-purple-500/20 rounded-2xl flex items-center justify-center mb-4">
+                        <i class="fas fa-truck text-3xl text-purple-400"></i>
+                    </div>
+                    <h3 class="font-bold text-lg mb-2">سحب منزلي مجاني</h3>
+                    <p class="text-gray-400 text-sm">لجميع مناطق الرياض</p>
+                </div>
+                <div data-aos="flip-left" data-aos-duration="800" data-aos-delay="300" class="glass-card rounded-2xl p-6 text-center">
+                    <div class="w-16 h-16 mx-auto bg-amber-500/20 rounded-2xl flex items-center justify-center mb-4">
+                        <i class="fas fa-shield-alt text-3xl text-amber-400"></i>
+                    </div>
+                    <h3 class="font-bold text-lg mb-2">سرية تامة</h3>
+                    <p class="text-gray-400 text-sm">نحمي خصوصية بياناتك</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== CTA SECTION ========== -->
+    <section class="py-20 px-6">
+        <div class="max-w-5xl mx-auto glass-card rounded-3xl p-12 text-center" data-aos="zoom-in" data-aos-duration="800">
+            <i class="fas fa-hand-holding-heart text-5xl text-purple-400 mb-6"></i>
+            <h2 class="text-3xl md:text-4xl font-bold mb-4">جاهز لتبدأ رحلة صحتك؟</h2>
+            <p class="text-gray-300 text-lg mb-8">احجز موعدك الآن مع الدكتور جابر شحاتة - خبرة ٢٠ عاماً في التحاليل الطبية</p>
+            <button onclick="openModal()" class="btn-gradient px-10 py-4 rounded-full font-bold text-lg inline-flex items-center gap-2">
+                <i class="fas fa-calendar-check"></i>
+                اطلب زيارة منزلية الآن
+            </button>
+        </div>
+    </section>
+
+    <!-- ========== ABOUT SECTION ========== -->
+    <section id="about" class="py-20 px-6">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div data-aos="fade-right" data-aos-duration="1000">
+                    <div class="inline-flex items-center gap-2 px-4 py-2 glass rounded-full text-sm mb-6">
+                        <i class="fas fa-user-md text-purple-400"></i>
+                        <span>عن الدكتور جابر شحاتة</span>
+                    </div>
+                    <h2 class="text-3xl md:text-4xl font-bold mb-6">خبرة تمتد <span class="gradient-text">لأكثر من ٢٠ عاماً</span> في التحاليل الطبية</h2>
+                    <p class="text-gray-300 leading-relaxed mb-4">
+                        الدكتور جابر شحاتة، استشاري أول التحاليل الطبية، حاصل على العديد من الشهادات الدولية 
+                        في مجالات الميكروبيولوجيا والكيمياء الحيوية.
+                    </p>
+                    <p class="text-gray-400 leading-relaxed mb-6">
+                        معمل الدكتور جابر شحاتة هو أول معمل معتمد في المملكة بتقنية الذكاء الاصطناعي 
+                        لتحليل النتائج بدقة ٩٩.٩٪، ونخدم أكثر من ٥٠ ألف مريض سنوياً.
+                    </p>
+                    <div class="flex flex-wrap gap-4">
+                        <div class="flex items-center gap-2"><i class="fas fa-check-circle text-green-500"></i><span>معتمد من وزارة الصحة</span></div>
+                        <div class="flex items-center gap-2"><i class="fas fa-check-circle text-green-500"></i><span>شهادة الجودة العالمية ISO</span></div>
+                        <div class="flex items-center gap-2"><i class="fas fa-check-circle text-green-500"></i><span>معتمد من الهيئة السعودية</span></div>
+                    </div>
+                </div>
+                <div data-aos="fade-left" data-aos-duration="1000" class="relative">
+                    <div class="glass rounded-3xl overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=600&h=500&fit=crop" alt="الدكتور جابر شحاتة" class="w-full h-auto">
+                    </div>
+                    <div class="absolute -bottom-5 -left-5 glass rounded-2xl p-4">
+                        <div class="flex items-center gap-3">
+                            <i class="fas fa-award text-3xl text-yellow-500"></i>
+                            <div>
+                                <p class="font-bold">جائزة التميز الطبي</p>
+                                <p class="text-xs text-gray-400">٢٠٢٣ - ٢٠٢٤</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== TESTIMONIALS SECTION ========== -->
+    <section class="py-20 px-6">
+        <div class="max-w-7xl mx-auto">
+            <div data-aos="fade-up" data-aos-duration="800" class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">آراء <span class="gradient-text">مرضانا</span></h2>
+                <p class="text-gray-400">آلاف المرضى يثقون بنا يومياً</p>
+            </div>
+            <div class="grid md:grid-cols-3 gap-6">
+                <div data-aos="fade-up" data-aos-duration="800" data-aos-delay="100" class="glass-card rounded-2xl p-6">
+                    <div class="flex gap-2 text-yellow-400 mb-3">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                    </div>
+                    <p class="text-gray-300 text-sm leading-relaxed mb-4">"أفضل معمل تحاليل في الرياض، دقة في النتائج وسرعة في التسليم، خدمة سحب العينات من المنزل ممتازة"</p>
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full flex items-center justify-center"><i class="fas fa-user text-white"></i></div>
+                        <div><p class="font-semibold text-sm">أحمد محمود</p><p class="text-xs text-gray-500">مريض</p></div>
+                    </div>
+                </div>
+                <div data-aos="fade-up" data-aos-duration="800" data-aos-delay="200" class="glass-card rounded-2xl p-6">
+                    <div class="flex gap-2 text-yellow-400 mb-3">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                    </div>
+                    <p class="text-gray-300 text-sm leading-relaxed mb-4">"الدكتور جابر شحاتة عنده خبرة كبيرة، المعمل متطور جداً والأجهزة حديثة، أنصح به بشدة"</p>
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-full flex items-center justify-center"><i class="fas fa-user text-white"></i></div>
+                        <div><p class="font-semibold text-sm">سارة عبدالله</p><p class="text-xs text-gray-500">مريضة</p></div>
+                    </div>
+                </div>
+                <div data-aos="fade-up" data-aos-duration="800" data-aos-delay="300" class="glass-card rounded-2xl p-6">
+                    <div class="flex gap-2 text-yellow-400 mb-3">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                    </div>
+                    <p class="text-gray-300 text-sm leading-relaxed mb-4">"خدمة سحب العينات المنزلية وفرت عليا مجهود كبير، النتائج وصلتني على الواتساب خلال ٢٤ ساعة"</p>
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 bg-gradient-to-br from-green-500 to-emerald-500 rounded-full flex items-center justify-center"><i class="fas fa-user text-white"></i></div>
+                        <div><p class="font-semibold text-sm">محمد خالد</p><p class="text-xs text-gray-500">مريض</p></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== CONTACT SECTION ========== -->
+    <section id="contact" class="py-20 px-6">
+        <div class="max-w-7xl mx-auto">
+            <div data-aos="fade-up" data-aos-duration="800" class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">تواصل <span class="gradient-text">معنا</span></h2>
+                <p class="text-gray-400">نحن هنا لخدمتك ٢٤ ساعة طوال أيام الأسبوع</p>
+            </div>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div data-aos="fade-up" data-aos-duration="800" class="glass-card rounded-2xl p-8 text-center">
+                    <div class="w-16 h-16 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-phone-alt text-2xl"></i>
+                    </div>
+                    <h3 class="font-bold text-lg mb-2">اتصل بنا</h3>
+                    <p class="text-gray-400">٩٢٠٠٠٥٦٦٦</p>
+                    <p class="text-gray-400">٠١١ ٤٥٦ ٧٨٩٠</p>
+                </div>
+                <div data-aos="fade-up" data-aos-duration="800" data-aos-delay="100" class="glass-card rounded-2xl p-8 text-center">
+                    <div class="w-16 h-16 bg-gradient-to-br from-purple-500 to-pink-500 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-envelope text-2xl"></i>
+                    </div>
+                    <h3 class="font-bold text-lg mb-2">البريد الإلكتروني</h3>
+                    <p class="text-gray-400">info@drjaberlab.com</p>
+                    <p class="text-gray-400">support@drjaberlab.com</p>
+                </div>
+                <div data-aos="fade-up" data-aos-duration="800" data-aos-delay="200" class="glass-card rounded-2xl p-8 text-center">
+                    <div class="w-16 h-16 bg-gradient-to-br from-green-500 to-emerald-500 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-map-marker-alt text-2xl"></i>
+                    </div>
+                    <h3 class="font-bold text-lg mb-2">العنوان</h3>
+                    <p class="text-gray-400">الرياض - حي العليا</p>
+                    <p class="text-gray-400">برج العليا - الطابق ٥</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== FOOTER ========== -->
+    <footer class="glass mt-20 py-8 px-6 border-t border-white/10">
+        <div class="max-w-7xl mx-auto text-center">
+            <div class="flex justify-center gap-6 mb-6">
+                <a href="#" class="text-gray-400 hover:text-purple-400 transition text-xl"><i class="fab fa-facebook"></i></a>
+                <a href="#" class="text-gray-400 hover:text-purple-400 transition text-xl"><i class="fab fa-twitter"></i></a>
+                <a href="#" class="text-gray-400 hover:text-purple-400 transition text-xl"><i class="fab fa-instagram"></i></a>
+                <a href="#" class="text-gray-400 hover:text-purple-400 transition text-xl"><i class="fab fa-linkedin"></i></a>
+                <a href="#" class="text-gray-400 hover:text-purple-400 transition text-xl"><i class="fab fa-whatsapp"></i></a>
+            </div>
+            <p class="text-gray-400 text-sm">© ٢٠٢٤ معمل الدكتور جابر شحاتة - جميع الحقوق محفوظة</p>
+            <p class="text-gray-500 text-xs mt-2">أحدث التقنيات المخبرية - دقة ٩٩.٩٪ - نتائج خلال ٢٤ ساعة</p>
+        </div>
+    </footer>
+
+    <script>
+        // Initialize AOS
+        AOS.init({
+            once: true,
+            duration: 800,
+        });
+        
+        // Mobile Menu Toggle
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+        
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+        
+        // Close mobile menu when clicking on links
+        const mobileLinks = mobileMenu.querySelectorAll('a');
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+            });
+        });
+        
+        // Modal Functions
+        function openModal() {
+            document.getElementById('modal').style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function closeModal() {
+            document.getElementById('modal').style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+        
+        // Close modal when clicking outside
+        document.getElementById('modal').addEventListener('click', (e) => {
+            if (e.target === document.getElementById('modal')) {
+                closeModal();
+            }
+        });
+        
+        // Form Submission
+        function submitRequest(event) {
+            event.preventDefault();
+            const form = event.target;
+            const name = form.querySelector('input[type="text"]').value;
+            const phone = form.querySelector('input[type="tel"]').value;
+            const address = form.querySelector('textarea').value;
+            const testType = form.querySelector('select').value;
+            
+            // Simulate submission - in production, send to backend
+            alert(`تم استلام طلبك بنجاح يا ${name}!\n\nسيتواصل معك فريق الدكتور جابر شحاتة خلال ٣٠ دقيقة لتأكيد موعد الزيارة المنزلية.\n\nنوع التحليل: ${testType}`);
+            
+            closeModal();
+            form.reset();
+        }
+        
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+        
+        // Navbar scroll effect
+        window.addEventListener('scroll', () => {
+            const navbar = document.querySelector('nav');
+            if (window.scrollY > 50) {
+                navbar.classList.add('shadow-xl');
+            } else {
+                navbar.classList.remove('shadow-xl');
+            }
+        });
+    </script>
+</body>
+</html>
