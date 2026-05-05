@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tosta - توستا</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { tajawal: ['Tajawal', 'sans-serif'] },
+          colors: { brand: { DEFAULT: '#f59e0b', dark: '#d97706' }, wa: '#16a34a' }
+        }
+      }
+    }
+  </script>
+  <style>
+    * { font-family: 'Tajawal', sans-serif; -webkit-tap-highlight-color: transparent; }
+    body { background-color: #f8fafc; }
+    .item-card { transition: all 0.3s ease; border: 1px solid #e2e8f0; }
+    .item-card:active { transform: scale(0.97); }
+    #drawer { transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
+  </style>
+</head>
+<body class="pb-24">
+
+<header class="bg-brand text-white pt-10 pb-16 px-6 text-center rounded-b-[3rem] shadow-lg">
+  <div class="w-20 h-20 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4 text-4xl">🍔</div>
+  <h1 class="text-4xl font-black mb-2">Tosta - توستا</h1>
+  <p class="text-white/80 font-medium">المنيو الكامل - أصل الطعم</p>
+</header>
+
+<main class="max-w-md mx-auto px-4 -mt-8" id="menu-root"></main>
+
+<div class="fixed bottom-6 left-1/2 -translate-x-1/2 z-50">
+  <button onclick="toggleDrawer(true)" id="cta-btn" class="bg-black text-white px-8 py-4 rounded-full font-black text-lg shadow-2xl flex items-center gap-3">
+    🛒 <span id="cta-label">ابدأ طلبك</span>
+  </button>
+</div>
+
+<div id="backdrop" onclick="toggleDrawer(false)" class="fixed inset-0 bg-black/60 z-[100] opacity-0 pointer-events-none transition-opacity duration-300"></div>
+<div id="drawer" class="fixed bottom-0 left-0 right-0 bg-white z-[101] rounded-t-[2.5rem] flex flex-col max-h-[90vh] translate-y-full shadow-2xl">
+  <div class="p-6 border-b flex justify-between items-center">
+    <h2 class="text-xl font-black">سلة الطلبات 🛒</h2>
+    <button onclick="toggleDrawer(false)" class="text-2xl">✕</button>
+  </div>
+  <div class="p-6 overflow-y-auto flex-1">
+    <div id="cart-list" class="space-y-4 mb-6"></div>
+    <div id="form" class="space-y-3 hidden border-t pt-6">
+      <input id="f-name" type="text" placeholder="الاسم بالكامل" class="w-full bg-gray-100 p-4 rounded-2xl outline-none focus:ring-2 ring-brand">
+      <input id="f-phone" type="tel" placeholder="رقم الموبايل" class="w-full bg-gray-100 p-4 rounded-2xl outline-none focus:ring-2 ring-brand">
+      <textarea id="f-address" placeholder="العنوان بالتفصيل" class="w-full bg-gray-100 p-4 rounded-2xl outline-none focus:ring-2 ring-brand"></textarea>
+    </div>
+  </div>
+  <div id="footer" class="p-6 border-t hidden">
+    <div class="flex justify-between items-center mb-4 text-xl font-black">
+      <span>الإجمالي:</span><span id="total-price" class="text-brand">0 ريال</span>
+    </div>
+    <button onclick="sendOrder()" class="w-full bg-wa text-white py-4 rounded-2xl font-black text-lg">إرسال الطلب ✅</button>
+  </div>
+</div>
+
+<script>
+const WHATSAPP = '201003800314'; 
+const SHEET_URL = 'https://script.google.com/macros/s/AKfycbz_K_7-turn6-Q/exec';
+
+const ITEMS = [
+  // البرجر
+  { id:1, cat:'برجر', name:'بيف برجر توستا', price:85, img:'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=400' },
+  { id:2, cat:'برجر', name:'تشيكن زنجر برجر', price:75, img:'https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?w=400' },
+  { id:3, cat:'برجر', name:'برجر بالجبنة السايحة', price:95, img:'https://images.unsplash.com/photo-1521305916504-4a1121188589?w=400' },
+  // البيتزا
+  { id:4, cat:'بيتزا', name:'بيتزا توستا مشكل', price:120, img:'https://images.unsplash.com/photo-1513104890138-7c749659a591?w=400' },
+  { id:5, cat:'بيتزا', name:'بيتزا مارجريتا', price:90, img:'https://images.unsplash.com/photo-1574071318508-1cdbad80ad38?w=400' },
+  { id:6, cat:'بيتزا', name:'بيتزا سجق شرقي', price:110, img:'https://images.unsplash.com/photo-1541745537411-b8046dc6d66c?w=400' },
+  // كريب
+  { id:7, cat:'كريب', name:'كريب زنجر حار', price:70, img:'https://images.unsplash.com/photo-1519676867240-f03562e64548?w=400' },
+  { id:8, cat:'كريب', name:'كريب نوتيلا بالموز', price:60, img:'https://images.unsplash.com/photo-1519676867240-f03562e64548?w=400' },
+  // مقبلات
+  { id:9, cat:'مقبلات', name:'بطاطس توستا بالجبنة', price:40, img:'https://images.unsplash.com/photo-1573080496219-bb080dd4f877?w=400' },
+  { id:10, cat:'مقبلات', name:'حلقات بصل مقرمشة', price:35, img:'https://images.unsplash.com/photo-1639024471283-035188835118?w=400' }
+];
+
+function renderMenu() {
+  const root = document.getElementById('menu-root');
+  const cats = [...new Set(ITEMS.map(i => i.cat))];
+  
+  root.innerHTML = cats.map(cat => `
+    <div class="mb-8">
+      <h2 class="text-xl font-black mb-4 border-r-4 border-brand pr-3">${cat}</h2>
+      <div class="grid gap-4">${ITEMS.filter(i => i.cat === cat).map(i => `
+        <div class="item-card bg-white p-3 rounded-3xl flex gap-4 items-center shadow-sm">
+          <img src="${i.img}" class="w-20 h-20 rounded-2xl object-cover">
+          <div class="flex-1">
+            <h3 class="font-bold text-base">${i.name}</h3>
+            <p class="text-brand font-black">${i.price} ريال</p>
+          </div>
+          <button onclick="add(${i.id})" class="bg-brand text-white w-10 h-10 rounded-xl font-black shadow-md">+</button>
+        </div>`).join('')}
+      </div>
+    </div>`).join('');
+}
+
+let cart = {};
+function add(id) { cart[id] = (cart[id] || 0) + 1; updateUI(); }
+function updateUI() {
+  const count = Object.values(cart).reduce((a, b) => a + b, 0);
+  document.getElementById('cta-label').innerText = count > 0 ? `سلتك فيها (${count})` : 'ابدأ طلبك';
+}
+function toggleDrawer(open) {
+  const d = document.getElementById('drawer');
+  const b = document.getElementById('backdrop');
+  d.style.transform = open ? 'translateY(0)' : 'translateY(100%)';
+  b.style.opacity = open ? '1' : '0';
+  b.style.pointerEvents = open ? 'auto' : 'none';
+  if(open) renderCart();
+}
+function renderCart() {
+  const list = document.getElementById('cart-list');
+  const ids = Object.keys(cart);
+  if(!ids.length) { 
+    list.innerHTML = '<p class="text-center text-gray-400 py-10">السلة لسة فاضية</p>'; 
+    document.getElementById('form').classList.add('hidden');
+    document.getElementById('footer').classList.add('hidden');
+    return; 
+  }
+  document.getElementById('form').classList.remove('hidden');
+  document.getElementById('footer').classList.remove('hidden');
+  let total = 0;
+  list.innerHTML = ids.map(id => {
+    const item = ITEMS.find(i => i.id == id);
+    total += item.price * cart[id];
+    return `<div class="flex justify-between items-center bg-gray-50 p-3 rounded-xl border">
+      <div><span class="font-bold">${item.name}</span> <span class="text-xs text-gray-500">x${cart[id]}</span></div>
+      <span class="font-black text-brand">${item.price * cart[id]} ريال</span>
+    </div>`;
+  }).join('');
+  document.getElementById('total-price').innerText = total + " ريال";
+}
+async function sendOrder() {
+  const n = document.getElementById('f-name').value;
+  const p = document.getElementById('f-phone').value;
+  const a = document.getElementById('f-address').value;
+  if(!n || !p || !a) return alert("اكتب بياناتك يا وحش!");
+  const itemsTxt = Object.entries(cart).map(([id, q]) => `${ITEMS.find(i => i.id == id).name} (${q})`).join(' - ');
+  const total = document.getElementById('total-price').innerText;
+  const order = { name: n, phone: p, address: a, items: itemsTxt, total: total };
+  fetch(SHEET_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(order) });
+  const msg = `🍕 طلب جديد من توستا\n👤 العميل: ${n}\n📞 تليفون: ${p}\n📍 العنوان: ${a}\n📦 الطلبات: ${itemsTxt}\n💰 الإجمالي: ${total}`;
+  window.open(`https://wa.me/${WHATSAPP}?text=${encodeURIComponent(msg)}`, '_blank');
+}
+renderMenu();
+</script>
+</body>
+</html>
