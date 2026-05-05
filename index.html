@@ -1,235 +1,105 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="ar" dir="rtl">
 <head>
-  <base href="/public/web/">
-
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=Edge">
-  <meta name="description" content="Juicy Web App">
-
-  <!-- iOS meta tags & icons -->
-  <meta name="mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black">
-  <meta name="apple-mobile-web-app-title" content="juicy">
-  <link rel="apple-touch-icon" href="icons/Icon-192.png">
-
-  <!-- Favicon -->
-  <link rel="icon" type="image/png" href="logo_app.png" />
-
-  <title> QR Icon Tech</title>
-  <link rel="manifest" href="manifest.json">
-
-  <!-- Google Fonts - Poppins -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700;900&display=swap" rel="stylesheet">
-
-  <!-- Lottie Player for animated logo -->
-  <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
-
-  <!-- Add Google Maps API with required libraries -->
-  <script
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC-t_n1_Lev7aBGEsNBmzNrqwEGJVpn__4&libraries=places,geometry"></script>
-
-  <style>
-    html,
-    body {
-      height: 100%;
-      margin: 0;
-      background-color: #ffffff;
-    }
-
-    /* Loading screen layout */
-    #loading-screen {
-      position: fixed;
-      top: 0;
-      right: 0;
-      bottom: 0;
-      left: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-direction: column;
-      background: #ffffff;
-      transition: opacity 500ms ease;
-      z-index: 9999;
-    }
-
-    /* Background decoration circles */
-    .bg-circle-1 {
-      position: absolute;
-      top: -100px;
-      right: -100px;
-      width: 300px;
-      height: 300px;
-      border-radius: 50%;
-      background: rgba(190, 28, 33, 0.03);
-    }
-
-    .bg-circle-2 {
-      position: absolute;
-      bottom: -50px;
-      left: -50px;
-      width: 200px;
-      height: 200px;
-      border-radius: 50%;
-      background: rgba(190, 28, 33, 0.03);
-    }
-
-    /* Hide when Flutter is ready */
-    .flutter-ready #loading-screen {
-      opacity: 0;
-      pointer-events: none;
-    }
-
-    .loading-logo {
-      width: 250px;
-      height: 250px;
-      margin-bottom: 40px;
-      object-fit: contain;
-    }
-
-    .loading-text {
-      font-family: 'Poppins', system-ui, -apple-system, sans-serif;
-      font-size: 28px;
-      font-weight: 900;
-      letter-spacing: 4px;
-      color: #be1c21;
-      text-transform: uppercase;
-      margin-bottom: 60px;
-    }
-
-    /* .spinner {
-      width: 40px;
-      height: 40px;
-      border: 3px solid rgba(190, 28, 33, 0.1);
-      border-top-color: #be1c21;
-      border-radius: 50%;
-      animation: spin 1s linear infinite;
-    } */
-
-    @keyframes spin {
-      to {
-        transform: rotate(360deg);
-      }
-    }
-  </style>
-
-  <script>
-    // Apply branch metadata from localStorage immediately if available
-    (function () {
-      const branchLogo = localStorage.getItem('branch_logo');
-      const branchName = localStorage.getItem('branch_name');
-
-      if (branchName) {
-        document.title = branchName;
-      }
-
-      if (branchLogo) {
-        // Update favicon
-        const favicon = document.querySelector('link[rel="icon"]');
-        if (favicon) {
-          favicon.href = branchLogo;
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مطعم الدكتور جابر</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Tajawal', sans-serif; background-color: #ffffff; margin: 0; padding: 0; }
+        .category-card {
+            background: #ffffff;
+            border-radius: 24px;
+            margin-bottom: 16px;
+            padding: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            border: 1px solid #f1f1f1;
+            transition: transform 0.2s ease;
         }
-
-        // Apply to apple-touch-icon as well
-        const appleIcon = document.querySelector('link[rel="apple-touch-icon"]');
-        if (appleIcon) {
-          appleIcon.href = branchLogo;
+        .category-card:active { transform: scale(0.97); }
+        .icon-box {
+            width: 60px; height: 60px;
+            border-radius: 18px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 30px;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.02);
         }
-      }
-
-      // We'll handle the loading screen logo in the body to avoid flash
-    })();
-  </script>
+        .arrow-box {
+            width: 40px; height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #FF512F 0%, #DD2476 100%);
+            display: flex; align-items: center; justify-content: center;
+            color: white;
+            box-shadow: 0 5px 15px rgba(221, 36, 118, 0.3);
+        }
+    </style>
 </head>
+<body class="flex justify-center min-h-screen">
 
-<body>
-  <div id="loading-screen">
-    <div class="bg-circle-1"></div>
-    <div class="bg-circle-2"></div>
-    <lottie-player src="logo_app.json" background="transparent" speed="1" class="loading-logo" loop autoplay>
-    </lottie-player>
-    <!--    <div class="loading-text">JUICY</div>-->
-    <!--    <div class="spinner"></div>-->
-  </div>
+    <div class="w-full max-w-md px-6 py-10">
+        
+        <div class="text-center mb-12">
+            <div class="relative inline-block mb-6">
+                <div class="w-28 h-28 bg-white rounded-[2.5rem] shadow-2xl flex items-center justify-center p-1 border-2 border-gray-50 overflow-hidden">
+                    <img src="https://ui-avatars.com/api/?name=Dr+G&background=be1c21&color=fff&size=200" class="w-full h-full rounded-[2.2rem] object-cover">
+                </div>
+            </div>
+            <h1 class="text-[26px] font-black text-gray-900 leading-tight">مطعم الدكتور جابر</h1>
+            <p class="text-gray-400 text-sm mt-2 font-medium">أشهى المأكولات بجودة استثنائية ونكهات أصيلة</p>
+        </div>
 
-  <script src="flutter_bootstrap.js" async></script>
+        <div class="space-y-4">
+            
+            <div class="category-card">
+                <div class="flex items-center gap-4">
+                    <div class="icon-box bg-emerald-50 text-emerald-500">🥗</div>
+                    <div>
+                        <h2 class="font-black text-[18px] text-gray-800">المقبلات</h2>
+                        <p class="text-[12px] text-gray-400 font-bold">تشكيلة مميزة من المقبلات الطازجة</p>
+                    </div>
+                </div>
+                <div class="arrow-box">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="transform rotate-180"><path d="m15 18-6-6 6-6"/></svg>
+                </div>
+            </div>
 
-  <!-- Firebase SDK -->
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-messaging-compat.js"></script>
+            <div class="category-card">
+                <div class="flex items-center gap-4">
+                    <div class="icon-box bg-orange-50 text-orange-500">🔥</div>
+                    <div>
+                        <h2 class="font-black text-[18px] text-gray-800">المشويات</h2>
+                        <p class="text-[12px] text-gray-400 font-bold">لحوم طازجة مشوية على الفحم</p>
+                    </div>
+                </div>
+                <div class="arrow-box">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="transform rotate-180"><path d="m15 18-6-6 6-6"/></svg>
+                </div>
+            </div>
 
-  <script>
-    const firebaseConfig = {
-      apiKey: "AIzaSyChCeU9gJp1bOywXXKQV_X5eoHu8kweYBs",
-      authDomain: "juicydesigns-ff418.firebaseapp.com",
-      projectId: "juicydesigns-ff418",
-      storageBucket: "juicydesigns-ff418.firebasestorage.app",
-      messagingSenderId: "500926485018",
-      appId: "1:500926485018:web:2cd98e8fe043b8bb82b7a3",
-      measurementId: "G-X3Y2MNZ8WB"
-    };
+            <div class="category-card">
+                <div class="flex items-center gap-4">
+                    <div class="icon-box bg-blue-50 text-blue-500">🍱</div>
+                    <div>
+                        <h2 class="font-black text-[18px] text-gray-800">الأطباق الرئيسية</h2>
+                        <p class="text-[12px] text-gray-400 font-bold">وجباتنا المميزة لكل العائلة</p>
+                    </div>
+                </div>
+                <div class="arrow-box">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="transform rotate-180"><path d="m15 18-6-6 6-6"/></svg>
+                </div>
+            </div>
 
-    firebase.initializeApp(firebaseConfig);
-    const messaging = firebase.messaging();
+        </div>
 
-    document.getElementById('btn')?.addEventListener('click', () => {
-      Notification.requestPermission().then(permission => {
-        if (permission === 'granted') {
-          messaging.getToken({
-            vapidKey: 'BLFbliUNwTKZ20FpHyIoxHIW75SA4EVCQR69acYlre4zxY_Ftvlshjvc1dR1N7tb8_DjYrGyXnIZVwJoK79QRvY'
-          }).then(token => {
-            document.getElementById('output').textContent = token || 'No token';
-            console.log(token);
-          }).catch(console.error);
-        } else {
-          document.getElementById('output').textContent = 'Permission denied';
-        }
-      });
-    });
-  </script>
+        <div class="mt-20 text-center">
+            <p class="text-[10px] font-black text-gray-300 tracking-[0.3em] uppercase">Powered By TechLab</p>
+        </div>
 
-  <script>
-    // Hide loading screen when app is fully ready (data loaded)
-    window.addEventListener('app-ready', function () {
-      // Refresh metadata from localStorage which might have been updated by Flutter
-      const branchLogo = localStorage.getItem('branch_logo');
-      const branchName = localStorage.getItem('branch_name');
-      if (branchName) document.title = branchName;
-      if (branchLogo) {
-        const favicon = document.querySelector('link[rel="icon"]');
-        if (favicon) favicon.href = branchLogo;
-        const appleIcon = document.querySelector('link[rel="apple-touch-icon"]');
-        if (appleIcon) appleIcon.href = branchLogo;
-      }
-
-      document.body.classList.add('flutter-ready');
-      // Remove loading screen after transition completes
-      setTimeout(function () {
-        const loadingScreen = document.getElementById('loading-screen');
-        if (loadingScreen) {
-          loadingScreen.remove();
-        }
-      }, 500);
-    });
-
-    // Fallback: Hide loading screen after maximum wait time (20 seconds)
-    // Increased fallback to allow for slow data loading
-    setTimeout(function () {
-      if (!document.body.classList.contains('flutter-ready')) {
-        document.body.classList.add('flutter-ready');
-        setTimeout(function () {
-          const loadingScreen = document.getElementById('loading-screen');
-          if (loadingScreen) {
-            loadingScreen.remove();
-          }
-        }, 500);
-      }
-    }, 20000);
-  </script>
+    </div>
 
 </body>
-
 </html>
