@@ -1,105 +1,456 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ar" dir="rtl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>مطعم الدكتور جابر</title>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>  | Bento Menu</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+
+    <meta name="description" content="    Bento Grid  Tailwind CSS  Tajawal." />
+
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              tajawal: ["Tajawal", "ui-sans-serif", "system-ui", "sans-serif"],
+            },
+            borderRadius: {
+              card: "24px",
+            },
+            colors: {
+              ink: "#0B1220",
+              sub: "#506075",
+              bg: "#F4F5F7",
+              line: "rgba(15, 23, 42, 0.10)",
+            },
+            boxShadow: {
+              soft: "0 14px 45px rgba(15, 23, 42, 0.10)",
+              lift: "0 18px 55px rgba(15, 23, 42, 0.16)",
+            },
+          },
+        },
+      };
+    </script>
+
     <style>
-        body { font-family: 'Tajawal', sans-serif; background-color: #ffffff; margin: 0; padding: 0; }
-        .category-card {
-            background: #ffffff;
-            border-radius: 24px;
-            margin-bottom: 16px;
-            padding: 16px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
-            border: 1px solid #f1f1f1;
-            transition: transform 0.2s ease;
-        }
-        .category-card:active { transform: scale(0.97); }
-        .icon-box {
-            width: 60px; height: 60px;
-            border-radius: 18px;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 30px;
-            box-shadow: inset 0 0 10px rgba(0,0,0,0.02);
-        }
-        .arrow-box {
-            width: 40px; height: 40px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #FF512F 0%, #DD2476 100%);
-            display: flex; align-items: center; justify-content: center;
-            color: white;
-            box-shadow: 0 5px 15px rgba(221, 36, 118, 0.3);
-        }
+      html,
+      body {
+        height: 100%;
+      }
+      /* Smooth-ish �dynamic� background without external assets */
+      .bg-mesh {
+        background:
+          radial-gradient(900px 480px at 10% 10%, rgba(168, 85, 247, 0.18), transparent 55%),
+          radial-gradient(820px 520px at 90% 15%, rgba(34, 197, 94, 0.14), transparent 58%),
+          radial-gradient(900px 520px at 25% 95%, rgba(59, 130, 246, 0.16), transparent 55%),
+          radial-gradient(980px 560px at 85% 90%, rgba(249, 115, 22, 0.14), transparent 55%),
+          linear-gradient(180deg, #f6f7f9 0%, #f4f5f7 100%);
+      }
     </style>
-</head>
-<body class="flex justify-center min-h-screen">
+  </head>
 
-    <div class="w-full max-w-md px-6 py-10">
-        
-        <div class="text-center mb-12">
-            <div class="relative inline-block mb-6">
-                <div class="w-28 h-28 bg-white rounded-[2.5rem] shadow-2xl flex items-center justify-center p-1 border-2 border-gray-50 overflow-hidden">
-                    <img src="https://ui-avatars.com/api/?name=Dr+G&background=be1c21&color=fff&size=200" class="w-full h-full rounded-[2.2rem] object-cover">
-                </div>
-            </div>
-            <h1 class="text-[26px] font-black text-gray-900 leading-tight">مطعم الدكتور جابر</h1>
-            <p class="text-gray-400 text-sm mt-2 font-medium">أشهى المأكولات بجودة استثنائية ونكهات أصيلة</p>
-        </div>
-
-        <div class="space-y-4">
-            
-            <div class="category-card">
-                <div class="flex items-center gap-4">
-                    <div class="icon-box bg-emerald-50 text-emerald-500">🥗</div>
-                    <div>
-                        <h2 class="font-black text-[18px] text-gray-800">المقبلات</h2>
-                        <p class="text-[12px] text-gray-400 font-bold">تشكيلة مميزة من المقبلات الطازجة</p>
-                    </div>
-                </div>
-                <div class="arrow-box">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="transform rotate-180"><path d="m15 18-6-6 6-6"/></svg>
-                </div>
-            </div>
-
-            <div class="category-card">
-                <div class="flex items-center gap-4">
-                    <div class="icon-box bg-orange-50 text-orange-500">🔥</div>
-                    <div>
-                        <h2 class="font-black text-[18px] text-gray-800">المشويات</h2>
-                        <p class="text-[12px] text-gray-400 font-bold">لحوم طازجة مشوية على الفحم</p>
-                    </div>
-                </div>
-                <div class="arrow-box">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="transform rotate-180"><path d="m15 18-6-6 6-6"/></svg>
-                </div>
-            </div>
-
-            <div class="category-card">
-                <div class="flex items-center gap-4">
-                    <div class="icon-box bg-blue-50 text-blue-500">🍱</div>
-                    <div>
-                        <h2 class="font-black text-[18px] text-gray-800">الأطباق الرئيسية</h2>
-                        <p class="text-[12px] text-gray-400 font-bold">وجباتنا المميزة لكل العائلة</p>
-                    </div>
-                </div>
-                <div class="arrow-box">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="transform rotate-180"><path d="m15 18-6-6 6-6"/></svg>
-                </div>
-            </div>
-
-        </div>
-
-        <div class="mt-20 text-center">
-            <p class="text-[10px] font-black text-gray-300 tracking-[0.3em] uppercase">Powered By TechLab</p>
-        </div>
-
+  <body class="bg-mesh text-ink font-tajawal antialiased">
+    <!-- Top subtle blur ornaments -->
+    <div aria-hidden="true" class="pointer-events-none fixed inset-0 -z-10">
+      <div class="absolute -top-24 left-10 h-72 w-72 rounded-full bg-fuchsia-400/25 blur-3xl"></div>
+      <div class="absolute top-10 right-10 h-80 w-80 rounded-full bg-emerald-400/20 blur-3xl"></div>
+      <div class="absolute bottom-0 left-1/2 h-96 w-96 -translate-x-1/2 rounded-full bg-sky-400/20 blur-3xl"></div>
     </div>
 
-</body>
+    <main class="mx-auto w-full max-w-6xl px-4 pb-24 pt-8 sm:px-6 sm:pb-12 sm:pt-10 lg:px-8">
+      <!-- Hero -->
+      <header class="mb-6 sm:mb-8">
+        <div class="grid grid-cols-1 gap-4 lg:grid-cols-12">
+          <section class="rounded-card bg-white/85 p-5 shadow-soft ring-1 ring-black/5 backdrop-blur sm:p-6 lg:col-span-8">
+            <div class="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+              <div>
+                <div class="inline-flex items-center gap-2 rounded-full bg-white px-3 py-1 text-xs font-extrabold text-sub ring-1 ring-line">
+                  <span class="h-2 w-2 rounded-full bg-emerald-500"></span>
+                   
+                </div>
+                <h1 class="mt-3 text-3xl font-black tracking-tight sm:text-4xl">
+                     <span class="text-transparent bg-clip-text bg-gradient-to-l from-fuchsia-600 via-sky-600 to-emerald-600">Bento Grid</span>
+                </h1>
+                <p class="mt-2 text-sub">
+                         placeholders    �   QR    .
+                </p>
+              </div>
+
+              <div class="flex flex-col gap-2 sm:items-end">
+                <a
+                  href="#order"
+                  class="inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-l from-emerald-600 via-sky-600 to-fuchsia-600 px-5 py-3 text-sm font-black text-white shadow-soft transition hover:shadow-lift focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2 focus:ring-offset-white"
+                >
+                  <span> </span>
+                  <span aria-hidden="true"></span>
+                </a>
+                <div class="flex flex-wrap items-center gap-2">
+                  <span class="rounded-full bg-bg px-3 py-1 text-xs font-extrabold text-sub ring-1 ring-line"></span>
+                  <span class="rounded-full bg-bg px-3 py-1 text-xs font-extrabold text-sub ring-1 ring-line"></span>
+                  <span class="rounded-full bg-bg px-3 py-1 text-xs font-extrabold text-sub ring-1 ring-line"></span>
+                </div>
+              </div>
+            </div>
+
+            <nav class="mt-5 flex flex-wrap gap-2">
+              <a class="rounded-full bg-white px-4 py-2 text-sm font-extrabold ring-1 ring-line hover:bg-bg" href="#main">
+                  
+              </a>
+              <a class="rounded-full bg-white px-4 py-2 text-sm font-extrabold ring-1 ring-line hover:bg-bg" href="#apps">
+                 
+              </a>
+              <a class="rounded-full bg-white px-4 py-2 text-sm font-extrabold ring-1 ring-line hover:bg-bg" href="#desserts">
+                 
+              </a>
+            </nav>
+          </section>
+
+          <aside class="rounded-card bg-white/85 p-5 shadow-soft ring-1 ring-black/5 backdrop-blur sm:p-6 lg:col-span-4">
+            <div class="flex items-start justify-between gap-3">
+              <div>
+                <p class="text-xs font-extrabold text-sub"></p>
+                <h2 class="mt-1 text-xl font-black tracking-tight">Bento Bistro</h2>
+                <p class="mt-1 text-sm text-sub">  �  12:00 � 00:00</p>
+              </div>
+              <span class="inline-flex h-10 w-10 items-center justify-center rounded-2xl bg-gradient-to-l from-amber-500 to-rose-500 text-white shadow-soft">
+                
+              </span>
+            </div>
+
+            <div class="mt-4 grid grid-cols-2 gap-3">
+              <div class="rounded-card bg-bg p-4 ring-1 ring-line">
+                <p class="text-xs font-extrabold text-sub"></p>
+                <a href="tel:+201000000000" class="mt-1 block text-sm font-black hover:underline">+20 10 0000 0000</a>
+              </div>
+              <div class="rounded-card bg-bg p-4 ring-1 ring-line">
+                <p class="text-xs font-extrabold text-sub"></p>
+                <a href="#order" class="mt-1 block text-sm font-black hover:underline"> </a>
+              </div>
+            </div>
+
+            <div class="mt-3 rounded-card bg-gradient-to-l from-sky-50 via-white to-emerald-50 p-4 ring-1 ring-line">
+              <div class="flex items-center justify-between">
+                <p class="text-sm font-black"> </p>
+                <span class="rounded-full bg-white px-3 py-1 text-xs font-extrabold text-sub ring-1 ring-line">-10%</span>
+              </div>
+              <p class="mt-1 text-sm text-sub">   300</p>
+            </div>
+          </aside>
+        </div>
+      </header>
+
+      <!-- Bento Menu Grid -->
+      <section class="grid grid-cols-1 gap-4 sm:gap-5 lg:grid-cols-12">
+        <!-- MAIN DISHES -->
+        <section id="main" class="lg:col-span-12">
+          <div class="mb-3 flex items-end justify-between gap-3 px-1">
+            <div>
+              <h3 class="text-xl font-black tracking-tight sm:text-2xl">  </h3>
+              <p class="mt-1 text-sm font-semibold text-sub">   placeholders  .</p>
+            </div>
+            <span class="hidden sm:inline-flex items-center gap-2 rounded-full bg-white/80 px-4 py-2 text-xs font-extrabold text-sub ring-1 ring-line backdrop-blur">
+              <span class="h-2 w-2 rounded-full bg-sky-500"></span>  
+            </span>
+          </div>
+
+          <div class="grid grid-cols-1 gap-4 sm:gap-5 lg:grid-cols-12">
+            <!-- Featured main dish (big) -->
+            <article class="group overflow-hidden rounded-card bg-white shadow-soft ring-1 ring-black/5 transition hover:-translate-y-0.5 hover:shadow-lift lg:col-span-7">
+              <div class="relative">
+                <div
+                  class="h-56 w-full bg-[radial-gradient(circle_at_20%_10%,rgba(255,255,255,0.55),transparent_55%),linear-gradient(135deg,rgba(16,185,129,0.75),rgba(59,130,246,0.75),rgba(168,85,247,0.75))]"
+                ></div>
+                <div class="absolute inset-0 bg-[linear-gradient(to_top,rgba(11,18,32,0.55),transparent_55%)]"></div>
+                <div class="absolute bottom-4 left-4 right-4">
+                  <div class="flex items-center justify-between gap-3">
+                    <div class="flex items-center gap-2">
+                      <span class="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-white/90 text-xl shadow-soft"></span>
+                      <div>
+                        <p class="text-white/90 text-xs font-extrabold">Chef�s Special</p>
+                        <h4 class="text-white text-lg font-black tracking-tight">  </h4>
+                      </div>
+                    </div>
+                    <p class="rounded-full bg-white/90 px-4 py-2 text-sm font-black text-ink shadow-soft">240</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="p-5 sm:p-6">
+                <p class="text-sub font-semibold">
+                           .
+                </p>
+                <div class="mt-4 flex flex-wrap gap-2">
+                  <span class="rounded-full bg-rose-50 px-3 py-1 text-xs font-extrabold text-rose-700 ring-1 ring-rose-200"></span>
+                  <span class="rounded-full bg-amber-50 px-3 py-1 text-xs font-extrabold text-amber-700 ring-1 ring-amber-200"></span>
+                  <span class="rounded-full bg-emerald-50 px-3 py-1 text-xs font-extrabold text-emerald-700 ring-1 ring-emerald-200"></span>
+                </div>
+              </div>
+            </article>
+
+            <!-- Two medium cards -->
+            <article class="group overflow-hidden rounded-card bg-white shadow-soft ring-1 ring-black/5 transition hover:-translate-y-0.5 hover:shadow-lift lg:col-span-5">
+              <div class="relative">
+                <div class="h-40 w-full bg-[radial-gradient(circle_at_30%_20%,rgba(255,255,255,0.55),transparent_60%),linear-gradient(135deg,rgba(249,115,22,0.75),rgba(244,63,94,0.72))]"></div>
+                <div class="absolute top-4 right-4 inline-flex items-center gap-2 rounded-full bg-white/90 px-3 py-1 text-xs font-extrabold text-ink ring-1 ring-black/5">
+                  <span class="inline-flex h-6 w-6 items-center justify-center rounded-full bg-amber-100 text-amber-700"></span>
+                   
+                </div>
+              </div>
+              <div class="p-5 sm:p-6">
+                <div class="flex items-start justify-between gap-4">
+                  <div>
+                    <h4 class="text-lg font-black">  </h4>
+                    <p class="mt-1 text-sm font-semibold text-sub">   .</p>
+                  </div>
+                  <p class="whitespace-nowrap rounded-full bg-bg px-4 py-2 text-sm font-black ring-1 ring-line">155</p>
+                </div>
+                <div class="mt-4 flex flex-wrap gap-2">
+                  <span class="rounded-full bg-sky-50 px-3 py-1 text-xs font-extrabold text-sky-700 ring-1 ring-sky-200"></span>
+                  <span class="rounded-full bg-emerald-50 px-3 py-1 text-xs font-extrabold text-emerald-700 ring-1 ring-emerald-200"></span>
+                </div>
+              </div>
+            </article>
+
+            <article class="group overflow-hidden rounded-card bg-white shadow-soft ring-1 ring-black/5 transition hover:-translate-y-0.5 hover:shadow-lift lg:col-span-4">
+              <div class="relative">
+                <div class="h-40 w-full bg-[radial-gradient(circle_at_20%_20%,rgba(255,255,255,0.55),transparent_60%),linear-gradient(135deg,rgba(59,130,246,0.75),rgba(16,185,129,0.72))]"></div>
+                <div class="absolute -bottom-5 right-5 inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-white shadow-soft ring-1 ring-black/5">
+                  <span class="text-xl"></span>
+                </div>
+              </div>
+              <div class="p-5 sm:p-6">
+                <div class="flex items-start justify-between gap-4">
+                  <div>
+                    <h4 class="text-lg font-black"> </h4>
+                    <p class="mt-1 text-sm font-semibold text-sub">  .</p>
+                  </div>
+                  <p class="whitespace-nowrap rounded-full bg-bg px-4 py-2 text-sm font-black ring-1 ring-line">125</p>
+                </div>
+                <div class="mt-4 flex flex-wrap gap-2">
+                  <span class="rounded-full bg-fuchsia-50 px-3 py-1 text-xs font-extrabold text-fuchsia-700 ring-1 ring-fuchsia-200"> </span>
+                </div>
+              </div>
+            </article>
+
+            <article class="group overflow-hidden rounded-card bg-white shadow-soft ring-1 ring-black/5 transition hover:-translate-y-0.5 hover:shadow-lift lg:col-span-4">
+              <div class="relative">
+                <div class="h-40 w-full bg-[radial-gradient(circle_at_30%_15%,rgba(255,255,255,0.55),transparent_60%),linear-gradient(135deg,rgba(168,85,247,0.75),rgba(236,72,153,0.72))]"></div>
+                <div class="absolute -bottom-5 right-5 inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-white shadow-soft ring-1 ring-black/5">
+                  <span class="text-xl"></span>
+                </div>
+              </div>
+              <div class="p-5 sm:p-6">
+                <div class="flex items-start justify-between gap-4">
+                  <div>
+                    <h4 class="text-lg font-black">  </h4>
+                    <p class="mt-1 text-sm font-semibold text-sub">  .</p>
+                  </div>
+                  <p class="whitespace-nowrap rounded-full bg-bg px-4 py-2 text-sm font-black ring-1 ring-line">140</p>
+                </div>
+                <div class="mt-4 flex flex-wrap gap-2">
+                  <span class="rounded-full bg-emerald-50 px-3 py-1 text-xs font-extrabold text-emerald-700 ring-1 ring-emerald-200"></span>
+                  <span class="rounded-full bg-amber-50 px-3 py-1 text-xs font-extrabold text-amber-700 ring-1 ring-amber-200"></span>
+                </div>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <!-- APPETIZERS -->
+        <section id="apps" class="lg:col-span-7">
+          <div class="mb-3 flex items-end justify-between gap-3 px-1">
+            <div>
+              <h3 class="text-xl font-black tracking-tight sm:text-2xl"> </h3>
+              <p class="mt-1 text-sm font-semibold text-sub">    .</p>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+            <article class="group overflow-hidden rounded-card bg-white shadow-soft ring-1 ring-black/5 transition hover:-translate-y-0.5 hover:shadow-lift">
+              <div class="relative">
+                <div class="h-36 w-full bg-[radial-gradient(circle_at_20%_15%,rgba(255,255,255,0.55),transparent_60%),linear-gradient(135deg,rgba(34,197,94,0.75),rgba(16,185,129,0.55))]"></div>
+                <div class="absolute top-4 right-4 inline-flex items-center gap-2 rounded-full bg-white/90 px-3 py-1 text-xs font-extrabold text-ink ring-1 ring-black/5">
+                  <span class="inline-flex h-6 w-6 items-center justify-center rounded-full bg-emerald-100 text-emerald-700"></span>
+                  
+                </div>
+              </div>
+              <div class="p-5">
+                <div class="flex items-start justify-between gap-4">
+                  <div>
+                    <h4 class="text-base font-black"> </h4>
+                    <p class="mt-1 text-sm font-semibold text-sub">  .</p>
+                  </div>
+                  <p class="whitespace-nowrap rounded-full bg-bg px-4 py-2 text-sm font-black ring-1 ring-line">45</p>
+                </div>
+              </div>
+            </article>
+
+            <article class="group overflow-hidden rounded-card bg-white shadow-soft ring-1 ring-black/5 transition hover:-translate-y-0.5 hover:shadow-lift">
+              <div class="relative">
+                <div class="h-36 w-full bg-[radial-gradient(circle_at_25%_15%,rgba(255,255,255,0.55),transparent_60%),linear-gradient(135deg,rgba(249,115,22,0.75),rgba(251,191,36,0.60))]"></div>
+                <div class="absolute -bottom-5 right-5 inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-white shadow-soft ring-1 ring-black/5">
+                  <span class="text-xl"></span>
+                </div>
+              </div>
+              <div class="p-5">
+                <div class="flex items-start justify-between gap-4">
+                  <div>
+                    <h4 class="text-base font-black"> </h4>
+                    <p class="mt-1 text-sm font-semibold text-sub"> .</p>
+                  </div>
+                  <p class="whitespace-nowrap rounded-full bg-bg px-4 py-2 text-sm font-black ring-1 ring-line">50</p>
+                </div>
+              </div>
+            </article>
+
+            <article class="group overflow-hidden rounded-card bg-white shadow-soft ring-1 ring-black/5 transition hover:-translate-y-0.5 hover:shadow-lift sm:col-span-2">
+              <div class="relative">
+                <div class="h-40 w-full bg-[radial-gradient(circle_at_25%_15%,rgba(255,255,255,0.55),transparent_60%),linear-gradient(135deg,rgba(59,130,246,0.75),rgba(168,85,247,0.65))]"></div>
+                <div class="absolute inset-0 bg-[linear-gradient(to_top,rgba(11,18,32,0.40),transparent_60%)]"></div>
+                <div class="absolute bottom-4 left-4 right-4">
+                  <div class="flex items-end justify-between gap-4">
+                    <div class="flex items-center gap-2">
+                      <span class="inline-flex h-10 w-10 items-center justify-center rounded-2xl bg-white/90 shadow-soft"></span>
+                      <div>
+                        <p class="text-white/90 text-xs font-extrabold">Best Pairing</p>
+                        <h4 class="text-white text-lg font-black tracking-tight">  </h4>
+                      </div>
+                    </div>
+                    <p class="rounded-full bg-white/90 px-4 py-2 text-sm font-black text-ink shadow-soft">65</p>
+                  </div>
+                </div>
+              </div>
+              <div class="p-5">
+                <p class="text-sm font-semibold text-sub">     .</p>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <!-- DESSERTS -->
+        <section id="desserts" class="lg:col-span-5">
+          <div class="mb-3 flex items-end justify-between gap-3 px-1">
+            <div>
+              <h3 class="text-xl font-black tracking-tight sm:text-2xl"> </h3>
+              <p class="mt-1 text-sm font-semibold text-sub">   .</p>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 gap-4">
+            <article class="group overflow-hidden rounded-card bg-white shadow-soft ring-1 ring-black/5 transition hover:-translate-y-0.5 hover:shadow-lift">
+              <div class="relative">
+                <div class="h-40 w-full bg-[radial-gradient(circle_at_25%_20%,rgba(255,255,255,0.55),transparent_60%),linear-gradient(135deg,rgba(236,72,153,0.70),rgba(168,85,247,0.68))]"></div>
+                <div class="absolute -bottom-5 right-5 inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-white shadow-soft ring-1 ring-black/5">
+                  <span class="text-xl"></span>
+                </div>
+              </div>
+              <div class="p-5">
+                <div class="flex items-start justify-between gap-4">
+                  <div>
+                    <h4 class="text-base font-black">  </h4>
+                    <p class="mt-1 text-sm font-semibold text-sub">  .</p>
+                  </div>
+                  <p class="whitespace-nowrap rounded-full bg-bg px-4 py-2 text-sm font-black ring-1 ring-line">75</p>
+                </div>
+              </div>
+            </article>
+
+            <article class="group overflow-hidden rounded-card bg-white shadow-soft ring-1 ring-black/5 transition hover:-translate-y-0.5 hover:shadow-lift">
+              <div class="relative">
+                <div class="h-40 w-full bg-[radial-gradient(circle_at_25%_20%,rgba(255,255,255,0.55),transparent_60%),linear-gradient(135deg,rgba(251,191,36,0.70),rgba(249,115,22,0.66))]"></div>
+                <div class="absolute -bottom-5 right-5 inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-white shadow-soft ring-1 ring-black/5">
+                  <span class="text-xl"></span>
+                </div>
+              </div>
+              <div class="p-5">
+                <div class="flex items-start justify-between gap-4">
+                  <div>
+                    <h4 class="text-base font-black">  </h4>
+                    <p class="mt-1 text-sm font-semibold text-sub"> .</p>
+                  </div>
+                  <p class="whitespace-nowrap rounded-full bg-bg px-4 py-2 text-sm font-black ring-1 ring-line">70</p>
+                </div>
+              </div>
+            </article>
+
+            <!-- CTA Card -->
+            <article id="order" class="overflow-hidden rounded-card bg-white shadow-soft ring-1 ring-black/5">
+              <div class="p-5 sm:p-6">
+                <div class="flex items-start justify-between gap-4">
+                  <div>
+                    <h4 class="text-lg font-black tracking-tight"> </h4>
+                    <p class="mt-1 text-sm font-semibold text-sub">
+                       � �    .
+                    </p>
+                  </div>
+                  <span class="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-l from-emerald-600 to-sky-600 text-white shadow-soft">
+                    
+                  </span>
+                </div>
+
+                <div class="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2">
+                  <a
+                    href="https://wa.me/201000000000?text=%D8%A3%D9%87%D9%84%D8%A7%D9%8B%20%D8%A3%D8%B1%D9%8A%D8%AF%20%D8%A7%D9%84%D8%B7%D9%84%D8%A8%20%D9%85%D9%86%20%D8%A7%D9%84%D9%85%D9%86%D9%8A%D9%88"
+                    class="inline-flex items-center justify-center gap-2 rounded-full bg-emerald-600 px-5 py-3 text-sm font-black text-white shadow-soft transition hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 focus:ring-offset-white"
+                    rel="noopener"
+                    target="_blank"
+                  >
+                    
+                    <span aria-hidden="true"></span>
+                  </a>
+                  <a
+                    href="tel:+201000000000"
+                    class="inline-flex items-center justify-center gap-2 rounded-full bg-white px-5 py-3 text-sm font-black text-ink ring-1 ring-line transition hover:bg-bg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2 focus:ring-offset-white"
+                  >
+                    
+                    <span aria-hidden="true"></span>
+                  </a>
+                </div>
+
+                <p class="mt-4 text-xs font-semibold text-sub">
+                  *   placeholders ( )     .
+                </p>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="lg:col-span-12">
+          <div class="rounded-card bg-white/85 p-5 shadow-soft ring-1 ring-black/5 backdrop-blur sm:p-6">
+            <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+              <p class="text-sm font-semibold text-sub">
+                � <span id="year"></span> Bento Bistro � Single Page Menu (Bento Grid).
+              </p>
+              <div class="flex flex-wrap items-center gap-2">
+                <span class="rounded-full bg-bg px-3 py-1 text-xs font-extrabold text-sub ring-1 ring-line">  </span>
+                <span class="rounded-full bg-bg px-3 py-1 text-xs font-extrabold text-sub ring-1 ring-line">  </span>
+                <span class="rounded-full bg-bg px-3 py-1 text-xs font-extrabold text-sub ring-1 ring-line">  </span>
+              </div>
+            </div>
+          </div>
+        </footer>
+      </section>
+    </main>
+
+    <!-- Floating CTA (mobile) -->
+    <a
+      href="#order"
+      class="fixed bottom-5 left-5 right-5 z-50 mx-auto flex max-w-md items-center justify-center gap-2 rounded-full bg-gradient-to-l from-emerald-600 via-sky-600 to-fuchsia-600 px-6 py-4 text-sm font-black text-white shadow-lift transition hover:brightness-105 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2 focus:ring-offset-white sm:hidden"
+    >
+       
+      <span aria-hidden="true"></span>
+    </a>
+
+    <script>
+      document.getElementById("year").textContent = new Date().getFullYear();
+    </script>
+  </body>
 </html>
