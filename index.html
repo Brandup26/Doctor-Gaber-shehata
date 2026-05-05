@@ -1,374 +1,437 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <title>معمل الدكتور جابر شحاتة | أحدث نظام تحاليل</title>
-  <!-- Tailwind CSS CDN -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Lucide Icons -->
-  <script src="https://unpkg.com/lucide@latest"></script>
-  <!-- Google Fonts: Tajawal -->
-  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
-  <!-- AOS Library -->
-  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-    body {
-      font-family: 'Tajawal', 'Noto Kufi Arabic', sans-serif;
-      background-color: #0a0a0f;
-      color: #f0eef7;
-      overflow-x: hidden;
-      scroll-behavior: smooth;
-    }
-    /* NEON PURPLE / VIOLET COLOR SCHEME */
-    .neon-text {
-      text-shadow: 0 0 5px #c084fc, 0 0 10px #a855f7, 0 0 20px #9333ea;
-    }
-    .neon-border {
-      box-shadow: 0 0 8px #c084fc, 0 0 15px #a855f7;
-      transition: all 0.3s ease;
-    }
-    .glass-card {
-      background: rgba(25, 20, 35, 0.65);
-      backdrop-filter: blur(14px);
-      border: 1px solid rgba(192, 132, 252, 0.35);
-      border-radius: 1.5rem;
-      transition: transform 0.3s ease, border-color 0.2s;
-    }
-    .glass-card:hover {
-      border-color: #c084fc;
-      transform: translateY(-5px);
-    }
-    .btn-neon {
-      background: linear-gradient(90deg, #a855f7, #7e22ce);
-      transition: all 0.25s ease;
-      background-size: 200% auto;
-    }
-    .btn-neon:hover {
-      background-position: right center;
-      box-shadow: 0 0 14px #c084fc;
-    }
-    .input-glass {
-      background: rgba(30, 20, 45, 0.7);
-      border: 1px solid rgba(168, 85, 247, 0.5);
-      backdrop-filter: blur(4px);
-      border-radius: 1rem;
-      padding: 0.6rem 1rem;
-      color: #f0eef7;
-    }
-    .input-glass:focus {
-      outline: none;
-      border-color: #d8b4fe;
-      box-shadow: 0 0 12px #a855f7;
-    }
-    /* Side drawer (3 lines menu) */
-    .side-drawer {
-      position: fixed;
-      top: 0;
-      right: -340px;
-      width: 320px;
-      height: 100vh;
-      z-index: 1000;
-      transition: right 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
-      backdrop-filter: blur(24px);
-      background: rgba(10, 8, 20, 0.96);
-      border-left: 1px solid #b77cff;
-      box-shadow: -8px 0 30px rgba(0, 0, 0, 0.6);
-    }
-    .side-drawer.open {
-      right: 0;
-    }
-    .drawer-overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.6);
-      backdrop-filter: blur(3px);
-      z-index: 999;
-      display: none;
-    }
-    .drawer-overlay.active {
-      display: block;
-    }
-    .badge-time {
-      background: #2e1a4a;
-      color: #e9c0ff;
-      border-radius: 40px;
-      padding: 0.2rem 0.9rem;
-      font-size: 0.7rem;
-      font-weight: bold;
-      display: inline-block;
-    }
-    .glass-table {
-      background: rgba(20, 15, 30, 0.65);
-      backdrop-filter: blur(8px);
-      width: 100%;
-      border-collapse: separate;
-      border-spacing: 0;
-      border-radius: 1rem;
-      overflow: hidden;
-    }
-    .glass-table th {
-      background: rgba(139, 92, 246, 0.25);
-      padding: 1rem;
-      color: #e9c4ff;
-      font-weight: 700;
-    }
-    .glass-table td {
-      padding: 0.8rem 1rem;
-      border-bottom: 1px solid rgba(168, 85, 247, 0.2);
-    }
-    ::-webkit-scrollbar {
-      width: 5px;
-    }
-    ::-webkit-scrollbar-track {
-      background: #19152a;
-    }
-    ::-webkit-scrollbar-thumb {
-      background: #a855f7;
-      border-radius: 20px;
-    }
-    html {
-      scroll-padding-top: 80px;
-    }
-  </style>
-</head>
-<body>
+// app/page.tsx - ملف واحد يحتوي على كل صفحات الموقع (Full Website in One File)
+"use client";
 
-  <!-- Side Drawer (ثلاث خطوط) - يحتوي على حول المعمل، نصائح، قائمة التحاليل، الباقات -->
-  <div id="drawerOverlay" class="drawer-overlay"></div>
-  <div id="sideDrawer" class="side-drawer p-6 overflow-y-auto flex flex-col">
-    <div class="flex justify-between items-center pb-5 border-b border-purple-500/40 mb-5">
-      <span class="text-2xl font-black bg-gradient-to-l from-purple-300 to-indigo-400 bg-clip-text text-transparent">☰ القائمة</span>
-      <button id="closeDrawerBtn" class="text-purple-300 hover:text-white"><i data-lucide="x" class="w-6 h-6"></i></button>
-    </div>
-    <div class="flex-1 space-y-6">
-      <a href="#about-lab" class="drawer-link flex items-center gap-3 text-lg hover:text-purple-300 transition p-2 rounded-xl hover:bg-purple-900/20"><i data-lucide="building-2" class="w-5 h-5"></i> حول المعمل</a>
-      <a href="#health-tips" class="drawer-link flex items-center gap-3 text-lg hover:text-purple-300 transition p-2 rounded-xl hover:bg-purple-900/20"><i data-lucide="stethoscope" class="w-5 h-5"></i> نصائح طبية</a>
-      <a href="#all-tests-page" class="drawer-link flex items-center gap-3 text-lg hover:text-purple-300 transition p-2 rounded-xl hover:bg-purple-900/20"><i data-lucide="list-checks" class="w-5 h-5"></i> قائمة التحاليل (كل التحاليل)</a>
-      <a href="#packages-page" class="drawer-link flex items-center gap-3 text-lg hover:text-purple-300 transition p-2 rounded-xl hover:bg-purple-900/20"><i data-lucide="gift" class="w-5 h-5"></i> الباقات الشاملة</a>
-      <a href="#home-service" class="drawer-link flex items-center gap-3 text-lg hover:text-purple-300 transition p-2 rounded-xl hover:bg-purple-900/20"><i data-lucide="truck" class="w-5 h-5"></i> الزيارة المنزلية</a>
-    </div>
-    <div class="mt-10 pt-5 border-t border-purple-500/30 text-sm text-gray-300">
-      <div class="flex items-center gap-2"><i data-lucide="phone" class="w-4 h-4"></i> <span dir="ltr">01015090991</span></div>
-      <div class="flex items-center gap-2 mt-2"><i data-lucide="map-pin" class="w-4 h-4"></i> أبو المطامير - مساكن الإرشاد</div>
-    </div>
-  </div>
+import { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import {
+  Menu,
+  X,
+  FlaskConical,
+  Home,
+  Microscope,
+  Calendar,
+  FileText,
+  User,
+  ChevronLeft,
+  Shield,
+  Clock,
+  Award,
+  Phone,
+  Mail,
+  MapPin,
+  Activity,
+  Heart,
+  Brain,
+  Stethoscope,
+  Sparkles,
+  Star,
+  CheckCircle,
+  Search,
+  Droplet,
+  Eye,
+  ThumbsUp,
+  Filter,
+  ChevronDown,
+  ArrowRight,
+  Syringe,
+  MessageSquare,
+  Send,
+  Facebook,
+  Twitter,
+  Instagram,
+  Linkedin,
+  AlertCircle
+} from "lucide-react";
 
-  <!-- Top bar + navbar -->
-  <div class="sticky top-0 z-40 backdrop-blur-xl bg-black/40 border-b border-purple-500/30">
-    <div class="hidden md:flex justify-between items-center px-6 py-2 text-sm text-purple-200/80">
-      <div class="flex gap-5"><span dir="ltr">📞 01015090991</span> <span>📍 أبو المطامير - مساكن الإرشاد أمام النيابة الإدارية</span></div>
-      <button id="resultsPortalBtn" class="bg-purple-800/40 px-4 py-1 rounded-full flex items-center gap-1 text-sm border border-purple-400/40"><i data-lucide="flask-conical" class="w-4 h-4"></i> بوابة النتائج</button>
-    </div>
-    <nav class="px-6 py-3 flex justify-between items-center">
-      <div class="flex items-center gap-3">
-        <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-purple-500 to-indigo-600 flex items-center justify-center shadow-md"><i data-lucide="microscope" class="w-5 h-5 text-white"></i></div>
-        <span class="text-xl font-extrabold bg-gradient-to-l from-purple-300 to-indigo-300 bg-clip-text text-transparent">معمل د. جابر شحاتة</span>
-      </div>
-      <div class="flex items-center gap-3">
-        <button id="hamburgerBtn" class="relative w-8 h-8 flex flex-col justify-center items-center gap-1.5 focus:outline-none">
-          <span class="w-6 h-0.5 bg-purple-400 rounded-full"></span>
-          <span class="w-6 h-0.5 bg-purple-400 rounded-full"></span>
-          <span class="w-6 h-0.5 bg-purple-400 rounded-full"></span>
-        </button>
-      </div>
-    </nav>
-  </div>
+export default function FullMedicalLabWebsite() {
+  // ========== STATES ==========
+  const [scrolled, setScrolled] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [currentPage, setCurrentPage] = useState<"home" | "tests" | "appointments" | "contact">("home");
+  
+  // Tests Page States
+  const [searchQuery, setSearchQuery] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("الكل");
+  const [showFilters, setShowFilters] = useState(false);
+  
+  // Appointments Page States
+  const [appointmentStep, setAppointmentStep] = useState(1);
+  const [appointmentSubmitted, setAppointmentSubmitted] = useState(false);
+  const [appointmentForm, setAppointmentForm] = useState({
+    name: "", phone: "", email: "", testType: "", date: "", time: "", serviceType: "home", address: ""
+  });
+  
+  // Contact Page States
+  const [contactSubmitted, setContactSubmitted] = useState(false);
+  const [contactForm, setContactForm] = useState({ name: "", phone: "", email: "", subject: "", message: "" });
 
-  <!-- HERO Section (الرئيسية فقط مبسطة) -->
-  <section class="pt-12 pb-12 px-6 md:px-12">
-    <div class="max-w-7xl mx-auto flex flex-col md:flex-row gap-10 items-center">
-      <div data-aos="fade-up">
-        <div class="inline-flex px-3 py-1 rounded-full bg-purple-500/20 border border-purple-400/50 text-purple-200 text-sm mb-4">⚡ دقة لا تضاهى</div>
-        <h1 class="text-4xl md:text-6xl font-black leading-tight"><span class="bg-gradient-to-l from-white via-purple-100 to-purple-300 bg-clip-text text-transparent">معمل الدكتور</span><br><span class="neon-text text-purple-300">جابر شحاتة</span></h1>
-        <p class="text-gray-300 my-5 max-w-lg">تحاليل دقيقة، أحدث التقنيات المخبرية، وأسعار تنافسية مع خدمة سحب منزلي مريحة.</p>
-        <button id="exploreDrawerBtn" class="btn-neon px-7 py-2.5 rounded-full text-white font-bold shadow-xl flex gap-2 items-center"><i data-lucide="menu"></i> استكشف الخدمات (القائمة)</button>
-      </div>
-      <img src="https://images.unsplash.com/photo-1579684385127-1ef15d5088b2?w=500&auto=format" class="rounded-2xl shadow-2xl max-w-sm border border-purple-400/40 glass-card p-1">
-    </div>
-  </section>
+  useEffect(() => {
+    const handleScroll = () => setScrolled(window.scrollY > 20);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
-  <!-- حول المعمل + نصائح (تبقى في الصفحة الرئيسية كواجهة) -->
-  <section id="about-lab" class="px-6 md:px-12 py-6">
-    <div class="max-w-7xl mx-auto grid md:grid-cols-2 gap-8">
-      <div class="glass-card p-6" data-aos="fade-right">
-        <div class="flex items-center gap-2 text-purple-300 font-bold text-xl"><i data-lucide="building-2"></i> حول المعمل</div>
-        <p class="mt-3 leading-relaxed">معمل الدكتور جابر شحاتة للتحاليل الطبية، يقع في أبو المطامير مساكن الإرشاد، أمام النيابة الإدارية. نعتمد على أحدث الأجهزة الإلكترونية ونظام رقمي متكامل لضمان السرعة والدقة. جميع التحاليل معتمدة ونتائج فائقة الوضوح.</p>
-      </div>
-      <div id="health-tips" class="glass-card p-6" data-aos="fade-left">
-        <div class="flex items-center gap-2 text-purple-300 font-bold text-xl"><i data-lucide="heart"></i> نصائح طبية</div>
-        <ul class="mt-3 space-y-2 pr-5 list-disc">
-          <li>📅 إجراء التحاليل الدورية كل عام للاطمئنان</li>
-          <li>🥤 الصيام 8-12 ساعة قبل تحليل السكر والدهون</li>
-          <li>💧 شرب الماء قبل سحب العينة يسهل العملية</li>
-          <li>📱 بوابة النتائج متاحة 24 ساعة لمتابعة التحاليل</li>
-        </ul>
-      </div>
-    </div>
-  </section>
+  // ========== DATA ==========
+  const navLinks = [
+    { name: "الرئيسية", id: "home" as const, icon: Home },
+    { name: "قائمة التحاليل", id: "tests" as const, icon: Microscope },
+    { name: "حجز موعد", id: "appointments" as const, icon: Calendar },
+    { name: "اتصل بنا", id: "contact" as const, icon: Phone },
+  ];
 
-  <!-- صفحة منفصلة: قائمة التحاليل (كل التحاليف بالأسعار والمدة) ولكن تظهر كقسم inline لكن بمعزل في التصفح -->
-  <section id="all-tests-page" class="py-14 px-6 md:px-12 bg-black/30 mt-6">
-    <div class="max-w-7xl mx-auto" data-aos="fade-up">
-      <div class="text-center mb-8"><h2 class="text-4xl font-extrabold"><span class="text-purple-300 neon-text">📋 قائمة التحاليل</span> الشاملة</h2><div class="w-24 h-1 bg-purple-500 mx-auto mt-2 rounded-full"></div><p class="text-gray-300 mt-2">جميع التحاليل الطبية مع أسعارها ومدة ظهور النتيجة</p></div>
-      <div class="overflow-x-auto rounded-xl glass-card p-0.5">
-        <table class="glass-table w-full text-right">
-          <thead><tr><th class="p-3">التحليل</th><th>السعر (جنية)</th><th>مدة النتيجة</th></tr></thead>
-          <tbody>
-            <tr><td class="p-3">صورة دم كاملة CBC</td><td>120</td><td><span class="badge-time">ساعتان</span></td></tr>
-            <tr><td class="p-3">وظائف كبد (ALT - AST)</td><td>180</td><td><span class="badge-time">4 ساعات</span></td></tr>
-            <tr><td class="p-3">وظائف كلى (يوريا - كرياتينين)</td><td>150</td><td><span class="badge-time">3 ساعات</span></td></tr>
-            <tr><td class="p-3">فيتامين د (Vitamin D)</td><td>250</td><td><span class="badge-time">6 ساعات</span></td></tr>
-            <tr><td class="p-3">فيتامين ب12</td><td>200</td><td><span class="badge-time">6 ساعات</span></td></tr>
-            <tr><td class="p-3">هرمون الغدة الدرقية TSH</td><td>160</td><td><span class="badge-time">4 ساعات</span></td></tr>
-            <tr><td class="p-3">T3 - T4 (كامل)</td><td>280</td><td><span class="badge-time">5 ساعات</span></td></tr>
-            <tr><td class="p-3">سكر صائم/فاطر</td><td>50</td><td><span class="badge-time">ساعة</span></td></tr>
-            <tr><td class="p-3">سكر تراكمي HbA1c</td><td>180</td><td><span class="badge-time">3 ساعات</span></td></tr>
-            <tr><td class="p-3">دهون ثلاثية و كوليسترول كامل</td><td>220</td><td><span class="badge-time">4 ساعات</span></td></tr>
-            <tr><td class="p-3">HDL / LDL</td><td>140</td><td><span class="badge-time">4 ساعات</span></td></tr>
-            <tr><td class="p-3">حديد & فيريتين</td><td>210</td><td><span class="badge-time">5 ساعات</span></td></tr>
-            <tr><td class="p-3">هرمون الحليب Prolactin</td><td>190</td><td><span class="badge-time">6 ساعات</span></td></tr>
-            <tr><td class="p-3">هرمون الذكورة Testosterone</td><td>250</td><td><span class="badge-time">8 ساعات</span></td></tr>
-            <tr><td class="p-3">تحليل بول كامل</td><td>60</td><td><span class="badge-time">ساعة</span></td></tr>
-            <tr><td class="p-3">زراعة بول + حساسية</td><td>320</td><td><span class="badge-time">48 ساعة</span></td></tr>
-            <tr><td class="p-3">علامات أورام CA125</td><td>400</td><td><span class="badge-time">24 ساعة</span></td></tr>
-            <tr><td class="p-3">علامات أورام البروستاتا PSA</td><td>380</td><td><span class="badge-time">24 ساعة</span></td></tr>
-            <tr><td class="p-3">الإنزيمات القلبية Troponin</td><td>500</td><td><span class="badge-time">ساعتان</span></td></tr>
-            <tr><td class="p-3">سرعة الترسيب ESR</td><td>70</td><td><span class="badge-time">ساعتان</span></td></tr>
-          </tbody>
-        </table>
-        <p class="text-xs text-center text-purple-300/60 p-3">*أكثر من 40 تحليلاً متوفراً (للاستفسار اتصل 01015090991) *</p>
-      </div>
-    </div>
-  </section>
+  const stats = [
+    { value: "+٥٠,٠٠٠", label: "مريض وثقوا بنا", icon: User, color: "from-blue-500 to-cyan-500" },
+    { value: "٩٩.٧%", label: "دقة النتائج", icon: Activity, color: "from-emerald-500 to-teal-500" },
+    { value: "٢٤/٧", label: "دعم فني", icon: Clock, color: "from-purple-500 to-pink-500" },
+    { value: "معتمد", label: "NABL + ISO", icon: Award, color: "from-amber-500 to-orange-500" },
+  ];
 
-  <!-- قسم الباقات الشاملة (منفصل تماماً عن باقي العناصر) -->
-  <section id="packages-page" class="py-16 px-6 md:px-12">
-    <div class="max-w-7xl mx-auto">
-      <div class="text-center mb-10"><h2 class="text-4xl font-black"><span class="text-purple-300">🎁 باقات شاملة</span> مخبرية VIP</h2><div class="w-20 h-1 bg-purple-500 mx-auto mt-2"></div></div>
-      <div class="grid md:grid-cols-3 gap-8">
-        <div class="glass-card p-6 text-center" data-aos="flip-up">
-          <i data-lucide="shield" class="w-12 h-12 text-purple-300 mx-auto mb-3"></i>
-          <h3 class="text-2xl font-bold">الباقة الأساسية</h3>
-          <p class="text-sm text-gray-300 my-2">CBC + سكر صائم + وظائف كبد وكلى + دهون</p>
-          <div class="text-3xl font-extrabold text-purple-300 my-3">499 ج</div>
-          <button class="pkg-btn bg-purple-800/40 border border-purple-400 w-full py-2 rounded-xl hover:bg-purple-600 transition" data-pkg="الباقة الأساسية - 499 ج">اختر الباقة</button>
+  const features = [
+    { icon: Sparkles, title: "نتائج دقيقة", desc: "أحدث التقنيات المخبرية العالمية", color: "text-blue-600", bg: "bg-blue-50" },
+    { icon: Clock, title: "سرعة فائقة", desc: "نتائج خلال ٢٤ ساعة", color: "text-emerald-600", bg: "bg-emerald-50" },
+    { icon: Home, title: "سحب منزلي", desc: "خدمة مجانية لجميع المناطق", color: "text-purple-600", bg: "bg-purple-50" },
+    { icon: Shield, title: "سرية تامة", desc: "نحمي خصوصية بياناتك", color: "text-amber-600", bg: "bg-amber-50" },
+  ];
+
+  const categories = ["الكل", "تحاليل الدم", "الهرمونات", "الفيتامينات", "القلب", "الكبد والكلى", "الغدة"];
+  
+  const tests = [
+    { id: 1, name: "صورة دم كاملة CBC", category: "تحاليل الدم", price: "١٢٠", time: "٤ ساعات", preparation: "صيام ٨ ساعات", popular: true },
+    { id: 2, name: "دهون ثلاثية Triglycerides", category: "تحاليل الدم", price: "٨٠", time: "٦ ساعات", preparation: "صيام ١٢ ساعة", popular: false },
+    { id: 3, name: "هرمون الغدة TSH", category: "الهرمونات", price: "١٠٠", time: "٢٤ ساعة", preparation: "بدون صيام", popular: true },
+    { id: 4, name: "فيتامين د Vitamin D", category: "الفيتامينات", price: "١٥٠", time: "٢٤ ساعة", preparation: "بدون صيام", popular: true },
+    { id: 5, name: "إنزيمات القلب Troponin", category: "القلب", price: "٢٠٠", time: "٣ ساعات", preparation: "بدون صيام", popular: false },
+    { id: 6, name: "وظائف الكبد LFT", category: "الكبد والكلى", price: "١٨٠", time: "٨ ساعات", preparation: "صيام ١٠ ساعات", popular: false },
+    { id: 7, name: "وظائف الكلى RFT", category: "الكبد والكلى", price: "١٦٠", time: "٨ ساعات", preparation: "صيام ٨ ساعات", popular: true },
+    { id: 8, name: "هرمون الحديد Ferritin", category: "الهرمونات", price: "١٣٠", time: "٢٤ ساعة", preparation: "صيام ٨ ساعات", popular: false },
+    { id: 9, name: "فيتامين ب ١٢ B12", category: "الفيتامينات", price: "١١٠", time: "٢٤ ساعة", preparation: "بدون صيام", popular: false },
+    { id: 10, name: "سكر تراكمي HbA1c", category: "تحاليل الدم", price: "٩٠", time: "٤ ساعات", preparation: "بدون صيام", popular: true },
+  ];
+
+  const timeSlots = ["٨:00 ص", "٩:00 ص", "١٠:00 ص", "١١:00 ص", "١٢:00 م", "١:00 م", "٢:00 م", "٣:00 م", "٤:00 م", "٥:00 م"];
+  const testOptions = ["صورة دم كاملة CBC", "دهون ثلاثية", "هرمون الغدة TSH", "فيتامين د", "وظائف الكبد", "وظائف الكلى", "سكر تراكمي", "تحليل بول كامل", "أخرى"];
+
+  const contactInfo = [
+    { icon: Phone, title: "اتصل بنا", details: ["٩٢٠٠٠٥٦٦٦", "٠١١ ٤٥٦ ٧٨٩٠"], color: "blue" },
+    { icon: Mail, title: "البريد الإلكتروني", details: ["info@medlab.com", "support@medlab.com"], color: "cyan" },
+    { icon: MapPin, title: "العنوان", details: ["الرياض - حي العليا", "برج العليا - الطابق ٥"], color: "green" },
+    { icon: Clock, title: "ساعات العمل", details: ["السبت - الخميس: ٨ص - ١٠م", "الجمعة: مغلق"], color: "purple" },
+  ];
+
+  const filteredTests = tests.filter(test => {
+    const matchesSearch = test.name.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesCategory = selectedCategory === "الكل" || test.category === selectedCategory;
+    return matchesSearch && matchesCategory;
+  });
+
+  const handleAppointmentSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (appointmentStep === 1) {
+      if (appointmentForm.name && appointmentForm.phone) setAppointmentStep(2);
+    } else if (appointmentStep === 2) {
+      if (appointmentForm.testType && appointmentForm.date && appointmentForm.time) setAppointmentStep(3);
+    } else if (appointmentStep === 3) {
+      if (appointmentForm.serviceType === "home" && !appointmentForm.address) return;
+      setAppointmentSubmitted(true);
+    }
+  };
+
+  const handleContactSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setContactSubmitted(true);
+    setTimeout(() => setContactSubmitted(false), 3000);
+    setContactForm({ name: "", phone: "", email: "", subject: "", message: "" });
+  };
+
+  // ========== RENDER PAGE CONTENT ==========
+  const renderPage = () => {
+    switch (currentPage) {
+      case "tests":
+        return (
+          <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50/30 pt-20">
+            <div className="bg-gradient-to-r from-blue-600 via-cyan-500 to-blue-600 text-white py-16">
+              <div className="max-w-7xl mx-auto px-4">
+                <button onClick={() => setCurrentPage("home")} className="inline-flex items-center gap-2 text-white/80 hover:text-white mb-6 transition">
+                  <ArrowRight className="w-4 h-4" /> العودة للرئيسية
+                </button>
+                <h1 className="text-3xl md:text-4xl font-bold mb-4">قائمة التحاليل الطبية</h1>
+                <p className="text-white/80 text-lg">اختر التحليل المناسب لك من بين أكثر من ٨٠٠ نوع</p>
+              </div>
+            </div>
+            <div className="max-w-7xl mx-auto px-4 py-12">
+              <div className="mb-8">
+                <div className="flex flex-col md:flex-row gap-4">
+                  <div className="flex-1 relative">
+                    <Search className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5" />
+                    <input type="text" placeholder="ابحث عن تحليل..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="w-full pr-12 pl-4 py-3 rounded-xl border border-gray-200 focus:border-blue-400 focus:outline-none bg-white" />
+                  </div>
+                  <button onClick={() => setShowFilters(!showFilters)} className="flex items-center justify-center gap-2 px-6 py-3 bg-white border rounded-xl hover:border-blue-400">
+                    <Filter className="w-5 h-5" /> تصفية <ChevronDown className={`w-4 h-4 transition-transform ${showFilters ? "rotate-180" : ""}`} />
+                  </button>
+                </div>
+                <div className={`mt-4 ${showFilters ? "block" : "hidden md:block"}`}>
+                  <div className="flex flex-wrap gap-2">
+                    {categories.map((cat) => (
+                      <button key={cat} onClick={() => setSelectedCategory(cat)} className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${selectedCategory === cat ? "bg-blue-600 text-white shadow-md" : "bg-white text-gray-600 hover:bg-gray-100 border"}`}>{cat}</button>
+                    ))}
+                  </div>
+                </div>
+              </div>
+              <div className="mb-6 text-gray-500 text-sm">عرض {filteredTests.length} من أصل {tests.length} تحليل</div>
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {filteredTests.map((test, idx) => (
+                  <motion.div key={test.id} initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: idx * 0.05 }} whileHover={{ y: -5 }} className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all p-6">
+                    <div className="flex justify-between items-start mb-3">
+                      <div className="flex items-center gap-2">
+                        {test.category === "تحاليل الدم" && <Droplet className="w-5 h-5 text-red-500" />}
+                        {test.category === "الهرمونات" && <Activity className="w-5 h-5 text-purple-500" />}
+                        {test.category === "الفيتامينات" && <Eye className="w-5 h-5 text-green-500" />}
+                        {test.category === "القلب" && <Heart className="w-5 h-5 text-rose-500" />}
+                        <span className="text-xs text-gray-400 bg-gray-100 px-2 py-0.5 rounded">{test.category}</span>
+                      </div>
+                      {test.popular && <span className="text-xs bg-amber-100 text-amber-700 px-2 py-0.5 rounded-full flex items-center gap-1"><ThumbsUp className="w-3 h-3" /> الأكثر طلباً</span>}
+                    </div>
+                    <h3 className="text-lg font-bold text-gray-800 mb-3">{test.name}</h3>
+                    <div className="space-y-2 mb-4">
+                      <div className="flex justify-between text-sm"><span className="text-gray-500">السعر:</span><span className="font-semibold text-blue-600">{test.price} ريال</span></div>
+                      <div className="flex justify-between text-sm"><span className="text-gray-500">مدة النتيجة:</span><span className="text-gray-700 flex items-center gap-1"><Clock className="w-3 h-3" />{test.time}</span></div>
+                      <div className="flex justify-between text-sm"><span className="text-gray-500">التحضير:</span><span className="text-gray-700">{test.preparation}</span></div>
+                    </div>
+                    <div className="flex gap-2 mt-4">
+                      <button onClick={() => { setCurrentPage("appointments"); setAppointmentForm({ ...appointmentForm, testType: test.name }); }} className="flex-1 bg-gradient-to-r from-blue-600 to-cyan-500 text-white py-2.5 rounded-xl font-semibold text-sm">اطلب التحليل</button>
+                      <button className="px-4 py-2.5 border rounded-xl text-gray-600 hover:border-blue-400">التفاصيل</button>
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
+              {filteredTests.length === 0 && <div className="text-center py-12"><p className="text-gray-500">لا توجد نتائج مطابقة لبحثك</p></div>}
+              <div className="mt-16 bg-gradient-to-r from-blue-50 to-cyan-50 rounded-2xl p-8 text-center">
+                <Stethoscope className="w-12 h-12 text-blue-600 mx-auto mb-4" />
+                <h3 className="text-2xl font-bold text-gray-800 mb-2">تحتاج مساعدة في اختيار التحليل المناسب؟</h3>
+                <p className="text-gray-600 mb-4">فريقنا الطبي جاهز لإرشادك</p>
+                <button onClick={() => setCurrentPage("contact")} className="bg-blue-600 text-white px-6 py-2.5 rounded-xl font-semibold">تواصل مع مستشار طبي</button>
+              </div>
+            </div>
+          </div>
+        );
+
+      case "appointments":
+        if (appointmentSubmitted) {
+          return (
+            <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50/30 flex items-center justify-center pt-20">
+              <div className="max-w-md mx-auto px-4 text-center">
+                <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6"><CheckCircle className="w-10 h-10 text-green-600" /></motion.div>
+                <h1 className="text-2xl font-bold text-gray-800 mb-3">تم إرسال طلبك بنجاح!</h1>
+                <p className="text-gray-600 mb-6">سيتواصل معك فريقنا خلال ٣٠ دقيقة لتأكيد الموعد</p>
+                <button onClick={() => { setCurrentPage("home"); setAppointmentSubmitted(false); setAppointmentStep(1); setAppointmentForm({ name: "", phone: "", email: "", testType: "", date: "", time: "", serviceType: "home", address: "" }); }} className="bg-blue-600 text-white px-6 py-3 rounded-xl font-semibold">العودة للرئيسية</button>
+              </div>
+            </div>
+          );
+        }
+        return (
+          <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50/30 pt-20">
+            <div className="bg-gradient-to-r from-blue-600 via-cyan-500 to-blue-600 text-white py-16">
+              <div className="max-w-7xl mx-auto px-4">
+                <button onClick={() => setCurrentPage("home")} className="inline-flex items-center gap-2 text-white/80 hover:text-white mb-6"><ArrowRight className="w-4 h-4" /> العودة للرئيسية</button>
+                <h1 className="text-3xl md:text-4xl font-bold mb-4">حجز موعد تحليل</h1>
+                <p className="text-white/80 text-lg">احجز موعدك الآن في المنزل أو في أحد فروعنا</p>
+              </div>
+            </div>
+            <div className="max-w-4xl mx-auto px-4 py-12">
+              <div className="flex justify-between mb-12">
+                {[{ num: 1, title: "البيانات الشخصية", icon: User }, { num: 2, title: "نوع التحليل", icon: Syringe }, { num: 3, title: "تأكيد الموعد", icon: Calendar }].map((s, idx) => (
+                  <div key={idx} className="flex-1 text-center">
+                    <div className={`w-10 h-10 rounded-full flex items-center justify-center mx-auto mb-2 transition-all ${appointmentStep >= s.num ? "bg-blue-600 text-white shadow-lg" : "bg-gray-200 text-gray-500"}`}>{appointmentStep > s.num ? <CheckCircle className="w-5 h-5" /> : <s.icon className="w-5 h-5" />}</div>
+                    <div className={`text-sm font-medium ${appointmentStep >= s.num ? "text-blue-600" : "text-gray-400"}`}>{s.title}</div>
+                  </div>
+                ))}
+              </div>
+              <motion.div key={appointmentStep} initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} className="bg-white rounded-2xl shadow-xl p-6 md:p-8">
+                <form onSubmit={handleAppointmentSubmit}>
+                  {appointmentStep === 1 && (<div className="space-y-5"><h2 className="text-xl font-bold text-gray-800 mb-4">البيانات الشخصية</h2>
+                    <div><label className="block text-sm font-medium text-gray-700 mb-2">الاسم الكامل</label><div className="relative"><User className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5" /><input type="text" required className="w-full pr-12 pl-4 py-3 border rounded-xl focus:border-blue-400 focus:outline-none" placeholder="أدخل اسمك الكامل" value={appointmentForm.name} onChange={(e) => setAppointmentForm({ ...appointmentForm, name: e.target.value })} /></div></div>
+                    <div><label className="block text-sm font-medium text-gray-700 mb-2">رقم الجوال</label><div className="relative"><Phone className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5" /><input type="tel" required className="w-full pr-12 pl-4 py-3 border rounded-xl focus:border-blue-400 focus:outline-none" placeholder="٠٥XXXXXXXX" value={appointmentForm.phone} onChange={(e) => setAppointmentForm({ ...appointmentForm, phone: e.target.value })} /></div></div>
+                    <div><label className="block text-sm font-medium text-gray-700 mb-2">البريد الإلكتروني (اختياري)</label><div className="relative"><Mail className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5" /><input type="email" className="w-full pr-12 pl-4 py-3 border rounded-xl focus:border-blue-400 focus:outline-none" placeholder="example@email.com" value={appointmentForm.email} onChange={(e) => setAppointmentForm({ ...appointmentForm, email: e.target.value })} /></div></div></div>)}
+                  {appointmentStep === 2 && (<div className="space-y-5"><h2 className="text-xl font-bold text-gray-800 mb-4">اختر التحليل والموعد</h2>
+                    <div><label className="block text-sm font-medium text-gray-700 mb-2">نوع التحليل</label><select required className="w-full px-4 py-3 border rounded-xl focus:border-blue-400 focus:outline-none" value={appointmentForm.testType} onChange={(e) => setAppointmentForm({ ...appointmentForm, testType: e.target.value })}><option value="">اختر التحليل</option>{testOptions.map((opt) => (<option key={opt} value={opt}>{opt}</option>))}</select></div>
+                    <div><label className="block text-sm font-medium text-gray-700 mb-2">تاريخ الموعد</label><div className="relative"><Calendar className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5" /><input type="date" required className="w-full pr-12 pl-4 py-3 border rounded-xl focus:border-blue-400 focus:outline-none" min={new Date().toISOString().split("T")[0]} value={appointmentForm.date} onChange={(e) => setAppointmentForm({ ...appointmentForm, date: e.target.value })} /></div></div>
+                    <div><label className="block text-sm font-medium text-gray-700 mb-2">الوقت المناسب</label><div className="grid grid-cols-3 gap-2">{timeSlots.map((slot) => (<button key={slot} type="button" className={`py-2 rounded-lg border transition-all ${appointmentForm.time === slot ? "bg-blue-600 text-white border-blue-600" : "border-gray-200 text-gray-600 hover:border-blue-400"}`} onClick={() => setAppointmentForm({ ...appointmentForm, time: slot })}>{slot}</button>))}</div></div></div>)}
+                  {appointmentStep === 3 && (<div className="space-y-5"><h2 className="text-xl font-bold text-gray-800 mb-4">تأكيد التفاصيل</h2>
+                    <div><label className="block text-sm font-medium text-gray-700 mb-3">طريقة الخدمة</label><div className="grid grid-cols-2 gap-3"><button type="button" className={`p-4 rounded-xl border-2 transition-all ${appointmentForm.serviceType === "home" ? "border-blue-600 bg-blue-50" : "border-gray-200"}`} onClick={() => setAppointmentForm({ ...appointmentForm, serviceType: "home" })}><Home className="w-6 h-6 mx-auto mb-2 text-blue-600" /><span className="font-semibold">سحب عينات من المنزل</span><p className="text-xs text-gray-500">خدمة مجانية</p></button><button type="button" className={`p-4 rounded-xl border-2 transition-all ${appointmentForm.serviceType === "lab" ? "border-blue-600 bg-blue-50" : "border-gray-200"}`} onClick={() => setAppointmentForm({ ...appointmentForm, serviceType: "lab" })}><MapPin className="w-6 h-6 mx-auto mb-2 text-green-600" /><span className="font-semibold">زيارة المعمل</span><p className="text-xs text-gray-500">أقرب فرع لك</p></button></div></div>
+                    {appointmentForm.serviceType === "home" && (<div><label className="block text-sm font-medium text-gray-700 mb-2">العنوان بالتفصيل</label><textarea required rows={3} className="w-full px-4 py-3 border rounded-xl focus:border-blue-400 focus:outline-none" placeholder="اكتب عنوانك بالكامل" value={appointmentForm.address} onChange={(e) => setAppointmentForm({ ...appointmentForm, address: e.target.value })} /></div>)}
+                    <div className="bg-gray-50 rounded-xl p-4"><h3 className="font-bold mb-3">ملخص الطلب:</h3><div className="space-y-2 text-sm"><div className="flex justify-between"><span className="text-gray-600">الاسم:</span><span className="font-medium">{appointmentForm.name}</span></div><div className="flex justify-between"><span className="text-gray-600">رقم الجوال:</span><span className="font-medium">{appointmentForm.phone}</span></div><div className="flex justify-between"><span className="text-gray-600">نوع التحليل:</span><span className="font-medium">{appointmentForm.testType || "لم يحدد"}</span></div><div className="flex justify-between"><span className="text-gray-600">الموعد:</span><span className="font-medium">{appointmentForm.date} - {appointmentForm.time}</span></div></div></div></div>)}
+                  <div className="flex gap-3 mt-8 pt-4 border-t">
+                    {appointmentStep > 1 && <button type="button" onClick={() => setAppointmentStep(appointmentStep - 1)} className="px-6 py-3 border rounded-xl font-semibold hover:bg-gray-50">السابق</button>}
+                    <button type="submit" className="flex-1 bg-gradient-to-r from-blue-600 to-cyan-500 text-white py-3 rounded-xl font-semibold">{appointmentStep === 3 ? "إرسال الطلب" : "التالي"}</button>
+                  </div>
+                </form>
+              </motion.div>
+              <div className="mt-8 bg-amber-50 border border-amber-200 rounded-xl p-4 flex gap-3"><AlertCircle className="w-5 h-5 text-amber-600" /><div className="text-sm text-amber-800"><p className="font-semibold">ملاحظة مهمة:</p><p>لتحاليل الصيام، يرجى الصيام لمدة ٨-١٢ ساعة قبل الموعد</p></div></div>
+            </div>
+          </div>
+        );
+
+      case "contact":
+        return (
+          <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50/30 pt-20">
+            <div className="bg-gradient-to-r from-blue-600 via-cyan-500 to-blue-600 text-white py-16">
+              <div className="max-w-7xl mx-auto px-4">
+                <button onClick={() => setCurrentPage("home")} className="inline-flex items-center gap-2 text-white/80 hover:text-white mb-6"><ArrowRight className="w-4 h-4" /> العودة للرئيسية</button>
+                <h1 className="text-3xl md:text-4xl font-bold mb-4">تواصل معنا</h1>
+                <p className="text-white/80 text-lg">فريقنا جاهز للإجابة على استفساراتك</p>
+              </div>
+            </div>
+            <div className="max-w-7xl mx-auto px-4 py-12">
+              <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+                {contactInfo.map((info, idx) => (
+                  <motion.div key={idx} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: idx * 0.1 }} className="bg-white rounded-2xl p-6 text-center shadow-lg">
+                    <div className={`w-14 h-14 bg-${info.color}-100 rounded-xl flex items-center justify-center mx-auto mb-4`}><info.icon className={`w-6 h-6 text-${info.color}-600`} /></div>
+                    <h3 className="font-bold text-gray-800 mb-2">{info.title}</h3>
+                    {info.details.map((detail, i) => (<p key={i} className="text-gray-600 text-sm">{detail}</p>))}
+                  </motion.div>
+                ))}
+              </div>
+              <div className="grid lg:grid-cols-2 gap-8">
+                <div className="bg-white rounded-2xl shadow-xl p-6 md:p-8">
+                  <div className="flex items-center gap-3 mb-6"><MessageSquare className="w-6 h-6 text-blue-600" /><h2 className="text-xl font-bold text-gray-800">أرسل لنا رسالة</h2></div>
+                  <form onSubmit={handleContactSubmit} className="space-y-4">
+                    <div><label className="block text-sm font-medium text-gray-700 mb-2">الاسم الكامل</label><input type="text" required className="w-full px-4 py-3 border rounded-xl focus:border-blue-400 focus:outline-none" value={contactForm.name} onChange={(e) => setContactForm({ ...contactForm, name: e.target.value })} /></div>
+                    <div className="grid md:grid-cols-2 gap-4"><div><label className="block text-sm font-medium text-gray-700 mb-2">رقم الجوال</label><input type="tel" required className="w-full px-4 py-3 border rounded-xl focus:border-blue-400 focus:outline-none" value={contactForm.phone} onChange={(e) => setContactForm({ ...contactForm, phone: e.target.value })} /></div><div><label className="block text-sm font-medium text-gray-700 mb-2">البريد الإلكتروني</label><input type="email" required className="w-full px-4 py-3 border rounded-xl focus:border-blue-400 focus:outline-none" value={contactForm.email} onChange={(e) => setContactForm({ ...contactForm, email: e.target.value })} /></div></div>
+                    <div><label className="block text-sm font-medium text-gray-700 mb-2">الموضوع</label><input type="text" required className="w-full px-4 py-3 border rounded-xl focus:border-blue-400 focus:outline-none" value={contactForm.subject} onChange={(e) => setContactForm({ ...contactForm, subject: e.target.value })} /></div>
+                    <div><label className="block text-sm font-medium text-gray-700 mb-2">الرسالة</label><textarea required rows={5} className="w-full px-4 py-3 border rounded-xl focus:border-blue-400 focus:outline-none" value={contactForm.message} onChange={(e) => setContactForm({ ...contactForm, message: e.target.value })} /></div>
+                    <button type="submit" className="w-full bg-gradient-to-r from-blue-600 to-cyan-500 text-white py-3 rounded-xl font-semibold flex items-center justify-center gap-2"><Send className="w-5 h-5" /> إرسال الرسالة</button>
+                  </form>
+                  {contactSubmitted && (<div className="mt-4 p-3 bg-green-50 rounded-xl text-green-700 text-sm text-center flex items-center justify-center gap-2"><CheckCircle className="w-4 h-4" /> تم إرسال رسالتك بنجاح</div>)}
+                </div>
+                <div className="space-y-6">
+                  <div className="bg-white rounded-2xl shadow-xl overflow-hidden"><div className="p-6 border-b"><h3 className="font-bold">موقعنا على الخريطة</h3></div><div className="h-64 bg-gray-200"><iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3624.068!2d46.675!3d24.713!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3e2f0382d8b1b3c5%3A0x8b3b2a1f5e6d7c8a!2sRiyadh!5e0!3m2!1sen!2s!4v1700000000000!5m2!1sen!2s" width="100%" height="100%" style={{ border: 0 }} allowFullScreen loading="lazy" title="موقع المعمل" /></div></div>
+                  <div className="bg-white rounded-2xl shadow-xl p-6"><h3 className="font-bold mb-4">تابعنا على وسائل التواصل</h3><div className="flex gap-4">{[{ icon: Facebook, color: "bg-blue-600" }, { icon: Twitter, color: "bg-sky-500" }, { icon: Instagram, color: "bg-pink-600" }, { icon: Linkedin, color: "bg-blue-700" }].map((social, idx) => (<motion.a key={idx} href="#" whileHover={{ scale: 1.1 }} className={`${social.color} w-12 h-12 rounded-full flex items-center justify-center text-white shadow-md`}><social.icon className="w-5 h-5" /></motion.a>))}</div></div>
+                  <div className="bg-gradient-to-r from-blue-50 to-cyan-50 rounded-2xl p-6"><h3 className="font-bold mb-2">خدمة العملاء ٢٤ ساعة</h3><div className="space-y-2"><div className="flex items-center gap-2"><Phone className="w-4 h-4 text-blue-600" /> واتساب: ٩٢٠٠٠٥٦٦٦</div><div className="flex items-center gap-2"><Mail className="w-4 h-4 text-blue-600" /> info@medlab.com</div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        );
+
+      default: // HOME PAGE
+        return (
+          <>
+            {/* Hero Section */}
+            <section className="relative min-h-screen flex items-center overflow-hidden pt-20">
+              <div className="absolute inset-0">
+                <div className="absolute top-20 right-10 w-96 h-96 bg-gradient-to-br from-blue-400/20 to-cyan-400/20 rounded-full blur-3xl animate-pulse" />
+                <div className="absolute bottom-20 left-10 w-80 h-80 bg-gradient-to-tr from-purple-400/20 to-pink-400/20 rounded-full blur-3xl animate-pulse delay-1000" />
+              </div>
+              <div className="max-w-7xl mx-auto px-4 relative z-10 py-20">
+                <div className="grid lg:grid-cols-2 gap-12 items-center">
+                  <motion.div initial={{ opacity: 0, x: -50 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.7 }}>
+                    <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }} className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-blue-500/10 to-cyan-500/10 text-blue-600 text-sm font-semibold mb-6"><Sparkles className="w-4 h-4" /><span>أفضل معمل تحاليل في المملكة ٢٠٢٤</span></motion.div>
+                    <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }} className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6"><span className="text-gray-800">صحتك تبدأ</span><span className="block bg-gradient-to-l from-blue-600 via-cyan-500 to-blue-600 bg-clip-text text-transparent">من تحليل دقيق</span></motion.h1>
+                    <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }} className="text-lg text-gray-600 mb-8 leading-relaxed">أكثر من ٨٠٠ نوع من التحاليل الطبية بأعلى معايير الدقة. نتائج سريعة، أسعار شفافة، وخدمة سحب عينات مجانية من المنزل.</motion.p>
+                    <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 }} className="flex flex-col sm:flex-row gap-4">
+                      <button onClick={() => setCurrentPage("tests")} className="bg-gradient-to-r from-blue-600 to-cyan-500 text-white px-8 py-3.5 rounded-full font-semibold shadow-lg hover:shadow-xl transition-all text-lg flex items-center gap-2"><Microscope className="w-5 h-5" /> استكشف قائمة التحاليل</button>
+                      <button onClick={() => setCurrentPage("appointments")} className="border-2 border-gray-300 bg-white text-gray-700 px-8 py-3.5 rounded-full font-semibold hover:border-blue-500 hover:text-blue-500 transition-all text-lg">حجز موعد الآن</button>
+                    </motion.div>
+                    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.7 }} className="flex flex-wrap items-center gap-6 mt-10 pt-6 border-t border-gray-200">
+                      <div className="flex -space-x-2">{["أ", "ح", "م", "س"].map((letter, i) => (<div key={i} className="w-9 h-9 rounded-full bg-gradient-to-br from-gray-300 to-gray-400 border-2 border-white flex items-center justify-center text-white text-xs font-bold">{letter}</div>))}</div>
+                      <div className="flex items-center gap-2">{[...Array(5)].map((_, i) => (<Star key={i} className="w-4 h-4 fill-amber-400 text-amber-400" />))}<span className="text-sm text-gray-600">(٤.٩ من ٥ - ١٢,٣٤٥ تقييم)</span></div>
+                    </motion.div>
+                  </motion.div>
+                  <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.7, delay: 0.2 }} className="relative">
+                    <div className="relative rounded-3xl overflow-hidden shadow-2xl">
+                      <div className="absolute inset-0 bg-gradient-to-t from-blue-600/40 to-transparent z-10" />
+                      <img src="https://images.unsplash.com/photo-1581595219315-b187dd40c322?w=800&h=600&fit=crop" alt="Medical Laboratory" className="w-full h-auto object-cover" />
+                      <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-6 z-20"><p className="text-white font-bold text-xl">أحدث أجهزة التحليل</p><p className="text-white/80 text-sm">تقنية AI - دقة ٩٩.٩٪</p></div>
+                    </div>
+                    <motion.div animate={{ y: [0, -10, 0] }} transition={{ repeat: Infinity, duration: 3 }} className="absolute -top-5 -right-5 bg-white rounded-2xl shadow-xl p-4 flex items-center gap-3"><div className="w-12 h-12 bg-gradient-to-br from-emerald-500 to-teal-500 rounded-xl flex items-center justify-center"><CheckCircle className="w-6 h-6 text-white" /></div><div><p className="font-bold text-sm">معتمد دولياً</p><p className="text-xs text-gray-500">ISO 15189:2022</p></div></motion.div>
+                  </motion.div>
+                </div>
+              </div>
+            </section>
+
+            {/* Stats Section */}
+            <section className="py-16 bg-white/50 backdrop-blur-sm">
+              <div className="max-w-7xl mx-auto px-4">
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+                  {stats.map((stat, idx) => (
+                    <motion.div key={idx} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} transition={{ delay: idx * 0.1 }} viewport={{ once: true }} className="text-center p-6 rounded-2xl bg-white shadow-lg"><div className={`w-14 h-14 mx-auto bg-gradient-to-br ${stat.color} rounded-2xl flex items-center justify-center mb-3`}><stat.icon className="w-6 h-6 text-white" /></div><div className="text-2xl font-bold text-gray-800">{stat.value}</div><div className="text-sm text-gray-500">{stat.label}</div></motion.div>
+                  ))}
+                </div>
+              </div>
+            </section>
+
+            {/* Features Section */}
+            <section className="py-20">
+              <div className="max-w-7xl mx-auto px-4">
+                <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} viewport={{ once: true }} className="text-center mb-12"><h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-4">لماذا تختار معمل التحاليل؟</h2><p className="text-gray-600">نقدم لك تجربة فريدة تجمع بين الدقة والراحة والثقة</p></motion.div>
+                <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                  {features.map((feature, idx) => (
+                    <motion.div key={idx} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} transition={{ delay: idx * 0.1 }} viewport={{ once: true }} whileHover={{ y: -5 }} className="bg-white rounded-2xl p-6 text-center shadow-lg"><div className={`${feature.bg} w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-4`}><feature.icon className={`w-8 h-8 ${feature.color}`} /></div><h3 className="font-bold text-lg text-gray-800 mb-2">{feature.title}</h3><p className="text-gray-500 text-sm">{feature.desc}</p></motion.div>
+                  ))}
+                </div>
+              </div>
+            </section>
+
+            {/* CTA Section */}
+            <section className="py-20 bg-gradient-to-r from-blue-600 via-cyan-500 to-blue-600">
+              <div className="max-w-4xl mx-auto px-4 text-center">
+                <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} viewport={{ once: true }}><h2 className="text-3xl md:text-4xl font-bold text-white mb-4">جاهز لتبدأ رحلة صحتك؟</h2><p className="text-white/80 text-lg mb-8">تصفح قائمة التحاليل المتاحة واختر ما يناسبك</p><button onClick={() => setCurrentPage("tests")} className="bg-white text-blue-600 px-8 py-3.5 rounded-full font-bold text-lg shadow-lg hover:shadow-xl transition-all inline-flex items-center gap-2"><Microscope className="w-5 h-5" /> استعرض قائمة التحاليل</button></motion.div>
+              </div>
+            </section>
+          </>
+        );
+    }
+  };
+
+  // ========== MAIN RENDER ==========
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50/30 font-sans" dir="rtl">
+      {/* Navbar */}
+      <motion.nav initial={{ y: -100 }} animate={{ y: 0 }} transition={{ duration: 0.5 }} className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${scrolled ? "bg-white/90 backdrop-blur-xl shadow-xl border-b border-gray-100" : "bg-white/60 backdrop-blur-md"}`}>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center h-16 md:h-20">
+            <div className="flex items-center gap-2 cursor-pointer" onClick={() => setCurrentPage("home")}>
+              <motion.div whileHover={{ rotate: 360, scale: 1.1 }} transition={{ duration: 0.5 }} className="w-10 h-10 bg-gradient-to-br from-blue-600 to-cyan-500 rounded-xl flex items-center justify-center shadow-lg"><FlaskConical className="w-5 h-5 text-white" /></motion.div>
+              <div><span className="font-bold text-xl text-gray-800">معمل<span className="bg-gradient-to-r from-blue-600 to-cyan-500 bg-clip-text text-transparent">التحاليل</span></span><p className="text-[9px] text-gray-400 -mt-1">دقة · ثقة · تميز</p></div>
+            </div>
+            <div className="hidden md:flex items-center gap-6">
+              {navLinks.map((link) => (
+                <button key={link.id} onClick={() => setCurrentPage(link.id)} className={`text-gray-600 hover:text-blue-600 transition-all duration-300 font-medium flex items-center gap-1 ${currentPage === link.id ? "text-blue-600" : ""}`}><link.icon className="w-4 h-4" />{link.name}</button>
+              ))}
+              <button className="bg-gradient-to-r from-blue-600 to-cyan-500 text-white px-6 py-2.5 rounded-full font-semibold shadow-md hover:shadow-xl transition-all">بوابة المرضى</button>
+            </div>
+            <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)} className="md:hidden p-2 rounded-lg bg-gray-50">{mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}</button>
+          </div>
         </div>
-        <div class="glass-card p-6 text-center relative border-purple-400" data-aos="flip-up" data-aos-delay="100">
-          <div class="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-purple-500 text-black text-xs px-3 py-0.5 rounded-full font-bold">الأكثر طلباً</div>
-          <i data-lucide="activity" class="w-12 h-12 text-purple-300 mx-auto mb-3"></i>
-          <h3 class="text-2xl font-bold">الباقة الشاملة</h3>
-          <p class="text-sm my-2">فيتامين د + ب12 + غدة + صورة دم كاملة + دهون + وظائف كبد/كلى</p>
-          <div class="text-3xl font-extrabold text-purple-300 my-3">899 ج</div>
-          <button class="pkg-btn bg-gradient-to-r from-purple-600 to-indigo-700 w-full py-2 rounded-xl text-white shadow-md" data-pkg="الباقة الشاملة - 899 ج">اختر الباقة</button>
-        </div>
-        <div class="glass-card p-6 text-center" data-aos="flip-up" data-aos-delay="200">
-          <i data-lucide="crown" class="w-12 h-12 text-purple-300 mx-auto mb-3"></i>
-          <h3 class="text-2xl font-bold">باقة VIP الذهبية</h3>
-          <p class="text-sm my-2">هرمونات شاملة (ذكر/أنثى) + علامات أورام أساسية + فيتامينات + إنزيمات قلب</p>
-          <div class="text-3xl font-extrabold text-purple-300 my-3">1899 ج</div>
-          <button class="pkg-btn bg-purple-800/40 border border-purple-400 w-full py-2 rounded-xl hover:bg-purple-600 transition" data-pkg="باقة VIP الذهبية - 1899 ج">اختر الباقة</button>
-        </div>
-      </div>
+        <AnimatePresence>
+          {mobileMenuOpen && (
+            <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} exit={{ opacity: 0, height: 0 }} className="md:hidden bg-white/95 backdrop-blur-xl border-t shadow-xl">
+              <div className="px-4 py-4 space-y-3">
+                {navLinks.map((link) => (<button key={link.id} onClick={() => { setCurrentPage(link.id); setMobileMenuOpen(false); }} className="flex items-center gap-3 text-gray-700 hover:text-blue-600 py-3 px-4 rounded-xl hover:bg-blue-50 w-full"><link.icon className="w-5 h-5" />{link.name}</button>))}
+                <button className="w-full bg-gradient-to-r from-blue-600 to-cyan-500 text-white py-3 rounded-xl font-semibold mt-2">بوابة المرضى</button>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </motion.nav>
+
+      {/* Page Content */}
+      {renderPage()}
+
+      {/* Footer (only show on home page) */}
+      {currentPage === "home" && (
+        <footer className="bg-gray-900 text-white pt-16 pb-8">
+          <div className="max-w-7xl mx-auto px-4">
+            <div className="grid md:grid-cols-4 gap-8 mb-12">
+              <div><div className="flex items-center gap-2 mb-4"><FlaskConical className="w-8 h-8 text-cyan-400" /><span className="font-bold text-xl">معمل التحاليل</span></div><p className="text-gray-400 text-sm">أحدث المعامل الطبية في المملكة</p></div>
+              <div><h4 className="font-bold mb-4">روابط سريعة</h4><ul className="space-y-2 text-gray-400 text-sm"><li><button onClick={() => setCurrentPage("home")} className="hover:text-white">الرئيسية</button></li><li><button onClick={() => setCurrentPage("tests")} className="hover:text-white">قائمة التحاليل</button></li><li><button onClick={() => setCurrentPage("appointments")} className="hover:text-white">حجز موعد</button></li><li><button onClick={() => setCurrentPage("contact")} className="hover:text-white">اتصل بنا</button></li></ul></div>
+              <div><h4 className="font-bold mb-4">الخدمات</h4><ul className="space-y-2 text-gray-400 text-sm"><li><button onClick={() => setCurrentPage("tests")} className="hover:text-white">جميع التحاليل</button></li><li><button onClick={() => setCurrentPage("appointments")} className="hover:text-white">سحب عينات المنزل</button></li><li><button onClick={() => setCurrentPage("tests")} className="hover:text-white">الباقات الصحية</button></li></ul></div>
+              <div><h4 className="font-bold mb-4">تواصل معنا</h4><ul className="space-y-2 text-gray-400 text-sm"><li className="flex items-center gap-2"><Phone className="w-4 h-4" /> ٩٢٠٠٠٥٦٦٦</li><li className="flex items-center gap-2"><Mail className="w-4 h-4" /> info@medlab.com</li><li className="flex items-center gap-2"><MapPin className="w-4 h-4" /> الرياض - المملكة العربية السعودية</li></ul></div>
+            </div>
+            <div className="border-t border-gray-800 pt-8 text-center text-gray-500 text-sm">© ٢٠٢٤ معمل التحاليل الطبي - جميع الحقوق محفوظة</div>
+          </div>
+        </footer>
+      )}
     </div>
-  </section>
-
-  <!-- الزيارة المنزلية -->
-  <section id="home-service" class="px-6 md:px-12 pb-20">
-    <div class="max-w-5xl mx-auto glass-card p-6 md:p-8" data-aos="zoom-in">
-      <h3 class="text-2xl font-bold text-center mb-5">🏠 طلب زيارة منزلية | خدمة سريعة للمنازل</h3>
-      <form id="homeVisitForm" class="grid md:grid-cols-2 gap-4">
-        <input type="text" id="fullName" placeholder="الاسم الكامل" class="input-glass" required>
-        <input type="tel" id="phoneNumber" placeholder="رقم الجوال" class="input-glass" required>
-        <input type="text" id="addressHome" placeholder="العنوان بالكامل" class="input-glass md:col-span-2" value="أبو المطامير - مساكن الإرشاد">
-        <button type="submit" class="md:col-span-2 btn-neon py-3 rounded-xl font-bold text-white flex gap-2 justify-center"><i data-lucide="send"></i> إرسال طلب الزيارة</button>
-        <div id="formMessage" class="text-purple-300 text-center md:col-span-2 text-sm"></div>
-      </form>
-      <div class="text-center mt-4 text-sm">📞 للتواصل المباشر: <span dir="ltr" class="font-mono text-purple-300">01015090991</span></div>
-    </div>
-  </section>
-
-  <footer class="border-t border-purple-500/20 py-8 text-center backdrop-blur-sm">
-    <p>📍 العنوان: أبو المطامير - مساكن الإرشاد - أمام النيابة الإدارية | 📞 رقم الدكتور: 01015090991</p>
-    <p class="text-purple-300/60 text-sm mt-2">© 2025 معمل الدكتور جابر شحاتة - جميع التحاليل والباقات الشاملة</p>
-  </footer>
-
-  <!-- مودال بوابة النتائج -->
-  <div id="resultsModal" class="fixed inset-0 bg-black/70 backdrop-blur-md flex items-center justify-center z-50 hidden transition-all">
-    <div class="glass-card w-11/12 max-w-md p-6 text-center">
-      <i data-lucide="clipboard-list" class="w-12 h-12 text-purple-300 mx-auto"></i>
-      <h3 class="text-2xl font-bold mt-2">بوابة النتائج</h3>
-      <p class="text-sm text-gray-300">أدخل رقم الهاتف أو كود العينة</p>
-      <input type="text" id="resultCodeInput" class="input-glass w-full mt-4 rounded-xl text-center" placeholder="مثال: 01015090991">
-      <button id="fetchResultBtn" class="mt-5 btn-neon w-full py-2 rounded-xl">استعلام عن النتيجة</button>
-      <button id="modalCloseBtn" class="mt-3 text-gray-400 text-sm">إغلاق</button>
-    </div>
-  </div>
-
-  <script>
-    document.addEventListener("DOMContentLoaded", function() {
-      lucide.createIcons();
-      AOS.init({ duration: 700, once: true });
-
-      // Drawer elements
-      const drawer = document.getElementById('sideDrawer');
-      const overlay = document.getElementById('drawerOverlay');
-      const hamburger = document.getElementById('hamburgerBtn');
-      const closeDrawer = document.getElementById('closeDrawerBtn');
-      const exploreBtn = document.getElementById('exploreDrawerBtn');
-      
-      function openDrawer() { drawer.classList.add('open'); overlay.classList.add('active'); document.body.style.overflow = 'hidden'; }
-      function closeDrawerFunc() { drawer.classList.remove('open'); overlay.classList.remove('active'); document.body.style.overflow = ''; }
-      hamburger.addEventListener('click', openDrawer);
-      if(exploreBtn) exploreBtn.addEventListener('click', openDrawer);
-      closeDrawer.addEventListener('click', closeDrawerFunc);
-      overlay.addEventListener('click', closeDrawerFunc);
-      document.querySelectorAll('.drawer-link').forEach(link => link.addEventListener('click', closeDrawerFunc));
-
-      // Portal results modal
-      const resultsBtn = document.getElementById('resultsPortalBtn');
-      const modal = document.getElementById('resultsModal');
-      const closeModal = document.getElementById('modalCloseBtn');
-      const fetchResult = document.getElementById('fetchResultBtn');
-      resultsBtn.addEventListener('click', () => { modal.classList.remove('hidden'); lucide.createIcons(); });
-      closeModal.addEventListener('click', () => modal.classList.add('hidden'));
-      fetchResult.addEventListener('click', () => {
-        const code = document.getElementById('resultCodeInput').value.trim();
-        if(!code) alert('الرجاء إدخال رقم الجوال أو كود التحليل الصحيح');
-        else alert(`🔍 جاري عرض النتائج للرقم/الكود: ${code}\nسيتم توجيهك إلى لوحة النتائج. رقم الدعم 01015090991`);
-        modal.classList.add('hidden');
-      });
-
-      // packages selection
-      document.querySelectorAll('.pkg-btn').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-          const pkgName = btn.getAttribute('data-pkg');
-          alert(`✅ تم اختيار ${pkgName} بنجاح! سيتم التواصل معك لتأكيد الحجز (مجاناً أو خصم خاص).`);
-        });
-      });
-
-      // home visit form
-      const visitForm = document.getElementById('homeVisitForm');
-      const msgDiv = document.getElementById('formMessage');
-      visitForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-        const name = document.getElementById('fullName').value.trim();
-        const phone = document.getElementById('phoneNumber').value.trim();
-        if(!name || !phone) { msgDiv.innerHTML = "❌ من فضلك أدخل الاسم ورقم الهاتف"; return; }
-        msgDiv.innerHTML = "⏳ جاري إرسال طلب الزيارة المنزلية...";
-        setTimeout(() => {
-          msgDiv.innerHTML = "✅ تم إستلام طلبك! سيتصل بك فريقنا خلال 30 دقيقة لتأكيد الموعد (01015090991).";
-          visitForm.reset();
-          setTimeout(() => msgDiv.innerHTML = "", 4500);
-        }, 900);
-      });
-    });
-  </script>
-</body>
-</html>
+  );
+}
