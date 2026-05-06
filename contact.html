@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>اتصل بنا - مطعم النكهة الطيبة</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <nav>
+        <div class="logo">Gourmet Food</div>
+        <ul class="nav-links">
+            <li><a href="index.html">الرئيسية</a></li>
+            <li><a href="menu.html">المنيو</a></li>
+            <li><a href="about.html">من نحن</a></li>
+            <li><a href="contact.html">اتصل بنا</a></li>
+        </ul>
+    </nav>
+
+    <div class="fade-in" style="padding: 50px 5%;">
+        <h2 style="text-align:center;">تواصل معنا</h2>
+        
+        <div style="display: flex; flex-wrap: wrap; gap: 30px; margin-top: 30px;">
+            <div style="flex: 1; min-width: 300px;">
+                <form id="contactForm" style="display: flex; flex-direction: column; gap: 15px;">
+                    <input type="text" placeholder="الاسم" style="padding:10px;">
+                    <input type="email" placeholder="البريد الإلكتروني" style="padding:10px;">
+                    <textarea placeholder="رسالتك" rows="5" style="padding:10px;"></textarea>
+                    <button type="submit" class="btn" style="border:none; cursor:pointer;">إرسال</button>
+                </form>
+            </div>
+            
+            <div style="flex: 1; min-width: 300px; height: 300px;">
+                <iframe 
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3453.218734994278!2d31.2335!3d30.0444!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzDCsDAyJzQwLjAiTiAzMcKwMTQnMDAuNiJF!5e0!3m2!1sen!2seg!4v1620000000000!5m2!1sen!2seg" 
+                    width="100%" height="100%" style="border:0; border-radius:15px;" allowfullscreen="" loading="lazy">
+                </iframe>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
