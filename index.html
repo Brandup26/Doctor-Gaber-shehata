@@ -3,72 +3,67 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fresh Food Menu</title>
+    <title>Fresh Food Menu - Perfect Match</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
 
-    <header class="main-header">
-        <div class="header-right">
-            <div class="menu-icon"><i class="fa-solid fa-bars"></i></div>
-            <div class="cart-icon"><i class="fa-solid fa-shopping-bag"></i></div>
+    <header class="luxury-header">
+        <div class="nav-icons">
+            <i class="fa-solid fa-bars"></i>
+            <i class="fa-solid fa-shopping-bag"></i>
         </div>
-        <div class="header-left">
-            <div class="restaurant-info">
+        <div class="brand">
+            <div class="text">
                 <h3>مطعمك</h3>
                 <p>الاسكندرية ميامي</p>
             </div>
-            <img src="https://via.placeholder.com/50" alt="Logo" class="logo-img">
+            <img src="https://i.ibb.co/mS7zZ3S/burger.png" class="logo">
         </div>
     </header>
 
-    <main class="app-container">
+    <div class="hero-title">
+        <h1>طعم لذيذ ؟<br>اطلب الان</h1>
+    </div>
+
+    <div class="shape-container red-bg">
+        <svg viewBox="0 0 500 150" preserveAspectRatio="none" class="curve-svg">
+            <path d="M0,150 L0,50 C100,0 400,0 500,50 L500,150 Z" fill="#8b0000"></path>
+        </svg>
         
-        <section class="hero-text">
-            <h1>طعم لذيذ ؟<br>اطلب الان</h1>
-        </section>
-
-        <section class="circular-layer red-layer">
-            <div class="layer-content">
-                <div class="category-grid">
-                    <div class="cat-item small">
-                        <div class="circle-img"><img src="https://i.ibb.co/VvM6p7h/pasta.png" alt="باستا"></div>
-                        <span>باستا</span>
-                    </div>
-                    <div class="cat-item large">
-                        <div class="circle-img"><img src="https://i.ibb.co/mS7zZ3S/burger.png" alt="برجر"></div>
-                        <span>برجر</span>
-                    </div>
-                    <div class="cat-item small">
-                        <div class="circle-img"><img src="https://i.ibb.co/L5M4f4B/soup.png" alt="شوربة"></div>
-                        <span>الشوربة</span>
-                    </div>
-                </div>
+        <div class="categories">
+            <div class="cat-item">
+                <div class="img-box"><img src="https://i.ibb.co/VvM6p7h/pasta.png"></div>
+                <span>باستا</span>
             </div>
-        </section>
-
-        <section class="circular-layer pink-layer">
-            <div class="products-container">
-                <div class="product-featured">
-                    <img src="https://i.ibb.co/mS7zZ3S/burger.png" alt="تشكن برجر">
-                    <div class="product-info">
-                        <h4>تشكن برجر</h4>
-                        <span class="price">350 ج.م</span>
-                    </div>
-                </div>
-                
-                <div class="side-product left">
-                    <img src="https://i.ibb.co/mS7zZ3S/burger.png" alt="side">
-                </div>
-                <div class="side-product right">
-                    <img src="https://i.ibb.co/mS7zZ3S/burger.png" alt="side">
-                </div>
+            <div class="cat-item featured">
+                <div class="img-box"><img src="https://i.ibb.co/mS7zZ3S/burger.png"></div>
+                <span>برجر</span>
             </div>
-        </section>
+            <div class="cat-item">
+                <div class="img-box"><img src="https://i.ibb.co/L5M4f4B/soup.png"></div>
+                <span>الشوربة</span>
+            </div>
+        </div>
+    </div>
 
-    </main>
+    <div class="shape-container pink-bg">
+        <svg viewBox="0 0 500 150" preserveAspectRatio="none" class="curve-svg secondary-curve">
+            <path d="M0,150 L0,50 C100,0 400,0 500,50 L500,150 Z" fill="#d87070"></path>
+        </svg>
 
-    <script src="script.js"></script>
+        <div class="main-product">
+            <img src="https://i.ibb.co/mS7zZ3S/burger.png" class="floating-burger">
+            <div class="info">
+                <h2>تشكن برجر</h2>
+                <p>350 ج.م</p>
+            </div>
+        </div>
+
+        <img src="https://i.ibb.co/mS7zZ3S/burger.png" class="side-img left">
+        <img src="https://i.ibb.co/mS7zZ3S/burger.png" class="side-img right">
+    </div>
+
 </body>
 </html>
