@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LUXE | Professional QR Menu</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <div class="loader-wrapper">
+        <div class="loader"></div>
+    </div>
+
+    <div class="bg-blur-circle-1"></div>
+    <div class="bg-blur-circle-2"></div>
+
+    <header>
+        <div class="logo">LUXE<span>.</span></div>
+    </header>
+
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <span class="badge">نكهة لا تُنسى</span>
+            <h1>تجربة طعام <br> <span class="gradient-text">استثنائية</span></h1>
+            <p>اكتشف عالمًا من المذاق الرفيع المحضر يدويًا بأجود المكونات الطازجة.</p>
+            <a href="#menu" class="btn-primary">استعرض القائمة <i class="fa-solid fa-arrow-down"></i></a>
+        </div>
+    </section>
+
+    <section class="categories-scroll" id="categories">
+        <div class="category-item active" data-filter="all">الكل</div>
+        <div class="category-item" data-filter="mains">الأطباق الرئيسية</div>
+        <div class="category-item" data-filter="appetizers">المقبلات</div>
+        <div class="category-item" data-filter="drinks">المشروبات</div>
+        <div class="category-item" data-filter="desserts">الحلويات</div>
+    </section>
+
+    <section class="menu-section" id="menu">
+        <div class="menu-grid">
+            <div class="food-card" data-category="mains">
+                <div class="card-img">
+                    <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?q=80&w=500" alt="Dish Name">
+                    <span class="price">45 SAR</span>
+                </div>
+                <div class="card-info">
+                    <h3>ستيك اللحم الفاخر</h3>
+                    <p>شرائح اللحم المتبلة بالأعشاب البرية مع صوص الفطر الكريمي.</p>
+                    <button class="add-btn"><i class="fa-solid fa-plus"></i></button>
+                </div>
+            </div>
+
+            <div class="food-card" data-category="drinks">
+                <div class="card-img">
+                    <img src="https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?q=80&w=500" alt="Drink Name">
+                    <span class="price">18 SAR</span>
+                </div>
+                <div class="card-info">
+                    <h3>موهيتو المنعش</h3>
+                    <p>أوراق النعناع الطازجة مع شرائح الليمون والثلج المجروش.</p>
+                    <button class="add-btn"><i class="fa-solid fa-plus"></i></button>
+                </div>
+            </div>
+            
+            </div>
+    </section>
+
+    <section class="about-section" id="about">
+        <div class="glass-card">
+            <h2>قصتنا</h2>
+            <p>نحن نؤمن بأن الطعام ليس مجرد وجبة، بل هو تجربة تجمع بين الفن والشغف والجودة العالية.</p>
+        </div>
+    </section>
+
+    <section class="contact-section" id="contact">
+        <div class="location-map">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d14496.4719323145!2d46.675295!3d24.7135517!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjTCsDQyJzQ4LjgiTiA0NiwzOSczMS4xIkU!5e0!3m2!1sen!2ssa!4v1652345678910!5m2!1sen!2ssa" width="100%" height="250" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+        </div>
+        <div class="contact-info">
+            <p><i class="fa-solid fa-phone"></i> +966 50 000 0000</p>
+            <p><i class="fa-solid fa-location-dot"></i> الرياض، المملكة العربية السعودية</p>
+        </div>
+    </section>
+
+    <nav class="bottom-nav">
+        <a href="#home" class="nav-link active"><i class="fa-solid fa-house"></i><span>الرئيسية</span></a>
+        <a href="#menu" class="nav-link"><i class="fa-solid fa-utensils"></i><span>القائمة</span></a>
+        <a href="#about" class="nav-link"><i class="fa-solid fa-circle-info"></i><span>عنا</span></a>
+        <a href="#contact" class="nav-link"><i class="fa-solid fa-map-location-dot"></i><span>تواصل</span></a>
+    </nav>
+
+    <a href="https://wa.me/YOURNUMBER" class="whatsapp-float pulse">
+        <i class="fa-brands fa-whatsapp"></i>
+    </a>
+
+    <script src="script.js"></script>
+</body>
+</html>
