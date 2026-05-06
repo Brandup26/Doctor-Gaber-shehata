@@ -1,248 +1,142 @@
 :root {
-    --primary: #c5a059; /* Gold luxury */
-    --bg-dark: #0a0a0a;
-    --card-bg: rgba(255, 255, 255, 0.05);
-    --glass-border: rgba(255, 255, 255, 0.1);
-    --text-main: #ffffff;
-    --text-dim: #a0a0a0;
-    --transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+    --primary-red: #8b0000;
+    --light-pink: #d87070;
+    --bg-white: #ffffff;
+    --text-dark: #1a1a1a;
 }
 
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Plus Jakarta Sans', 'Tajawal', sans-serif;
-    scroll-behavior: smooth;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 body {
-    background-color: var(--bg-dark);
-    color: var(--text-main);
+    background-color: var(--bg-white);
     overflow-x: hidden;
-    line-height: 1.6;
 }
-
-/* Background Blurs */
-.bg-blur-circle-1, .bg-blur-circle-2 {
-    position: fixed;
-    width: 300px;
-    height: 300px;
-    border-radius: 50%;
-    background: radial-gradient(circle, var(--primary), transparent 70%);
-    filter: blur(80px);
-    opacity: 0.15;
-    z-index: -1;
-}
-.bg-blur-circle-1 { top: -50px; right: -50px; }
-.bg-blur-circle-2 { bottom: 10%; left: -50px; }
-
-/* Loader */
-.loader-wrapper {
-    position: fixed;
-    inset: 0;
-    background: var(--bg-dark);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 9999;
-    transition: opacity 0.5s ease;
-}
-.loader {
-    width: 40px;
-    height: 40px;
-    border: 3px solid var(--glass-border);
-    border-top-color: var(--primary);
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
-}
-
-@keyframes spin { to { transform: rotate(360deg); } }
 
 /* Header */
-header {
-    padding: 20px;
-    text-align: center;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    backdrop-filter: blur(10px);
-    border-bottom: 1px solid var(--glass-border);
-}
-.logo {
-    font-size: 1.5rem;
-    font-weight: 800;
-    letter-spacing: 2px;
-}
-.logo span { color: var(--primary); }
-
-/* Hero Section */
-.hero {
-    padding: 60px 25px;
-    text-align: center;
-    min-height: 70vh;
+.main-header {
     display: flex;
+    justify-content: space-between;
     align-items: center;
+    padding: 15px 20px;
+    background: white;
 }
-.badge {
-    background: var(--card-bg);
-    padding: 6px 15px;
-    border-radius: 20px;
-    font-size: 0.8rem;
-    color: var(--primary);
-    border: 1px solid var(--glass-border);
+
+.header-right { display: flex; gap: 20px; font-size: 1.4rem; color: #666; }
+.header-left { display: flex; align-items: center; gap: 10px; text-align: left; }
+.restaurant-info h3 { font-size: 1.1rem; margin-bottom: -4px; }
+.restaurant-info p { font-size: 0.8rem; color: #888; }
+.logo-img { width: 45px; border-radius: 50%; }
+
+/* Hero Text */
+.hero-text {
+    padding: 40px 30px;
+    text-align: right;
 }
-.hero h1 {
-    font-size: 2.8rem;
-    margin: 20px 0;
+.hero-text h1 {
+    font-size: 2.2rem;
     font-weight: 800;
-}
-.gradient-text {
-    background: linear-gradient(90deg, #fff, var(--primary));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-}
-.hero p { color: var(--text-dim); margin-bottom: 30px; }
-
-.btn-primary {
-    background: var(--primary);
-    color: #000;
-    padding: 15px 35px;
-    border-radius: 12px;
-    text-decoration: none;
-    font-weight: 700;
-    display: inline-block;
-    transition: var(--transition);
+    color: var(--text-dark);
+    line-height: 1.2;
 }
 
-/* Categories Scroll */
-.categories-scroll {
-    display: flex;
-    gap: 15px;
-    overflow-x: auto;
-    padding: 10px 25px;
-    scrollbar-width: none;
-}
-.categories-scroll::-webkit-scrollbar { display: none; }
-
-.category-item {
-    white-space: nowrap;
-    padding: 10px 20px;
-    background: var(--card-bg);
-    border-radius: 10px;
-    border: 1px solid var(--glass-border);
-    cursor: pointer;
-    transition: var(--transition);
-}
-.category-item.active {
-    background: var(--primary);
-    color: #000;
-}
-
-/* Menu Grid */
-.menu-section { padding: 30px 20px 100px; }
-.menu-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 20px;
-}
-
-.food-card {
-    background: var(--card-bg);
-    border-radius: 24px;
-    overflow: hidden;
-    border: 1px solid var(--glass-border);
-    transition: var(--transition);
+/* Circular Layers Engine */
+.app-container {
     position: relative;
+    margin-top: 20px;
 }
-.food-card:hover { transform: translateY(-10px); }
 
-.card-img {
-    height: 200px;
+.circular-layer {
+    width: 150%; /* أعرض من الصفحة لخلق قوس طبيعي */
+    margin-left: -25%; /* لموازنة العرض */
+    border-top-left-radius: 50%;
+    border-top-right-radius: 50%;
     position: relative;
-}
-.card-img img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-.price {
-    position: absolute;
-    bottom: 15px;
-    right: 15px;
-    background: rgba(0,0,0,0.7);
-    padding: 5px 12px;
-    border-radius: 8px;
-    font-weight: bold;
-    backdrop-filter: blur(5px);
-    border: 1px solid var(--primary);
+    padding-top: 60px;
+    margin-top: -80px; /* تداخل الطبقات */
 }
 
-.card-info { padding: 20px; position: relative; }
-.card-info h3 { margin-bottom: 8px; font-size: 1.2rem; }
-.card-info p { font-size: 0.9rem; color: var(--text-dim); }
-
-.add-btn {
-    position: absolute;
-    bottom: 20px;
-    left: 20px;
-    background: var(--primary);
-    border: none;
-    width: 35px;
-    height: 35px;
-    border-radius: 50%;
-    cursor: pointer;
+.red-layer {
+    background-color: var(--primary-red);
+    height: 400px;
+    z-index: 1;
 }
 
-/* Bottom Nav */
-.bottom-nav {
-    position: fixed;
-    bottom: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 90%;
-    max-width: 400px;
-    background: rgba(20, 20, 20, 0.8);
-    backdrop-filter: blur(20px);
+.pink-layer {
+    background-color: var(--light-pink);
+    height: 600px;
+    z-index: 2;
+    margin-top: -150px; /* تداخل عميق فوق الأحمر */
+}
+
+/* Categories Grid */
+.layer-content {
+    width: 66%; /* العودة لعرض الموبايل داخل الطبقة العريضة */
+    margin: 0 auto;
+}
+
+.category-grid {
     display: flex;
     justify-content: space-around;
-    padding: 12px;
-    border-radius: 25px;
-    border: 1px solid var(--glass-border);
-    z-index: 1000;
+    align-items: flex-end;
+    padding-top: 20px;
 }
-.nav-link {
-    text-decoration: none;
-    color: var(--text-dim);
+
+.cat-item {
     display: flex;
     flex-direction: column;
     align-items: center;
-    font-size: 0.7rem;
-}
-.nav-link.active { color: var(--primary); }
-.nav-link i { font-size: 1.2rem; margin-bottom: 4px; }
-
-/* WhatsApp */
-.whatsapp-float {
-    position: fixed;
-    bottom: 100px;
-    left: 20px;
-    background: #25d366;
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 24px;
     color: white;
-    box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4);
-    z-index: 999;
+    font-weight: bold;
 }
 
-@keyframes pulse {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.1); }
-    100% { transform: scale(1); }
+.circle-img {
+    background: #ffffff33;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-bottom: 10px;
 }
-.pulse { animation: pulse 2s infinite; }
+
+.small .circle-img { width: 70px; height: 70px; }
+.large .circle-img { width: 100px; height: 100px; border: 3px solid #ffcc00; }
+
+.circle-img img { width: 100%; height: 100%; object-fit: cover; }
+
+/* Products Section */
+.products-container {
+    width: 66%;
+    margin: 0 auto;
+    position: relative;
+    text-align: center;
+}
+
+.product-featured {
+    padding-top: 40px;
+}
+
+.product-featured img {
+    width: 220px;
+    filter: drop-shadow(0 20px 20px rgba(0,0,0,0.3));
+}
+
+.product-info {
+    color: white;
+    margin-top: 15px;
+}
+
+.product-info h4 { font-size: 1.5rem; }
+.product-info .price { font-size: 1.2rem; opacity: 0.9; }
+
+/* Side Decorative Products */
+.side-product {
+    position: absolute;
+    top: 150px;
+    opacity: 0.6;
+}
+.side-product img { width: 150px; }
+.left { left: -80px; transform: rotate(-15deg); }
+.right { right: -80px; transform: rotate(15deg); }
