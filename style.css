@@ -1,142 +1,103 @@
 :root {
-    --primary-color: #e67e22;
-    --secondary-color: #2d3436;
-    --text-color: #333;
-    --bg-light: #f9f9f9;
-}
-
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    --accent-color: #ffc107; /* اللون الأصفر المميز للمنيو */
+    --bg-dark: #121212;
+    --card-bg: #1e1e1e;
+    --text-white: #ffffff;
 }
 
 body {
-    line-height: 1.6;
-    color: var(--text-color);
-    background-color: var(--bg-light);
+    background-color: var(--bg-dark);
+    color: var(--text-white);
+    margin: 0;
+    font-family: 'Cairo', sans-serif; /* خط عربي احترافي */
+    direction: rtl;
 }
 
-/* Navbar */
-nav {
+/* هيدر الموقع - صورة المطعم واللوجو */
+.header-brand {
+    height: 200px;
+    background: linear-gradient(transparent, var(--bg-dark)), url('https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=800');
+    background-size: cover;
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1rem 5%;
-    background: #fff;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    align-items: flex-end;
+    padding: 20px;
+}
+
+/* تصنيفات المنيو القابلة للتمرير يميناً ويساراً */
+.categories-nav {
+    display: flex;
+    overflow-x: auto;
+    white-space: nowrap;
+    padding: 15px;
+    background: var(--bg-dark);
     position: sticky;
     top: 0;
-    z-index: 1000;
+    z-index: 100;
+    gap: 10px;
+    scrollbar-width: none; /* إخفاء شريط التمرير */
 }
 
-.logo {
-    font-size: 1.5rem;
+.category-item {
+    padding: 8px 20px;
+    border-radius: 20px;
+    background: var(--card-bg);
+    border: 1px solid #333;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.category-item.active {
+    background: var(--accent-color);
+    color: #000;
     font-weight: bold;
-    color: var(--primary-color);
 }
 
-.nav-links {
-    display: flex;
-    list-style: none;
-}
-
-.nav-links li {
-    margin-left: 25px;
-}
-
-.nav-links a {
-    text-decoration: none;
-    color: var(--secondary-color);
-    font-weight: 500;
-    transition: 0.3s;
-}
-
-.nav-links a:hover {
-    color: var(--primary-color);
-}
-
-/* Animations */
-.fade-in {
-    animation: fadeIn 1.5s ease-in;
-}
-
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-/* Hero Section */
-.hero {
-    height: 80vh;
-    background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
-    background-size: cover;
-    background-position: center;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    color: #fff;
-    text-align: center;
-    padding: 0 20px;
-}
-
-.hero h1 { font-size: 3.5rem; margin-bottom: 20px; }
-
-.btn {
-    padding: 12px 30px;
-    background: var(--primary-color);
-    color: #fff;
-    text-decoration: none;
-    border-radius: 25px;
-    transition: 0.3s;
-}
-
-.btn:hover { background: #cf6d17; }
-
-/* Menu Grid */
-.menu-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 20px;
-    padding: 50px 5%;
-}
-
-.menu-item {
-    background: #fff;
+/* كروت الوجبات */
+.menu-container {
     padding: 15px;
-    border-radius: 10px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-    text-align: center;
-    transition: transform 0.3s;
 }
 
-.menu-item:hover { transform: scale(1.05); }
+.product-card {
+    display: flex;
+    background: var(--card-bg);
+    border-radius: 15px;
+    margin-bottom: 15px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    animation: slideIn 0.5s ease;
+}
 
-.menu-item img { width: 100%; border-radius: 8px; }
+.product-img {
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+}
 
-/* WhatsApp Button */
-.whatsapp-btn {
+.product-info {
+    padding: 12px;
+    flex: 1;
+}
+
+.product-price {
+    color: var(--accent-color);
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+/* أنيميشن الظهور */
+@keyframes slideIn {
+    from { opacity: 0; transform: translateX(20px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+
+/* زر الواتساب */
+.wa-float {
     position: fixed;
     bottom: 20px;
-    right: 20px;
+    left: 20px;
     background: #25d366;
-    color: white;
-    width: 60px;
-    height: 60px;
+    padding: 15px;
     border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 30px;
-    box-shadow: 2px 2px 10px rgba(0,0,0,0.2);
-    z-index: 1000;
-    text-decoration: none;
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-    .nav-links { display: none; } /* يمكن إضافة Menu Toggle لاحقاً */
-    .hero h1 { font-size: 2rem; }
+    font-size: 24px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.4);
 }
