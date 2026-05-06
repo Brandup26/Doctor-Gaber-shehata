@@ -12,17 +12,19 @@
 
     <header class="main-header">
         <div class="overlay">
-            <h1>ليالي الشام ✨</h1>
-            <p>أشهى المأكولات السورية والمشويات</p>
+            <div class="logo-area">
+                <h1>ليالي الشام ✨</h1>
+                <p>أصل المذاق السامي في قلبك</p>
+            </div>
         </div>
     </header>
 
     <div class="categories-nav">
         <div class="category-item active" onclick="filterMenu('all')">الكل</div>
-        <div class="category-item" onclick="filterMenu('grills')">مشويات</div>
-        <div class="category-item" onclick="filterMenu('shawarma')">شاورما</div>
-        <div class="category-item" onclick="filterMenu('appetizers')">مقبلات</div>
-        <div class="category-item" onclick="filterMenu('drinks')">مشروبات</div>
+        <div class="category-item" onclick="filterMenu('grills')">المشويات</div>
+        <div class="category-item" onclick="filterMenu('shawarma')">الشاورما</div>
+        <div class="category-item" onclick="filterMenu('appetizers')">المقبلات</div>
+        <div class="category-item" onclick="filterMenu('dessert')">الحلويات</div>
     </div>
 
     <div class="menu-container" id="menuGrid">
@@ -30,12 +32,12 @@
 
     <div id="cartBar" class="cart-bar" onclick="sendOrder()">
         <div class="cart-info">
-            <i class="fas fa-shopping-basket"></i>
-            <span>عرض السلة (<span id="cartCount">0</span> أصناف)</span>
+            <span class="count-badge" id="cartCount">0</span>
+            <span>مشاهدة الطلب</span>
         </div>
         <div class="cart-total">
             <span id="cartTotal">0</span> ج.م
-            <i class="fab fa-whatsapp" style="margin-right: 10px;"></i>
+            <i class="fab fa-whatsapp"></i>
         </div>
     </div>
 
