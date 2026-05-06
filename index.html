@@ -1,33 +1,50 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="ar">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>مطعم النكهة الطيبة - الرئيسية</title>
+    <title>منيو المطعم</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
 
-    <nav>
-        <div class="logo">Gourmet Food</div>
-        <ul class="nav-links">
-            <li><a href="index.html">الرئيسية</a></li>
-            <li><a href="menu.html">المنيو</a></li>
-            <li><a href="about.html">من نحن</a></li>
-            <li><a href="contact.html">اتصل بنا</a></li>
-        </ul>
-    </nav>
+    <div class="header-brand">
+        <h1 style="margin:0;">اسم المطعم</h1>
+    </div>
 
-    <header class="hero fade-in">
-        <h1>تذوق فن الطبخ الأصيل</h1>
-        <p>نقدم لكم تجربة طعام لا تُنسى بأفضل المكونات الطازجة</p><br>
-        <a href="menu.html" class="btn">استعرض المنيو</a>
-    </header>
+    <div class="categories-nav">
+        <div class="category-item active" onclick="filterMenu('all')">الكل</div>
+        <div class="category-item" onclick="filterMenu('pizza')">بيتزا</div>
+        <div class="category-item" onclick="filterMenu('burgers')">برجر</div>
+        <div class="category-item" onclick="filterMenu('drinks')">مشروبات</div>
+    </div>
 
-    <a href="https://wa.me/123456789" class="whatsapp-btn" target="_blank">
+    <div class="menu-container">
+        <div class="product-card pizza">
+            <img src="https://images.unsplash.com/photo-1513104890138-7c749659a591?w=300" class="product-img">
+            <div class="product-info">
+                <h3>بيتزا مارجريتا</h3>
+                <p style="font-size: 0.8rem; color: #aaa;">صلصة، موزاريلا، ريحان</p>
+                <span class="product-price">120 ج.م</span>
+            </div>
+        </div>
+
+        <div class="product-card burgers">
+            <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=300" class="product-img">
+            <div class="product-info">
+                <h3>تشيز برجر</h3>
+                <p style="font-size: 0.8rem; color: #aaa;">لحم بقري، جبنة شيدر، صوص خاص</p>
+                <span class="product-price">150 ج.م</span>
+            </div>
+        </div>
+    </div>
+
+    <a href="https://wa.me/123456789" class="wa-float" style="color:white;">
         <i class="fab fa-whatsapp"></i>
     </a>
 
+    <script src="script.js"></script>
 </body>
 </html>
