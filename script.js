@@ -1,16 +1,21 @@
-// تأثير بسيط عند إرسال النموذج
-document.getElementById('contactForm')?.addEventListener('submit', function(e) {
-    e.preventDefault();
-    alert('شكرًا لتواصلك معنا! سنرد عليك في أقرب وقت.');
-    this.reset();
-});
+function filterMenu(category) {
+    // تحديث شكل الأزرار
+    document.querySelectorAll('.category-item').forEach(item => {
+        item.classList.remove('active');
+    });
+    event.target.classList.add('active');
 
-// تغيير لون الـ Navbar عند التمرير
-window.addEventListener('scroll', function() {
-    const nav = document.querySelector('nav');
-    if (window.scrollY > 50) {
-        nav.style.background = '#eee';
-    } else {
-        nav.style.background = '#fff';
-    }
-});
+    // إخفاء وإظهار العناصر
+    let cards = document.querySelectorAll('.product-card');
+    cards.forEach(card => {
+        if (category === 'all') {
+            card.style.display = 'flex';
+        } else {
+            if (card.classList.contains(category)) {
+                card.style.display = 'flex';
+            } else {
+                card.style.display = 'none';
+            }
+        }
+    });
+}
