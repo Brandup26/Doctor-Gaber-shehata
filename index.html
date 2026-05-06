@@ -3,85 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> .  </title>
-    <style>
-        /*   -    */
-        :root { --blue: #0046ad; --light-blue: #e7f0ff; --green: #25d366; --text: #1a202c; }
-        body { margin: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f8fafc; color: var(--text); line-height: 1.6; }
-        
-        /*  */
-        header { background: white; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 10px rgba(0,0,0,0.05); position: sticky; top: 0; z-index: 1000; }
-        .logo { font-weight: 800; font-size: 1.3rem; color: var(--blue); }
-        .call-btn { background: var(--blue); color: white; padding: 8px 18px; border-radius: 50px; text-decoration: none; font-weight: bold; font-size: 0.85rem; }
-
-        /*   */
-        .hero { background: linear-gradient(135deg, #003a8c 0%, #0056b3 100%); color: white; padding: 50px 20px; text-align: center; border-bottom-left-radius: 40px; border-bottom-right-radius: 40px; }
-        .hero h1 { font-size: 2rem; margin: 0 0 15px; }
-        .hero p { font-size: 1rem; opacity: 0.9; margin-bottom: 25px; }
-        .whatsapp-btn { background: var(--green); color: white; padding: 15px 30px; border-radius: 15px; text-decoration: none; font-weight: 800; font-size: 1.1rem; display: inline-block; box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3); }
-
-        /*  */
-        .section-title { text-align: center; margin: 40px 0 20px; font-size: 1.6rem; color: var(--blue); }
-        .grid { padding: 0 20px; display: grid; gap: 15px; max-width: 800px; margin: 0 auto; }
-        .card { background: white; padding: 20px; border-radius: 20px; text-align: right; box-shadow: 0 4px 6px rgba(0,0,0,0.02); border-right: 6px solid var(--blue); }
-        .card h3 { margin: 0 0 10px; color: var(--blue); font-size: 1.2rem; }
-        .card p { margin: 0; font-size: 0.9rem; color: #64748b; }
-
-        /*   */
-        .contact-box { background: #002352; color: white; margin: 30px 20px; padding: 30px; border-radius: 25px; }
-        .info-row { margin-bottom: 20px; display: flex; gap: 15px; align-items: flex-start; }
-        .info-row b { color: #89c0ff; display: block; margin-bottom: 5px; }
-        
-        footer { text-align: center; padding: 20px; color: #94a3b8; font-size: 0.8rem; }
-    </style>
+    <title>مطعم النكهة الطيبة - الرئيسية</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
 
-    <header>
-        <div class="logo"> .  </div>
-        <a href="tel:01015090991" class="call-btn"> </a>
+    <nav>
+        <div class="logo">Gourmet Food</div>
+        <ul class="nav-links">
+            <li><a href="index.html">الرئيسية</a></li>
+            <li><a href="menu.html">المنيو</a></li>
+            <li><a href="about.html">من نحن</a></li>
+            <li><a href="contact.html">اتصل بنا</a></li>
+        </ul>
+    </nav>
+
+    <header class="hero fade-in">
+        <h1>تذوق فن الطبخ الأصيل</h1>
+        <p>نقدم لكم تجربة طعام لا تُنسى بأفضل المكونات الطازجة</p><br>
+        <a href="menu.html" class="btn">استعرض المنيو</a>
     </header>
 
-    <section class="hero">
-        <h1>   </h1>
-        <p>       </p>
-        <a href="https://wa.me/201015090991" class="whatsapp-btn">    </a>
-    </section>
-
-    <h2 class="section-title"></h2>
-    <div class="grid">
-        <div class="card">
-            <h3>   </h3>
-            <p>      .</p>
-        </div>
-        <div class="card">
-            <h3>  </h3>
-            <p>      .</p>
-        </div>
-        <div class="card">
-            <h3>  </h3>
-            <p>       .</p>
-        </div>
-    </div>
-
-    <div class="contact-box">
-        <div class="info-row">
-            <span></span>
-            <div><b></b>  -   -   </div>
-        </div>
-        <div class="info-row">
-            <span></span>
-            <div><b></b>01015090991</div>
-        </div>
-        <div class="info-row">
-            <span></span>
-            <div><b> </b>  9   11 </div>
-        </div>
-    </div>
-
-    <footer>
-        <p> .  &copy; 2026</p>
-    </footer>
+    <a href="https://wa.me/123456789" class="whatsapp-btn" target="_blank">
+        <i class="fab fa-whatsapp"></i>
+    </a>
 
 </body>
 </html>
