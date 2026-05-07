@@ -70,13 +70,13 @@
                 <span>الإجمالي:</span>
                 <span style="color:var(--main)"><span id="total-val">0</span> ج.م</span>
             </div>
-            <button onclick="sendOrder()" style="background:#25D366; color:#fff; border:none; width:100%; padding:18px; border-radius:15px; font-weight:900; font-size:17px;">تأكيد عبر واتساب</button>
+            <button onclick="sendOrder()" style="background:#25D366; color:#fff; border:none; width:100%; padding:18px; border-radius:15px; font-weight:900; font-size:17px; width:100%;">تأكيد عبر واتساب</button>
             <button onclick="toggleCart()" style="width:100%; background:none; border:none; margin-top:15px; color:#aaa; font-weight:700;">رجوع</button>
         </div>
     </div>
 
     <script>
-        // تحويل الرابط تلقائياً لصيغة التصدير
+        // الرابط اللي إنت بعته مع تحويله لملف بيانات CSV مباشرة
         const rawId = "1gbCDymsVfNxmyCihMHMjkSPkqnIrpKX_QVYQ77zkA8c";
         const sheetURL = `https://docs.google.com/spreadsheets/d/${rawId}/export?format=csv`;
 
@@ -87,25 +87,36 @@
 
         async function init() {
             try {
+                // سحب البيانات ومنع التخزين المؤقت لضمان سرعة التحديث
                 const res = await fetch(sheetURL + "&t=" + new Date().getTime());
                 const csvData = await res.text();
-                const rows = csvData.split(/\r?\n/).filter(r => r.trim() !== "").map(row => row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/));
-
-                products = rows.slice(1).map((cols, i) => {
-                    const name = cols[0]?.replace(/^"|"$/g, '').trim();
+                
+                // نظام "توستا" لمعالجة السطور والخلايا
+                const rows = csvData.split(/\r?\n/).filter(r => r.trim() !== "");
+                
+                products = rows.slice(1).map((row, i) => {
+                    const cols = row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/).map(c => c.replace(/^"|"$/g, '').trim());
+                    
+                    const name = cols[0] || "";
                     const price = parseFloat(cols[1]) || 0;
-                    const cat = cols[2]?.replace(/^"|"$/g, '').trim();
-                    if(name && cat && price > 0) return { id: i, n: name, p: price, c: cat };
+                    const cat = cols[2] || "";
+
+                    if(name && cat && price > 0) {
+                        return { id: i, n: name, p: price, c: cat };
+                    }
                     return null;
                 }).filter(p => p !== null);
 
                 const uniqueCats = [...new Set(products.map(p => p.c))];
-                categories = uniqueCats.map(name => ({ n: name, img: 'https://via.placeholder.com/150/f0f0f0/e31e24?text=' + encodeURIComponent(name) }));
+                categories = uniqueCats.map(name => ({
+                    n: name,
+                    img: 'https://via.placeholder.com/150/f0f0f0/e31e24?text=' + encodeURIComponent(name)
+                }));
 
                 document.getElementById('loader').style.display = 'none';
                 renderGear();
             } catch (e) {
-                document.getElementById('loader').innerText = "حدث خطأ في سحب البيانات، تأكد من صلاحيات الرابط.";
+                document.getElementById('loader').innerText = "خطأ في سحب البيانات! تأكد أن الملف عام (Anyone with link).";
             }
         }
 
@@ -125,8 +136,10 @@
             document.getElementById('gear').style.transform = `rotate(${target}deg)`;
             document.querySelectorAll('.cat-node').forEach((node, i) => {
                 node.classList.toggle('active', i === idx);
-                node.querySelector('.img-circle').style.transform = `rotate(${-target - (i * angleStep)}deg)`;
-                node.querySelector('p').style.transform = `rotate(${-target - (i * angleStep)}deg)`;
+                const circle = node.querySelector('.img-circle');
+                const p = node.querySelector('p');
+                circle.style.transform = `rotate(${-target - (i * angleStep)}deg)`;
+                p.style.transform = `rotate(${-target - (i * angleStep)}deg)`;
             });
             renderItems(categories[idx].n);
         }
@@ -172,10 +185,10 @@
         }
 
         function sendOrder() {
-            if(cart.length === 0) return alert("اختر طلباتك أولاً");
+            if(cart.length === 0) return alert("اختر طلباتك أولاً يا هندسة!");
             const list = cart.map(i => `- ${i.n} (${i.p} ج.م)`).join('%0A');
             const total = document.getElementById('total-val').innerText;
-            const text = `*طلب جديد من ابن سوريا*%0A${list}%0A%0A*الإجمالي:* ${total} ج.م`;
+            const text = `*طلب جديد من منيو ابن سوريا*%0A${list}%0A%0A*الإجمالي:* ${total} ج.م`;
             window.open(`https://wa.me/201016991319?text=${text}`);
         }
 
