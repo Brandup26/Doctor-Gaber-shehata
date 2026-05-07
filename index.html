@@ -1,80 +1,31 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Fresh Food | Premium Menu</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-</head>
-<body>
-
-    <div class="splash-screen" id="splash">
-        <div class="loader-content">
-            <img src="https://i.ibb.co/mS7zZ3S/burger.png" alt="logo">
-            <div class="loading-bar"></div>
-        </div>
+<header class="top-nav">
+    <div class="nav-icons"><i class="fa-solid fa-bars"></i> <i class="fa-solid fa-shopping-bag"></i></div>
+    <div class="user-brand">
+        <div class="info"><h3>مطعمك</h3><p>الاسكندرية ميامي</p></div>
+        <div class="logo-holder"><img src="https://i.ibb.co/mS7zZ3S/burger.png"></div>
     </div>
+</header>
 
-    <header class="main-nav">
-        <div class="icons-right"><i class="fa-solid fa-bars"></i> <i class="fa-solid fa-shopping-cart"></i><span class="badge">1</span></div>
-        <div class="brand-info">
-            <div class="text"><h3>مطعمك</h3><p>الاسكندرية ميامي</p></div>
-            <img src="https://i.ibb.co/mS7zZ3S/burger.png" class="logo-circle">
+<div class="hero-section">
+    <h1>طعم لذيذ ؟<br>اطلب الان</h1>
+</div>
+
+<div class="main-wrapper">
+    <div class="curve-layer red-bg">
+        <div class="cat-slider">
+            <div class="cat-item"><div class="c-img"><img src="https://i.postimg.cc/9fMpxm8y/pasta.png"></div><span>باستا</span></div>
+            <div class="cat-item active"><div class="c-img gold"><img src="https://i.postimg.cc/pL4M8f9x/burger.png"></div><span>برجر</span></div>
+            <div class="cat-item"><div class="c-img"><img src="https://i.postimg.cc/7Z0mZzYm/soup.png"></div><span>شوربة</span></div>
         </div>
-    </header>
-
-    <main class="content">
-        <div class="hero-text"><h1>طعم لذيذ ؟<br>اطلب الان</h1></div>
-
-        <div class="red-curved-box">
-            <div class="category-slider">
-                <div class="cat-card"><div class="img-circle"><img src="https://i.ibb.co/VvM6p7h/pasta.png"></div><span>باستا</span></div>
-                <div class="cat-card active"><div class="img-circle gold-border"><img src="https://i.ibb.co/mS7zZ3S/burger.png"></div><span>برجر</span></div>
-                <div class="cat-card"><div class="img-circle"><img src="https://i.ibb.co/L5M4f4B/soup.png"></div><span>شوربة</span></div>
-                <div class="cat-card"><div class="img-circle"><img src="https://i.ibb.co/VvM6p7h/pasta.png"></div><span>طواجن</span></div>
-            </div>
-
-            <div class="pink-curved-box">
-                <div class="product-list">
-                    <div class="product-item" onclick="openDetails()">
-                        <img src="https://i.ibb.co/mS7zZ3S/burger.png" class="p-img">
-                        <div class="p-info"><h3>تشكن برجر</h3><p>350.00 ج.م</p></div>
-                    </div>
-                    </div>
-            </div>
-        </div>
-    </main>
-
-    <div class="detail-modal" id="detailModal">
-        <div class="modal-header">
-            <i class="fa-solid fa-chevron-right" onclick="closeDetails()"></i>
-            <i class="fa-solid fa-house"></i>
-        </div>
-        <img src="https://i.ibb.co/mS7zZ3S/burger.png" class="detail-img">
-        <div class="detail-body">
-            <div class="top-row">
-                <span class="price">350.00 ج.م</span>
-                <span class="title">برجر</span>
-            </div>
-            <div class="stats">
-                <span><i class="fa-solid fa-fire"></i> 230 سعر حراري</span>
-                <span><i class="fa-solid fa-leaf"></i> نباتي</span>
-            </div>
-            <p class="desc">برجر لحم مع المشروم وصوص الشيدر ويقدم مع البطاطس المقلية.</p>
-            
-            <div class="options">
-                <h4>الحجم</h4>
-                <div class="size-btns">
-                    <button class="active">صغير<br>255 ج.م</button>
-                    <button>وسط<br>290 ج.م</button>
-                    <button>كبير<br>350 ج.م</button>
+        
+        <div class="curve-layer pink-bg">
+            <div class="product-card" onclick="openDetails()">
+                <img src="https://i.postimg.cc/pL4M8f9x/burger.png" class="main-burger">
+                <div class="product-text">
+                    <h2>تشكن برجر</h2>
+                    <p>350.00 ج.م</p>
                 </div>
             </div>
-            <button class="add-to-cart">إضافة للسلة</button>
         </div>
     </div>
-
-    <script src="script.js"></script>
-</body>
-</html>
+</div>
