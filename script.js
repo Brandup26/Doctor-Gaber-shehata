@@ -1,20 +1,27 @@
-document.addEventListener('DOMContentLoaded', () => {
-    const redLayer = document.querySelector('.red-layer');
-    const pinkLayer = document.querySelector('.pink-layer');
-
-    // تأثير دخول ناعم للطبقات
+// 1. Splash Screen
+window.addEventListener('load', () => {
     setTimeout(() => {
-        redLayer.style.transition = 'all 1s cubic-bezier(0.19, 1, 0.22, 1)';
-        redLayer.style.marginTop = '-50px';
-        
-        pinkLayer.style.transition = 'all 1.2s cubic-bezier(0.19, 1, 0.22, 1)';
-        pinkLayer.style.marginTop = '-120px';
-    }, 100);
+        document.getElementById('splash').style.opacity = '0';
+        setTimeout(() => document.getElementById('splash').remove(), 500);
+    }, 1500);
+});
 
-    // إضافة تفاعل بسيط عند تحريك الهاتف (Parallax خفيف)
-    window.addEventListener('scroll', () => {
-        const scrolled = window.pageYOffset;
-        document.querySelector('.product-featured img').style.transform = 
-            `translateY(${scrolled * 0.1}px)`;
+// 2. Modal Toggle
+function openDetails() {
+    document.getElementById('detailModal').classList.add('open');
+    document.body.style.overflow = 'hidden'; // منع السكرول خلف المودال
+}
+
+function closeDetails() {
+    document.getElementById('detailModal').classList.remove('open');
+    document.body.style.overflow = 'auto';
+}
+
+// 3. Size Button Toggle
+const btns = document.querySelectorAll('.size-btns button');
+btns.forEach(btn => {
+    btn.addEventListener('click', () => {
+        btns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
     });
 });
