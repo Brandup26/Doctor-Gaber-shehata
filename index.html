@@ -1,175 +1,55 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
-  <meta name="apple-mobile-web-app-capable" content="yes"/>
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
-  <meta name="theme-color" content="#0d0d0d"/>
-  <title>Juicy — قائمة طعام فاخرة</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com"/>
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet"/>
-  <link rel="stylesheet" href="style.css"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>مطعم فاخر</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
-<div class="status-bar">
-  <span class="status-time" id="statusTime">9:41</span>
-  <div class="status-icons">
-    <svg width="17" height="12" viewBox="0 0 17 12" fill="white"><rect x="0" y="3" width="3" height="9" rx="1"/><rect x="4.5" y="2" width="3" height="10" rx="1"/><rect x="9" y="0.5" width="3" height="11.5" rx="1"/><rect x="13.5" y="0" width="2.5" height="12" rx="1" opacity="0.3"/></svg>
-    <svg width="16" height="12" viewBox="0 0 16 12" fill="white"><path d="M8 2.4C10.2 2.4 12.2 3.3 13.6 4.8L15 3.3C13.2 1.3 10.7 0 8 0 5.3 0 2.8 1.3 1 3.3L2.4 4.8C3.8 3.3 5.8 2.4 8 2.4Z"/><path d="M8 5.6C9.5 5.6 10.8 6.2 11.8 7.2L13.2 5.7C11.8 4.3 9.9 3.4 8 3.4 6.1 3.4 4.2 4.3 2.8 5.7L4.2 7.2C5.2 6.2 6.5 5.6 8 5.6Z"/><circle cx="8" cy="10" r="2"/></svg>
-    <svg width="26" height="12" viewBox="0 0 26 12" fill="white"><rect x="0" y="1" width="22" height="10" rx="3" stroke="white" stroke-width="1" fill="none"/><rect x="1.5" y="2.5" width="15" height="7" rx="2" fill="white"/><rect x="23" y="3.5" width="2.5" height="5" rx="1.2" fill="white" opacity="0.5"/></svg>
-  </div>
-</div>
-
-<div class="phone-wrapper" id="phoneWrapper">
-  <header class="hero-header" id="heroHeader">
-    <div class="hero-mesh"></div>
-    <div class="hero-orb orb-a"></div>
-    <div class="hero-orb orb-b"></div>
-    <div class="hero-orb orb-c"></div>
-
-    <div class="top-nav">
-      <button class="nav-pill" id="openCartBtn" aria-label="سلة التسوق">
-        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
-        <span class="nav-badge" id="navBadge">0</span>
-      </button>
-      <div class="brand-center">
-        <div class="brand-emblem"><span>🍔</span></div>
-        <span class="brand-wordmark">Juicy</span>
-      </div>
-      <button class="nav-pill" id="searchToggleBtn">
-        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-      </button>
-    </div>
-
-    <div class="hero-content">
-      <div class="hero-chip"><span class="chip-dot"></span><span>الأكثر طلباً هذا الأسبوع</span></div>
-      <h1 class="hero-title"><span class="ht1">برغر</span><span class="ht2">جوسي</span></h1>
-      <p class="hero-desc">طازج يومياً &nbsp;·&nbsp; مكونات فاخرة &nbsp;·&nbsp; وصفات حصرية</p>
-      <div class="hero-pills">
-        <div class="hero-pill"><span>⭐</span><div><b>4.9</b><small>تقييم</small></div></div>
-        <div class="hp-div"></div>
-        <div class="hero-pill"><span>🍽</span><div><b>2K+</b><small>طلب</small></div></div>
-        <div class="hp-div"></div>
-        <div class="hero-pill"><span>⚡</span><div><b>20د</b><small>توصيل</small></div></div>
-      </div>
-    </div>
-
-    <div class="hero-burger-wrap">
-      <div class="b-ring r1"></div>
-      <div class="b-ring r2"></div>
-      <div class="b-glow"></div>
-      <div class="hero-burger">
-        <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=700&q=90&auto=format&fit=crop" alt="Burger"/>
-      </div>
-      <div class="ft tag-hot">🌶 حار</div>
-      <div class="ft tag-fresh">✨ طازج</div>
-    </div>
-
-    <div class="hero-wave">
-      <svg viewBox="0 0 390 72" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M0,0 C60,70 330,70 390,0 L390,72 L0,72 Z" fill="#0d0d0d"/>
-      </svg>
-    </div>
+  <header class="header">
+    <h1>طعمه لذيذ؟ اطلب الان</h1>
   </header>
 
-  <main class="main-body" id="mainBody">
-    <div class="search-wrap reveal">
-      <div class="search-box">
-        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-        <input id="searchInput" type="text" placeholder="ابحث عن وجبتك المفضلة..." autocomplete="off"/>
-      </div>
-    </div>
-
-    <section class="sec reveal">
-      <div class="sec-head"><h2 class="sec-title">الفئات</h2></div>
-      <div class="cats-row">
-        <button class="cat-btn active" onclick="filterMenu('all', this)"><div class="cat-orb"><span>🍔</span></div><span>الكل</span></button>
-        <button class="cat-btn" onclick="filterMenu('burgers', this)"><div class="cat-orb"><span>🥩</span></div><span>برغر</span></button>
-        <button class="cat-btn" onclick="filterMenu('chicken', this)"><div class="cat-orb"><span>🍗</span></div><span>دجاج</span></button>
-        <button class="cat-btn" onclick="filterMenu('drinks', this)"><div class="cat-orb"><span>🥤</span></div><span>مشروبات</span></button>
-      </div>
-    </section>
-
-    <section class="sec reveal">
-      <div class="sec-head"><h2 class="sec-title">الأكثر طلباً 🔥</h2></div>
-      <div class="feat-row" id="featRow">
-        <div class="feat-card" data-category="burgers">
-          <div class="fc-img">
-            <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=500" alt="كلاسيك جوسي"/>
-            <span class="fc-ribbon">🔥 الأكثر مبيعاً</span>
-          </div>
-          <div class="fc-body">
-            <h3>كلاسيك جوسي برغر</h3>
-            <p>لحم بقري طازج · جبن شيدر · خس</p>
-            <div class="fc-foot">
-              <span class="fc-price">٣٥ ر.س</span>
-            </div>
-            <button class="atc-btn" onclick="addToCart({id:'f1', name:'كلاسيك جوسي برغر', price:35, img:'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=500'})">
-              <span>أضف للسلة</span>
-            </button>
-          </div>
+  <main>
+    <section class="menu-section">
+      <h2 class="section-title">قائمة الطعام</h2>
+      <div class="menu-grid">
+        <!-- Food Cards -->
+        <div class="food-card">
+          <img src="burger1.jpg" alt="برجر">
+          <h3>برجر</h3>
+          <p class="price">350 ج</p>
+        </div>
+        <div class="food-card">
+          <img src="burger2.jpg" alt="برجر كبير">
+          <h3>برجر كبير</h3>
+          <p class="price">450 ج</p>
+        </div>
+        <div class="food-card">
+          <img src="pasta.jpg" alt="باستا">
+          <h3>باستا</h3>
+          <p class="price">550 ج</p>
+        </div>
+        <div class="food-card">
+          <img src="burger3.jpg" alt="برجر ديلوكس">
+          <h3>برجر ديلوكس</h3>
+          <p class="price">650 ج</p>
         </div>
       </div>
     </section>
-
-    <section class="sec reveal">
-      <div class="sec-head"><h2 class="sec-title">القائمة الكاملة</h2></div>
-      <div class="menu-grid" id="menuGrid">
-        <div class="mc" data-category="burgers">
-          <div class="mc-img"><img src="https://images.unsplash.com/photo-1571091718767-18b5b1457add?w=400"/></div>
-          <div class="mc-body">
-            <h4>دبل سماش برغر</h4><p>لحمتين مضغوطتين · صوص سري</p>
-            <div class="mc-foot"><span class="mc-price">٤٥ ر.س</span>
-            <button class="mc-add" onclick="addToCart({id:'m1', name:'دبل سماش برغر', price:45, img:'https://images.unsplash.com/photo-1571091718767-18b5b1457add?w=400'})">+</button></div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <footer class="app-footer reveal">
-      <div class="footer-brand">🍔 Juicy</div>
-      <p>أشهى البرغر في المدينة</p>
-    </footer>
   </main>
 
-  <nav class="bnav">
-    <button class="bn-btn active"><span>الرئيسية</span></button>
-    <button class="bn-btn bn-cart" id="bnCartBtn">
-      <div class="bn-cart-orb">
-        <svg width="24" height="24" fill="none" stroke="white" stroke-width="2.2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
-        <span class="bn-badge" id="bnBadge">0</span>
-      </div>
-      <span>السلة</span>
-    </button>
-    <button class="bn-btn"><span>حسابي</span></button>
-  </nav>
-</div>
+  <footer class="sticky-navigation">
+    <button>الرئيسية</button>
+    <button>القائمة</button>
+    <button>التواصل</button>
+  </footer>
 
-<div class="cart-backdrop" id="cartBackdrop"></div>
-<div class="cart-drawer" id="cartDrawer">
-  <div class="cd-handle"></div>
-  <div class="cd-head">
-    <h2>سلة التسوق 🛒</h2>
-    <button class="cd-close" id="closeCartBtn">✕</button>
-  </div>
-  <div class="cd-body" id="cartBody"></div>
-  <div class="cd-empty" id="cartEmpty"><h3>السلة فارغة</h3></div>
-  <div class="cd-foot" id="cartFoot">
-    <div class="cd-totals">
-      <div class="cd-row"><span>الإجمالي</span><span id="grandVal">٠ ر.س</span></div>
-    </div>
-    <button class="checkout-btn">
-      <span>تأكيد الطلب</span>
-      <span id="checkoutTotal">٠ ر.س</span>
-    </button>
-  </div>
-</div>
+  <button class="floating-whatsapp">
+    <img src="whatsapp-icon.png" alt="WhatsApp">
+  </button>
 
-<div class="toast" id="toast"><span id="toastMsg">تمت الإضافة</span></div>
-
-<script src="script.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
