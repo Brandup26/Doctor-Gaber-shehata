@@ -13,13 +13,13 @@
 
         /* الهيدر والسلة */
         header { padding: 15px 20px; background: #fff; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 2000; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
-        .cart-btn { position: relative; cursor: pointer; background: none; border: none; }
+        .cart-btn { position: relative; cursor: pointer; background: none; border: none; outline: none; }
         #cart-count { position: absolute; top: -8px; right: -8px; background: var(--main); color: #fff; width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: bold; border: 2px solid #fff; }
 
         /* البنر */
         .banner { width: 100%; height: 140px; background: url('https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=800') center/cover; position: relative; }
         .banner-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.4); display: flex; align-items: flex-end; padding: 15px; }
-        .rest-logo { width: 80px; height: 80px; border-radius: 15px; background: #fff; border: 2px solid var(--main); display: flex; align-items: center; justify-content: center; font-weight: 900; color: var(--main); font-size: 14px; text-align: center; }
+        .rest-logo { width: 80px; height: 80px; border-radius: 15px; background: #fff; border: 2px solid var(--main); display: flex; align-items: center; justify-content: center; font-weight: 900; color: var(--main); font-size: 14px; text-align: center; line-height: 1.2; }
 
         /* الترس الدوار */
         .arc-container { position: relative; width: 100%; height: 260px; background: #fff; overflow: hidden; border-bottom-left-radius: 50px; border-bottom-right-radius: 50px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
@@ -27,14 +27,14 @@
         .cat-node { position: absolute; top: 0; left: 50%; width: 100px; height: 375px; margin-left: -50px; transform-origin: bottom center; display: flex; flex-direction: column; align-items: center; cursor: pointer; }
         .img-circle { width: 85px; height: 85px; border-radius: 50%; border: 4px solid #f0f0f0; background-size: cover; background-position: center; transition: 0.4s; background-color: #eee; }
         .cat-node.active .img-circle { border-color: var(--main); transform: scale(1.2) translateY(-10px); box-shadow: 0 10px 20px rgba(227,30,36,0.2); }
-        .cat-node p { margin-top: 10px; font-weight: 900; font-size: 15px; color: #444; }
+        .cat-node p { margin-top: 10px; font-weight: 900; font-size: 15px; color: #444; text-align: center; width: 120px; }
         .cat-node.active p { color: var(--main); }
 
         /* قائمة الطعام */
         .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; padding: 20px; }
         .card { background: #fff; border-radius: 25px; padding: 15px; text-align: center; box-shadow: 0 5px 15px rgba(0,0,0,0.03); border: 1px solid #f0f0f0; animation: fadeIn 0.5s ease; }
-        .item-name { font-weight: 700; color: #333; height: 40px; display: flex; align-items: center; justify-content: center; font-size: 14px; }
-        .price { color: #2ecc71; font-weight: 900; font-size: 19px; margin: 10px 0; }
+        .item-name { font-weight: 700; color: #333; height: 45px; display: flex; align-items: center; justify-content: center; font-size: 14px; line-height: 1.3; }
+        .price { color: #2ecc71; font-weight: 900; font-size: 18px; margin: 10px 0; }
         .add-btn { background: var(--main); color: #fff; border: none; width: 100%; padding: 10px; border-radius: 12px; font-weight: 700; cursor: pointer; }
 
         /* السلة الجانبية */
@@ -45,14 +45,14 @@
         .cart-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid #eee; }
 
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        @keyframes bounce { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.3); } }
         .bounce { animation: bounce 0.3s ease; }
+        @keyframes bounce { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.3); } }
     </style>
 </head>
 <body>
 
     <header>
-        <div style="font-weight:900; color:var(--main); font-size:24px;">ابن سوريا</div>
+        <div style="font-weight:900; color:var(--main); font-size:22px;">ابن سوريا</div>
         <button class="cart-btn" onclick="toggleCart()">
             <i class="fas fa-shopping-basket" style="font-size:24px;"></i>
             <span id="cart-count">0</span>
@@ -67,7 +67,7 @@
         <div class="gear-wheel" id="gear"></div>
     </div>
 
-    <div id="loader" style="text-align:center; padding:50px; font-weight:bold;">جاري تحميل المنيو السوري...</div>
+    <div id="loader" style="text-align:center; padding:50px; font-weight:bold; color:#888;">جاري فحص وتجهيز البيانات...</div>
     <div class="grid" id="menu-grid"></div>
 
     <div class="overlay" id="overlay" onclick="toggleCart()"></div>
@@ -79,13 +79,14 @@
                 <span>الإجمالي:</span>
                 <span style="color:var(--main)"><span id="total-val">0</span> ج.م</span>
             </div>
-            <input type="text" id="cust-name" placeholder="اسمك الكريم" style="width:100%; padding:15px; margin-bottom:10px; border:1px solid #ddd; border-radius:12px;">
-            <button onclick="sendOrder()" style="background:#25D366; color:#fff; border:none; width:100%; padding:18px; border-radius:15px; font-weight:900; font-size:18px;">تأكيد الطلب واتساب</button>
-            <button onclick="toggleCart()" style="width:100%; background:none; border:none; margin-top:15px; color:#aaa;">رجوع للمنيو</button>
+            <input type="text" id="cust-name" placeholder="اسمك الكريم" style="width:100%; padding:15px; margin-bottom:10px; border:1px solid #ddd; border-radius:12px; font-size:16px;">
+            <button onclick="sendOrder()" style="background:#25D366; color:#fff; border:none; width:100%; padding:18px; border-radius:15px; font-weight:900; font-size:18px;">تأكيد عبر واتساب</button>
+            <button onclick="toggleCart()" style="width:100%; background:none; border:none; margin-top:15px; color:#aaa; font-weight:700;">رجوع للمنيو</button>
         </div>
     </div>
 
     <script>
+        // الرابط المباشر
         const sheetURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ68fulE4zmzghKo9LhfJZ4GR1xlf__f9Z9k7hC4hEBABzKT_QHADJqVrfhlX82mdbtE4zeBrTOuKP3/pub?output=csv";
 
         let products = [];
@@ -93,34 +94,38 @@
         let cart = [];
         const angleStep = 45;
 
-        // دالة جلب البيانات
         async function loadMenu() {
             try {
                 const res = await fetch(sheetURL + "&t=" + new Date().getTime());
-                const csv = await res.text();
-                const rows = csv.split('\n').filter(r => r.trim() !== "");
-
+                const csvText = await res.text();
+                
+                // تنظيف ومعالجة الصفوف بدقة
+                const rows = csvText.split(/\r?\n/).filter(row => row.trim() !== "");
+                
                 products = rows.slice(1).map((row, i) => {
+                    // معالجة الفواصل المعقدة (CSV Standard)
                     const cols = row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
-                    return {
-                        id: i,
-                        n: cols[0]?.replace(/"/g, '').trim(),
-                        p: parseFloat(cols[1]) || 0,
-                        c: cols[2]?.replace(/"/g, '').trim()
-                    };
-                }).filter(p => p.n && p.c);
+                    
+                    const name = cols[0]?.replace(/"/g, '').trim();
+                    const price = parseFloat(cols[1]?.replace(/[^\d.]/g, '')) || 0;
+                    const cat = cols[2]?.replace(/"/g, '').trim();
 
-                // استخراج الأقسام من الشيت وربطها بصور افتراضية
-                const uniqueCats = [...new Set(products.map(p => p.c))];
+                    return { id: i, n: name, p: price, c: cat };
+                }).filter(p => p.n && p.p > 0); // استبعاد أي صنف بدون اسم أو سعره 0
+
+                // استخراج الأقسام الحقيقية فقط
+                const uniqueCats = [...new Set(products.map(p => p.c))].filter(c => c);
                 categories = uniqueCats.map(name => ({
                     n: name,
                     img: `https://via.placeholder.com/150/f0f0f0/e31e24?text=${encodeURIComponent(name)}`
                 }));
 
+                if (products.length === 0) throw new Error("No Data");
+
                 document.getElementById('loader').style.display = 'none';
                 renderGear();
             } catch (e) {
-                document.getElementById('loader').innerText = "خطأ في الاتصال بالشيت!";
+                document.getElementById('loader').innerHTML = "<span style='color:red;'>عذراً، تأكد من أن ملف جوجل شيت يحتوي على بيانات صحيحة في الأعمدة الثلاثة الأولى.</span>";
             }
         }
 
@@ -162,7 +167,6 @@
             const item = products.find(p => p.id === id);
             cart.push(item);
             updateCartUI();
-            
             const badge = document.getElementById('cart-count');
             badge.classList.add('bounce');
             setTimeout(() => badge.classList.remove('bounce'), 300);
@@ -172,8 +176,8 @@
             document.getElementById('cart-count').innerText = cart.length;
             document.getElementById('cart-list').innerHTML = cart.map((item, i) => `
                 <div class="cart-item">
-                    <span>${item.n}</span>
-                    <strong>${item.p} ج.م <i class="fas fa-trash" onclick="removeFromCart(${i})" style="color:red; margin-right:10px;"></i></strong>
+                    <span style="font-size:14px; font-weight:700;">${item.n}</span>
+                    <strong style="color:var(--main);">${item.p} ج.م <i class="fas fa-trash" onclick="removeFromCart(${i})" style="margin-right:10px; cursor:pointer; color:#ccc;"></i></strong>
                 </div>
             `).join('');
             document.getElementById('total-val').innerText = cart.reduce((s, i) => s + i.p, 0);
@@ -191,10 +195,10 @@
 
         function sendOrder() {
             const name = document.getElementById('cust-name').value;
-            if(!name || cart.length === 0) return alert("دخل اسمك وطلباتك!");
+            if(!name || cart.length === 0) return alert("من فضلك أدخل اسمك واختر بعض الأصناف");
             const list = cart.map(i => `- ${i.n} (${i.p} ج.م)`).join('%0A');
             const total = document.getElementById('total-val').innerText;
-            const text = `*طلب جديد من ابن سوريا*%0A*الاسم:* ${name}%0A*الطلبات:*%0A${list}%0A*الإجمالي:* ${total} ج.م`;
+            const text = `*طلب جديد - منيو ابن سوريا*%0A*الاسم:* ${name}%0A*الطلبات:*%0A${list}%0A%0A*الإجمالي:* ${total} ج.م`;
             window.open(`https://wa.me/201016991319?text=${text}`);
         }
 
