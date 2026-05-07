@@ -4,8 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>مطعم ابن سوريا - أطلب الآن</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
 
@@ -17,44 +23,57 @@
         </div>
     </header>
 
-    <section class="categories">
-        <div class="cat-item" onclick="filterMenu('all')">
-            <img src="https://via.placeholder.com/80" alt="الكل">
-            <p>الكل</p>
-        </div>
-        <div class="cat-item" onclick="filterMenu('شاورما')">
-            <img src="https://via.placeholder.com/80" alt="شاورما">
-            <p>شاورما</p>
-        </div>
-        <div class="cat-item" onclick="filterMenu('مشويات')">
-            <img src="https://via.placeholder.com/80" alt="مشويات">
-            <p>مشويات</p>
-        </div>
-        <div class="cat-item" onclick="filterMenu('مقبلات')">
-            <img src="https://via.placeholder.com/80" alt="مقبلات">
-            <p>مقبلات</p>
-        </div>
-    </section>
-
-    <h2 class="section-title">قائمة الطعام</h2>
-    
-    <section class="menu-grid" id="menu-container">
+    <section class="categories" id="categories-container">
         </section>
 
-    <div class="cart-sidebar" id="cart-sidebar">
-        <h3>طلباتك</h3>
-        <div id="cart-items"></div>
-        <hr>
-        <div class="user-info">
-            <input type="text" id="user-name" placeholder="الاسم بالكامل">
-            <input type="tel" id="user-phone" placeholder="رقم الهاتف">
-            <input type="text" id="user-address" placeholder="العنوان بالتفصيل">
-        </div>
-        <button class="btn-whatsapp" onclick="sendToWhatsApp()">
-            إرسال الطلب عبر واتساب <i class="fab fa-whatsapp"></i>
-        </button>
-        <button class="btn-close" onclick="toggleCart()">إغلاق</button>
+    <div class="container-title">
+        <h2 class="section-title">قائمة الطعام المميزة</h2>
     </div>
+    
+    <section class="menu-grid" id="menu-container">
+        <div class="loader">جاري تحميل أشهى المأكولات...</div>
+    </section>
+
+    <div class="cart-sidebar" id="cart-sidebar">
+        <div class="cart-header">
+            <h3><i class="fas fa-cart-shopping"></i> طلباتك</h3>
+            <button class="btn-close" onclick="toggleCart()"><i class="fas fa-times"></i></button>
+        </div>
+        
+        <div id="cart-items">
+            </div>
+
+        <div class="cart-footer">
+            <div class="total-price">
+                <span>الإجمالي:</span>
+                <span id="total-amount">0</span> ج.م
+            </div>
+            
+            <hr>
+            
+            <div class="user-info">
+                <h4>بيانات التوصيل</h4>
+                <div class="input-group">
+                    <i class="fas fa-user"></i>
+                    <input type="text" id="user-name" placeholder="الاسم بالكامل">
+                </div>
+                <div class="input-group">
+                    <i class="fas fa-phone"></i>
+                    <input type="tel" id="user-phone" placeholder="رقم الهاتف">
+                </div>
+                <div class="input-group">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <input type="text" id="user-address" placeholder="العنوان بالتفصيل">
+                </div>
+            </div>
+
+            <button class="btn-whatsapp" onclick="sendToWhatsApp()">
+                إرسال الطلب للواتساب <i class="fab fa-whatsapp"></i>
+            </button>
+        </div>
+    </div>
+
+    <div class="overlay" id="overlay" onclick="toggleCart()"></div>
 
     <script src="script.js"></script>
 </body>
