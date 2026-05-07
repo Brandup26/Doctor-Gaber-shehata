@@ -1,55 +1,61 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>مطعم فاخر</title>
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مطعم ابن سوريا - أطلب الآن</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
-  <header class="header">
-    <h1>طعمه لذيذ؟ اطلب الان</h1>
-  </header>
 
-  <main>
-    <section class="menu-section">
-      <h2 class="section-title">قائمة الطعام</h2>
-      <div class="menu-grid">
-        <!-- Food Cards -->
-        <div class="food-card">
-          <img src="burger1.jpg" alt="برجر">
-          <h3>برجر</h3>
-          <p class="price">350 ج</p>
+    <header>
+        <div class="logo">ابن سوريا</div>
+        <div class="cart-icon" onclick="toggleCart()">
+            <i class="fas fa-shopping-basket"></i>
+            <span id="cart-count">0</span>
         </div>
-        <div class="food-card">
-          <img src="burger2.jpg" alt="برجر كبير">
-          <h3>برجر كبير</h3>
-          <p class="price">450 ج</p>
+    </header>
+
+    <section class="categories">
+        <div class="cat-item" onclick="filterMenu('all')">
+            <img src="https://via.placeholder.com/80" alt="الكل">
+            <p>الكل</p>
         </div>
-        <div class="food-card">
-          <img src="pasta.jpg" alt="باستا">
-          <h3>باستا</h3>
-          <p class="price">550 ج</p>
+        <div class="cat-item" onclick="filterMenu('شاورما')">
+            <img src="https://via.placeholder.com/80" alt="شاورما">
+            <p>شاورما</p>
         </div>
-        <div class="food-card">
-          <img src="burger3.jpg" alt="برجر ديلوكس">
-          <h3>برجر ديلوكس</h3>
-          <p class="price">650 ج</p>
+        <div class="cat-item" onclick="filterMenu('مشويات')">
+            <img src="https://via.placeholder.com/80" alt="مشويات">
+            <p>مشويات</p>
         </div>
-      </div>
+        <div class="cat-item" onclick="filterMenu('مقبلات')">
+            <img src="https://via.placeholder.com/80" alt="مقبلات">
+            <p>مقبلات</p>
+        </div>
     </section>
-  </main>
 
-  <footer class="sticky-navigation">
-    <button>الرئيسية</button>
-    <button>القائمة</button>
-    <button>التواصل</button>
-  </footer>
+    <h2 class="section-title">قائمة الطعام</h2>
+    
+    <section class="menu-grid" id="menu-container">
+        </section>
 
-  <button class="floating-whatsapp">
-    <img src="whatsapp-icon.png" alt="WhatsApp">
-  </button>
+    <div class="cart-sidebar" id="cart-sidebar">
+        <h3>طلباتك</h3>
+        <div id="cart-items"></div>
+        <hr>
+        <div class="user-info">
+            <input type="text" id="user-name" placeholder="الاسم بالكامل">
+            <input type="tel" id="user-phone" placeholder="رقم الهاتف">
+            <input type="text" id="user-address" placeholder="العنوان بالتفصيل">
+        </div>
+        <button class="btn-whatsapp" onclick="sendToWhatsApp()">
+            إرسال الطلب عبر واتساب <i class="fab fa-whatsapp"></i>
+        </button>
+        <button class="btn-close" onclick="toggleCart()">إغلاق</button>
+    </div>
 
-  <script src="script.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
