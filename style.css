@@ -1,63 +1,61 @@
-* { margin: 0; padding: 0; box-sizing: border-box; font-family: sans-serif; }
-body { background: #fff; overflow-x: hidden; }
+:root { --red: #8b0000; --pink: #d87070; --gold: #ffcc00; }
+body { background: #fff; overflow-x: hidden; direction: rtl; }
 
-/* Header */
-.header { display: flex; justify-content: space-between; padding: 15px 25px; align-items: center; }
-.nav-right i { margin-right: 15px; font-size: 1.3rem; color: #555; }
-.nav-left { display: flex; align-items: center; gap: 10px; text-align: left; }
-.mini-logo { width: 35px; }
+/* Splash Screen */
+.splash-screen {
+    position: fixed; inset: 0; background: #fff; z-index: 1000;
+    display: flex; justify-content: center; align-items: center;
+}
+.loading-bar { width: 100px; height: 4px; background: #eee; border-radius: 2px; overflow: hidden; margin-top: 20px; }
+.loading-bar::after { content: ''; display: block; width: 40%; height: 100%; background: var(--red); animation: load 1.5s infinite; }
+@keyframes load { 0% { margin-left: -40%; } 100% { margin-left: 100%; } }
 
-.hero-text { padding: 20px 30px; text-align: right; }
-.hero-text h1 { font-size: 2.2rem; line-height: 1.2; font-weight: 900; }
-
-/* Red Section with Curve */
-.red-section {
-    background: #8b0000;
-    width: 100%;
-    min-height: 400px;
-    margin-top: 50px;
-    position: relative;
-    /* رسم القوس العلوي */
-    clip-path: ellipse(100% 100% at 50% 100%);
-    padding-top: 50px;
+/* Curved Engine */
+.red-curved-box {
+    background: var(--red); min-height: 400px; margin-top: 50px;
+    border-radius: 50% 50% 0 0 / 15% 15% 0 0; padding-top: 40px;
+}
+.pink-curved-box {
+    background: var(--pink); min-height: 600px; margin-top: 120px;
+    border-radius: 50% 50% 0 0 / 10% 10% 0 0; position: relative; z-index: 2;
 }
 
-/* Pink Section inside Red */
-.pink-section {
-    background: #d87070;
-    width: 100%;
-    height: 600px;
-    position: absolute;
-    top: 150px; /* تداخل مع اللي فوقه */
-    left: 0;
-    clip-path: ellipse(100% 100% at 50% 100%);
-    z-index: 5;
+/* Horizontal Categories */
+.category-slider {
+    display: flex; overflow-x: auto; gap: 20px; padding: 0 20px;
+    scrollbar-width: none;
 }
+.cat-card { text-align: center; color: white; min-width: 80px; transition: 0.3s; }
+.cat-card.active { transform: scale(1.1); }
+.img-circle { width: 70px; height: 70px; background: rgba(255,255,255,0.2); border-radius: 50%; padding: 10px; }
+.img-circle.gold-border { border: 3px solid var(--gold); width: 90px; height: 90px; }
+.img-circle img { width: 100%; object-fit: contain; }
 
-/* Categories */
-.category-wrapper {
-    display: flex; justify-content: center; align-items: flex-end;
-    gap: 20px; position: relative; z-index: 10; margin-top: -80px;
-}
-.cat { text-align: center; color: white; font-weight: bold; font-size: 0.9rem; }
-.circle { width: 70px; height: 70px; background: rgba(255,255,255,0.2); border-radius: 50%; overflow: hidden; margin-bottom: 5px; }
-.circle img { width: 100%; height: 100%; object-fit: cover; }
-.circle.border { width: 100px; height: 100px; border: 4px solid #ffcc00; }
-.main { margin-bottom: 10px; }
+/* Floating Products */
+.product-list { padding: 40px 20px; text-align: center; }
+.product-item { margin-bottom: 30px; animation: fadeInUp 0.8s ease forwards; }
+.p-img { width: 220px; filter: drop-shadow(0 20px 20px rgba(0,0,0,0.3)); }
+.p-info { color: white; margin-top: 10px; }
 
-/* Featured Product */
-.product-featured {
-    position: relative; top: 30px; text-align: center; z-index: 20;
+/* Detail Modal */
+.detail-modal {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: #fff; z-index: 2000; transform: translateY(100%);
+    transition: 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+    overflow-y: auto; padding-bottom: 100px;
 }
-.hero-burger {
-    width: 240px; filter: drop-shadow(0 20px 30px rgba(0,0,0,0.5));
+.detail-modal.open { transform: translateY(0); }
+.modal-header { display: flex; justify-content: space-between; padding: 20px; font-size: 1.5rem; }
+.detail-img { width: 100%; height: 300px; object-fit: contain; }
+.detail-body { padding: 20px; text-align: right; }
+.top-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+.price { color: var(--red); font-size: 1.5rem; font-weight: bold; }
+.stats { display: flex; gap: 15px; color: #666; font-size: 0.9rem; margin: 15px 0; }
+.size-btns { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-top: 10px; }
+.size-btns button { padding: 10px; border: 1px solid #eee; background: none; border-radius: 10px; }
+.size-btns button.active { border-color: var(--red); background: #fff5f5; }
+.add-to-cart {
+    position: fixed; bottom: 20px; left: 5%; width: 90%;
+    background: var(--red); color: #fff; padding: 15px; border: none;
+    border-radius: 15px; font-weight: bold; font-size: 1.1rem;
 }
-.price-tag { color: white; margin-top: 10px; }
-.price-tag h2 { font-size: 1.6rem; }
-
-/* Side Burgers */
-.side-burger {
-    position: absolute; width: 160px; bottom: 80px; opacity: 0.8;
-}
-.left { left: -70px; transform: rotate(-15deg); }
-.right { right: -70px; transform: rotate(15deg); }
