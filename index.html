@@ -3,247 +3,201 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>ابن سوريا - المنيو الذكي</title>
-    
+    <title>منيو ابن سوريا المطور</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
-        :root {
-            --main-red: #E31E24;
-            --bg-light: #f4f4f4;
-        }
-
+        :root { --main: #E31E24; --gold: #FFD700; }
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Cairo', sans-serif; }
-        body { background-color: var(--bg-light); overflow-x: hidden; touch-action: pan-y; }
+        body { background: #fdfdfd; overflow-x: hidden; touch-action: none; }
 
-        header {
-            padding: 20px; background: #fff; display: flex; justify-content: space-between; align-items: center;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05); position: sticky; top: 0; z-index: 1000;
-        }
+        header { padding: 15px 20px; background: #fff; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
 
-        .logo { font-weight: 900; color: var(--main-red); font-size: 22px; }
-
-        /* --- منطقة الكيرف (السر كله هنا) --- */
-        .arc-wrapper {
-            position: relative; width: 100%; height: 220px;
+        /* منطقة الترس والدوران */
+        .nav-container {
+            position: relative; width: 100%; height: 260px;
             background: #fff; overflow: hidden;
             display: flex; justify-content: center;
-            border-bottom-left-radius: 50% 20%; border-bottom-right-radius: 50% 20%;
         }
 
-        .arc-slider {
-            position: absolute; top: 50px; width: 600px; height: 600px;
-            border-radius: 50%; display: flex; justify-content: center;
-            transition: transform 0.5s cubic-bezier(0.25, 0.1, 0.25, 1);
+        /* القرص الدوار (الترس) */
+        .wheel {
+            position: absolute;
+            top: 60px; /* مكان المركز تحت الشاشة */
+            width: 500px; height: 500px;
+            border-radius: 50%;
+            transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1);
             transform-origin: center center;
+            will-change: transform;
         }
 
-        .cat-item {
-            position: absolute; top: 0; width: 80px; height: 400px; /* طول الذراع */
+        .cat-node {
+            position: absolute;
+            top: 0; left: 50%;
+            width: 90px; height: 250px; /* طول الذراع من المركز */
+            margin-left: -45px;
+            transform-origin: bottom center;
             display: flex; flex-direction: column; align-items: center;
-            transform-origin: center 300px; /* نقطة الدوران في مركز الدايرة */
             cursor: pointer;
         }
 
-        .cat-circle {
-            width: 70px; height: 70px; background: #fff; border-radius: 50%;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1); border: 3px solid #eee;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 30px; transition: 0.3s;
+        .cat-box {
+            width: 75px; height: 75px; background: #fff; border-radius: 50%;
+            border: 3px solid #eee; display: flex; align-items: center; justify-content: center;
+            font-size: 30px; transition: 0.4s; box-shadow: 0 5px 15px rgba(0,0,0,0.05);
         }
 
-        .cat-item.active .cat-circle {
-            border-color: var(--main-red); transform: scale(1.2);
-            box-shadow: 0 8px 20px rgba(227, 30, 36, 0.3);
+        .cat-node.active .cat-box {
+            border-color: var(--main); transform: scale(1.2);
+            box-shadow: 0 8px 25px rgba(227, 30, 36, 0.2);
         }
 
-        .cat-item p { margin-top: 10px; font-weight: 700; font-size: 14px; white-space: nowrap; }
+        .cat-node p { margin-top: 10px; font-weight: 700; font-size: 14px; text-align: center; }
 
-        /* --- شبكة المنتجات --- */
-        .items-container { padding: 20px; display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        /* منطقة المنتجات */
+        .menu-section { padding: 20px; display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .card { background: #fff; border-radius: 20px; padding: 15px; text-align: center; box-shadow: 0 5px 15px rgba(0,0,0,0.03); }
+        .card i { font-size: 45px; margin-bottom: 10px; display: block; }
+        .btn { background: var(--main); color: #fff; border: none; width: 100%; padding: 10px; border-radius: 12px; font-weight: 700; cursor: pointer; margin-top: 10px; }
 
-        .item-card {
-            background: #fff; border-radius: 20px; padding: 15px; text-align: center;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.03); transition: 0.3s;
-        }
-
-        .item-icon { font-size: 40px; margin-bottom: 10px; display: block; }
-        .item-name { font-weight: 700; font-size: 15px; height: 45px; overflow: hidden; }
-        .item-price { color: #2ecc71; font-weight: 900; margin: 10px 0; }
-
-        .add-btn {
-            background: var(--main-red); color: #fff; border: none; width: 100%;
-            padding: 8px; border-radius: 10px; font-weight: 700; cursor: pointer;
-        }
-
-        /* السلة الجانبية */
-        .cart-panel {
-            position: fixed; top: 0; left: -100%; width: 100%; max-width: 400px; height: 100%;
-            background: #fff; z-index: 2000; padding: 25px; transition: 0.4s;
-            box-shadow: 5px 0 20px rgba(0,0,0,0.1);
-        }
-        .cart-panel.active { left: 0; }
-
-        .input-fld { width: 100%; padding: 12px; margin-bottom: 10px; border: 1px solid #ddd; border-radius: 8px; }
-        .order-btn { background: #25D366; color: #fff; width: 100%; padding: 15px; border: none; border-radius: 12px; font-weight: 900; cursor: pointer; }
-
-        .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1500; display: none; backdrop-filter: blur(4px); }
+        /* السلة */
+        .sidebar { position: fixed; top: 0; left: -100%; width: 100%; max-width: 400px; height: 100%; background: #fff; z-index: 2000; padding: 25px; transition: 0.4s; }
+        .sidebar.active { left: 0; }
+        .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1500; display: none; }
         .overlay.active { display: block; }
-
     </style>
 </head>
 <body>
 
     <header>
-        <div class="logo">ابن سوريا 🇸🇾🇪🇬</div>
-        <div onclick="toggleCart()" style="position:relative; cursor:pointer;">
-            <i class="fas fa-shopping-basket" style="font-size:24px;"></i>
-            <span id="count" style="position:absolute; top:-10px; right:-10px; background:var(--main-red); color:#fff; border-radius:50%; padding:2px 6px; font-size:12px;">0</span>
+        <div style="font-weight:900; color:var(--main); font-size:24px;">ابن سوريا</div>
+        <div onclick="openCart()" style="position:relative; cursor:pointer;">
+            <i class="fas fa-shopping-cart" style="font-size:24px;"></i>
+            <span id="badge" style="position:absolute; top:-10px; right:-10px; background:var(--main); color:#fff; border-radius:50%; padding:2px 7px; font-size:11px;">0</span>
         </div>
     </header>
 
-    <div class="arc-wrapper" id="touch-area">
-        <div class="arc-slider" id="arc-slider">
+    <div class="nav-container" id="nav-zone">
+        <div class="wheel" id="wheel">
             </div>
     </div>
 
-    <h3 id="current-cat-name" style="text-align: center; margin-top: -30px; font-weight: 900; color: var(--main-red);">الكل</h3>
+    <h2 id="cat-title" style="text-align:center; color:var(--main); margin-top:-30px;">الكل</h2>
 
-    <div class="items-container" id="menu-grid"></div>
+    <div class="menu-section" id="grid"></div>
 
-    <div class="overlay" id="overlay" onclick="toggleCart()"></div>
-    <div class="cart-panel" id="cart-panel">
-        <h2 style="margin-bottom:20px;">طلباتك</h2>
-        <div id="cart-items" style="max-height: 250px; overflow-y: auto; margin-bottom: 20px;"></div>
-        <h3 style="margin-bottom:20px;">الإجمالي: <span id="total">0</span> ج.م</h3>
-        <input type="text" id="u-name" class="input-fld" placeholder="الاسم">
-        <input type="tel" id="u-phone" class="input-fld" placeholder="الموبايل">
-        <input type="text" id="u-addr" class="input-fld" placeholder="العنوان">
-        <button class="order-btn" onclick="sendWhatsApp()">أرسل للواتساب <i class="fab fa-whatsapp"></i></button>
-        <button onclick="toggleCart()" style="width:100%; background:none; border:none; margin-top:15px; color:#999;">إغلاق</button>
+    <div class="overlay" id="lay" onclick="openCart()"></div>
+    <div class="sidebar" id="side">
+        <h3>طلباتك 🍱</h3>
+        <div id="list" style="margin:20px 0; max-height:300px; overflow-y:auto;"></div>
+        <h4>الإجمالي: <span id="total">0</span> ج.م</h4>
+        <input type="text" id="n" placeholder="الاسم" style="width:100%; padding:12px; margin:10px 0; border:1px solid #ddd; border-radius:8px;">
+        <button onclick="order()" style="background:#25D366; color:#fff; border:none; width:100%; padding:15px; border-radius:12px; font-weight:900;">واتساب</button>
     </div>
 
     <script>
-        const categories = [
-            { name: "الكل", icon: "🍱" },
-            { name: "شعبي مصري", icon: "🥙" },
-            { name: "شاورما", icon: "🌯" },
-            { name: "طواجن", icon: "🥘" },
-            { name: "مشويات", icon: "🍢" },
-            { name: "مقبلات", icon: "🥗" }
+        const cats = [
+            {n:"الكل", i:"🍽️"}, {n:"كشري", i:"🍲"}, {n:"شاورما", i:"🌯"}, 
+            {n:"طواجن", i:"🥘"}, {n:"مشويات", i:"🍢"}, {n:"حواوشي", i:"🥙"}
         ];
 
-        const products = [
-            { id: 1, name: "حواوشي إسكندراني", price: 70, cat: "شعبي مصري", icon: "🥙" },
-            { id: 2, name: "كشري ابن سوريا", price: 50, cat: "شعبي مصري", icon: "🍲" },
-            { id: 3, name: "شاورما فراخ عربي", price: 90, cat: "شاورما", icon: "🌯" },
-            { id: 4, name: "طاجن مكرونة حمراء", price: 65, cat: "طواجن", icon: "🥘" },
-            { id: 5, name: "كفتة مشوية عالسيخ", price: 190, cat: "مشويات", icon: "🍗" },
-            { id: 6, name: "بابا غنوج", price: 35, cat: "مقبلات", icon: "🥗" },
-            { id: 7, name: "كبدة إسكندراني", price: 80, cat: "شعبي مصري", icon: "🍳" }
+        const items = [
+            {id:1, n:"كشري مصري", p:40, c:"كشري", i:"🍲"},
+            {id:2, n:"شاورما فراخ دبل", p:95, c:"شاورما", i:"🌯"},
+            {id:3, n:"حواوشي إسكندراني", p:75, c:"حواوشي", i:"🥙"},
+            {id:4, n:"طاجن عكاوي", p:220, c:"طواجن", i:"🥘"},
+            {id:5, n:"شيش طاووق", p:160, c:"مشويات", i:"🍢"}
         ];
 
         let cart = [];
-        let currentIndex = 0;
-        const arcSlider = document.getElementById('arc-slider');
+        let currentRotation = 0;
+        let activeIdx = 0;
+        const wheel = document.getElementById('wheel');
+        const step = 360 / cats.length; // حساب زاوية كل ترس
 
-        // إنشاء الأقسام على القوس
-        function initArc() {
-            const angleStep = 30; // الزاوية بين كل قسم
-            arcSlider.innerHTML = categories.map((cat, i) => {
-                const angle = (i - currentIndex) * angleStep;
+        function buildWheel() {
+            wheel.innerHTML = cats.map((c, i) => {
+                const angle = i * step;
                 return `
-                    <div class="cat-item ${i === currentIndex ? 'active' : ''}" 
-                         style="transform: rotate(${angle}deg)" 
-                         onclick="moveTo(${i})">
-                        <div class="cat-circle">${cat.icon}</div>
-                        <p>${cat.name}</p>
+                    <div class="cat-node" style="transform: rotate(${angle}deg)" onclick="rotateTo(${i})">
+                        <div class="cat-box">${c.i}</div>
+                        <p>${c.n}</p>
                     </div>
                 `;
             }).join('');
-            document.getElementById('current-cat-name').innerText = categories[currentIndex].name;
-            renderProducts(categories[currentIndex].name);
+            select(0);
         }
 
-        function moveTo(index) {
-            currentIndex = index;
-            const angleStep = 30;
-            const items = document.querySelectorAll('.cat-item');
-            items.forEach((item, i) => {
-                const angle = (i - currentIndex) * angleStep;
-                item.style.transform = `rotate(${angle}deg)`;
-                item.classList.toggle('active', i === currentIndex);
+        function rotateTo(idx) {
+            activeIdx = idx;
+            // حساب أقصر طريق للدوران (مثل الترس الحقيقي)
+            currentRotation = -idx * step;
+            wheel.style.transform = `rotate(${currentRotation}deg) text-rendering: optimizeSpeed;`;
+            
+            // تحديث الشكل النشط
+            document.querySelectorAll('.cat-node').forEach((node, i) => {
+                node.classList.toggle('active', i === idx);
+                // موازنة الأيقونات لتظل معتدلة أثناء دوران الترس
+                const box = node.querySelector('.cat-box');
+                const p = node.querySelector('p');
+                box.style.transform = `rotate(${-currentRotation - (i * step)}deg)`;
+                p.style.transform = `rotate(${-currentRotation - (i * step)}deg)`;
             });
-            document.getElementById('current-cat-name').innerText = categories[currentIndex].name;
-            renderProducts(categories[currentIndex].name);
+
+            document.getElementById('cat-title').innerText = cats[idx].n;
+            render(cats[idx].n);
         }
 
-        // سحب (Touch) لتحريك الكيرف
+        // تحكم باللمس (Swipe) لتحريك الترس
         let startX = 0;
-        document.getElementById('touch-area').addEventListener('touchstart', e => startX = e.touches[0].clientX);
-        document.getElementById('touch-area').addEventListener('touchend', e => {
+        document.getElementById('nav-zone').addEventListener('touchstart', e => startX = e.touches[0].clientX);
+        document.getElementById('nav-zone').addEventListener('touchend', e => {
             const diff = startX - e.changedTouches[0].clientX;
-            if (Math.abs(diff) > 50) {
-                if (diff > 0 && currentIndex < categories.length - 1) moveTo(currentIndex + 1);
-                else if (diff < 0 && currentIndex > 0) moveTo(currentIndex - 1);
+            if (Math.abs(diff) > 40) {
+                if (diff > 0 && activeIdx < cats.length - 1) rotateTo(activeIdx + 1);
+                else if (diff < 0 && activeIdx > 0) rotateTo(activeIdx - 1);
             }
         });
 
-        function renderProducts(catName) {
-            const grid = document.getElementById('menu-grid');
-            const filtered = catName === "الكل" ? products : products.filter(p => p.cat === catName);
-            grid.innerHTML = filtered.map(p => `
-                <div class="item-card">
-                    <span class="item-icon">${p.icon}</span>
-                    <div class="item-name">${p.name}</div>
-                    <div class="item-price">${p.price} ج.م</div>
-                    <button class="add-btn" onclick="addToCart(${p.id})">إضافة للسلة +</button>
+        function render(c) {
+            const g = document.getElementById('grid');
+            const f = c === "الكل" ? items : items.filter(p => p.c === c);
+            g.innerHTML = f.map(p => `
+                <div class="card">
+                    <i>${p.i}</i>
+                    <strong>${p.n}</strong>
+                    <div style="color:#2ecc71; font-weight:900; margin:10px 0;">${p.p} ج.م</div>
+                    <button class="btn" onclick="add(${p.id})">إضافة +</button>
                 </div>
             `).join('');
         }
 
-        function addToCart(id) {
-            const p = products.find(x => x.id === id);
-            cart.push(p);
-            updateCart();
-            // Animation ظريف للأيقونة
-            const icon = document.querySelector('.fa-shopping-basket');
-            icon.style.transform = "scale(1.4)";
-            setTimeout(()=> icon.style.transform="scale(1)", 200);
+        function add(id) {
+            cart.push(items.find(x => x.id === id));
+            document.getElementById('badge').innerText = cart.length;
+            update();
         }
 
-        function updateCart() {
-            document.getElementById('count').innerText = cart.length;
-            document.getElementById('cart-items').innerHTML = cart.map((item, i) => `
-                <div style="display:flex; justify-content:space-between; margin-bottom:10px;">
-                    <span>${item.name}</span>
-                    <span>${item.price} ج.م <i class="fas fa-trash" onclick="remove(${i})" style="color:red; margin-right:10px;"></i></span>
-                </div>
-            `).join('');
-            document.getElementById('total').innerText = cart.reduce((s, i) => s + i.price, 0);
+        function update() {
+            document.getElementById('list').innerHTML = cart.map((i,x) => `<div style="display:flex; justify-content:space-between; margin-bottom:5px;"><span>${i.n}</span><b>${i.p} <i class="fas fa-trash" onclick="cart.splice(${x},1);update();" style="color:red"></i></b></div>`).join('');
+            document.getElementById('total').innerText = cart.reduce((s, i) => s + i.p, 0);
         }
 
-        function remove(i) { cart.splice(i, 1); updateCart(); }
-
-        function toggleCart() {
-            document.getElementById('cart-panel').classList.toggle('active');
-            document.getElementById('overlay').classList.toggle('active');
+        function openCart() {
+            document.getElementById('side').classList.toggle('active');
+            document.getElementById('lay').classList.toggle('active');
         }
 
-        function sendWhatsApp() {
-            const n = document.getElementById('u-name').value;
-            const p = document.getElementById('u-phone').value;
-            const a = document.getElementById('u-addr').value;
-            if(!n || !p || !a || cart.length === 0) return alert("كمل بياناتك يا هندسة!");
-            
-            const list = cart.map(i => `- ${i.name} (${i.price} ج.م)`).join('%0A');
-            const total = cart.reduce((s, i) => s + i.price, 0);
-            const msg = `*طلب جديد من ابن سوريا*%0A%0A*الاسم:* ${n}%0A*الموبايل:* ${p}%0A*العنوان:* ${a}%0A%0A*الطلبات:*%0A${list}%0A%0A*الإجمالي:* ${total} ج.م`;
+        function order() {
+            const name = document.getElementById('n').value;
+            if(!name || cart.length === 0) return alert("كمل بياناتك!");
+            const msg = `*طلب جديد*%0A*الاسم:* ${name}%0A*الإجمالي:* ${document.getElementById('total').innerText} ج.م`;
             window.open(`https://wa.me/201016991319?text=${msg}`);
         }
 
-        initArc();
+        buildWheel();
+        render("الكل");
     </script>
 </body>
 </html>
