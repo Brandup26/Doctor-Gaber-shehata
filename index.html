@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>منيو ابن سوريا - الاحترافي</title>
+    <title>منيو ابن سوريا - المعتمد</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -17,7 +17,7 @@
 
         .banner { width: 100%; height: 140px; background: url('https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=800') center/cover; position: relative; }
         .banner-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.4); display: flex; align-items: flex-end; padding: 15px; }
-        .rest-logo { width: 80px; height: 80px; border-radius: 15px; background: #fff; border: 2px solid var(--main); display: flex; align-items: center; justify-content: center; font-weight: 900; color: var(--main); font-size: 14px; text-align: center; }
+        .rest-logo { width: 80px; height: 80px; border-radius: 15px; background: #fff; border: 2px solid var(--main); display: flex; align-items: center; justify-content: center; font-weight: 900; color: var(--main); font-size: 14px; text-align: center; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
 
         .arc-container { position: relative; width: 100%; height: 260px; background: #fff; overflow: hidden; border-bottom: 1px solid #eee; }
         .gear-wheel { position: absolute; bottom: -520px; left: 50%; width: 750px; height: 750px; margin-left: -375px; transition: transform 0.6s cubic-bezier(0.19, 1, 0.22, 1); transform-origin: center center; }
@@ -37,7 +37,6 @@
         .sidebar.active { left: 0; }
         .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 2500; display: none; backdrop-filter: blur(4px); }
         .overlay.active { display: block; }
-        .cart-item { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid #eee; }
         #loader { text-align: center; padding: 50px; font-weight: 900; color: #999; }
     </style>
 </head>
@@ -59,27 +58,27 @@
         <div class="gear-wheel" id="gear"></div>
     </div>
 
-    <div id="loader">تحميل البيانات بطريقة توستا..</div>
+    <div id="loader">جاري سحب الأصناف من الشيت...</div>
     <div class="grid" id="menu-grid"></div>
 
     <div class="overlay" id="overlay" onclick="toggleCart()"></div>
     <div class="sidebar" id="sidebar">
-        <h2 style="margin-bottom:20px;">سلة طلباتك 🛒</h2>
+        <h2 style="margin-bottom:20px;">طلباتك 🛒</h2>
         <div id="cart-list" style="max-height: 50vh; overflow-y: auto;"></div>
         <div style="margin-top:20px; border-top:2px solid #f0f0f0; padding-top:20px;">
             <div style="display:flex; justify-content:space-between; font-size:20px; font-weight:900; margin-bottom:15px;">
                 <span>الإجمالي:</span>
                 <span style="color:var(--main)"><span id="total-val">0</span> ج.م</span>
             </div>
-            <input type="text" id="cust-name" placeholder="اكتب اسمك هنا" style="width:100%; padding:15px; margin-bottom:10px; border:1px solid #ddd; border-radius:12px; font-size:16px;">
-            <button onclick="sendOrder()" style="background:#25D366; color:#fff; border:none; width:100%; padding:18px; border-radius:15px; font-weight:900; font-size:17px; width:100%;">اطلب الآن عبر واتساب</button>
-            <button onclick="toggleCart()" style="width:100%; background:none; border:none; margin-top:15px; color:#aaa; font-weight:700;">إغلاق</button>
+            <button onclick="sendOrder()" style="background:#25D366; color:#fff; border:none; width:100%; padding:18px; border-radius:15px; font-weight:900; font-size:17px;">تأكيد عبر واتساب</button>
+            <button onclick="toggleCart()" style="width:100%; background:none; border:none; margin-top:15px; color:#aaa; font-weight:700;">رجوع</button>
         </div>
     </div>
 
     <script>
-        // رابط الشيت الرسمي
-        const sheetURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ68fulE4zmzghKo9LhfJZ4GR1xlf__f9Z9k7hC4hEBABzKT_QHADJqVrfhlX82mdbtE4zeBrTOuKP3/pub?output=csv";
+        // تحويل الرابط تلقائياً لصيغة التصدير
+        const rawId = "1gbCDymsVfNxmyCihMHMjkSPkqnIrpKX_QVYQ77zkA8c";
+        const sheetURL = `https://docs.google.com/spreadsheets/d/${rawId}/export?format=csv`;
 
         let products = [];
         let categories = [];
@@ -88,39 +87,25 @@
 
         async function init() {
             try {
-                // سحب البيانات مع منع الكاش تماماً لضمان سرعة التحديث
                 const res = await fetch(sheetURL + "&t=" + new Date().getTime());
                 const csvData = await res.text();
-                
-                // المعالج الذكي للفواصل والنصوص العربية (نظام توستا)
-                const rows = csvData.split(/\r?\n/).filter(r => r.trim() !== "");
-                
-                products = rows.slice(1).map((row, i) => {
-                    // تقسيم السطر بناءً على الفواصل مع حماية النصوص التي بداخل علامات التنصيص
-                    const cols = row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/).map(c => c.replace(/^"|"$/g, '').trim());
-                    
-                    const name = cols[0] || "";
-                    const price = parseFloat(cols[1]) || 0;
-                    const cat = cols[2] || "";
+                const rows = csvData.split(/\r?\n/).filter(r => r.trim() !== "").map(row => row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/));
 
-                    // شرط الأمان: لا يظهر أي صنف إلا لو له اسم وسعر وقسم
-                    if(name && cat && price > 0) {
-                        return { id: i, n: name, p: price, c: cat };
-                    }
+                products = rows.slice(1).map((cols, i) => {
+                    const name = cols[0]?.replace(/^"|"$/g, '').trim();
+                    const price = parseFloat(cols[1]) || 0;
+                    const cat = cols[2]?.replace(/^"|"$/g, '').trim();
+                    if(name && cat && price > 0) return { id: i, n: name, p: price, c: cat };
                     return null;
                 }).filter(p => p !== null);
 
-                // استخراج الأقسام الحقيقية
                 const uniqueCats = [...new Set(products.map(p => p.c))];
-                categories = uniqueCats.map(name => ({
-                    n: name,
-                    img: `https://via.placeholder.com/150/f0f0f0/e31e24?text=${encodeURIComponent(name)}`
-                }));
+                categories = uniqueCats.map(name => ({ n: name, img: 'https://via.placeholder.com/150/f0f0f0/e31e24?text=' + encodeURIComponent(name) }));
 
                 document.getElementById('loader').style.display = 'none';
                 renderGear();
             } catch (e) {
-                document.getElementById('loader').innerText = "خطأ في الربط! تأكد من إعدادات الشيت.";
+                document.getElementById('loader').innerText = "حدث خطأ في سحب البيانات، تأكد من صلاحيات الرابط.";
             }
         }
 
@@ -140,10 +125,8 @@
             document.getElementById('gear').style.transform = `rotate(${target}deg)`;
             document.querySelectorAll('.cat-node').forEach((node, i) => {
                 node.classList.toggle('active', i === idx);
-                const circle = node.querySelector('.img-circle');
-                const p = node.querySelector('p');
-                circle.style.transform = `rotate(${-target - (i * angleStep)}deg)`;
-                p.style.transform = `rotate(${-target - (i * angleStep)}deg)`;
+                node.querySelector('.img-circle').style.transform = `rotate(${-target - (i * angleStep)}deg)`;
+                node.querySelector('p').style.transform = `rotate(${-target - (i * angleStep)}deg)`;
             });
             renderItems(categories[idx].n);
         }
@@ -170,8 +153,8 @@
         function updateCartUI() {
             document.getElementById('cart-list').innerHTML = cart.map((item, i) => `
                 <div class="cart-item">
-                    <span style="font-size:14px; font-weight:700;">${item.n}</span>
-                    <strong>${item.p} ج.م <i class="fas fa-trash" onclick="removeFromCart(${i})" style="color:red; margin-right:10px; cursor:pointer;"></i></strong>
+                    <span style="font-size:13px; font-weight:700;">${item.n}</span>
+                    <strong>${item.p} ج.م <i class="fas fa-trash" onclick="removeFromCart(${i})" style="color:red; margin-right:8px; cursor:pointer;"></i></strong>
                 </div>
             `).join('');
             document.getElementById('total-val').innerText = cart.reduce((s, i) => s + i.p, 0);
@@ -189,11 +172,10 @@
         }
 
         function sendOrder() {
-            const name = document.getElementById('cust-name').value;
-            if(!name || cart.length === 0) return alert("اكتب اسمك الكريم واختر طلباتك!");
+            if(cart.length === 0) return alert("اختر طلباتك أولاً");
             const list = cart.map(i => `- ${i.n} (${i.p} ج.م)`).join('%0A');
             const total = document.getElementById('total-val').innerText;
-            const text = `*طلب جديد من منيو ابن سوريا*%0A*الاسم:* ${name}%0A*الطلبات:*%0A${list}%0A%0A*الإجمالي:* ${total} ج.م`;
+            const text = `*طلب جديد من ابن سوريا*%0A${list}%0A%0A*الإجمالي:* ${total} ج.م`;
             window.open(`https://wa.me/201016991319?text=${text}`);
         }
 
