@@ -1,20 +1,122 @@
-/* استخدم الكود الذي أرسلته لي بالكامل هنا */
-:root {
-  --r: #e8142e; --r-deep: #a50d20; --bg: #0d0d0d; --text: #f0f0f0;
-  --font: 'Tajawal','Cairo',sans-serif; --pw: 390px;
+/* General Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: var(--font); background: #050505; direction: rtl; }
-.phone-wrapper { width: var(--pw); max-width: 100%; background: var(--bg); margin: 0 auto; position: relative; min-height: 100vh; overflow: hidden; }
 
-/* انسخ باقي تنسيقات الـ Hero والـ Cards والـ Cart Drawer من الكود الأصلي الذي تمتلكه */
-/* التنسيقات التي أرسلتها أنت في رسالتك السابقة مثالية، فقط تأكد من وضعها هنا بالكامل */
+body {
+  font-family: 'Cairo', sans-serif;
+  background: #f9f9f9;
+  color: #333;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
 
-.cart-drawer { position: fixed; bottom: 0; left: 50%; transform: translateX(-50%) translateY(100%); width: var(--pw); background: #141414; z-index: 500; transition: 0.4s; border-radius: 28px 28px 0 0; padding-bottom: 20px; }
-.cart-drawer.open { transform: translateX(-50%) translateY(0); }
-.cart-backdrop { position: fixed; inset: 0; background: rgba(0,0,0,0); pointer-events: none; transition: 0.3s; z-index: 400; }
-.cart-backdrop.open { background: rgba(0,0,0,0.7); pointer-events: all; backdrop-filter: blur(4px); }
-.nav-badge, .bn-badge { display: none; background: #f0b429; color: #000; padding: 2px 6px; border-radius: 50%; font-size: 10px; position: absolute; top: -5px; right: -5px; }
-.nav-badge.show, .bn-badge.show { display: block; }
-.toast { position: fixed; bottom: 100px; left: 50%; transform: translateX(-50%); background: #333; color: #fff; padding: 10px 20px; border-radius: 20px; opacity: 0; transition: 0.3s; z-index: 1000; }
-.toast.show { opacity: 1; }
+/* Header Styling */
+.header {
+  background: linear-gradient(135deg, #ff6b6b, #d32f2f);
+  text-align: center;
+  padding: 2rem;
+  color: #fff;
+  font-size: 1.5rem;
+  border-bottom-left-radius: 50px;
+  border-bottom-right-radius: 50px;
+}
+
+/* Menu Section */
+.menu-section {
+  padding: 2rem 1rem;
+}
+
+.section-title {
+  text-align: center;
+  font-size: 1.8rem;
+  color: #d32f2f;
+  margin-bottom: 1rem;
+}
+
+.menu-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1.5rem;
+  justify-items: center;
+}
+
+.food-card {
+  background: #fff;
+  border-radius: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  padding: 1rem;
+  width: 90%;
+  transition: transform 0.3s ease;
+}
+
+.food-card:hover {
+  transform: scale(1.05);
+}
+
+.food-card img {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  margin-bottom: 0.5rem;
+}
+
+.food-card h3 {
+  font-size: 1.2rem;
+  margin-bottom: 0.2rem;
+}
+
+.food-card .price {
+  color: #d32f2f;
+  font-weight: bold;
+}
+
+/* Sticky Bottom Navigation */
+.sticky-navigation {
+  background: #fff;
+  box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1);
+  position: sticky;
+  bottom: 0;
+  display: flex;
+  justify-content: space-around;
+  padding: 0.5rem;
+}
+
+.sticky-navigation button {
+  background: transparent;
+  border: none;
+  font-size: 1rem;
+  color: #333;
+  padding: 0.5rem;
+  cursor: pointer;
+}
+
+.sticky-navigation button:hover {
+  color: #d32f2f;
+  font-weight: bold;
+}
+
+/* Floating WhatsApp Button */
+.floating-whatsapp {
+  position: fixed;
+  bottom: 1rem;
+  right: 1rem;
+  background: #25D366;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.floating-whatsapp img {
+  width: 30px;
+  height: 30px;
+}
