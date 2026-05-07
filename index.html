@@ -3,114 +3,72 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>منيو ابن سوريا - ربط تلقائي</title>
+    <title>منيو ابن سوريا - الضبط النهائي</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@600;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
     <style>
         :root { --main: #E31E24; --bg: #fcfcfc; }
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Cairo', sans-serif; }
-        body { background-color: var(--bg); overflow-x: hidden; touch-action: pan-y; }
-
+        body { background-color: var(--bg); overflow-x: hidden; }
         header { padding: 15px 20px; background: #fff; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 2000; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
-        .cart-btn { position: relative; cursor: pointer; }
-        #cart-count { position: absolute; top: -8px; right: -8px; background: var(--main); color: #fff; width: 20px; height: 20px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: bold; }
-
-        .arc-container { position: relative; width: 100%; height: 260px; background: #fff; overflow: hidden; border-bottom-left-radius: 50px; border-bottom-right-radius: 50px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
+        .arc-container { position: relative; width: 100%; height: 260px; background: #fff; overflow: hidden; border-bottom-left-radius: 50px; border-bottom-right-radius: 50px; }
         .gear-wheel { position: absolute; bottom: -500px; left: 50%; width: 750px; height: 750px; margin-left: -375px; transition: transform 0.6s cubic-bezier(0.19, 1, 0.22, 1); transform-origin: center center; }
         .cat-node { position: absolute; top: 0; left: 50%; width: 90px; height: 375px; margin-left: -45px; transform-origin: bottom center; display: flex; flex-direction: column; align-items: center; cursor: pointer; }
-        .img-circle { width: 80px; height: 80px; background: #eee; border-radius: 50%; border: 3px solid #f0f0f0; background-size: cover; background-position: center; transition: 0.4s; }
+        .img-circle { width: 80px; height: 80px; background: #eee; border-radius: 50%; border: 3px solid #f0f0f0; background-size: cover; background-position: center; }
         .cat-node.active .img-circle { border-color: var(--main); transform: scale(1.2) translateY(-10px); }
         .cat-node p { margin-top: 8px; font-weight: 700; font-size: 14px; color: #666; }
-        .cat-node.active p { color: var(--main); font-weight: 900; }
-
         .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; padding: 20px; }
-        .card { background: #fff; border-radius: 20px; padding: 15px; text-align: center; box-shadow: 0 4px 10px rgba(0,0,0,0.02); border: 1px solid #f9f9f9; }
+        .card { background: #fff; border-radius: 20px; padding: 15px; text-align: center; box-shadow: 0 4px 10px rgba(0,0,0,0.02); }
         .price { color: #2ecc71; font-weight: 900; font-size: 18px; margin: 10px 0; }
-        .add-btn { background: var(--main); color: #fff; border: none; padding: 8px 20px; border-radius: 10px; font-weight: 700; cursor: pointer; }
-
-        .sidebar { position: fixed; top: 0; left: -100%; width: 100%; max-width: 400px; height: 100%; background: #fff; z-index: 3000; padding: 25px; transition: 0.5s; }
-        .sidebar.active { left: 0; }
-        .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 2500; display: none; }
-        .overlay.active { display: block; }
+        .add-btn { background: var(--main); color: #fff; border: none; padding: 8px 20px; border-radius: 10px; font-weight: 700; }
     </style>
 </head>
 <body>
-
-    <header>
-        <div style="font-weight:900; color:var(--main); font-size:22px;">ابن سوريا</div>
-        <div class="cart-btn" onclick="toggleCart()">
-            <i class="fas fa-shopping-basket" style="font-size:24px;"></i>
-            <span id="cart-count">0</span>
-        </div>
-    </header>
-
-    <div class="arc-container" id="swipe-zone">
-        <div class="gear-wheel" id="gear"></div>
-    </div>
-
-    <div id="loader" style="text-align:center; padding:50px;">جاري جلب الأقسام من الشيت...</div>
+    <header><div style="font-weight:900; color:var(--main); font-size:22px;">ابن سوريا</div></header>
+    <div class="arc-container"><div class="gear-wheel" id="gear"></div></div>
+    <div id="loader" style="text-align:center; padding:50px;">جاري ترتيب المنيو...</div>
     <div class="grid" id="menu-grid"></div>
 
-    <div class="overlay" id="overlay" onclick="toggleCart()"></div>
-    <div class="sidebar" id="sidebar">
-        <h2 style="margin-bottom:20px;">طلباتك 🛒</h2>
-        <div id="cart-list"></div>
-        <h3 style="margin:20px 0;">الإجمالي: <span id="total-val" style="color:var(--main)">0</span> ج.م</h3>
-        <button onclick="sendOrder()" style="background:#25D366; color:#fff; border:none; width:100%; padding:18px; border-radius:15px; font-weight:900;">واتساب</button>
-    </div>
-
     <script>
-        const sheetID = "1gbCDymsVfNxmyCihMHMjkSPkqnIrpKX_QVYQ77zkA8c";
-        const sheetURL = `https://docs.google.com/spreadsheets/d/${sheetID}/export?format=csv`;
+        const sheetURL = `https://docs.google.com/spreadsheets/d/1gbCDymsVfNxmyCihMHMjkSPkqnIrpKX_QVYQ77zkA8c/export?format=csv`;
 
         let products = [];
         let categories = [];
-        let cart = [];
-        let currentIdx = 0;
-
-        // 1. صور افتراضية (تقدر تغيرها بروابط صورك الحقيقية هنا)
-        const categoryImages = {
-            "برجر": "https://images.unsplash.com/photo-1571091718767-18b5b1457add?w=200",
-            "بيتزا": "https://images.unsplash.com/photo-1513104890138-7c749659a591?w=200",
-            "مكرونات": "https://images.unsplash.com/photo-1516100882582-96c3a05fe590?w=200",
-            "السندوتشات": "https://images.unsplash.com/photo-1521390188846-e2a3a97453a0?w=200"
-        };
 
         async function loadData() {
             try {
                 const res = await fetch(sheetURL);
                 const csvData = await res.text();
-                const rows = csvData.split('\n').slice(1);
+                const rows = csvData.split('\n').filter(row => row.trim() !== '');
                 
-                products = rows.map((row, i) => {
-                    const cols = row.split(/[,;]/); // يدعم الفاصلة والفاصلة المنقوطة
-                    return { id: i, n: cols[0]?.trim(), p: parseFloat(cols[1]) || 0, c: cols[2]?.trim() };
+                products = rows.slice(1).map((row, i) => {
+                    // تحسين تقسيم الصفوف ليتعامل مع الفواصل بشكل أدق
+                    const cols = row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/); 
+                    return { 
+                        n: cols[0]?.replace(/"/g, '').trim(), 
+                        p: cols[1]?.trim() || "0", 
+                        c: cols[2]?.replace(/"/g, '').trim() 
+                    };
                 });
 
-                // استخراج الأقسام الفريدة تلقائياً من الشيت
-                const uniqueCats = [...new Set(products.map(p => p.c))].filter(Boolean);
-                categories = uniqueCats.map(name => ({
-                    n: name,
-                    img: categoryImages[name] || "https://via.placeholder.com/100" // لو مفيش صورة هيحط واحدة مؤقتة
-                }));
+                // سحب الأقسام الفريدة فقط
+                const uniqueCats = [...new Set(products.map(p => p.c))].filter(c => c && c.length > 1);
+                categories = uniqueCats.map(name => ({ n: name, img: "https://via.placeholder.com/100" }));
 
                 document.getElementById('loader').style.display = 'none';
-                buildGear();
+                if(categories.length > 0) buildGear();
+                else document.getElementById('loader').innerText = "تأكد من كتابة الأقسام في العمود الثالث بالشيت";
             } catch (err) {
-                document.getElementById('loader').innerText = "تأكد من نشر الشيت بصيغة CSV";
+                document.getElementById('loader').innerText = "خطأ في الربط";
             }
         }
 
         function buildGear() {
             const gear = document.getElementById('gear');
-            const angleStep = 360 / Math.max(categories.length, 8); // توزيع الأقسام
-            
             gear.innerHTML = categories.map((c, i) => {
-                const rotation = i * 40;
                 return `
-                    <div class="cat-node" style="transform: rotate(${rotation}deg)" onclick="goIdx(${i})">
-                        <div class="img-circle" style="background-image: url('${c.img}')"></div>
+                    <div class="cat-node" style="transform: rotate(${i * 45}deg)" onclick="goIdx(${i})">
+                        <div class="img-circle"></div>
                         <p>${c.n}</p>
                     </div>
                 `;
@@ -119,17 +77,12 @@
         }
 
         function goIdx(idx) {
-            currentIdx = idx;
-            const angleStep = 40;
-            const target = -idx * angleStep;
-            document.getElementById('gear').style.transform = `rotate(${target}deg)`;
-            
+            const angle = -idx * 45;
+            document.getElementById('gear').style.transform = `rotate(${angle}deg)`;
             document.querySelectorAll('.cat-node').forEach((node, i) => {
                 node.classList.toggle('active', i === idx);
-                const circle = node.querySelector('.img-circle');
-                const p = node.querySelector('p');
-                circle.style.transform = `rotate(${-target - (i * angleStep)}deg)`;
-                p.style.transform = `rotate(${-target - (i * angleStep)}deg)`;
+                node.querySelector('.img-circle').style.transform = `rotate(${-angle - (i * 45)}deg)`;
+                node.querySelector('p').style.transform = `rotate(${-angle - (i * 45)}deg)`;
             });
             render(categories[idx].n);
         }
@@ -141,31 +94,9 @@
                 <div class="card">
                     <div style="font-weight:700;">${p.n}</div>
                     <div class="price">${p.p} ج.م</div>
-                    <button class="add-btn" onclick="addToCart(${p.id})">إضافة +</button>
+                    <button class="add-btn">إضافة +</button>
                 </div>
             `).join('');
-        }
-
-        function addToCart(id) {
-            const item = products.find(p => p.id === id);
-            cart.push(item);
-            document.getElementById('cart-count').innerText = cart.length;
-            updateCartUI();
-        }
-
-        function updateCartUI() {
-            document.getElementById('cart-list').innerHTML = cart.map((item, i) => `
-                <div style="display:flex; justify-content:space-between; padding:10px 0; border-bottom:1px solid #eee;">
-                    <span>${item.n}</span>
-                    <strong>${item.p} ج.م</strong>
-                </div>
-            `).join('');
-            document.getElementById('total-val').innerText = cart.reduce((s, i) => s + i.p, 0);
-        }
-
-        function toggleCart() {
-            document.getElementById('sidebar').classList.toggle('active');
-            document.getElementById('overlay').classList.toggle('active');
         }
 
         loadData();
