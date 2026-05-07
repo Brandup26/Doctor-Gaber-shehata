@@ -3,103 +3,130 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>منيو ابن سوريا - الضبط النهائي</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@600;700;900&display=swap" rel="stylesheet">
+    <title>منيو ابن سوريا - المعتمد</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root { --main: #E31E24; --bg: #fcfcfc; }
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Cairo', sans-serif; }
         body { background-color: var(--bg); overflow-x: hidden; }
+        
+        /* الهيدر */
         header { padding: 15px 20px; background: #fff; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 2000; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
-        .arc-container { position: relative; width: 100%; height: 260px; background: #fff; overflow: hidden; border-bottom-left-radius: 50px; border-bottom-right-radius: 50px; }
+        
+        /* منطقة الترس */
+        .arc-container { position: relative; width: 100%; height: 280px; background: #fff; overflow: hidden; border-bottom-left-radius: 50px; border-bottom-right-radius: 50px; }
         .gear-wheel { position: absolute; bottom: -500px; left: 50%; width: 750px; height: 750px; margin-left: -375px; transition: transform 0.6s cubic-bezier(0.19, 1, 0.22, 1); transform-origin: center center; }
-        .cat-node { position: absolute; top: 0; left: 50%; width: 90px; height: 375px; margin-left: -45px; transform-origin: bottom center; display: flex; flex-direction: column; align-items: center; cursor: pointer; }
-        .img-circle { width: 80px; height: 80px; background: #eee; border-radius: 50%; border: 3px solid #f0f0f0; background-size: cover; background-position: center; }
-        .cat-node.active .img-circle { border-color: var(--main); transform: scale(1.2) translateY(-10px); }
-        .cat-node p { margin-top: 8px; font-weight: 700; font-size: 14px; color: #666; }
+        .cat-node { position: absolute; top: 0; left: 50%; width: 100px; height: 375px; margin-left: -50px; transform-origin: bottom center; display: flex; flex-direction: column; align-items: center; cursor: pointer; }
+        .img-circle { width: 85px; height: 85px; border-radius: 50%; border: 4px solid #f0f0f0; background-size: cover; background-position: center; transition: 0.4s; background-color: #fff; }
+        .cat-node.active .img-circle { border-color: var(--main); transform: scale(1.2) translateY(-10px); box-shadow: 0 10px 20px rgba(227,30,36,0.2); }
+        .cat-node p { margin-top: 10px; font-weight: 900; font-size: 15px; color: #444; }
+        .cat-node.active p { color: var(--main); }
+
+        /* المنتجات */
         .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; padding: 20px; }
-        .card { background: #fff; border-radius: 20px; padding: 15px; text-align: center; box-shadow: 0 4px 10px rgba(0,0,0,0.02); }
-        .price { color: #2ecc71; font-weight: 900; font-size: 18px; margin: 10px 0; }
-        .add-btn { background: var(--main); color: #fff; border: none; padding: 8px 20px; border-radius: 10px; font-weight: 700; }
+        .card { background: #fff; border-radius: 25px; padding: 15px; text-align: center; box-shadow: 0 5px 15px rgba(0,0,0,0.03); border: 1px solid #f0f0f0; transition: 0.3s; }
+        .item-name { font-weight: 700; color: #333; height: 40px; display: flex; align-items: center; justify-content: center; margin-bottom: 5px; }
+        .price { color: #2ecc71; font-weight: 900; font-size: 19px; margin-bottom: 10px; }
+        .add-btn { background: var(--main); color: #fff; border: none; width: 100%; padding: 10px; border-radius: 12px; font-weight: 700; cursor: pointer; }
     </style>
 </head>
 <body>
-    <header><div style="font-weight:900; color:var(--main); font-size:22px;">ابن سوريا</div></header>
-    <div class="arc-container"><div class="gear-wheel" id="gear"></div></div>
-    <div id="loader" style="text-align:center; padding:50px;">جاري ترتيب المنيو...</div>
+
+    <header>
+        <div style="font-weight:900; color:var(--main); font-size:24px;">ابن سوريا</div>
+        <i class="fas fa-shopping-basket" style="font-size:22px; color:#333;"></i>
+    </header>
+
+    <div class="arc-container">
+        <div class="gear-wheel" id="gear"></div>
+    </div>
+
+    <div id="loader" style="text-align:center; padding:50px; font-weight:bold; color:#888;">جاري تحميل أكلات ابن سوريا...</div>
     <div class="grid" id="menu-grid"></div>
 
     <script>
+        // 1. هنا بنحدد الأقسام اللي هتظهر "بالظبط" - الصور دي تقدر تغيرها بروابط صورك
+        const categories = [
+            { n: "كشري", img: "https://images.unsplash.com/photo-1541518763669-279f00ed4242?w=200" },
+            { n: "طواجن", img: "https://images.unsplash.com/photo-1547928576-a4a33237eceb?w=200" },
+            { n: "حواوشي", img: "https://images.unsplash.com/photo-1626078436897-4003d001606f?w=200" },
+            { n: "شاورما", img: "https://images.unsplash.com/photo-1529006557810-274b9b2fc783?w=200" },
+            { n: "مشويات", img: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=200" }
+        ];
+
         const sheetURL = `https://docs.google.com/spreadsheets/d/1gbCDymsVfNxmyCihMHMjkSPkqnIrpKX_QVYQ77zkA8c/export?format=csv`;
 
         let products = [];
-        let categories = [];
+        const angleStep = 45; // المسافة بين الأيقونات في الدائرة
 
-        async function loadData() {
+        async function initMenu() {
             try {
                 const res = await fetch(sheetURL);
-                const csvData = await res.text();
-                const rows = csvData.split('\n').filter(row => row.trim() !== '');
+                const data = await res.text();
+                const rows = data.split('\n').slice(1); // تجاهل الهيدر
                 
-                products = rows.slice(1).map((row, i) => {
-                    // تحسين تقسيم الصفوف ليتعامل مع الفواصل بشكل أدق
-                    const cols = row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/); 
-                    return { 
-                        n: cols[0]?.replace(/"/g, '').trim(), 
-                        p: cols[1]?.trim() || "0", 
-                        c: cols[2]?.replace(/"/g, '').trim() 
+                products = rows.map(row => {
+                    const cols = row.split(/,(?=(?:[^"]*"[^"]*")*[^"]*$)/); // قراءة احترافية للـ CSV
+                    return {
+                        name: cols[0]?.replace(/"/g, '').trim(),
+                        price: cols[1]?.trim() || "0",
+                        cat: cols[2]?.replace(/"/g, '').trim()
                     };
-                });
-
-                // سحب الأقسام الفريدة فقط
-                const uniqueCats = [...new Set(products.map(p => p.c))].filter(c => c && c.length > 1);
-                categories = uniqueCats.map(name => ({ n: name, img: "https://via.placeholder.com/100" }));
+                }).filter(p => p.name && p.name.length > 1);
 
                 document.getElementById('loader').style.display = 'none';
-                if(categories.length > 0) buildGear();
-                else document.getElementById('loader').innerText = "تأكد من كتابة الأقسام في العمود الثالث بالشيت";
-            } catch (err) {
-                document.getElementById('loader').innerText = "خطأ في الربط";
+                renderGear();
+            } catch (e) {
+                document.getElementById('loader').innerText = "حدث خطأ في الربط بالشيت";
             }
         }
 
-        function buildGear() {
+        function renderGear() {
             const gear = document.getElementById('gear');
             gear.innerHTML = categories.map((c, i) => {
+                const rot = i * angleStep;
                 return `
-                    <div class="cat-node" style="transform: rotate(${i * 45}deg)" onclick="goIdx(${i})">
-                        <div class="img-circle"></div>
+                    <div class="cat-node" style="transform: rotate(${rot}deg)" onclick="selectCat(${i})">
+                        <div class="img-circle" style="background-image: url('${c.img}')"></div>
                         <p>${c.n}</p>
                     </div>
                 `;
             }).join('');
-            goIdx(0);
+            selectCat(0);
         }
 
-        function goIdx(idx) {
-            const angle = -idx * 45;
-            document.getElementById('gear').style.transform = `rotate(${angle}deg)`;
+        function selectCat(idx) {
+            const targetRot = -idx * angleStep;
+            document.getElementById('gear').style.transform = `rotate(${targetRot}deg)`;
+            
             document.querySelectorAll('.cat-node').forEach((node, i) => {
                 node.classList.toggle('active', i === idx);
-                node.querySelector('.img-circle').style.transform = `rotate(${-angle - (i * 45)}deg)`;
-                node.querySelector('p').style.transform = `rotate(${-angle - (i * 45)}deg)`;
+                // موازنة الدوران عشان الصور تفضل عدلة
+                const icon = node.querySelector('.img-circle');
+                const text = node.querySelector('p');
+                icon.style.transform = `rotate(${-targetRot - (i * angleStep)}deg)`;
+                text.style.transform = `rotate(${-targetRot - (i * angleStep)}deg)`;
             });
-            render(categories[idx].n);
+
+            const catName = categories[idx].n;
+            const filtered = products.filter(p => p.cat === catName);
+            
+            const grid = document.getElementById('menu-grid');
+            if (filtered.length === 0) {
+                grid.innerHTML = `<p style="grid-column: 1/-1; text-align:center; color:#888; padding:50px;">قريباً في قسم ${catName}...</p>`;
+            } else {
+                grid.innerHTML = filtered.map(p => `
+                    <div class="card">
+                        <div class="item-name">${p.name}</div>
+                        <div class="price">${p.price} ج.م</div>
+                        <button class="add-btn">إضافة +</button>
+                    </div>
+                `).join('');
+            }
         }
 
-        function render(catName) {
-            const container = document.getElementById('menu-grid');
-            const list = products.filter(p => p.c === catName);
-            container.innerHTML = list.map(p => `
-                <div class="card">
-                    <div style="font-weight:700;">${p.n}</div>
-                    <div class="price">${p.p} ج.م</div>
-                    <button class="add-btn">إضافة +</button>
-                </div>
-            `).join('');
-        }
-
-        loadData();
+        initMenu();
     </script>
 </body>
 </html>
