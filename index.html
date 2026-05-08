@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>منيو إبن سوريا - النسخة النهائية</title>
+    <title>منيو إبن سوريا - النسخة الاحترافية</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -29,6 +29,7 @@
 
         .main-logo { width: 75px; height: 75px; border-radius: 20px; margin-bottom: 5px; object-fit: cover; }
 
+        /* السلة فوق على الشمال */
         .cart-trigger {
             position: absolute; top: 25px; left: 20px; width: 52px; height: 52px;
             background: var(--bg-ios); border-radius: 16px; display: flex;
@@ -62,8 +63,10 @@
             background: #F2F2F7; border: none; padding: 12px; border-radius: 14px;
             font-size: 12px; font-weight: 700; cursor: pointer; display: flex;
             justify-content: space-between; align-items: center; margin-bottom: 7px;
+            transition: 0.2s;
         }
         .price-btn i { color: var(--blue-ios); font-size: 16px; }
+        .price-btn:active { background: var(--blue-ios); color: white; transform: scale(0.95); }
 
         #cart-sheet-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -80,11 +83,21 @@
         .handle-bar { width: 40px; height: 5px; background: #D1D1D6; border-radius: 10px; margin: 0 auto 20px; }
 
         .input-group { margin-bottom: 12px; }
-        .input-group input { width: 100%; padding: 16px; border-radius: 16px; border: 1.5px solid #E5E5EA; outline: none; font-size: 15px; font-weight: 600; }
+        .input-group input { width: 100%; padding: 18px; border-radius: 18px; border: 1.5px solid #E5E5EA; outline: none; font-size: 15px; font-weight: 600; }
         
-        .confirm-btn { width: 100%; padding: 18px; background: var(--gradient); color: white; border: none; border-radius: 20px; font-size: 18px; font-weight: 800; cursor: pointer; margin-top: 15px; }
+        /* زرار تأكيد الطلب المحدث (أكبر وبدون كلمة واتساب) */
+        .confirm-btn { 
+            width: 100%; padding: 22px; background: var(--gradient); color: white; 
+            border: none; border-radius: 22px; font-size: 20px; font-weight: 900; 
+            cursor: pointer; margin-top: 15px; box-shadow: 0 10px 30px rgba(0,122,255,0.3);
+            display: flex; align-items: center; justify-content: center; gap: 10px;
+        }
+        .confirm-btn:active { transform: scale(0.98); opacity: 0.9; }
 
         .cart-item-row { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #F2F2F7; font-weight: 700; }
+
+        /* أنيميشن الطيران */
+        .flyer { position: fixed; z-index: 9999; width: 30px; height: 30px; background: var(--blue-ios); border-radius: 50%; color: white; display: flex; align-items: center; justify-content: center; font-size: 14px; pointer-events: none; transition: all 0.7s cubic-bezier(0.32, 1, 0.23, 1); }
     </style>
 </head>
 <body>
@@ -107,38 +120,35 @@
 <div id="cart-sheet-overlay" onclick="if(event.target.id==='cart-sheet-overlay') toggleCart(false)">
     <div class="ios-bottom-sheet">
         <div class="handle-bar"></div>
-        <h2 style="text-align: center; margin-bottom: 20px; font-weight: 900;">سلة طلباتك</h2>
-        <div id="cart-items-list"></div>
-        <div style="padding: 15px 0; display: flex; justify-content: space-between; font-size: 22px; font-weight: 900; color: var(--blue-ios);">
+        <h2 style="text-align: center; margin-bottom: 20px; font-weight: 900; font-size: 24px;">سلة طلباتك</h2>
+        
+        <div id="cart-items-list" style="margin-bottom: 15px;"></div>
+        
+        <div style="padding: 15px 0; display: flex; justify-content: space-between; font-size: 22px; font-weight: 900; color: var(--blue-ios); border-top: 2px solid #F2F2F7;">
             <span>الإجمالي</span><span id="total-val">0 ج.م</span>
         </div>
+
         <div class="input-group"><input type="text" id="c-name" placeholder="الاسم الكريم"></div>
         <div class="input-group"><input type="tel" id="c-phone" placeholder="رقم الهاتف"></div>
         <div class="input-group"><input type="text" id="c-address" placeholder="العنوان بالتفصيل"></div>
-        <button class="confirm-btn" onclick="submitFinalOrder()">تأكيد الطلب (واتساب)</button>
+
+        <button class="confirm-btn" onclick="submitFinalOrder()">
+            تأكيد الطلب <i class="fab fa-whatsapp" style="font-size: 24px;"></i>
+        </button>
     </div>
 </div>
 
 <script>
     const sheetURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRwVeN6ohlItpy6_3Fr5nIPaPgJoMoffwDfq85i8oG1c92XjW3wFknmB6Ahvj8BpQ/pub?output=csv';
-
     let products = [], cart = [], categories = [];
 
-    // وظيفة لتحليل ملف الـ CSV بشكل صحيح
     function parseCSV(text) {
         const rows = text.split('\n');
         return rows.slice(1).map(row => {
-            // التعامل مع الفواصل داخل النصوص
             const cols = row.match(/(".*?"|[^",\r\n]+)(?=\s*,|\s*$)/g);
             if (cols) {
                 const cleanCols = cols.map(c => c.replace(/^"|"$/g, '').trim());
-                return {
-                    cat: cleanCols[0],
-                    name: cleanCols[1],
-                    small: cleanCols[2],
-                    medium: cleanCols[3],
-                    large: cleanCols[4]
-                };
+                return { cat: cleanCols[0], name: cleanCols[1], small: cleanCols[2], medium: cleanCols[3], large: cleanCols[4] };
             }
         }).filter(item => item && item.name);
     }
@@ -148,13 +158,10 @@
             const res = await fetch(sheetURL);
             const text = await res.text();
             products = parseCSV(text);
-            
             categories = [...new Set(products.map(p => p.cat))];
             renderCats();
             if(categories.length > 0) filter(categories[0]);
-        } catch (e) {
-            console.error("Error loading data:", e);
-        }
+        } catch (e) { console.error("Error:", e); }
     }
 
     function renderCats() {
@@ -171,15 +178,39 @@
             <div class="food-item">
                 <h3>${p.name}</h3>
                 <div class="price-options">
-                    ${p.small && p.small !== '-' ? `<button class="price-btn" onclick="add('${p.name} (صغير)', ${p.small})"><span>${p.small}ج</span> <i class="fas fa-plus-circle"></i></button>` : ''}
-                    ${p.medium && p.medium !== '-' ? `<button class="price-btn" onclick="add('${p.name} (وسط)', ${p.medium})"><span>${p.medium}ج</span> <i class="fas fa-plus-circle"></i></button>` : ''}
-                    ${p.large && p.large !== '-' ? `<button class="price-btn" onclick="add('${p.name} (كبير)', ${p.large})"><span>${p.large}ج</span> <i class="fas fa-plus-circle"></i></button>` : ''}
+                    ${p.small && p.small !== '-' ? `<button class="price-btn" onclick="add('${p.name} (صغير)', ${p.small}, event)"><span>${p.small}ج</span> <i class="fas fa-plus-circle"></i></button>` : ''}
+                    ${p.medium && p.medium !== '-' ? `<button class="price-btn" onclick="add('${p.name} (وسط)', ${p.medium}, event)"><span>${p.medium}ج</span> <i class="fas fa-plus-circle"></i></button>` : ''}
+                    ${p.large && p.large !== '-' ? `<button class="price-btn" onclick="add('${p.name} (كبير)', ${p.large}, event)"><span>${p.large}ج</span> <i class="fas fa-plus-circle"></i></button>` : ''}
                 </div>
             </div>
         `).join('');
     }
 
-    function add(n, p) { cart.push({name:n, price:parseFloat(p)}); updateUI(); }
+    function add(n, p, e) {
+        cart.push({name:n, price:parseFloat(p)});
+        updateUI();
+        flyAnimation(e); // تفعيل أنيميشن الطيران
+    }
+
+    function flyAnimation(e) {
+        const flyer = document.createElement('div');
+        flyer.className = 'flyer';
+        flyer.innerHTML = '<i class="fas fa-cart-plus"></i>';
+        flyer.style.left = e.clientX + 'px';
+        flyer.style.top = e.clientY + 'px';
+        document.body.appendChild(flyer);
+        
+        const cartPos = document.querySelector('.cart-trigger').getBoundingClientRect();
+        
+        setTimeout(() => {
+            flyer.style.left = (cartPos.left + 20) + 'px';
+            flyer.style.top = (cartPos.top + 20) + 'px';
+            flyer.style.opacity = '0';
+            flyer.style.transform = 'scale(0.2) rotate(360deg)';
+        }, 50);
+        
+        setTimeout(() => flyer.remove(), 750);
+    }
 
     function updateUI() {
         document.getElementById('cart-count').innerText = cart.length;
@@ -202,9 +233,9 @@
     function submitFinalOrder() {
         const n = document.getElementById('c-name').value, p = document.getElementById('c-phone').value, a = document.getElementById('c-address').value;
         if(!n || !p || !a || cart.length === 0) return alert("برجاء إكمال البيانات");
-        let msg = `*طلب جديد من إبن سوريا*%0Aالاسم: ${n}%0Aالهاتف: ${p}%0Aالعنوان: ${a}%0A---%0A`;
+        let msg = `*طلب جديد من إبن سوريا*%0A*الاسم:* ${n}%0A*الهاتف:* ${p}%0A*العنوان:* ${a}%0A---%0A`;
         cart.forEach(i => msg += `- ${i.name} (${i.price}ج)%0A`);
-        msg += `---%0Aالإجمالي: ${document.getElementById('total-val').innerText}`;
+        msg += `---%0A*الإجمالي:* ${document.getElementById('total-val').innerText}`;
         window.open(`https://wa.me/201016991319?text=${msg}`);
     }
 
