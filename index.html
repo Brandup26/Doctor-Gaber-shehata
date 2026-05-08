@@ -15,7 +15,6 @@
         :root { --gold: #D4AF37; --bg: #F5F5F5; --active-green: #89B42D; }
         body { font-family: 'Alexandria', sans-serif; background: var(--bg); overflow-x: hidden; touch-action: manipulation; }
 
-        /* الهيدر العلوي */
         .header-nav {
             position: fixed; top: 0; width: 100%; z-index: 1000;
             padding: 15px 20px; display: flex; justify-content: space-between; align-items: center;
@@ -24,28 +23,24 @@
 
         .cart-box { background: #1A1A1A; color: white; padding: 10px 22px; border-radius: 20px; position: relative; cursor: pointer; }
 
-        /* منطقة الأقسام والكيرف */
         .hero-viewport {
             position: relative; height: 320px; width: 100%;
             background: #fff; overflow: hidden; touch-action: none;
             display: flex; justify-content: center; padding-top: 60px;
         }
 
-        /* المسار الوهمي المنقط */
         .category-path-line {
             position: absolute; top: 150px; width: 500px; height: 500px;
             border: 1.5px dashed rgba(0,0,0,0.08); border-radius: 50%;
             pointer-events: none; z-index: 0;
         }
 
-        /* الكيرف الداخلي السفلي */
         .hero-viewport::after {
             content: ''; position: absolute; bottom: -50px; left: -10%;
             width: 120%; height: 100px; background: var(--bg);
             border-top-left-radius: 50% 80px; border-top-right-radius: 50% 80px; z-index: 5;
         }
 
-        /* رفع الاقسام قليلاً لتكون ظاهرة */
         .hero-gear {
             position: absolute; top: 150px; width: 600px; height: 600px;
             border-radius: 50%; will-change: transform; z-index: 1;
@@ -57,7 +52,6 @@
             flex-direction: column; align-items: center; justify-content: center;
         }
 
-        /* اسم القسم في أعلى منتصف الأيقونة */
         .hero-cat-item span { 
             font-size: 13px; font-weight: 700; color: #777; 
             position: absolute; top: -15px; width: 100%; text-align: center;
@@ -79,7 +73,6 @@
             background: var(--active-green); border-radius: 10px; z-index: 10;
         }
 
-        /* السلة */
         #cart-panel {
             position: fixed; top: 0; left: -100%; width: 100%; max-width: 400px;
             height: 100%; background: white; z-index: 2000; padding: 25px;
@@ -99,7 +92,8 @@
     </nav>
 
     <div class="hero-viewport" id="hero-touch">
-        <div class="category-path-line"></div> <div id="hero-gear" class="hero-gear"></div>
+        <div class="category-path-line"></div>
+        <div id="hero-gear" class="hero-gear"></div>
         <div class="active-indicator"></div>
     </div>
 
@@ -141,7 +135,7 @@
         let cart = [];
         let gearRotation = 0;
         const gear = document.getElementById('hero-gear');
-        const step = 35;
+        const step = 45; // زاوية أكبر لتنقل أكثر راحة
 
         function init() {
             categories.forEach((cat, i) => {
@@ -159,24 +153,32 @@
 
         const hammer = new Hammer(document.getElementById('hero-touch'));
         hammer.on("panmove", (e) => {
-            gearRotation += e.velocity * 4;
-            applyRotation();
+            // حركة فورية مع الإصبع لسلاسة الرؤية
+            let current = gearRotation + (e.velocityX * 5);
+            gear.style.transform = `rotate(${current}deg)`;
+            syncIcons(current);
         });
 
-        hammer.on("panend", () => {
+        hammer.on("panend", (e) => {
+            // الانجذاب لأقرب قسم بنعومة فائقة
             gearRotation = Math.round(gearRotation / step) * step;
-            if (gearRotation > 0) gearRotation = 0;
             const min = -(categories.length - 1) * step;
+            if (gearRotation > 0) gearRotation = 0;
             if (gearRotation < min) gearRotation = min;
-            gsap.to(gear, { rotation: gearRotation, duration: 0.5 });
-            updateActive(Math.abs(gearRotation/step));
+            
+            gsap.to(gear, { 
+                rotation: gearRotation, 
+                duration: 0.6, 
+                ease: "power2.out", 
+                onUpdate: () => syncIcons(gsap.getProperty(gear, "rotation"))
+            });
+            updateActive(Math.abs(gearRotation / step));
         });
 
-        function applyRotation() {
-            gear.style.transform = `rotate(${gearRotation}deg)`;
+        function syncIcons(rot) {
             document.querySelectorAll('.hero-cat-item').forEach(it => {
-                it.querySelector('.cat-img-wrapper').style.transform = `rotate(${-gearRotation}deg)`;
-                it.querySelector('span').style.transform = `rotate(${-gearRotation}deg)`;
+                it.querySelector('.cat-img-wrapper').style.transform = `rotate(${-rot}deg)`;
+                it.querySelector('span').style.transform = `rotate(${-rot}deg)`;
             });
         }
 
