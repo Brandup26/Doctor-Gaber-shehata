@@ -29,7 +29,6 @@
 
         .main-logo { width: 75px; height: 75px; border-radius: 20px; margin-bottom: 5px; object-fit: cover; }
 
-        /* السلة فوق على الشمال */
         .cart-trigger {
             position: absolute; top: 25px; left: 20px; width: 52px; height: 52px;
             background: var(--bg-ios); border-radius: 16px; display: flex;
@@ -43,7 +42,6 @@
             font-weight: 900; border: 2px solid white;
         }
 
-        /* تثبيت الأقسام */
         .sticky-wrapper {
             position: sticky; top: 0; z-index: 1000; background: var(--bg-ios);
             padding: 10px 0; box-shadow: 0 10px 20px rgba(0,0,0,0.02);
@@ -56,7 +54,6 @@
         .cat-card.active img { border-color: var(--blue-ios); transform: scale(1.1); }
         .cat-card span { display: block; margin-top: 8px; font-weight: 800; font-size: 12px; color: #3A3A3C; }
 
-        /* المنيو */
         .menu-container { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 10px 15px 120px; }
         .food-item { background: var(--white); border-radius: 25px; padding: 15px; box-shadow: var(--shadow); display: flex; flex-direction: column; justify-content: space-between; }
         .food-item h3 { font-size: 14px; font-weight: 800; text-align: center; min-height: 40px; margin-bottom: 12px; }
@@ -65,12 +62,9 @@
             background: #F2F2F7; border: none; padding: 12px; border-radius: 14px;
             font-size: 12px; font-weight: 700; cursor: pointer; display: flex;
             justify-content: space-between; align-items: center; margin-bottom: 7px;
-            transition: 0.2s;
         }
         .price-btn i { color: var(--blue-ios); font-size: 16px; }
-        .price-btn:active { background: var(--blue-ios); color: white; transform: scale(0.95); }
 
-        /* سلة الطلبات iOS Sheet */
         #cart-sheet-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); z-index: 2000;
@@ -86,17 +80,9 @@
         .handle-bar { width: 40px; height: 5px; background: #D1D1D6; border-radius: 10px; margin: 0 auto 20px; }
 
         .input-group { margin-bottom: 12px; }
-        .input-group input { 
-            width: 100%; padding: 16px; border-radius: 16px; border: 1.5px solid #E5E5EA; 
-            outline: none; font-size: 15px; font-weight: 600; transition: 0.3s;
-        }
-        .input-group input:focus { border-color: var(--blue-ios); background: #FBFBFF; }
+        .input-group input { width: 100%; padding: 16px; border-radius: 16px; border: 1.5px solid #E5E5EA; outline: none; font-size: 15px; font-weight: 600; }
         
-        .confirm-btn { 
-            width: 100%; padding: 18px; background: var(--gradient); color: white; 
-            border: none; border-radius: 20px; font-size: 18px; font-weight: 800; 
-            cursor: pointer; margin-top: 15px; box-shadow: 0 8px 25px rgba(0,122,255,0.3);
-        }
+        .confirm-btn { width: 100%; padding: 18px; background: var(--gradient); color: white; border: none; border-radius: 20px; font-size: 18px; font-weight: 800; cursor: pointer; margin-top: 15px; }
 
         .cart-item-row { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #F2F2F7; font-weight: 700; }
     </style>
@@ -121,44 +107,53 @@
 <div id="cart-sheet-overlay" onclick="if(event.target.id==='cart-sheet-overlay') toggleCart(false)">
     <div class="ios-bottom-sheet">
         <div class="handle-bar"></div>
-        <h2 style="text-align: center; margin-bottom: 20px; font-weight: 900; font-size: 24px;">سلة طلباتك</h2>
-        
-        <div id="cart-items-list" style="margin-bottom: 15px;"></div>
-        
-        <div style="padding: 15px 0; display: flex; justify-content: space-between; font-size: 22px; font-weight: 900; color: var(--blue-ios); border-top: 2px solid #F2F2F7;">
+        <h2 style="text-align: center; margin-bottom: 20px; font-weight: 900;">سلة طلباتك</h2>
+        <div id="cart-items-list"></div>
+        <div style="padding: 15px 0; display: flex; justify-content: space-between; font-size: 22px; font-weight: 900; color: var(--blue-ios);">
             <span>الإجمالي</span><span id="total-val">0 ج.م</span>
         </div>
-
         <div class="input-group"><input type="text" id="c-name" placeholder="الاسم الكريم"></div>
         <div class="input-group"><input type="tel" id="c-phone" placeholder="رقم الهاتف"></div>
         <div class="input-group"><input type="text" id="c-address" placeholder="العنوان بالتفصيل"></div>
-
-        <button class="confirm-btn" onclick="submitFinalOrder()">
-            تأكيد الطلب (واتساب) <i class="fab fa-whatsapp"></i>
-        </button>
+        <button class="confirm-btn" onclick="submitFinalOrder()">تأكيد الطلب (واتساب)</button>
     </div>
 </div>
 
 <script>
-    // الرابط المباشر للشيت الخاص بك بصيغة CSV
     const sheetURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRwVeN6ohlItpy6_3Fr5nIPaPgJoMoffwDfq85i8oG1c92XjW3wFknmB6Ahvj8BpQ/pub?output=csv';
 
     let products = [], cart = [], categories = [];
 
+    // وظيفة لتحليل ملف الـ CSV بشكل صحيح
+    function parseCSV(text) {
+        const rows = text.split('\n');
+        return rows.slice(1).map(row => {
+            // التعامل مع الفواصل داخل النصوص
+            const cols = row.match(/(".*?"|[^",\r\n]+)(?=\s*,|\s*$)/g);
+            if (cols) {
+                const cleanCols = cols.map(c => c.replace(/^"|"$/g, '').trim());
+                return {
+                    cat: cleanCols[0],
+                    name: cleanCols[1],
+                    small: cleanCols[2],
+                    medium: cleanCols[3],
+                    large: cleanCols[4]
+                };
+            }
+        }).filter(item => item && item.name);
+    }
+
     async function loadData() {
         try {
             const res = await fetch(sheetURL);
-            const data = await res.text();
-            const rows = data.split('\n').filter(r => r.trim() !== '');
-            products = rows.slice(1).map((row, i) => {
-                const cols = row.split(',').map(c => c.trim().replace(/^"|"$/g, ''));
-                return { id: i, cat: cols[0], name: cols[1], small: cols[2], medium: cols[3], large: cols[4] };
-            });
+            const text = await res.text();
+            products = parseCSV(text);
+            
             categories = [...new Set(products.map(p => p.cat))];
             renderCats();
             if(categories.length > 0) filter(categories[0]);
         } catch (e) {
-            console.error("خطأ في تحميل البيانات من الشيت");
+            console.error("Error loading data:", e);
         }
     }
 
@@ -205,16 +200,20 @@
     window.onpopstate = () => document.getElementById('cart-sheet-overlay').classList.remove('active');
 
     function submitFinalOrder() {
-        const n = document.getElementById('c-name').value, 
-              p = document.getElementById('c-phone').value, 
-              a = document.getElementById('c-address').value;
-        if(!n || !p || !a || cart.length === 0) return alert("برجاء إكمال البيانات واختيار طلباتك");
-        
-        let msg = `*طلب جديد من إبن سوريا*%0A*الاسم:* ${n}%0A*الهاتف:* ${p}%0A*العنوان:* ${a}%0A---%0A*الأصناف:*%0A`;
+        const n = document.getElementById('c-name').value, p = document.getElementById('c-phone').value, a = document.getElementById('c-address').value;
+        if(!n || !p || !a || cart.length === 0) return alert("برجاء إكمال البيانات");
+        let msg = `*طلب جديد من إبن سوريا*%0Aالاسم: ${n}%0Aالهاتف: ${p}%0Aالعنوان: ${a}%0A---%0A`;
         cart.forEach(i => msg += `- ${i.name} (${i.price}ج)%0A`);
-        msg += `---%0A*الإجمالي:* ${document.getElementById('total-val').innerText}`;
-        
+        msg += `---%0Aالإجمالي: ${document.getElementById('total-val').innerText}`;
         window.open(`https://wa.me/201016991319?text=${msg}`);
+    }
+
+    function filter(cat, e) {
+        if(e) {
+            document.querySelectorAll('.cat-card').forEach(x => x.classList.remove('active'));
+            e.currentTarget.classList.add('active');
+        }
+        render(products.filter(p => p.cat === cat));
     }
 
     loadData();
