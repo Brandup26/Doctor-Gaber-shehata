@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>إبن سوريا | طريقة البطل (الكيرف المعدل)</title>
+    <title>إبن سوريا | القائمة الفاخرة</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Alexandria:wght@400;700;900&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
@@ -23,7 +23,7 @@
 
         .cart-box { background: var(--dark); color: white; padding: 10px 22px; border-radius: 20px; position: relative; cursor: pointer; }
 
-        /* تعديل الكيرف والمسافات هنا فقط */
+        /* تعديل الكيرف والمسافة مريحة للعين */
         .hero-viewport {
             position: relative; height: 260px; width: 100%;
             display: flex; justify-content: center; overflow: hidden;
@@ -32,15 +32,15 @@
 
         .hero-gear {
             position: absolute; 
-            top: 180px; /* تم خفض المركز لتقليل الانحناء */
-            width: 600px; height: 600px; /* تم تكبير القطر لجعل الكيرف أقل حدة */
+            top: 180px; /* مركز منخفض لتقليل حدة الكيرف */
+            width: 600px; height: 600px; /* قطر كبير لكيرف انسيابي */
             border-radius: 50%; will-change: transform;
             transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
         }
 
         .hero-cat-item {
             position: absolute; top: 50%; left: 50%;
-            width: 80px; height: 100px; margin-left: -40px; margin-top: -40px;
+            width: 85px; height: 100px; margin-left: -42px; margin-top: -42px;
             display: flex; flex-direction: column; align-items: center;
         }
 
@@ -60,9 +60,11 @@
             background: #4CAF50; border-radius: 10px; z-index: 10;
         }
 
+        /* تنسيق كروت الطعام */
         .food-card { background: white; border-radius: 30px; padding: 15px; border: 1px solid #f0f0f0; }
-        .add-btn { background: var(--dark); color: white; width: 35px; height: 35px; border-radius: 12px; display: flex; align-items: center; justify-content: center; }
+        .add-btn { background: var(--dark); color: white; width: 35px; height: 35px; border-radius: 12px; display: flex; align-items: center; justify-content: center; cursor: pointer; }
 
+        /* السلة ومحاذاة النصوص */
         #cart-panel {
             position: fixed; top: 0; left: -100%; width: 100%; max-width: 400px;
             height: 100%; background: white; z-index: 2000; padding: 25px;
@@ -109,18 +111,22 @@
             <h2 class="text-2xl font-black">طلباتك</h2>
             <i onclick="toggleCart(false)" class="fa-solid fa-xmark text-xl cursor-pointer"></i>
         </div>
+        
         <div id="cart-items" class="space-y-3 mb-8"></div>
+
         <div class="border-t pt-6">
             <div class="flex justify-between mb-6 font-black text-xl">
                 <span>الإجمالي</span>
                 <span id="total-price" class="text-gold">0 ج.م</span>
             </div>
+
             <div class="space-y-2 mb-6">
                 <h3 class="font-bold text-sm mb-3 text-gray-400">معلومات التوصيل</h3>
                 <input type="text" id="user-name" class="user-input" placeholder="الاسم الكامل">
                 <input type="tel" id="user-phone" class="user-input" placeholder="رقم الهاتف">
                 <input type="text" id="user-addr" class="user-input" placeholder="العنوان بالتفصيل">
             </div>
+
             <button onclick="checkout()" class="w-full bg-black text-white py-5 rounded-2xl font-black shadow-xl active:scale-95 transition">تأكيد الطلب</button>
         </div>
     </div>
@@ -143,10 +149,10 @@
         let cart = [];
         let gearRotation = 0;
         const gear = document.getElementById('hero-gear');
-        const step = 15; // تقريب المسافة بين الأيقونات لتعويض كبر القطر
+        const step = 28; // مسافة مريحة وواضحة بين الأقسام
 
         function initHeroGear() {
-            const radius = 260; // تم تكبير القطر لتقليل الكيرف
+            const radius = 260; // نصف قطر ثابت لكيرف بسيط
             categories.forEach((cat, i) => {
                 const item = document.createElement('div');
                 item.className = `hero-cat-item ${i === 0 ? 'active' : ''}`;
@@ -197,8 +203,9 @@
         }
 
         function updateActive(idx) {
-            document.querySelectorAll('.hero-cat-item').forEach((it, i) => it.classList.toggle('active', i === idx));
-            document.getElementById('cat-title').innerText = categories[idx].name;
+            const cleanIdx = Math.round(idx);
+            document.querySelectorAll('.hero-cat-item').forEach((it, i) => it.classList.toggle('active', i === cleanIdx));
+            document.getElementById('cat-title').innerText = categories[cleanIdx].name;
             renderFood();
         }
 
