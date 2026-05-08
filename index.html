@@ -3,245 +3,305 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>مطعم إبن سوريا - الطعم الشامي الأصيل</title>
+    <title>مطعم إبن سوريا - تجربة iOS</title>
     
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <style>
         :root {
-            --primary-color: #e67e22;
-            --secondary-color: #2c3e50;
-            --bg-light: #f9f9f9;
-            --white: #ffffff;
-            --shadow: 0 10px 30px rgba(0,0,0,0.1);
-            --transition: all 0.3s ease-in-out;
+            --ios-bg: #F2F2F7; /* خلفية الـ iOS الفاتحة */
+            --ios-white: #FFFFFF;
+            --ios-blue: #007AFF; /* أزرق آبل الشهير */
+            --ios-orange: #FF9500; /* برتقالي آبل للتميز */
+            --text-dark: #000000;
+            --text-gray: #8E8E93;
+            --ios-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            --transition-slow: all 0.6s cubic-bezier(0.4, 0, 0.2, 1); /* أنيميشن أبطأ وأكثر سلاسة */
         }
 
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: 'Cairo', sans-serif;
+            font-family: 'Cairo', -apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif;
+            -webkit-tap-highlight-color: transparent; /* إزالة لون التحديد عند اللمس */
         }
 
         body {
-            background-color: var(--bg-light);
-            color: var(--secondary-color);
+            background-color: var(--ios-bg);
+            color: var(--text-dark);
             overflow-x: hidden;
+            line-height: 1.5;
         }
 
-        /* الهيدر */
+        /* الهيدر بلمسة iOS الملساء */
         header {
-            background: var(--white);
-            padding: 15px 5%;
+            background: rgba(255, 255, 255, 0.85); /* شفافية آبل */
+            backdrop-filter: blur(20px); /* تأثير الضبابية */
+            -webkit-backdrop-filter: blur(20px);
+            padding: 12px 6%;
             display: flex;
             justify-content: space-between;
             align-items: center;
             position: sticky;
             top: 0;
             z-index: 1000;
-            box-shadow: var(--shadow);
+            border-bottom: 0.5px solid rgba(0,0,0,0.1);
         }
 
         .logo {
-            font-weight: 900;
-            font-size: 24px;
-            color: var(--primary-color);
+            font-weight: 700;
+            font-size: 22px;
+            color: var(--text-dark);
         }
 
         .cart-icon-wrapper {
             position: relative;
             cursor: pointer;
-            font-size: 24px;
+            font-size: 26px; /* أيقونة أكبر قليلاً */
+            color: var(--ios-blue);
         }
 
         #cart-count {
             position: absolute;
-            top: -10px;
+            top: -6px;
             right: -10px;
-            background: red;
+            background: #FF3B30; /* أحمر آبل للتنبيه */
             color: white;
             font-size: 12px;
-            padding: 2px 6px;
+            padding: 3px 7px;
             border-radius: 50%;
-        }
-
-        /* واجهة الأقسام */
-        .hero {
-            text-align: center;
-            padding: 50px 20px;
-            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1590602847861-f357a9332bbc?q=80&w=2000') no-repeat center/cover;
-            color: white;
-            margin-bottom: 40px;
-        }
-
-        .categories-container {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            padding: 20px;
-            overflow-x: auto;
-            white-space: nowrap;
-        }
-
-        .category-card {
-            background: var(--white);
-            padding: 10px 25px;
-            border-radius: 50px;
-            cursor: pointer;
-            box-shadow: var(--shadow);
-            transition: var(--transition);
-            border: 2px solid transparent;
             font-weight: 600;
         }
 
-        .category-card.active, .category-card:hover {
-            background: var(--primary-color);
-            color: white;
-            transform: translateY(-5px);
+        /* القسم الرئيسي - هادئ وأنيق */
+        .hero {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--text-dark);
+            margin-bottom: 20px;
         }
 
-        /* عرض المنتجات */
+        .hero h1 {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .hero p {
+            color: var(--text-gray);
+            font-size: 15px;
+        }
+
+        /* واجهة الأقسام - كابسولات بلمسة iOS */
+        .categories-container {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            padding: 15px 5%;
+            overflow-x: auto;
+            white-space: nowrap;
+            -webkit-overflow-scrolling: touch; /* تمرير سلس على الآيفون */
+        }
+
+        /* إخفاء شريط التمرير */
+        .categories-container::-webkit-scrollbar {
+            display: none;
+        }
+
+        .category-card {
+            background: var(--ios-white);
+            color: var(--ios-blue);
+            padding: 8px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+            transition: var(--transition-slow);
+            font-weight: 500;
+            font-size: 15px;
+        }
+
+        .category-card.active {
+            background: var(--ios-blue);
+            color: white;
+        }
+
+        /* عرض المنتجات - أنعم وبدون حدود */
         .menu-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 25px;
-            padding: 20px 5%;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            padding: 20px 6%;
         }
 
         .product-card {
-            background: var(--white);
-            border-radius: 20px;
+            background: var(--ios-white);
+            border-radius: 18px;
             overflow: hidden;
-            box-shadow: var(--shadow);
-            transition: var(--transition);
-            position: relative;
+            box-shadow: var(--ios-shadow);
+            transition: var(--transition-slow);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
         }
 
         .product-card img {
             width: 100%;
-            height: 200px;
+            height: 180px;
             object-fit: cover;
         }
 
         .product-info {
-            padding: 20px;
+            padding: 15px;
             text-align: center;
         }
 
-        .product-info h3 { margin-bottom: 10px; font-size: 20px; }
+        .product-info h3 { margin-bottom: 5px; font-size: 18px; font-weight: 600; }
 
         .price {
-            color: var(--primary-color);
-            font-weight: 700;
-            font-size: 22px;
+            color: var(--text-dark);
+            font-weight: 600;
+            font-size: 19px;
             display: block;
-            margin-bottom: 15px;
+            margin-bottom: 12px;
         }
 
+        /* زر الإضافة - مريح للعين ودائري قليلاً */
         .add-to-cart-btn {
-            background: var(--primary-color);
-            color: white;
+            background: rgba(0, 122, 255, 0.1); /* أزرق شفاف خفيف */
+            color: var(--ios-blue);
             border: none;
-            padding: 10px 30px;
-            border-radius: 12px;
+            padding: 10px 0;
+            border-radius: 10px;
             cursor: pointer;
             font-weight: 600;
             width: 100%;
-            transition: var(--transition);
+            transition: var(--transition-slow);
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 10px;
+            gap: 8px;
+            font-size: 15px;
         }
 
-        .add-to-cart-btn:hover {
-            background: #d35400;
-            transform: scale(1.02);
+        .add-to-cart-btn:active {
+            background: rgba(0, 122, 255, 0.2);
+            transform: scale(0.97); /* تأثير ضغطiOS */
         }
 
-        /* انيميشن الطيران */
+        /* أنيميشن الطيران الأبطأ والأنعم */
         .flying-item {
             position: fixed;
             z-index: 9999;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            background: var(--primary-color);
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            background: var(--ios-blue);
             pointer-events: none;
-            transition: all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            opacity: 0.9;
+            transition: all 1.2s cubic-bezier(0.19, 1, 0.22, 1); /* أبطأ بكثير وسلس */
         }
 
-        /* السلة */
+        /* سلة آيفون (صفحة منبثقة من الأسفل) */
         #cart-modal {
             position: fixed;
-            top: 0;
-            left: -100%;
+            bottom: -100%; /* تخرج من الأسفل */
+            left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.5);
+            background: rgba(0,0,0,0.4);
             z-index: 2000;
-            transition: 0.5s;
+            transition: var(--transition-slow);
+            display: flex;
+            align-items: flex-end; /* المحاذاة للأسفل */
+            visibility: hidden;
         }
 
-        #cart-modal.active { left: 0; }
+        #cart-modal.active {
+            bottom: 0;
+            visibility: visible;
+        }
 
         .cart-content {
-            width: 400px;
-            height: 100%;
-            background: white;
-            float: left;
-            padding: 30px;
+            width: 100%;
+            height: 85%; /* طول الـ iOS Action Sheet */
+            background: var(--ios-bg);
+            border-top-left-radius: 20px;
+            border-top-right-radius: 20px;
+            padding: 20px;
             overflow-y: auto;
-            position: relative;
-        }
-
-        .cart-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px 0;
-            border-bottom: 1px solid #eee;
-        }
-
-        .checkout-form {
-            margin-top: 30px;
             display: flex;
             flex-direction: column;
-            gap: 15px;
+            box-shadow: 0 -10px 30px rgba(0,0,0,0.1);
         }
 
-        .checkout-form input {
-            padding: 12px;
-            border-radius: 8px;
-            border: 1px solid #ddd;
-            outline: none;
-        }
-
-        .order-btn {
-            background: #25d366;
-            color: white;
-            border: none;
-            padding: 15px;
+        /* مقبض السحب ( iOS Handle ) */
+        .cart-handle {
+            width: 40px;
+            height: 5px;
+            background: #C7C7CC;
             border-radius: 10px;
-            font-size: 18px;
-            font-weight: 700;
+            margin: 0 auto 15px;
             cursor: pointer;
         }
 
-        /* الفوتر */
-        footer {
-            background: var(--secondary-color);
+        .cart-item {
+            background: var(--ios-white);
+            border-radius: 14px;
+            margin-bottom: 10px;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.02);
+        }
+
+        .cart-item span { font-weight: 500; }
+        .cart-item .cart-item-price { color: var(--ios-orange); font-weight: 600; }
+
+        .checkout-form {
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            padding-bottom: 30px;
+        }
+
+        .checkout-form input {
+            padding: 14px;
+            border-radius: 10px;
+            border: 0.5px solid #C7C7CC;
+            outline: none;
+            background: var(--ios-white);
+            font-size: 15px;
+        }
+
+        /* زر تأكيد الطلب - بلمسة iOS مريحة */
+        .order-btn {
+            background: var(--ios-blue);
             color: white;
-            padding: 40px 5%;
-            margin-top: 50px;
-            text-align: center;
+            border: none;
+            padding: 16px;
+            border-radius: 12px;
+            font-size: 17px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition-slow);
+        }
+
+        .order-btn:active {
+            background: #0062CC;
+            transform: scale(0.98);
         }
 
         @media (max-width: 500px) {
-            .cart-content { width: 100%; }
+            .hero h1 { font-size: 24px; }
+            .menu-grid { grid-template-columns: 1fr 1fr; gap: 10px; padding: 15px; } /* تصميم شبكي أصغر للموبايل */
+            .product-card img { height: 130px; }
+            .product-info h3 { font-size: 15px; }
+            .price { font-size: 16px; }
+            .add-to-cart-btn { font-size: 13px; }
         }
     </style>
 </head>
@@ -250,60 +310,57 @@
 <header>
     <div class="logo">إبن سوريا <i class="fas fa-utensils"></i></div>
     <div class="cart-icon-wrapper" onclick="toggleCart()">
-        <i class="fas fa-shopping-basket"></i>
+        <i class="fas fa-shopping-cart"></i>
         <span id="cart-count">0</span>
     </div>
 </header>
 
 <div class="hero">
     <h1>مطعم إبن سوريا</h1>
-    <p>نشا - شارع السوق - مقابل الريماس للسياحة</p>
-    <p><i class="fas fa-phone"></i> 01550035447 | 01279616968</p>
+    <p><i class="fas fa-map-marker-alt"></i> نشا - شارع السوق - مقابل الريماس للسياحة</p>
+    <p><i class="fas fa-phone-alt"></i> 01550035447 | 01279616968</p>
 </div>
 
 <div class="categories-container" id="categories">
     <div class="category-card active" onclick="filterMenu('الكل')">الكل</div>
-    </div>
+</div>
 
 <div class="menu-grid" id="menu-container">
     </div>
 
-<div id="cart-modal">
+<div id="cart-modal" onclick="closeCartOnBgClick(event)">
     <div class="cart-content">
-        <h2 style="margin-bottom: 20px;">سلة الطلبات <i class="fas fa-shopping-cart"></i></h2>
+        <div class="cart-handle" onclick="toggleCart()"></div>
+        <h2 style="margin-bottom: 15px; font-weight: 700;">سلتك</h2>
         <div id="cart-items-list"></div>
-        <div style="margin-top: 20px; font-weight: 700; font-size: 20px;">
-            الإجمالي: <span id="cart-total">0</span> ج.م
+        
+        <div style="margin-top: 15px; font-weight: 600; font-size: 19px; display: flex; justify-content: space-between;">
+            <span>الإجمالي</span>
+            <span class="price"><span id="cart-total">0</span> ج.م</span>
         </div>
 
         <div class="checkout-form">
-            <input type="text" id="user-name" placeholder="الاسم بالكامل" required>
-            <input type="tel" id="user-phone" placeholder="رقم الهاتف" required>
-            <input type="text" id="user-address" placeholder="العنوان بالتفصيل" required>
+            <input type="text" id="user-name" placeholder="الاسم" required>
+            <input type="tel" id="user-phone" placeholder="رقم الموبايل" required>
+            <input type="text" id="user-address" placeholder="العنوان" required>
             <button class="order-btn" onclick="sendToWhatsApp()">
-                إتمام الطلب عبر واتساب <i class="fab fa-whatsapp"></i>
+                تأكيد الطلب <i class="fab fa-whatsapp"></i>
             </button>
-            <button onclick="toggleCart()" style="background:none; border:none; color:red; cursor:pointer;">إغلاق السلة</button>
         </div>
     </div>
 </div>
-
-<footer>
-    <p>جميع الحقوق محفوظة لمطعم إبن سوريا &copy; 2026</p>
-</footer>
 
 <script>
     let cart = [];
     let menuData = [];
 
-    // جلب البيانات من جوجل شيت (يجب استبدال الرابط برابط API الخاص بك)
-    // نصيحة: استخدم Sheety أو AppScript لتحويل الشيت لـ JSON
+    // بيانات تجريبية (استبدلها برابط API الخاص بك لاحقاً)
     async function fetchMenu() {
-        // كمثال تجريبي، سأضع بيانات وهمية لمحاكاة الشيت
         menuData = [
-            {id: 1, name: 'شاورما دجاج', price: 80, category: 'شاورما', img: 'https://images.unsplash.com/photo-1529006557810-274b9b2fc783?q=80&w=500'},
-            {id: 2, name: 'فتة شامي', price: 120, category: 'أطباق', img: 'https://images.unsplash.com/photo-1541518763669-27fef04b14ea?q=80&w=500'},
-            {id: 3, name: 'كبة مقلية', price: 60, category: 'مقبلات', img: 'https://images.unsplash.com/photo-1606491956689-2ea866880c84?q=80&w=500'}
+            {id: 1, name: 'شاورما دجاج (كبير)', price: 90, category: 'شاورما', img: 'https://images.unsplash.com/photo-1529006557810-274b9b2fc783?q=80&w=500'},
+            {id: 2, name: 'فتة شامي دجاج', price: 130, category: 'أطباق', img: 'https://images.unsplash.com/photo-1541518763669-27fef04b14ea?q=80&w=500'},
+            {id: 3, name: 'كبة مقلية (5 قطع)', price: 70, category: 'مقبلات', img: 'https://images.unsplash.com/photo-1606491956689-2ea866880c84?q=80&w=500'},
+            {id: 4, name: 'منقوشة زعتر', price: 40, category: 'معجنات', img: 'https://images.unsplash.com/photo-1590602847861-f357a9332bbc?q=80&w=500'}
         ];
         renderMenu(menuData);
         renderCategories(menuData);
@@ -312,7 +369,7 @@
     function renderCategories(data) {
         const cats = ['الكل', ...new Set(data.map(item => item.category))];
         const container = document.getElementById('categories');
-        container.innerHTML = cats.map(c => `<div class="category-card" onclick="filterMenu('${c}')">${c}</div>`).join('');
+        container.innerHTML = cats.map(c => `<div class="category-card" onclick="filterMenu('${c}', event)">${c}</div>`).join('');
     }
 
     function renderMenu(data) {
@@ -324,14 +381,18 @@
                     <h3>${item.name}</h3>
                     <span class="price">${item.price} ج.م</span>
                     <button class="add-to-cart-btn" onclick="addToCart(${item.id}, event)">
-                        إضافة للسلة <i class="fas fa-plus-circle"></i>
+                        <i class="fas fa-plus"></i> إضافة
                     </button>
                 </div>
             </div>
         `).join('');
     }
 
-    function filterMenu(cat) {
+    function filterMenu(cat, event) {
+        // تحديث الكارت النشط
+        document.querySelectorAll('.category-card').forEach(el => el.classList.remove('active'));
+        if(event) event.target.classList.add('active');
+
         if(cat === 'الكل') renderMenu(menuData);
         else renderMenu(menuData.filter(i => i.category === cat));
     }
@@ -341,26 +402,28 @@
         cart.push(item);
         updateCartUI();
         
-        // تأثير طيران المنتج
-        animateFly(event);
+        // تأثير طيران المنتج البطئ والسلس
+        animateFly(event, item.img);
     }
 
-    function animateFly(e) {
+    function animateFly(e, img) {
         const cartIcon = document.querySelector('.cart-icon-wrapper');
-        const flyer = document.createElement('div');
+        const flyer = document.createElement('img');
+        flyer.src = img;
         flyer.classList.add('flying-item');
         flyer.style.left = e.clientX + 'px';
         flyer.style.top = e.clientY + 'px';
         document.body.appendChild(flyer);
 
         setTimeout(() => {
-            flyer.style.left = cartIcon.getBoundingClientRect().left + 'px';
-            flyer.style.top = cartIcon.getBoundingClientRect().top + 'px';
+            const cartRect = cartIcon.getBoundingClientRect();
+            flyer.style.left = cartRect.left + (cartRect.width / 2) - 30 + 'px'; // المحاذاة للمركز
+            flyer.style.top = cartRect.top + 'px';
             flyer.style.transform = 'scale(0.1)';
-            flyer.style.opacity = '0';
-        }, 10);
+            flyer.style.opacity = '0.2';
+        }, 50);
 
-        setTimeout(() => flyer.remove(), 800);
+        setTimeout(() => flyer.remove(), 1200); // إزالة العنصر بعد انتهاء الأنيميشن البطئ
     }
 
     function updateCartUI() {
@@ -372,8 +435,8 @@
             return `
                 <div class="cart-item">
                     <span>${item.name}</span>
-                    <span>${item.price} ج.م</span>
-                    <i class="fas fa-trash" style="color:red; cursor:pointer" onclick="removeItem(${index})"></i>
+                    <span class="cart-item-price">${item.price} ج.م</span>
+                    <i class="fas fa-trash-alt" style="color:#C7C7CC; cursor:pointer" onclick="removeItem(${index})"></i>
                 </div>
             `;
         }).join('');
@@ -389,25 +452,42 @@
         document.getElementById('cart-modal').classList.toggle('active');
     }
 
+    // إغلاق السلة عند الضغط على الخلفية الشفافة
+    function closeCartOnBgClick(e) {
+        if (e.target.id === 'cart-modal') {
+            toggleCart();
+        }
+    }
+
     function sendToWhatsApp() {
         const name = document.getElementById('user-name').value;
         const phone = document.getElementById('user-phone').value;
         const address = document.getElementById('user-address').value;
 
         if(!name || !phone || !address || cart.length === 0) {
-            alert("يرجى ملء البيانات وإضافة أصناف للسلة");
+            alert("يرجى ملء بياناتك وإضافة أصناف للسلة");
             return;
         }
 
         let message = `*طلب جديد من مطعم إبن سوريا*%0A`;
-        message += `--------------------------%0A`;
+        message += `==========================%0A`;
         message += `*الاسم:* ${name}%0A`;
         message += `*الهاتف:* ${phone}%0A`;
         message += `*العنوان:* ${address}%0A`;
-        message += `--------------------------%0A`;
-        cart.forEach(i => message += `- ${i.name} (${i.price} ج.م)%0A`);
-        message += `--------------------------%0A`;
-        message += `*الإجمالي:* ${document.getElementById('cart-total').innerText} ج.م`;
+        message += `==========================%0A`;
+        
+        const itemCounts = {};
+        cart.forEach(i => itemCounts[i.name] = (itemCounts[i.name] || 0) + 1);
+        
+        let totalPrice = 0;
+        for (const [name, count] of Object.entries(itemCounts)) {
+            const item = cart.find(i => i.name === name);
+            message += `- ${name} (×${count}) = ${item.price * count} ج.م%0A`;
+            totalPrice += item.price * count;
+        }
+        
+        message += `==========================%0A`;
+        message += `*الإجمالي:* ${totalPrice} ج.م`;
 
         const whatsappURL = `https://wa.me/201016991319?text=${message}`;
         window.open(whatsappURL, '_blank');
