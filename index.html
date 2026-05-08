@@ -43,7 +43,7 @@
             position: relative;
         }
 
-        .main-logo { width: 120px; height: auto; border-radius: 20px; margin-bottom: 10px; }
+        .main-logo { width: 100px; height: 100px; border-radius: 20px; margin-bottom: 10px; object-fit: cover; }
 
         .cart-trigger {
             position: absolute; top: 25px; left: 20px; width: 50px; height: 50px;
@@ -63,23 +63,22 @@
         .categories-scroll::-webkit-scrollbar { display: none; }
 
         .cat-card { text-align: center; min-width: 85px; cursor: pointer; }
-        .cat-card img { width: 75px; height: 75px; border-radius: 50%; object-fit: cover; border: 3px solid white; box-shadow: var(--shadow); transition: var(--transition-ios); }
+        .cat-card img { width: 70px; height: 70px; border-radius: 50%; object-fit: cover; border: 3px solid white; box-shadow: var(--shadow); transition: var(--transition-ios); }
         .cat-card.active img { border-color: var(--blue-ios); transform: scale(1.1); }
-        .cat-card span { display: block; margin-top: 8px; font-weight: 700; font-size: 13px; color: #3A3A3C; }
+        .cat-card span { display: block; margin-top: 8px; font-weight: 700; font-size: 12px; color: #3A3A3C; }
 
-        .menu-container { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; padding: 0 15px 100px; }
+        .menu-container { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 0 12px 120px; }
 
-        .food-item { background: var(--white); border-radius: 28px; padding: 12px; box-shadow: var(--shadow); }
-        .food-item img { width: 100%; height: 125px; border-radius: 20px; object-fit: cover; margin-bottom: 10px; }
-        .food-item h3 { font-size: 15px; font-weight: 800; }
+        .food-item { background: var(--white); border-radius: 24px; padding: 10px; box-shadow: var(--shadow); }
+        .food-item h3 { font-size: 14px; font-weight: 800; margin-bottom: 8px; text-align: center; }
         
-        .price-options { margin-top: 10px; display: flex; flex-direction: column; gap: 5px; }
+        .price-options { display: flex; flex-direction: column; gap: 6px; }
         .price-btn {
-            background: #F2F2F7; border: none; padding: 8px; border-radius: 10px;
+            background: #F2F2F7; border: none; padding: 10px; border-radius: 12px;
             font-size: 11px; font-weight: 700; cursor: pointer; display: flex;
-            justify-content: space-between; align-items: center; transition: 0.3s;
+            justify-content: space-between; align-items: center; transition: 0.2s;
         }
-        .price-btn:active { background: var(--blue-ios); color: white; }
+        .price-btn:active { background: var(--blue-ios); color: white; transform: scale(0.95); }
 
         #cart-sheet-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -90,54 +89,55 @@
         #cart-sheet-overlay.active { visibility: visible; opacity: 1; }
         .ios-bottom-sheet {
             width: 100%; background: var(--white); border-top-left-radius: 35px;
-            border-top-right-radius: 35px; padding: 20px 25px 40px; transform: translateY(100%);
+            border-top-right-radius: 35px; padding: 20px 20px 40px; transform: translateY(100%);
             transition: var(--transition-ios); max-height: 85vh; overflow-y: auto;
         }
         #cart-sheet-overlay.active .ios-bottom-sheet { transform: translateY(0); }
         .handle-bar { width: 40px; height: 5px; background: #D1D1D6; border-radius: 10px; margin: 0 auto 20px; }
 
-        .cart-item-row { display: flex; justify-content: space-between; padding: 15px 0; border-bottom: 1px solid #F2F2F7; font-weight: 600; }
-        .customer-form input { width: 100%; padding: 18px; background: #F2F2F7; border: none; border-radius: 16px; margin-bottom: 12px; font-size: 15px; font-weight: 600; }
-        .confirm-order-btn { width: 100%; padding: 20px; background: var(--blue-ios); color: white; border: none; border-radius: 20px; font-size: 18px; font-weight: 700; cursor: pointer; transition: 0.3s; }
+        .cart-item-row { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #F2F2F7; font-size: 14px; }
+        .customer-form input { width: 100%; padding: 16px; background: #F2F2F7; border: none; border-radius: 14px; margin-bottom: 10px; font-size: 14px; }
+        .confirm-order-btn { width: 100%; padding: 18px; background: var(--blue-ios); color: white; border: none; border-radius: 18px; font-size: 16px; font-weight: 700; cursor: pointer; }
 
-        .flyer { position: fixed; z-index: 3000; width: 20px; height: 20px; background: var(--blue-ios); border-radius: 50%; pointer-events: none; transition: all 0.7s cubic-bezier(0.4, 0, 0.2, 1); }
+        .flyer { position: fixed; z-index: 3000; width: 20px; height: 20px; background: var(--blue-ios); border-radius: 50%; pointer-events: none; transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1); }
     </style>
 </head>
 <body>
 
 <header>
     <div class="cart-trigger" onclick="toggleCart()">
-        <i class="fas fa-shopping-bag" style="font-size: 20px;"></i>
+        <i class="fas fa-shopping-basket" style="font-size: 20px; color: #1C1C1E;"></i>
         <span id="cart-count">0</span>
     </div>
-    <img src="logoo.jpg" alt="مطعم إبن سوريا" class="main-logo">
-    <h2 style="font-size: 22px; font-weight: 900;">إبن سوريا</h2>
+    <img src="logoo.jpg" alt="ابن سوريا" class="main-logo" onerror="this.src='https://via.placeholder.com/100'">
+    <h2 style="font-size: 20px; font-weight: 900;">إبن سوريا</h2>
 </header>
 
 <div class="categories-scroll" id="cat-list"></div>
-<div class="menu-container" id="food-grid"></div>
+<div class="menu-container" id="food-grid">
+    <p id="loading-msg" style="grid-column: 1/-1; text-align: center; padding: 40px; color: var(--gray-ios);">جاري تحميل المنيو...</p>
+</div>
 
 <div id="cart-sheet-overlay" onclick="if(event.target.id==='cart-sheet-overlay') toggleCart()">
     <div class="ios-bottom-sheet">
         <div class="handle-bar"></div>
-        <h2 style="font-size: 24px; font-weight: 900; margin-bottom: 15px;">طلباتك</h2>
+        <h2 style="font-size: 22px; font-weight: 800; margin-bottom: 15px;">طلباتك</h2>
         <div id="cart-items-list"></div>
-        <div style="padding: 20px 0; display: flex; justify-content: space-between; font-size: 22px; font-weight: 900; color: var(--blue-ios);">
+        <div style="padding: 20px 0; display: flex; justify-content: space-between; font-size: 20px; font-weight: 900; color: var(--blue-ios);">
             <span>الإجمالي</span><span id="total-val">0 ج.م</span>
         </div>
         <div class="customer-form">
-            <input type="text" id="c-name" placeholder="الاسم بالكامل">
+            <input type="text" id="c-name" placeholder="الاسم">
             <input type="tel" id="c-phone" placeholder="رقم الموبايل">
-            <input type="text" id="c-address" placeholder="عنوان التوصيل">
-            <button class="confirm-order-btn" onclick="submitFinalOrder()">تأكيد وإرسال الطلب</button>
+            <input type="text" id="c-address" placeholder="العنوان">
+            <button class="confirm-order-btn" onclick="submitFinalOrder()">تأكيد الطلب</button>
         </div>
     </div>
 </div>
 
 <script>
-    // رابط جوجل شيت المنشور كـ CSV
-    const sheetURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vST_UvWn4K96_tPzJ-5C7Osq6_eP0pYnC6qZlZ-6iXkS0mI7X0N7Z6u-p3rI_2yG8mN9vB9yO0-oZ6z/pub?output=csv'; 
-    // ملاحظة: الرابط أعلاه هو مثال، يجب وضع رابط الـ CSV الفعلي الخاص بك هنا.
+    // الرابط المباشر للملف (تأكد من عمل Publish to Web من الشيت واختيار CSV)
+    const sheetURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vST_UvWn4K96_tPzJ-5C7Osq6_eP0pYnC6qZlZ-6iXkS0mI7X0N7Z6u-p3rI_2yG8mN9vB9yO0-oZ6z/pub?output=csv';
 
     let products = [];
     let cart = [];
@@ -145,31 +145,38 @@
     async function loadData() {
         try {
             const response = await fetch(sheetURL);
+            if (!response.ok) throw new Error('Network response was not ok');
             const data = await response.text();
-            const rows = data.split('\n').slice(1);
             
-            products = rows.map((row, index) => {
-                const cols = row.split(',');
+            // معالجة البيانات وتحويلها لكائنات
+            const rows = data.split('\n').filter(row => row.trim() !== '');
+            products = rows.slice(1).map((row, index) => {
+                const cols = row.split(',').map(c => c.trim().replace(/"/g, ''));
                 return {
                     id: index,
-                    cat: cols[0]?.trim(),
-                    name: cols[1]?.trim(),
-                    small: cols[2]?.trim(),
-                    medium: cols[3]?.trim(),
-                    large: cols[4]?.trim(),
-                    img: 'logoo.jpg' // يمكنك وضع روابط صور في الشيت واستخدامها هنا
+                    cat: cols[0] || 'أخرى',
+                    name: cols[1] || 'صنف غير معروف',
+                    small: cols[2] || '',
+                    medium: cols[3] || '',
+                    large: cols[4] || ''
                 };
             });
-            render();
+
+            document.getElementById('loading-msg').style.display = 'none';
             renderCats();
-        } catch (e) { console.error("Error loading sheet:", e); }
+            render();
+        } catch (e) { 
+            console.error("Error:", e);
+            document.getElementById('loading-msg').innerText = "حدث خطأ في تحميل البيانات. تأكد من إعدادات الشيت.";
+        }
     }
 
     function renderCats() {
-        const cats = ['الكل', ...new Set(products.map(p => p.cat))];
+        const uniqueCats = [...new Set(products.map(p => p.cat))];
+        const cats = ['الكل', ...uniqueCats];
         document.getElementById('cat-list').innerHTML = cats.map(c => `
-            <div class="cat-card" onclick="filter('${c}', event)">
-                <img src="logoo.jpg">
+            <div class="cat-card ${c === 'الكل' ? 'active' : ''}" onclick="filter('${c}', event)">
+                <img src="logoo.jpg" onerror="this.src='https://via.placeholder.com/70'">
                 <span>${c}</span>
             </div>
         `).join('');
@@ -178,56 +185,62 @@
     function render(items = products) {
         document.getElementById('food-grid').innerHTML = items.map(p => `
             <div class="food-item">
-                <img src="${p.img}">
                 <h3>${p.name}</h3>
                 <div class="price-options">
-                    ${p.small ? `<button class="price-btn" onclick="add('${p.name} (صغير)', ${p.small}, event)"><span>صغير</span> <span>${p.small}ج</span></button>` : ''}
-                    ${p.medium ? `<button class="price-btn" onclick="add('${p.name} (وسط)', ${p.medium}, event)"><span>وسط</span> <span>${p.medium}ج</span></button>` : ''}
-                    ${p.large ? `<button class="price-btn" onclick="add('${p.name} (كبير)', ${p.large}, event)"><span>كبير</span> <span>${p.large}ج</span></button>` : ''}
+                    ${p.small && p.small !== '-' ? `<button class="price-btn" onclick="add('${p.name} - صغير', ${p.small}, event)"><span>صغير</span> <span>${p.small}ج</span></button>` : ''}
+                    ${p.medium && p.medium !== '-' ? `<button class="price-btn" onclick="add('${p.name} - وسط', ${p.medium}, event)"><span>وسط</span> <span>${p.medium}ج</span></button>` : ''}
+                    ${p.large && p.large !== '-' ? `<button class="price-btn" onclick="add('${p.name} - كبير', ${p.large}, event)"><span>كبير</span> <span>${p.large}ج</span></button>` : ''}
                 </div>
             </div>
         `).join('');
     }
 
     function add(name, price, e) {
-        cart.push({name, price});
-        update();
-        fly(e);
+        cart.push({name, price: parseFloat(price)});
+        updateUI();
+        flyAnimation(e);
     }
 
-    function fly(e) {
+    function flyAnimation(e) {
         const f = document.createElement('div');
         f.className = 'flyer';
         f.style.left = e.clientX + 'px';
         f.style.top = e.clientY + 'px';
         document.body.appendChild(f);
         const target = document.querySelector('.cart-trigger').getBoundingClientRect();
-        setTimeout(() => { f.style.left = target.left + 25 + 'px'; f.style.top = target.top + 25 + 'px'; f.style.opacity = '0'; }, 50);
-        setTimeout(() => f.remove(), 750);
+        setTimeout(() => { 
+            f.style.left = (target.left + 25) + 'px'; 
+            f.style.top = (target.top + 25) + 'px'; 
+            f.style.opacity = '0'; 
+            f.style.transform = 'scale(0.5)';
+        }, 50);
+        setTimeout(() => f.remove(), 600);
     }
 
-    function update() {
+    function updateUI() {
         document.getElementById('cart-count').innerText = cart.length;
-        let t = 0;
+        let total = 0;
         document.getElementById('cart-items-list').innerHTML = cart.map(i => {
-            t += parseFloat(i.price);
+            total += i.price;
             return `<div class="cart-item-row"><span>${i.name}</span><b>${i.price} ج.م</b></div>`;
         }).join('');
-        document.getElementById('total-val').innerText = t + " ج.م";
+        document.getElementById('total-val').innerText = total + " ج.م";
     }
 
     function toggleCart() { document.getElementById('cart-sheet-overlay').classList.toggle('active'); }
 
-    function filter(c, e) {
+    function filter(cat, e) {
         document.querySelectorAll('.cat-card').forEach(x => x.classList.remove('active'));
         e.currentTarget.classList.add('active');
-        render(c === 'الكل' ? products : products.filter(p => p.cat === c));
+        render(cat === 'الكل' ? products : products.filter(p => p.cat === cat));
     }
 
     function submitFinalOrder() {
         const name = document.getElementById('c-name').value;
-        if(!name || cart.length === 0) return alert("أكمل البيانات");
-        let msg = `*طلب جديد من إبن سوريا*%0A*الاسم:* ${name}%0A---%0A`;
+        const phone = document.getElementById('c-phone').value;
+        if(!name || !phone || cart.length === 0) return alert("يرجى إكمال البيانات واختيار الطلبات");
+        
+        let msg = `*طلب جديد من إبن سوريا*%0A*الاسم:* ${name}%0A*الهاتف:* ${phone}%0A---%0A`;
         cart.forEach(i => msg += `- ${i.name} (${i.price} ج.م)%0A`);
         msg += `---%0A*الإجمالي:* ${document.getElementById('total-val').innerText}`;
         window.open(`https://wa.me/201016991319?text=${msg}`);
