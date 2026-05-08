@@ -40,22 +40,28 @@
         .hero-cat-item {
             position: absolute; top: 50%; left: 50%;
             width: 85px; height: 100px; margin-left: -42px; margin-top: -42px;
-            display: flex; 
-            flex-direction: column-reverse; /* جعل النص يظهر قبل الأيقونة (فوقها) */
-            align-items: center;
+            display: flex; flex-direction: column; align-items: center;
         }
+
+        /* تعديل ظهور النص فوق الصورة */
+        .hero-cat-item span { 
+            position: absolute;
+            top: -20px; /* يرفع النص فوق الدائرة */
+            font-size: 11px; font-weight: 700; color: #bbb; 
+            transition: 0.3s; white-space: nowrap;
+            pointer-events: none;
+        }
+
+        .hero-cat-item.active span { color: var(--dark); font-weight: 900; transform: scale(1.1); }
 
         .cat-img-wrapper {
             width: 65px; height: 65px; border-radius: 50%;
             overflow: hidden; border: 3px solid #fff;
             box-shadow: 0 5px 15px rgba(0,0,0,0.1); transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            margin-top: 10px; /* مسافة بين النص والأيقونة */
         }
         .cat-img-wrapper img { width: 100%; height: 100%; object-fit: cover; }
 
         .hero-cat-item.active .cat-img-wrapper { transform: scale(1.3); border-color: var(--gold); }
-        .hero-cat-item span { font-size: 11px; font-weight: 700; color: #bbb; transition: 0.3s; white-space: nowrap; }
-        .hero-cat-item.active span { color: var(--dark); font-weight: 900; }
 
         .hero-indicator {
             position: absolute; top: 220px; width: 30px; height: 5px;
@@ -154,7 +160,6 @@
                 const x = radius * Math.sin(angle * Math.PI / 180);
                 const y = -radius * Math.cos(angle * Math.PI / 180);
                 item.style.transform = `translate(${x}px, ${y}px)`;
-                // تم وضع الـ span قبل الـ wrapper في الترتيب لضمان ظهوره في الأعلى بفضل flex-direction: column-reverse
                 item.innerHTML = `<span>${cat.name}</span><div class="cat-img-wrapper"><img src="${cat.img}"></div>`;
                 gear.appendChild(item);
             });
