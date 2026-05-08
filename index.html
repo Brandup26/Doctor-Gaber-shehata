@@ -19,7 +19,7 @@
             background: white; position: relative; z-index: 100;
         }
 
-        /* منطقة الأنبوبة (نفس كود الله ينور) */
+        /* منطقة الأنبوبة الدائرية */
         .hero-viewport {
             position: relative; height: 320px; width: 100%;
             background: white; overflow: hidden; display: flex; justify-content: center;
@@ -75,7 +75,7 @@
 
     <nav class="header-nav">
         <div style="font-weight:900;">ليالي <span style="color:var(--gold);">الشام</span></div>
-        <div><i class="fa-solid fa-gem text-amber-500"></i> 1200</div>
+        <div style="font-weight: 700;">1200</div>
     </nav>
 
     <div class="hero-viewport" id="slider-area">
@@ -87,8 +87,8 @@
     <main class="product-area">
         <h2 id="active-cat-name" style="text-align:center; font-weight:900; margin-bottom:20px;">مشويات</h2>
         <div style="display:grid; grid-template-columns: 1fr 1fr; gap:15px;">
-            <div style="background:white; height:180px; border-radius:20px;"></div>
-            <div style="background:white; height:180px; border-radius:20px;"></div>
+            <div style="background:white; height:180px; border-radius:20px; box-shadow: 0 4px 10px rgba(0,0,0,0.03);"></div>
+            <div style="background:white; height:180px; border-radius:20px; box-shadow: 0 4px 10px rgba(0,0,0,0.03);"></div>
         </div>
     </main>
 
@@ -102,10 +102,9 @@
         ];
 
         const hub = document.getElementById('gear-hub');
-        const stepAngle = 35; // تم تقليل الزاوية من 45 لـ 35 لجعل الأقسام "أقرب لبعضها"
+        const stepAngle = 35; // تقريب الأقسام لبعضها
         let currentRotation = 0;
 
-        // إنشاء وتوزيع الأقسام
         categories.forEach((cat, i) => {
             const node = document.createElement('div');
             node.className = `cat-node ${i === 0 ? 'active' : ''}`;
@@ -119,14 +118,12 @@
             hub.appendChild(node);
         });
 
-        // تشغيل نظام السحب باستخدام Hammer.js لسلاسة مطلقة
         const mc = new Hammer(document.getElementById('slider-area'));
         
         mc.on("pan", (e) => {
             const dragRotation = currentRotation + (e.deltaX / 6);
             gsap.set(hub, { rotation: dragRotation });
             
-            // تصحيح زوايا الأيقونات أثناء السحب
             document.querySelectorAll('.cat-node').forEach(n => {
                 gsap.set(n.querySelector('.img-wrapper'), { rotation: -dragRotation });
                 gsap.set(n.querySelector('span'), { rotation: -dragRotation });
@@ -134,16 +131,13 @@
         });
 
         mc.on("panend", (e) => {
-            // إضافة خاصية الـ Momentum (القصور الذاتي) لسلاسة التنقل
             const velocity = e.velocityX * 15;
             currentRotation = Math.round((currentRotation + velocity) / stepAngle) * stepAngle;
 
-            // ضبط الحدود
             const minRot = -(categories.length - 1) * stepAngle;
             if (currentRotation > 0) currentRotation = 0;
             if (currentRotation < minRot) currentRotation = minRot;
 
-            // حركة Snap ناعمة جداً
             gsap.to(hub, { 
                 rotation: currentRotation, 
                 duration: 0.7, 
@@ -157,7 +151,6 @@
                 }
             });
 
-            // تحديث العنصر النشط
             const activeIdx = Math.abs(currentRotation / stepAngle);
             document.querySelectorAll('.cat-node').forEach((n, i) => n.classList.toggle('active', i === activeIdx));
             document.getElementById('active-cat-name').innerText = categories[activeIdx].name;
