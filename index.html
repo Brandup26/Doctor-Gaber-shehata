@@ -12,120 +12,103 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
-        :root { --gold: #D4AF37; --bg: #f3f4f6; --dark: #1A1A1A; --active-green: #89B42D; }
+        :root { --gold: #D4AF37; --bg: #F5F5F5; --active-green: #89B42D; }
         body { font-family: 'Alexandria', sans-serif; background: var(--bg); overflow-x: hidden; touch-action: manipulation; }
 
+        /* الهيدر العلوي */
         .header-nav {
             position: fixed; top: 0; width: 100%; z-index: 1000;
             padding: 15px 20px; display: flex; justify-content: space-between; align-items: center;
-            background: rgba(255,255,255,0.85); backdrop-filter: blur(12px);
+            background: rgba(255,255,255,0.85); backdrop-filter: blur(10px);
         }
 
-        .cart-box { background: var(--dark); color: white; padding: 10px 22px; border-radius: 20px; position: relative; cursor: pointer; }
+        .cart-box { background: #1A1A1A; color: white; padding: 10px 22px; border-radius: 20px; position: relative; cursor: pointer; }
 
-        /* منطقة الأقسام مع الكيرف الداخلي المطلوب */
-        .hero-section {
-            position: relative;
-            background: white; 
-            padding-top: 80px;
-            overflow: hidden;
-            /* الكيرف الداخلي ناحية الأصناف (أسفل منطقة الأقسام) */
-            border-bottom-left-radius: 50% 40px;
-            border-bottom-right-radius: 50% 40px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-            z-index: 10;
-        }
-
+        /* منطقة الأقسام والكيرف */
         .hero-viewport {
-            position: relative; height: 260px; width: 100%;
-            display: flex; justify-content: center; touch-action: none;
+            position: relative; height: 320px; width: 100%;
+            background: #fff; overflow: hidden; touch-action: none;
+            display: flex; justify-content: center; padding-top: 60px;
+        }
+
+        /* الكيرف الداخلي السفلي */
+        .hero-viewport::after {
+            content: ''; position: absolute; bottom: -50px; left: -10%;
+            width: 120%; height: 100px; background: var(--bg);
+            border-top-left-radius: 50% 80px; border-top-right-radius: 50% 80px; z-index: 5;
         }
 
         .hero-gear {
-            position: absolute; top: 180px;
-            width: 600px; height: 600px;
-            border-radius: 50%; will-change: transform;
+            position: absolute; top: 220px; width: 600px; height: 600px;
+            border-radius: 50%; will-change: transform; z-index: 1;
         }
 
         .hero-cat-item {
-            position: absolute; top: 50%; left: 50%;
-            width: 90px; height: 110px; margin-left: -45px; margin-top: -45px;
-            display: flex; flex-direction: column; align-items: center;
+            position: absolute; top: 50%; left: 50%; width: 90px; height: 110px;
+            margin-left: -45px; margin-top: -45px; display: flex;
+            flex-direction: column; align-items: center; justify-content: center;
         }
 
-        .hero-cat-item span { 
-            position: absolute; top: -30px;
-            font-size: 13px; font-weight: 700; color: #aaa; transition: 0.3s;
-        }
-        .hero-cat-item.active span { color: var(--active-green); font-weight: 900; transform: scale(1.1); }
+        .hero-cat-item span { font-size: 13px; font-weight: 700; color: #777; margin-bottom: 8px; transition: 0.3s; }
+        .hero-cat-item.active span { color: var(--active-green); font-weight: 900; }
 
         .cat-img-wrapper {
-            width: 75px; height: 75px; border-radius: 50%;
-            background: white; overflow: hidden; border: 2.5px solid transparent;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.07); transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            width: 75px; height: 75px; border-radius: 50%; background: #fff;
+            overflow: hidden; border: 2px solid transparent;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.06); transition: 0.4s;
+            display: flex; align-items: center; justify-content: center;
         }
-        .hero-cat-item.active .cat-img-wrapper { transform: scale(1.25); border-color: var(--active-green); }
-        .cat-img-wrapper img { width: 100%; height: 100%; object-fit: contain; padding: 6px; }
+        .hero-cat-item.active .cat-img-wrapper { transform: scale(1.15); border-color: var(--active-green); }
+        .cat-img-wrapper img { width: 85%; height: 85%; object-fit: contain; }
 
-        /* منطقة المنتجات تظهر خلف الكيرف */
-        .content-area { 
-            position: relative; z-index: 5; 
-            padding: 40px 20px 100px; 
-            margin-top: -20px; /* لدمجها مع كيرف الأقسام */
+        .active-indicator {
+            position: absolute; bottom: 35px; width: 35px; height: 5px;
+            background: var(--active-green); border-radius: 10px; z-index: 10;
         }
-        
-        .food-card { background: white; border-radius: 28px; padding: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.02); border: 1px solid #f0f0f0; transition: 0.3s; }
-        .food-card:active { transform: scale(0.97); }
 
-        /* بانل السلة الثابت */
+        /* السلة */
         #cart-panel {
             position: fixed; top: 0; left: -100%; width: 100%; max-width: 400px;
             height: 100%; background: white; z-index: 2000; padding: 25px;
-            transition: 0.6s cubic-bezier(0.7, 0, 0.3, 1); text-align: right;
+            transition: 0.5s cubic-bezier(0.7, 0, 0.3, 1); box-shadow: 20px 0 50px rgba(0,0,0,0.1);
         }
-
-        .user-input { width: 100%; background: #f8f8f8; padding: 15px; border-radius: 18px; margin-bottom: 12px; border: 1px solid #eee; outline: none; }
+        .user-input { width: 100%; background: #f8f8f8; padding: 15px; border-radius: 15px; margin-bottom: 10px; outline: none; border: 1px solid #eee; }
     </style>
 </head>
 <body>
 
     <nav class="header-nav">
-        <h1 class="text-xl font-black tracking-tighter">إبن سوريا <span class="text-gold">.</span></h1>
-        <div class="cart-box" id="main-cart" onclick="toggleCart(true)">
+        <h1 class="text-xl font-black">إبن سوريا<span class="text-green-600">.</span></h1>
+        <div class="cart-box" onclick="toggleCart(true)">
             <i class="fa-solid fa-bag-shopping"></i>
             <span id="badge" class="absolute -top-1 -right-1 bg-red-600 text-[10px] w-5 h-5 rounded-full flex items-center justify-center border-2 border-white">0</span>
         </div>
     </nav>
 
-    <div class="hero-section">
-        <div class="hero-viewport" id="hero-touch">
-            <div id="hero-gear" class="hero-gear"></div>
-        </div>
+    <div class="hero-viewport" id="hero-touch">
+        <div id="hero-gear" class="hero-gear"></div>
+        <div class="active-indicator"></div>
     </div>
 
-    <main class="content-area">
-        <div class="flex items-center justify-between mb-6">
-             <h2 id="cat-title" class="text-2xl font-black text-gray-800">الأصناف</h2>
-             <div class="h-[2px] flex-1 bg-gray-100 mx-4"></div>
-        </div>
+    <main class="p-5">
+        <h2 id="cat-title" class="text-2xl font-black mb-6 text-gray-800">الأصناف</h2>
         <div id="food-grid" class="grid grid-cols-2 gap-4"></div>
     </main>
 
     <div id="cart-panel">
         <div class="flex justify-between items-center mb-8">
-            <h2 class="text-2xl font-black">طلباتك</h2>
+            <h2 class="text-2xl font-black">سلتك</h2>
             <i onclick="toggleCart(false)" class="fa-solid fa-xmark text-xl cursor-pointer"></i>
         </div>
-        <div id="cart-items" class="space-y-3 mb-8"></div>
-        <div class="border-t pt-6">
-            <div class="flex justify-between mb-6 font-black text-xl">
-                <span>الإجمالي</span>
-                <span id="total-price" class="text-gold">0 ج.م</span>
+        <div id="cart-items" class="space-y-4 h-[50vh] overflow-y-auto mb-4"></div>
+        <div class="border-t pt-4">
+            <div class="flex justify-between mb-4 font-black text-xl">
+                <span>الإجمالي:</span>
+                <span id="total-price" class="text-green-600">0 ج.م</span>
             </div>
-            <input type="text" id="user-name" class="user-input" placeholder="الاسم الكامل">
-            <input type="tel" id="user-phone" class="user-input" placeholder="رقم الهاتف">
-            <input type="text" id="user-addr" class="user-input" placeholder="العنوان بالتفصيل">
-            <button onclick="checkout()" class="w-full bg-black text-white py-5 rounded-2xl font-black mt-4 active:bg-gray-800">إتمام الطلب (WhatsApp)</button>
+            <input type="text" id="u-name" class="user-input" placeholder="الاسم">
+            <input type="tel" id="u-phone" class="user-input" placeholder="رقم الهاتف">
+            <button onclick="sendOrder()" class="w-full bg-black text-white py-4 rounded-2xl font-black">تأكيد عبر واتساب</button>
         </div>
     </div>
 
@@ -134,29 +117,26 @@
             { name: 'مشويات', img: 'https://cdn-icons-png.flaticon.com/512/3238/3238713.png' },
             { name: 'شاورما', img: 'https://cdn-icons-png.flaticon.com/512/5741/5741085.png' },
             { name: 'بيتزا', img: 'https://cdn-icons-png.flaticon.com/512/3595/3595455.png' },
-            { name: 'برجر', img: 'https://cdn-icons-png.flaticon.com/512/3075/3075977.png' },
-            { name: 'مقبلات', img: 'https://cdn-icons-png.flaticon.com/512/2515/2515183.png' }
+            { name: 'برجر', img: 'https://cdn-icons-png.flaticon.com/512/3075/3075977.png' }
         ];
 
         const products = [
-            { id: 1, name: 'شاورما دجاج', price: 95, img: 'https://images.unsplash.com/photo-1561651823-34feb02250e4?w=400' },
-            { id: 2, name: 'بيتزا بريميوم', price: 180, img: 'https://images.unsplash.com/photo-1513104890138-7c749659a591?w=400' },
-            { id: 3, name: 'برجر كلاسيك', price: 120, img: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=400' }
+            { id: 1, name: 'شاورما عائلي', price: 150, img: 'https://images.unsplash.com/photo-1561651823-34feb02250e4?w=400' },
+            { id: 2, name: 'بيتزا إيطالي', price: 120, img: 'https://images.unsplash.com/photo-1513104890138-7c749659a591?w=400' }
         ];
 
         let cart = [];
         let gearRotation = 0;
-        const step = 32; 
         const gear = document.getElementById('hero-gear');
+        const step = 35;
 
         function init() {
-            const radius = 250;
             categories.forEach((cat, i) => {
                 const item = document.createElement('div');
                 item.className = `hero-cat-item ${i === 0 ? 'active' : ''}`;
                 const angle = i * step;
-                const x = radius * Math.sin(angle * Math.PI / 180);
-                const y = -radius * Math.cos(angle * Math.PI / 180);
+                const x = 250 * Math.sin(angle * Math.PI / 180);
+                const y = -250 * Math.cos(angle * Math.PI / 180);
                 item.style.transform = `translate(${x}px, ${y}px)`;
                 item.innerHTML = `<span>${cat.name}</span><div class="cat-img-wrapper"><img src="${cat.img}"></div>`;
                 gear.appendChild(item);
@@ -165,32 +145,17 @@
         }
 
         const hammer = new Hammer(document.getElementById('hero-touch'));
-        
-        // إعادة سهولة الحركة (Inertia & Smoothness)
         hammer.on("panmove", (e) => {
-            let movement = e.deltaX * 0.15; // سرعة استجابة متوازنة
-            gearRotation += movement;
+            gearRotation += e.velocity * 4;
             applyRotation();
         });
 
-        hammer.on("panend", (e) => {
-            // إضافة ميكانيكا السحب القوي (Swipe) لسهولة التنقل
-            let velocity = e.velocityX * 15;
-            gearRotation += velocity;
-
-            // محاذاة تلقائية (Snap)
+        hammer.on("panend", () => {
             gearRotation = Math.round(gearRotation / step) * step;
-            
             if (gearRotation > 0) gearRotation = 0;
-            const min = -(categories.length-1)*step;
+            const min = -(categories.length - 1) * step;
             if (gearRotation < min) gearRotation = min;
-
-            gsap.to(gear, { 
-                rotation: gearRotation, 
-                duration: 0.6, 
-                ease: "back.out(1.2)", // حركة ارتدادية خفيفة تعطي شعور بالفخامة
-                onUpdate: applyRotation 
-            });
+            gsap.to(gear, { rotation: gearRotation, duration: 0.5 });
             updateActive(Math.abs(gearRotation/step));
         });
 
@@ -203,20 +168,19 @@
         }
 
         function updateActive(idx) {
-            const clean = Math.round(idx);
-            document.querySelectorAll('.hero-cat-item').forEach((it, i) => it.classList.toggle('active', i === clean));
-            document.getElementById('cat-title').innerText = categories[clean].name;
+            const cleanIdx = Math.round(idx);
+            document.querySelectorAll('.hero-cat-item').forEach((it, i) => it.classList.toggle('active', i === cleanIdx));
+            document.getElementById('cat-title').innerText = categories[cleanIdx].name;
         }
 
         function renderFood() {
-            const grid = document.getElementById('food-grid');
-            grid.innerHTML = products.map(p => `
-                <div class="food-card">
+            document.getElementById('food-grid').innerHTML = products.map(p => `
+                <div class="bg-white p-4 rounded-[25px] shadow-sm">
                     <img src="${p.img}" class="w-full h-32 object-cover rounded-2xl mb-3">
-                    <h3 class="font-bold text-sm">${p.name}</h3>
+                    <h3 class="font-bold">${p.name}</h3>
                     <div class="flex justify-between items-center mt-3">
-                        <span class="font-black text-green-600 text-sm">${p.price} ج.م</span>
-                        <div class="w-8 h-8 bg-black text-white rounded-lg flex items-center justify-center cursor-pointer" onclick="addToCart(${p.id})">+</div>
+                        <span class="text-green-600 font-black">${p.price}ج</span>
+                        <button onclick="addToCart(${p.id})" class="bg-black text-white w-8 h-8 rounded-full">+</button>
                     </div>
                 </div>`).join('');
         }
@@ -228,19 +192,29 @@
 
         function updateCartUI() {
             document.getElementById('badge').innerText = cart.length;
-            let total = cart.reduce((sum, item) => sum + item.price, 0);
-            document.getElementById('total-price').innerText = total + ' ج.م';
+            const itemsDiv = document.getElementById('cart-items');
+            itemsDiv.innerHTML = cart.map((item, index) => `
+                <div class="flex justify-between items-center bg-gray-50 p-3 rounded-xl">
+                    <div class="flex items-center gap-3">
+                        <img src="${item.img}" class="w-12 h-12 rounded-lg object-cover">
+                        <div><p class="font-bold text-sm">${item.name}</p><p class="text-xs text-gray-500">${item.price} ج.م</p></div>
+                    </div>
+                    <i onclick="removeFromCart(${index})" class="fa-solid fa-trash-can text-red-500 cursor-pointer"></i>
+                </div>`).join('');
+            document.getElementById('total-price').innerText = cart.reduce((s, i) => s + i.price, 0) + ' ج.م';
         }
 
-        function toggleCart(show) { document.getElementById('cart-panel').style.left = show ? '0' : '-100%'; }
+        function removeFromCart(index) { cart.splice(index, 1); updateCartUI(); }
+        function toggleCart(s) { document.getElementById('cart-panel').style.left = s ? '0' : '-100%'; }
 
-        function checkout() {
-            const n = document.getElementById('user-name').value;
-            if(!n) return alert('برجاء إدخال اسمك');
-            window.open(`https://wa.me/201016991319?text=طلب جديد من ${n}\nالإجمالي: ${document.getElementById('total-price').innerText}`);
+        function sendOrder() {
+            const name = document.getElementById('u-name').value;
+            if(!name || cart.length === 0) return alert('أضف أصنافاً واكتب اسمك');
+            const msg = `طلب جديد من: ${name}\nالأصناف: ${cart.map(i => i.name).join(', ')}\nالإجمالي: ${document.getElementById('total-price').innerText}`;
+            window.open(`https://wa.me/201016991319?text=${encodeURIComponent(msg)}`);
         }
 
-        window.onload = init;
+        init();
     </script>
 </body>
 </html>
