@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>إبن سوريا | التصميم المتكامل</title>
+    <title>إبن سوريا | النسخة الأسطوانية</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Alexandria:wght@400;700;900&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
@@ -24,61 +24,67 @@
         .cart-box { background: #1A1A1A; color: white; padding: 10px 22px; border-radius: 20px; position: relative; cursor: pointer; }
 
         .hero-viewport {
-            position: relative; height: 320px; width: 100%;
+            position: relative; height: 300px; width: 100%;
             background: #fff; overflow: hidden; touch-action: none;
-            display: flex; justify-content: center; padding-top: 60px;
+            display: flex; justify-content: center; padding-top: 50px;
         }
 
-        .category-path-line {
-            position: absolute; top: 150px; width: 500px; height: 500px;
-            border: 1.5px dashed rgba(0,0,0,0.08); border-radius: 50%;
+        /* تصميم المسار الأسطواني (الخرطوم) */
+        .category-tube {
+            position: absolute; top: 140px; width: 540px; height: 540px;
+            border: 25px solid rgba(0,0,0,0.03); /* سمك الخرطوم */
+            border-style: double; border-radius: 50%;
             pointer-events: none; z-index: 0;
+        }
+        .category-tube::before {
+            content: ''; position: absolute; inset: -2px;
+            border: 1px dashed rgba(0,0,0,0.1); border-radius: 50%;
         }
 
         .hero-viewport::after {
-            content: ''; position: absolute; bottom: -50px; left: -10%;
-            width: 120%; height: 100px; background: var(--bg);
-            border-top-left-radius: 50% 80px; border-top-right-radius: 50% 80px; z-index: 5;
+            content: ''; position: absolute; bottom: -40px; left: -10%;
+            width: 120%; height: 80px; background: var(--bg);
+            border-top-left-radius: 50% 60px; border-top-right-radius: 50% 60px; z-index: 5;
         }
 
         .hero-gear {
-            position: absolute; top: 150px; width: 600px; height: 600px;
+            position: absolute; top: 140px; width: 600px; height: 600px;
             border-radius: 50%; will-change: transform; z-index: 1;
         }
 
         .hero-cat-item {
-            position: absolute; top: 50%; left: 50%; width: 90px; height: 110px;
-            margin-left: -45px; margin-top: -45px; display: flex;
+            position: absolute; top: 50%; left: 50%; width: 100px; height: 120px;
+            margin-left: -50px; margin-top: -50px; display: flex;
             flex-direction: column; align-items: center; justify-content: center;
         }
 
+        /* اسم القسم في أعلى منتصف الأيقونة */
         .hero-cat-item span { 
             font-size: 13px; font-weight: 700; color: #777; 
-            position: absolute; top: -15px; width: 100%; text-align: center;
-            transition: 0.3s; 
+            position: absolute; top: -20px; width: 100%; text-align: center;
+            transition: 0.3s; pointer-events: none;
         }
         .hero-cat-item.active span { color: var(--active-green); font-weight: 900; }
 
         .cat-img-wrapper {
-            width: 75px; height: 75px; border-radius: 50%; background: #fff;
-            overflow: hidden; border: 2px solid transparent;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.06); transition: 0.4s;
+            width: 80px; height: 80px; border-radius: 50%; background: #fff;
+            overflow: hidden; border: 3px solid transparent;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.08); transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             display: flex; align-items: center; justify-content: center;
         }
         .hero-cat-item.active .cat-img-wrapper { transform: scale(1.15); border-color: var(--active-green); }
-        .cat-img-wrapper img { width: 85%; height: 85%; object-fit: contain; }
+        .cat-img-wrapper img { width: 100%; height: 100%; object-fit: cover; }
 
         .active-indicator {
-            position: absolute; bottom: 35px; width: 35px; height: 5px;
+            position: absolute; bottom: 25px; width: 40px; height: 6px;
             background: var(--active-green); border-radius: 10px; z-index: 10;
         }
 
         #cart-panel {
             position: fixed; top: 0; left: -100%; width: 100%; max-width: 400px;
             height: 100%; background: white; z-index: 2000; padding: 25px;
-            transition: 0.5s cubic-bezier(0.7, 0, 0.3, 1); box-shadow: 20px 0 50px rgba(0,0,0,0.1);
+            transition: 0.5s cubic-bezier(0.7, 0, 0.3, 1);
         }
-        .user-input { width: 100%; background: #f8f8f8; padding: 15px; border-radius: 15px; margin-bottom: 10px; outline: none; border: 1px solid #eee; }
     </style>
 </head>
 <body>
@@ -92,7 +98,7 @@
     </nav>
 
     <div class="hero-viewport" id="hero-touch">
-        <div class="category-path-line"></div>
+        <div class="category-tube"></div>
         <div id="hero-gear" class="hero-gear"></div>
         <div class="active-indicator"></div>
     </div>
@@ -113,37 +119,37 @@
                 <span>الإجمالي:</span>
                 <span id="total-price" class="text-green-600">0 ج.م</span>
             </div>
-            <input type="text" id="u-name" class="user-input" placeholder="الاسم">
-            <input type="tel" id="u-phone" class="user-input" placeholder="رقم الهاتف">
-            <button onclick="sendOrder()" class="w-full bg-black text-white py-4 rounded-2xl font-black">تأكيد عبر واتساب</button>
+            <input type="text" id="u-name" class="w-full bg-gray-100 p-4 rounded-xl mb-3 outline-none" placeholder="الاسم">
+            <button onclick="sendOrder()" class="w-full bg-black text-white py-4 rounded-2xl font-black">تأكيد الطلب</button>
         </div>
     </div>
 
     <script>
+        // الصور الحقيقية للأقسام
         const categories = [
-            { name: 'مشويات', img: 'https://cdn-icons-png.flaticon.com/512/3238/3238713.png' },
-            { name: 'شاورما', img: 'https://cdn-icons-png.flaticon.com/512/5741/5741085.png' },
-            { name: 'بيتزا', img: 'https://cdn-icons-png.flaticon.com/512/3595/3595455.png' },
-            { name: 'برجر', img: 'https://cdn-icons-png.flaticon.com/512/3075/3075977.png' }
+            { id: 'cat1', name: 'شاورما', img: 'https://images.unsplash.com/photo-1561651823-34feb02250e4?w=200' },
+            { id: 'cat2', name: 'بيتزا', img: 'https://images.unsplash.com/photo-1513104890138-7c749659a591?w=200' },
+            { id: 'cat3', name: 'برجر', img: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=200' },
+            { id: 'cat4', name: 'مشويات', img: 'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=200' }
         ];
 
         const products = [
-            { id: 1, name: 'شاورما عائلي', price: 150, img: 'https://images.unsplash.com/photo-1561651823-34feb02250e4?w=400' },
-            { id: 2, name: 'بيتزا إيطالي', price: 120, img: 'https://images.unsplash.com/photo-1513104890138-7c749659a591?w=400' }
+            { id: 1, name: 'وجبة شاورما دجاج', price: 120, img: 'https://images.unsplash.com/photo-1561651823-34feb02250e4?w=400' },
+            { id: 2, name: 'بيتزا مارجريتا', price: 140, img: 'https://images.unsplash.com/photo-1513104890138-7c749659a591?w=400' }
         ];
 
         let cart = [];
         let gearRotation = 0;
         const gear = document.getElementById('hero-gear');
-        const step = 45; // زاوية أكبر لتنقل أكثر راحة
+        const step = 45; 
 
         function init() {
             categories.forEach((cat, i) => {
                 const item = document.createElement('div');
                 item.className = `hero-cat-item ${i === 0 ? 'active' : ''}`;
                 const angle = i * step;
-                const x = 250 * Math.sin(angle * Math.PI / 180);
-                const y = -250 * Math.cos(angle * Math.PI / 180);
+                const x = 270 * Math.sin(angle * Math.PI / 180);
+                const y = -270 * Math.cos(angle * Math.PI / 180);
                 item.style.transform = `translate(${x}px, ${y}px)`;
                 item.innerHTML = `<span>${cat.name}</span><div class="cat-img-wrapper"><img src="${cat.img}"></div>`;
                 gear.appendChild(item);
@@ -153,14 +159,12 @@
 
         const hammer = new Hammer(document.getElementById('hero-touch'));
         hammer.on("panmove", (e) => {
-            // حركة فورية مع الإصبع لسلاسة الرؤية
-            let current = gearRotation + (e.velocityX * 5);
+            let current = gearRotation + (e.velocityX * 6);
             gear.style.transform = `rotate(${current}deg)`;
             syncIcons(current);
         });
 
         hammer.on("panend", (e) => {
-            // الانجذاب لأقرب قسم بنعومة فائقة
             gearRotation = Math.round(gearRotation / step) * step;
             const min = -(categories.length - 1) * step;
             if (gearRotation > 0) gearRotation = 0;
@@ -169,7 +173,7 @@
             gsap.to(gear, { 
                 rotation: gearRotation, 
                 duration: 0.6, 
-                ease: "power2.out", 
+                ease: "power2.out",
                 onUpdate: () => syncIcons(gsap.getProperty(gear, "rotation"))
             });
             updateActive(Math.abs(gearRotation / step));
@@ -183,19 +187,19 @@
         }
 
         function updateActive(idx) {
-            const cleanIdx = Math.round(idx);
-            document.querySelectorAll('.hero-cat-item').forEach((it, i) => it.classList.toggle('active', i === cleanIdx));
-            document.getElementById('cat-title').innerText = categories[cleanIdx].name;
+            const i = Math.round(idx);
+            document.querySelectorAll('.hero-cat-item').forEach((it, j) => it.classList.toggle('active', j === i));
+            document.getElementById('cat-title').innerText = categories[i].name;
         }
 
         function renderFood() {
             document.getElementById('food-grid').innerHTML = products.map(p => `
                 <div class="bg-white p-4 rounded-[25px] shadow-sm">
                     <img src="${p.img}" class="w-full h-32 object-cover rounded-2xl mb-3">
-                    <h3 class="font-bold">${p.name}</h3>
+                    <h3 class="font-bold text-sm">${p.name}</h3>
                     <div class="flex justify-between items-center mt-3">
                         <span class="text-green-600 font-black">${p.price}ج</span>
-                        <button onclick="addToCart(${p.id})" class="bg-black text-white w-8 h-8 rounded-full">+</button>
+                        <button onclick="addToCart(${p.id})" class="bg-black text-white w-9 h-9 rounded-full flex items-center justify-center">+</button>
                     </div>
                 </div>`).join('');
         }
@@ -207,16 +211,13 @@
 
         function updateCartUI() {
             document.getElementById('badge').innerText = cart.length;
-            const itemsDiv = document.getElementById('cart-items');
-            itemsDiv.innerHTML = cart.map((item, index) => `
-                <div class="flex justify-between items-center bg-gray-50 p-3 rounded-xl">
-                    <div class="flex items-center gap-3">
-                        <img src="${item.img}" class="w-12 h-12 rounded-lg object-cover">
-                        <div><p class="font-bold text-sm">${item.name}</p><p class="text-xs text-gray-500">${item.price} ج.م</p></div>
-                    </div>
-                    <i onclick="removeFromCart(${index})" class="fa-solid fa-trash-can text-red-500 cursor-pointer"></i>
-                </div>`).join('');
             document.getElementById('total-price').innerText = cart.reduce((s, i) => s + i.price, 0) + ' ج.م';
+            document.getElementById('cart-items').innerHTML = cart.map((item, index) => `
+                <div class="flex justify-between items-center bg-gray-50 p-3 rounded-xl">
+                    <img src="${item.img}" class="w-12 h-12 rounded-lg object-cover">
+                    <p class="font-bold text-xs flex-1 px-3">${item.name}</p>
+                    <i onclick="removeFromCart(${index})" class="fa-solid fa-trash text-red-500"></i>
+                </div>`).join('');
         }
 
         function removeFromCart(index) { cart.splice(index, 1); updateCartUI(); }
@@ -224,9 +225,8 @@
 
         function sendOrder() {
             const name = document.getElementById('u-name').value;
-            if(!name || cart.length === 0) return alert('أضف أصنافاً واكتب اسمك');
-            const msg = `طلب جديد من: ${name}\nالأصناف: ${cart.map(i => i.name).join(', ')}\nالإجمالي: ${document.getElementById('total-price').innerText}`;
-            window.open(`https://wa.me/201016991319?text=${encodeURIComponent(msg)}`);
+            if(!name || cart.length === 0) return alert('برجاء إدخال البيانات');
+            alert('تم تأكيد طلبك بنجاح، ' + name);
         }
 
         init();
