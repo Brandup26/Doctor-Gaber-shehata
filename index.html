@@ -3,88 +3,82 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>تأثير الأنبوبة الدائرية</title>
+    <title>إبن سوريا | تصميم الأنبوبة</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Alexandria:wght@400;700;900&display=swap" rel="stylesheet">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/hammer.js/2.0.8/hammer.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
     <style>
         :root { --active-green: #89B42D; --bg: #F5F5F5; }
-        body { font-family: 'Alexandria', sans-serif; background: var(--bg); overflow-x: hidden; margin: 0; }
+        body { font-family: 'Alexandria', sans-serif; background: var(--bg); margin: 0; overflow-x: hidden; }
 
-        /* منطقة الأنبوبة (The Tube Container) */
-        .tube-viewport {
-            position: relative; height: 280px; width: 100%;
-            background: #fff; overflow: hidden; display: flex; justify-content: center;
+        /* منطقة الأنبوبة */
+        .tube-section {
+            position: relative; height: 320px; width: 100%;
+            background: white; overflow: hidden; display: flex; justify-content: center;
+            touch-action: none; /* لمنع التمرير الافتراضي أثناء التحريك */
         }
 
         /* الكيرف العلوي (سقف الأنبوبة) */
-        .tube-upper-edge {
-            position: absolute; 
-            top: -240px; /* يسحب الدائرة للأعلى ليظهر قعرها كقوس علوي */
-            width: 500px; height: 500px;
-            border-bottom: 1.5px dashed rgba(0,0,0,0.1);
-            border-radius: 50%; z-index: 2;
+        .curve-top {
+            position: absolute; top: -380px; width: 600px; height: 600px;
+            border-bottom: 2px dashed rgba(0,0,0,0.1); border-radius: 50%; z-index: 2;
         }
 
-        /* الكيرف السفلي (أرضية الأنبوبة - أعلى الأصناف) */
-        .tube-lower-edge {
-            position: absolute; 
-            bottom: -240px; /* يسحب الدائرة للأسفل ليظهر رأسها كقوس سفلي */
-            width: 500px; height: 500px;
-            background: var(--bg); /* لون منطقة الأصناف */
-            border-top: 1.5px dashed rgba(0,0,0,0.1);
+        /* الكيرف السفلي (أرضية الأنبوبة - فوق الأصناف) */
+        .curve-bottom {
+            position: absolute; bottom: -380px; width: 600px; height: 600px;
+            background: var(--bg); border-top: 2px dashed rgba(0,0,0,0.1);
             border-radius: 50%; z-index: 10;
-            box-shadow: 0 -10px 20px rgba(0,0,0,0.02);
+            box-shadow: 0 -15px 30px rgba(0,0,0,0.03);
         }
 
-        /* المحرك الذي تدور فيه الأقسام (داخل جوف الأنبوبة) */
-        .rotation-engine {
-            position: absolute; 
-            top: 50%; /* في منتصف المسافة بين القوسين */
-            transform: translateY(-50%);
-            width: 500px; height: 500px;
-            border-radius: 50%; will-change: transform; z-index: 5;
+        /* محرك الدوران */
+        .wheel {
+            position: absolute; top: 160px; width: 600px; height: 600px;
+            border-radius: 50%; z-index: 5; transition: transform 0.1s ease-out;
         }
 
         .category-item {
-            position: absolute; top: 50%; left: 50%; width: 70px;
-            margin-left: -35px; margin-top: -35px; 
+            position: absolute; top: 50%; left: 50%; width: 80px;
+            margin-left: -40px; margin-top: -40px; 
             display: flex; flex-direction: column; align-items: center;
+            user-select: none;
         }
 
         .icon-circle {
-            width: 55px; height: 55px; border-radius: 50%;
-            background: white; border: 1.5px solid transparent;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            width: 60px; height: 60px; border-radius: 50%;
+            background: white; border: 2px solid transparent;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
             display: flex; align-items: center; justify-content: center; transition: 0.3s;
         }
         .category-item.active .icon-circle { border-color: var(--active-green); transform: scale(1.1); }
-        .icon-circle img { width: 70%; height: 70%; object-fit: contain; }
+        .icon-circle img { width: 70%; height: 70%; pointer-events: none; }
 
-        .category-item span { font-size: 10px; margin-top: 5px; color: #999; font-weight: 700; }
+        .category-item span { font-size: 11px; margin-top: 6px; color: #999; font-weight: 700; }
         .category-item.active span { color: var(--active-green); }
 
-        /* منطقة المنتجات */
-        .products-area {
-            position: relative; z-index: 20; 
-            margin-top: -100px; /* تتداخل مع الكيرف السفلي */
-            padding: 20px; text-align: center;
+        /* المنتجات */
+        .products-grid {
+            position: relative; z-index: 20; margin-top: -80px;
+            padding: 20px; display: grid; grid-template-columns: 1fr 1fr; gap: 15px;
         }
+        .product-card { background: white; padding: 15px; border-radius: 25px; text-align: center; box-shadow: 0 2px 10px rgba(0,0,0,0.02); }
+        .product-card div { height: 100px; background: #eee; border-radius: 15px; margin-bottom: 10px; }
     </style>
 </head>
 <body>
 
-    <div class="tube-viewport" id="interaction-zone">
-        <div class="tube-upper-edge"></div> <div id="engine" class="rotation-engine"></div> <div class="tube-lower-edge"></div> </div>
+    <div class="tube-section" id="slider">
+        <div class="curve-top"></div>
+        <div class="wheel" id="wheel"></div>
+        <div class="curve-bottom"></div>
+    </div>
 
-    <main class="products-area">
-        <h2 id="cat-name" class="text-xl font-black mb-6">شاورما</h2>
-        <div id="product-grid" class="grid grid-cols-2 gap-4"></div>
-    </main>
+    <h2 id="cat-title" style="text-align: center; margin-top: -40px; position: relative; z-index: 30; font-weight: 900;">شاورما</h2>
+
+    <div class="products-grid">
+        <div class="product-card"><div></div><p>منتج تجريبي 1</p></div>
+        <div class="product-card"><div></div><p>منتج تجريبي 2</p></div>
+    </div>
 
     <script>
         const categories = [
@@ -94,61 +88,79 @@
             { name: 'مشويات', img: 'https://cdn-icons-png.flaticon.com/512/3238/3238713.png' }
         ];
 
+        const wheel = document.getElementById('wheel');
+        const slider = document.getElementById('slider');
+        const angleStep = 45;
         let currentRotation = 0;
-        const engine = document.getElementById('engine');
-        const angleStep = 40;
+        let startX = 0;
+        let isDragging = false;
 
-        function build() {
-            categories.forEach((cat, i) => {
-                const node = document.createElement('div');
-                node.className = `category-item ${i === 0 ? 'active' : ''}`;
-                const angle = i * angleStep;
-                
-                // الأيقونات تدور في مسار قطره 250px لتبقى في جوف الأنبوبة
-                const x = 250 * Math.sin(angle * Math.PI / 180);
-                const y = -250 * Math.cos(angle * Math.PI / 180);
-                
-                node.style.transform = `translate(${x}px, ${y}px)`;
-                node.innerHTML = `<div class="icon-circle"><img src="${cat.img}"></div><span>${cat.name}</span>`;
-                engine.appendChild(node);
-            });
-            renderProducts();
-        }
-
-        const hammer = new Hammer(document.getElementById('interaction-zone'));
-        hammer.on("pan", (e) => {
-            let move = currentRotation + (e.deltaX / 5);
-            gsap.set(engine, { rotation: move });
-            document.querySelectorAll('.category-item').forEach(n => gsap.set(n, { rotation: -move }));
+        // إنشاء الأيقونات وتوزيعها
+        categories.forEach((cat, i) => {
+            const item = document.createElement('div');
+            item.className = `category-item ${i === 0 ? 'active' : ''}`;
+            const angle = i * angleStep;
+            
+            // نصف القطر 300px ليكون في منتصف الأنبوبة تماماً
+            const x = 300 * Math.sin(angle * Math.PI / 180);
+            const y = -300 * Math.cos(angle * Math.PI / 180);
+            
+            item.style.transform = `translate(${x}px, ${y}px)`;
+            item.innerHTML = `<div class="icon-circle"><img src="${cat.img}"></div><span>${cat.name}</span>`;
+            wheel.appendChild(item);
         });
 
-        hammer.on("panend", () => {
-            currentRotation = Math.round(gsap.getProperty(engine, "rotation") / angleStep) * angleStep;
+        // تحكم السحب (Native Touch)
+        slider.addEventListener('mousedown', start);
+        slider.addEventListener('touchstart', start);
+        window.addEventListener('mousemove', move);
+        window.addEventListener('touchmove', move);
+        window.addEventListener('mouseup', end);
+        window.addEventListener('touchend', end);
+
+        function start(e) {
+            isDragging = true;
+            startX = e.pageX || e.touches[0].pageX;
+            wheel.style.transition = 'none';
+        }
+
+        function move(e) {
+            if (!isDragging) return;
+            const x = e.pageX || e.touches[0].pageX;
+            const diff = (x - startX) * 0.2;
+            const rotation = currentRotation + diff;
+            applyRotation(rotation);
+        }
+
+        function end() {
+            if (!isDragging) return;
+            isDragging = false;
+            // مغناطيس للأقسام (Snap)
+            currentRotation = Math.round(currentRotation / angleStep) * angleStep;
             if (currentRotation > 0) currentRotation = 0;
             const limit = -(categories.length - 1) * angleStep;
             if (currentRotation < limit) currentRotation = limit;
-
-            gsap.to(engine, { 
-                rotation: currentRotation, duration: 0.4, 
-                onUpdate: () => {
-                    const r = gsap.getProperty(engine, "rotation");
-                    document.querySelectorAll('.category-item').forEach(n => gsap.set(n, { rotation: -r }));
-                }
-            });
-            const idx = Math.round(Math.abs(currentRotation / angleStep));
-            document.querySelectorAll('.category-item').forEach((n, i) => n.classList.toggle('active', i === idx));
-            document.getElementById('cat-name').innerText = categories[idx].name;
-        });
-
-        function renderProducts() {
-            document.getElementById('product-grid').innerHTML = [1,2].map(() => `
-                <div class="bg-white p-3 rounded-2xl shadow-sm">
-                    <div class="w-full h-24 bg-gray-100 rounded-xl mb-2"></div>
-                    <div class="h-3 w-1/2 bg-gray-200 rounded mx-auto"></div>
-                </div>`).join('');
+            
+            wheel.style.transition = 'transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
+            applyRotation(currentRotation);
+            updateActive();
         }
 
-        build();
+        function applyRotation(rot) {
+            wheel.style.transform = `rotate(${rot}jsdeg)`; // تم استبدال jsdeg بـ deg في المتصفح تلقائياً
+            wheel.style.transform = `rotate(${rot}deg)`;
+            document.querySelectorAll('.category-item').forEach(item => {
+                item.style.transform = item.style.transform.split('rotate')[0] + `rotate(${-rot}deg)`;
+            });
+        }
+
+        function updateActive() {
+            const index = Math.abs(currentRotation / angleStep);
+            document.querySelectorAll('.category-item').forEach((item, i) => {
+                item.classList.toggle('active', i === index);
+            });
+            document.getElementById('cat-title').innerText = categories[index].name;
+        }
     </script>
 </body>
 </html>
