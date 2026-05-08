@@ -2,209 +2,419 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>ليالي الشام | تجربة احترافية</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مطعم إبن سوريا - الطعم الشامي الأصيل</title>
     
-    <link href="https://fonts.googleapis.com/css2?family=Alexandria:wght@300;400;700&display=swap" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/hammer.js/2.0.8/hammer.min.js"></script>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <style>
-        :root { --main-green: #82b440; --bg: #F9FAFB; }
-        body { font-family: 'Alexandria', sans-serif; background: var(--bg); margin: 0; overflow-x: hidden; color: #444; }
+        :root {
+            --primary-color: #e67e22;
+            --secondary-color: #2c3e50;
+            --bg-light: #f9f9f9;
+            --white: #ffffff;
+            --shadow: 0 10px 30px rgba(0,0,0,0.1);
+            --transition: all 0.3s ease-in-out;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Cairo', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-light);
+            color: var(--secondary-color);
+            overflow-x: hidden;
+        }
 
         /* الهيدر */
-        .header { padding: 15px 25px; display: flex; justify-content: space-between; align-items: center; background: #fff; position: sticky; top: 0; z-index: 1000; }
-        
-        /* منطقة الأنبوبة الدائرية */
-        .tube-viewport {
-            position: relative; height: 320px; width: 100%;
-            background: #fff; overflow: hidden; display: flex; justify-content: center;
-            touch-action: none;
+        header {
+            background: var(--white);
+            padding: 15px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: var(--shadow);
         }
 
-        .dashed-line {
-            position: absolute; top: 160px; width: 500px; height: 500px;
-            border: 1px dashed rgba(0,0,0,0.07); border-radius: 50%;
-            pointer-events: none; z-index: 1;
+        .logo {
+            font-weight: 900;
+            font-size: 24px;
+            color: var(--primary-color);
         }
 
-        .tube-viewport::after {
-            content: ''; position: absolute; bottom: -60px; width: 120%; height: 130px; 
-            background: var(--bg); border-top-left-radius: 50% 100px; border-top-right-radius: 50% 100px; z-index: 10;
+        .cart-icon-wrapper {
+            position: relative;
+            cursor: pointer;
+            font-size: 24px;
         }
 
-        .wheel-container { position: absolute; top: 160px; width: 550px; height: 550px; z-index: 5; }
-        .category-node { position: absolute; top: 50%; left: 50%; width: 90px; margin-left: -45px; margin-top: -45px; display: flex; flex-direction: column; align-items: center; }
-        
-        .image-circle {
-            width: 75px; height: 75px; border-radius: 50%; background: #fff;
-            border: 2px solid transparent; box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-            display: flex; align-items: center; justify-content: center; overflow: hidden;
-            transition: 0.4s;
+        #cart-count {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            background: red;
+            color: white;
+            font-size: 12px;
+            padding: 2px 6px;
+            border-radius: 50%;
         }
-        .category-node.active .image-circle { border-color: var(--main-green); transform: scale(1.1) translateY(-8px); }
-        .image-circle img { width: 90%; height: 90%; object-fit: contain; }
-        .category-node span { font-size: 11px; margin-top: 8px; color: #bbb; transition: 0.3s; }
-        .category-node.active span { color: var(--main-green); font-weight: 700; }
 
-        /* كروت المنتجات */
-        .item-card { background: #fff; border-radius: 24px; padding: 12px; border: 1px solid rgba(0,0,0,0.02); }
-        .add-btn { background: #000; color: #fff; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; position: relative; }
-
-        /* السلة العائمة */
-        #floating-cart {
-            position: fixed; bottom: 25px; left: 50%; transform: translateX(-50%) translateY(150px);
-            width: 85%; background: #111; color: #fff; padding: 18px 25px;
-            border-radius: 25px; display: flex; justify-content: space-between; align-items: center;
-            z-index: 2000; transition: 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        /* واجهة الأقسام */
+        .hero {
+            text-align: center;
+            padding: 50px 20px;
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1590602847861-f357a9332bbc?q=80&w=2000') no-repeat center/cover;
+            color: white;
+            margin-bottom: 40px;
         }
-        #floating-cart.visible { transform: translateX(-50%) translateY(0); }
 
-        /* عنصر الطيران */
-        .fly-item {
-            position: fixed; width: 40px; height: 40px; background: var(--main-green);
-            border-radius: 50%; z-index: 3000; pointer-events: none;
-            display: flex; align-items: center; justify-content: center; color: white;
+        .categories-container {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            padding: 20px;
+            overflow-x: auto;
+            white-space: nowrap;
+        }
+
+        .category-card {
+            background: var(--white);
+            padding: 10px 25px;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            border: 2px solid transparent;
+            font-weight: 600;
+        }
+
+        .category-card.active, .category-card:hover {
+            background: var(--primary-color);
+            color: white;
+            transform: translateY(-5px);
+        }
+
+        /* عرض المنتجات */
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+            padding: 20px 5%;
+        }
+
+        .product-card {
+            background: var(--white);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .product-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .product-info {
+            padding: 20px;
+            text-align: center;
+        }
+
+        .product-info h3 { margin-bottom: 10px; font-size: 20px; }
+
+        .price {
+            color: var(--primary-color);
+            font-weight: 700;
+            font-size: 22px;
+            display: block;
+            margin-bottom: 15px;
+        }
+
+        .add-to-cart-btn {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 10px 30px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 600;
+            width: 100%;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .add-to-cart-btn:hover {
+            background: #d35400;
+            transform: scale(1.02);
+        }
+
+        /* انيميشن الطيران */
+        .flying-item {
+            position: fixed;
+            z-index: 9999;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--primary-color);
+            pointer-events: none;
+            transition: all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        /* السلة */
+        #cart-modal {
+            position: fixed;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 2000;
+            transition: 0.5s;
+        }
+
+        #cart-modal.active { left: 0; }
+
+        .cart-content {
+            width: 400px;
+            height: 100%;
+            background: white;
+            float: left;
+            padding: 30px;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .checkout-form {
+            margin-top: 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .checkout-form input {
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            outline: none;
+        }
+
+        .order-btn {
+            background: #25d366;
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        /* الفوتر */
+        footer {
+            background: var(--secondary-color);
+            color: white;
+            padding: 40px 5%;
+            margin-top: 50px;
+            text-align: center;
+        }
+
+        @media (max-width: 500px) {
+            .cart-content { width: 100%; }
         }
     </style>
 </head>
 <body>
 
-    <header class="header">
-        <div class="font-black text-lg">ليالي <span style="color:var(--main-green)">الشام</span></div>
-        <div class="text-xs font-bold text-gray-400">1256 🔥</div>
-    </header>
+<header>
+    <div class="logo">إبن سوريا <i class="fas fa-utensils"></i></div>
+    <div class="cart-icon-wrapper" onclick="toggleCart()">
+        <i class="fas fa-shopping-basket"></i>
+        <span id="cart-count">0</span>
+    </div>
+</header>
 
-    <div class="tube-viewport" id="touch-zone">
-        <div class="dashed-line"></div>
-        <div id="wheel" class="wheel-container"></div>
+<div class="hero">
+    <h1>مطعم إبن سوريا</h1>
+    <p>نشا - شارع السوق - مقابل الريماس للسياحة</p>
+    <p><i class="fas fa-phone"></i> 01550035447 | 01279616968</p>
+</div>
+
+<div class="categories-container" id="categories">
+    <div class="category-card active" onclick="filterMenu('الكل')">الكل</div>
     </div>
 
-    <main class="px-6 relative z-20" style="margin-top: -50px;">
-        <h2 id="cat-title" class="text-center font-bold text-gray-400 mb-6">بيتزا</h2>
-        <div id="product-list" class="grid grid-cols-2 gap-4 pb-40"></div>
-    </main>
+<div class="menu-grid" id="menu-container">
+    </div>
 
-    <div id="floating-cart">
-        <div class="flex items-center gap-3">
-            <span id="items-count" class="bg-white text-black w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-black">0</span>
-            <span class="text-sm">عرض السلة</span>
+<div id="cart-modal">
+    <div class="cart-content">
+        <h2 style="margin-bottom: 20px;">سلة الطلبات <i class="fas fa-shopping-cart"></i></h2>
+        <div id="cart-items-list"></div>
+        <div style="margin-top: 20px; font-weight: 700; font-size: 20px;">
+            الإجمالي: <span id="cart-total">0</span> ج.م
         </div>
-        <div class="font-black text-sm" id="total-price">0 ج.م</div>
+
+        <div class="checkout-form">
+            <input type="text" id="user-name" placeholder="الاسم بالكامل" required>
+            <input type="tel" id="user-phone" placeholder="رقم الهاتف" required>
+            <input type="text" id="user-address" placeholder="العنوان بالتفصيل" required>
+            <button class="order-btn" onclick="sendToWhatsApp()">
+                إتمام الطلب عبر واتساب <i class="fab fa-whatsapp"></i>
+            </button>
+            <button onclick="toggleCart()" style="background:none; border:none; color:red; cursor:pointer;">إغلاق السلة</button>
+        </div>
     </div>
+</div>
 
-    <script>
-        const menu = {
-            'بيتزا': [
-                { name: 'بيتزا مارجريتا', price: 110, img: 'https://i.ibb.co/VWhpYp4/pizza-slice.png' },
-                { name: 'بيتزا بيبروني', price: 145, img: 'https://i.ibb.co/VWhpYp4/pizza-slice.png' }
-            ],
-            'برجر': [
-                { name: 'تشيز برجر', price: 125, img: 'https://i.ibb.co/vX8p5vX/burger.png' },
-                { name: 'برجر عائلي', price: 180, img: 'https://i.ibb.co/vX8p5vX/burger.png' }
-            ],
-            'شاورما': [
-                { name: 'شاورما عربي', price: 85, img: 'https://i.ibb.co/7Xp9p9p/shawarma.png' }
-            ],
-            'مشويات': [
-                { name: 'كفتة مشوية', price: 190, img: 'https://i.ibb.co/MSX9p9p/grill.png' }
-            ]
-        };
+<footer>
+    <p>جميع الحقوق محفوظة لمطعم إبن سوريا &copy; 2026</p>
+</footer>
 
-        const wheel = document.getElementById('wheel');
-        const cats = Object.keys(menu);
-        const step = 38;
-        let currentRot = 0;
-        let cart = { items: 0, total: 0 };
+<script>
+    let cart = [];
+    let menuData = [];
 
-        // إنشاء الأقسام
-        cats.forEach((name, i) => {
-            const node = document.createElement('div');
-            node.className = `category-node ${i === 0 ? 'active' : ''}`;
-            const angle = i * step;
-            const x = 275 * Math.sin(angle * Math.PI / 180);
-            const y = -275 * Math.cos(angle * Math.PI / 180);
-            node.style.transform = `translate(${x}px, ${y}px)`;
-            node.innerHTML = `<div class="image-circle"><img src="${menu[name][0].img}"></div><span>${name}</span>`;
-            wheel.appendChild(node);
-        });
+    // جلب البيانات من جوجل شيت (يجب استبدال الرابط برابط API الخاص بك)
+    // نصيحة: استخدم Sheety أو AppScript لتحويل الشيت لـ JSON
+    async function fetchMenu() {
+        // كمثال تجريبي، سأضع بيانات وهمية لمحاكاة الشيت
+        menuData = [
+            {id: 1, name: 'شاورما دجاج', price: 80, category: 'شاورما', img: 'https://images.unsplash.com/photo-1529006557810-274b9b2fc783?q=80&w=500'},
+            {id: 2, name: 'فتة شامي', price: 120, category: 'أطباق', img: 'https://images.unsplash.com/photo-1541518763669-27fef04b14ea?q=80&w=500'},
+            {id: 3, name: 'كبة مقلية', price: 60, category: 'مقبلات', img: 'https://images.unsplash.com/photo-1606491956689-2ea866880c84?q=80&w=500'}
+        ];
+        renderMenu(menuData);
+        renderCategories(menuData);
+    }
 
-        // نظام السحب
-        const mc = new Hammer(document.getElementById('touch-zone'));
-        mc.on("pan", (e) => applyRot(currentRot + (e.deltaX / 6)));
-        mc.on("panend", (e) => {
-            currentRot = Math.round((gsap.getProperty(wheel, "rotation") + (e.velocityX * 10)) / step) * step;
-            if (currentRot > 0) currentRot = 0;
-            if (currentRot < -(cats.length-1)*step) currentRot = -(cats.length-1)*step;
-            
-            gsap.to(wheel, { 
-                rotation: currentRot, duration: 0.6, ease: "power2.out",
-                onUpdate: () => applyRot(gsap.getProperty(wheel, "rotation"))
-            });
-            render(cats[Math.abs(currentRot / step)]);
-        });
+    function renderCategories(data) {
+        const cats = ['الكل', ...new Set(data.map(item => item.category))];
+        const container = document.getElementById('categories');
+        container.innerHTML = cats.map(c => `<div class="category-card" onclick="filterMenu('${c}')">${c}</div>`).join('');
+    }
 
-        function applyRot(r) {
-            gsap.set(wheel, { rotation: r });
-            document.querySelectorAll('.category-node').forEach(el => {
-                gsap.set(el.querySelector('.image-circle'), { rotation: -r });
-                gsap.set(el.querySelector('span'), { rotation: -r });
-            });
-        }
-
-        function render(name) {
-            document.querySelectorAll('.category-node').forEach((el, i) => el.classList.toggle('active', cats[i] === name));
-            document.getElementById('cat-title').innerText = name;
-            document.getElementById('product-list').innerHTML = menu[name].map(p => `
-                <div class="item-card shadow-sm">
-                    <img src="${p.img}" class="w-full h-24 object-contain mb-3">
-                    <h3 class="text-[10px] font-bold text-gray-400 mb-2">${p.name}</h3>
-                    <div class="flex justify-between items-center">
-                        <span class="text-xs font-black text-amber-600">${p.price} ج</span>
-                        <button onclick="addToCart(event, ${p.price})" class="add-btn"><i class="fa-solid fa-plus text-[10px]"></i></button>
-                    </div>
+    function renderMenu(data) {
+        const container = document.getElementById('menu-container');
+        container.innerHTML = data.map(item => `
+            <div class="product-card">
+                <img src="${item.img}" alt="${item.name}">
+                <div class="product-info">
+                    <h3>${item.name}</h3>
+                    <span class="price">${item.price} ج.م</span>
+                    <button class="add-to-cart-btn" onclick="addToCart(${item.id}, event)">
+                        إضافة للسلة <i class="fas fa-plus-circle"></i>
+                    </button>
                 </div>
-            `).join('');
+            </div>
+        `).join('');
+    }
+
+    function filterMenu(cat) {
+        if(cat === 'الكل') renderMenu(menuData);
+        else renderMenu(menuData.filter(i => i.category === cat));
+    }
+
+    function addToCart(id, event) {
+        const item = menuData.find(i => i.id === id);
+        cart.push(item);
+        updateCartUI();
+        
+        // تأثير طيران المنتج
+        animateFly(event);
+    }
+
+    function animateFly(e) {
+        const cartIcon = document.querySelector('.cart-icon-wrapper');
+        const flyer = document.createElement('div');
+        flyer.classList.add('flying-item');
+        flyer.style.left = e.clientX + 'px';
+        flyer.style.top = e.clientY + 'px';
+        document.body.appendChild(flyer);
+
+        setTimeout(() => {
+            flyer.style.left = cartIcon.getBoundingClientRect().left + 'px';
+            flyer.style.top = cartIcon.getBoundingClientRect().top + 'px';
+            flyer.style.transform = 'scale(0.1)';
+            flyer.style.opacity = '0';
+        }, 10);
+
+        setTimeout(() => flyer.remove(), 800);
+    }
+
+    function updateCartUI() {
+        document.getElementById('cart-count').innerText = cart.length;
+        const list = document.getElementById('cart-items-list');
+        let total = 0;
+        list.innerHTML = cart.map((item, index) => {
+            total += item.price;
+            return `
+                <div class="cart-item">
+                    <span>${item.name}</span>
+                    <span>${item.price} ج.م</span>
+                    <i class="fas fa-trash" style="color:red; cursor:pointer" onclick="removeItem(${index})"></i>
+                </div>
+            `;
+        }).join('');
+        document.getElementById('cart-total').innerText = total;
+    }
+
+    function removeItem(index) {
+        cart.splice(index, 1);
+        updateCartUI();
+    }
+
+    function toggleCart() {
+        document.getElementById('cart-modal').classList.toggle('active');
+    }
+
+    function sendToWhatsApp() {
+        const name = document.getElementById('user-name').value;
+        const phone = document.getElementById('user-phone').value;
+        const address = document.getElementById('user-address').value;
+
+        if(!name || !phone || !address || cart.length === 0) {
+            alert("يرجى ملء البيانات وإضافة أصناف للسلة");
+            return;
         }
 
-        // أنميشن الطيران والسلة
-        window.addToCart = (e, price) => {
-            const btn = e.currentTarget;
-            const rect = btn.getBoundingClientRect();
-            const cartRect = document.getElementById('floating-cart').getBoundingClientRect();
+        let message = `*طلب جديد من مطعم إبن سوريا*%0A`;
+        message += `--------------------------%0A`;
+        message += `*الاسم:* ${name}%0A`;
+        message += `*الهاتف:* ${phone}%0A`;
+        message += `*العنوان:* ${address}%0A`;
+        message += `--------------------------%0A`;
+        cart.forEach(i => message += `- ${i.name} (${i.price} ج.م)%0A`);
+        message += `--------------------------%0A`;
+        message += `*الإجمالي:* ${document.getElementById('cart-total').innerText} ج.م`;
 
-            // إنشاء عنصر الطيران
-            const flyer = document.createElement('div');
-            flyer.className = 'fly-item';
-            flyer.innerHTML = '<i class="fa-solid fa-plus text-[10px]"></i>';
-            flyer.style.left = rect.left + 'px';
-            flyer.style.top = rect.top + 'px';
-            document.body.appendChild(flyer);
+        const whatsappURL = `https://wa.me/201016991319?text=${message}`;
+        window.open(whatsappURL, '_blank');
+    }
 
-            // أنميشن الطيران
-            gsap.to(flyer, {
-                left: cartRect.left + 30,
-                top: cartRect.top + 20,
-                scale: 0.5,
-                opacity: 0,
-                duration: 0.8,
-                ease: "power2.inOut",
-                onComplete: () => {
-                    flyer.remove();
-                    cart.items++;
-                    cart.total += price;
-                    document.getElementById('items-count').innerText = cart.items;
-                    document.getElementById('total-price').innerText = cart.total + ' ج.م';
-                    document.getElementById('floating-cart').classList.add('visible');
-                    gsap.fromTo("#floating-cart", { scale: 1.05 }, { scale: 1, duration: 0.3 });
-                }
-            });
-        };
+    window.onload = fetchMenu;
+</script>
 
-        render('بيتزا');
-    </script>
 </body>
 </html>
