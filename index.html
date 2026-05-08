@@ -15,20 +15,26 @@
         :root { --gold: #D4AF37; --bg: #F5F5F5; --active-green: #89B42D; }
         body { font-family: 'Alexandria', sans-serif; background: var(--bg); overflow-x: hidden; touch-action: manipulation; }
 
-        /* الهيدر العلوي */
         .header-nav {
             position: fixed; top: 0; width: 100%; z-index: 1000;
             padding: 15px 20px; display: flex; justify-content: space-between; align-items: center;
             background: rgba(255,255,255,0.85); backdrop-filter: blur(10px);
         }
 
-        .cart-box { background: #1A1A1A; color: white; padding: 10px 22px; border-radius: 20px; position: relative; cursor: pointer; }
+        .cart-box { background: #1A1A1A; color: white; padding: 10px 22px; border-radius: 20px; position: relative; cursor: pointer; transition: 0.3s; }
+        .cart-box:active { transform: scale(0.9); }
 
-        /* منطقة الأقسام والكيرف */
         .hero-viewport {
             position: relative; height: 320px; width: 100%;
             background: #fff; overflow: hidden; touch-action: none;
             display: flex; justify-content: center; padding-top: 60px;
+        }
+
+        /* المسار الوهمي المنقط */
+        .category-path-line {
+            position: absolute; top: 220px; width: 500px; height: 500px;
+            border: 1.5px dashed rgba(0,0,0,0.08); border-radius: 50%;
+            pointer-events: none; z-index: 0;
         }
 
         /* الكيرف الداخلي السفلي */
@@ -55,24 +61,26 @@
         .cat-img-wrapper {
             width: 75px; height: 75px; border-radius: 50%; background: #fff;
             overflow: hidden; border: 2px solid transparent;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.06); transition: 0.4s;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.06); transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             display: flex; align-items: center; justify-content: center;
         }
         .hero-cat-item.active .cat-img-wrapper { transform: scale(1.15); border-color: var(--active-green); }
-        .cat-img-wrapper img { width: 85%; height: 85%; object-fit: contain; }
+        .cat-img-wrapper img { width: 100%; height: 100%; object-fit: cover; }
 
         .active-indicator {
             position: absolute; bottom: 35px; width: 35px; height: 5px;
             background: var(--active-green); border-radius: 10px; z-index: 10;
         }
 
-        /* السلة */
+        /* أنميشن زر الطلب */
+        .btn-add { transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .btn-add:active { transform: scale(0.8) rotate(15deg); background: var(--active-green); }
+
         #cart-panel {
             position: fixed; top: 0; left: -100%; width: 100%; max-width: 400px;
             height: 100%; background: white; z-index: 2000; padding: 25px;
-            transition: 0.5s cubic-bezier(0.7, 0, 0.3, 1); box-shadow: 20px 0 50px rgba(0,0,0,0.1);
+            transition: 0.5s cubic-bezier(0.7, 0, 0.3, 1);
         }
-        .user-input { width: 100%; background: #f8f8f8; padding: 15px; border-radius: 15px; margin-bottom: 10px; outline: none; border: 1px solid #eee; }
     </style>
 </head>
 <body>
@@ -86,12 +94,13 @@
     </nav>
 
     <div class="hero-viewport" id="hero-touch">
+        <div class="category-path-line"></div>
         <div id="hero-gear" class="hero-gear"></div>
         <div class="active-indicator"></div>
     </div>
 
     <main class="p-5">
-        <h2 id="cat-title" class="text-2xl font-black mb-6 text-gray-800">الأصناف</h2>
+        <h2 id="cat-title" class="text-2xl font-black mb-6 text-gray-800">بيتزا</h2>
         <div id="food-grid" class="grid grid-cols-2 gap-4"></div>
     </main>
 
@@ -106,23 +115,22 @@
                 <span>الإجمالي:</span>
                 <span id="total-price" class="text-green-600">0 ج.م</span>
             </div>
-            <input type="text" id="u-name" class="user-input" placeholder="الاسم">
-            <input type="tel" id="u-phone" class="user-input" placeholder="رقم الهاتف">
-            <button onclick="sendOrder()" class="w-full bg-black text-white py-4 rounded-2xl font-black">تأكيد عبر واتساب</button>
+            <button onclick="sendOrder()" class="w-full bg-black text-white py-4 rounded-2xl font-black">تأكيد الطلب</button>
         </div>
     </div>
 
     <script>
+        // استعادة الصور الحقيقية للأقسام
         const categories = [
-            { name: 'مشويات', img: 'https://cdn-icons-png.flaticon.com/512/3238/3238713.png' },
-            { name: 'شاورما', img: 'https://cdn-icons-png.flaticon.com/512/5741/5741085.png' },
-            { name: 'بيتزا', img: 'https://cdn-icons-png.flaticon.com/512/3595/3595455.png' },
-            { name: 'برجر', img: 'https://cdn-icons-png.flaticon.com/512/3075/3075977.png' }
+            { name: 'السندوتشات', img: 'https://images.unsplash.com/photo-1561651823-34feb02250e4?w=200' },
+            { name: 'بيتزا', img: 'https://images.unsplash.com/photo-1513104890138-7c749659a591?w=200' },
+            { name: 'برجر', img: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=200' },
+            { name: 'مكرونات', img: 'https://images.unsplash.com/photo-1551183053-bf91a1d81141?w=200' }
         ];
 
         const products = [
-            { id: 1, name: 'شاورما عائلي', price: 150, img: 'https://images.unsplash.com/photo-1561651823-34feb02250e4?w=400' },
-            { id: 2, name: 'بيتزا إيطالي', price: 120, img: 'https://images.unsplash.com/photo-1513104890138-7c749659a591?w=400' }
+            { id: 1, name: 'بيتزا إيطالي', price: 120, img: 'https://images.unsplash.com/photo-1513104890138-7c749659a591?w=400' },
+            { id: 2, name: 'شاورما عائلي', price: 150, img: 'https://images.unsplash.com/photo-1561651823-34feb02250e4?w=400' }
         ];
 
         let cart = [];
@@ -146,16 +154,16 @@
 
         const hammer = new Hammer(document.getElementById('hero-touch'));
         hammer.on("panmove", (e) => {
-            gearRotation += e.velocity * 4;
+            gearRotation += e.velocityX * 5;
             applyRotation();
         });
 
         hammer.on("panend", () => {
             gearRotation = Math.round(gearRotation / step) * step;
-            if (gearRotation > 0) gearRotation = 0;
             const min = -(categories.length - 1) * step;
+            if (gearRotation > 0) gearRotation = 0;
             if (gearRotation < min) gearRotation = min;
-            gsap.to(gear, { rotation: gearRotation, duration: 0.5 });
+            gsap.to(gear, { rotation: gearRotation, duration: 0.6, ease: "back.out(1.5)" });
             updateActive(Math.abs(gearRotation/step));
         });
 
@@ -177,42 +185,42 @@
             document.getElementById('food-grid').innerHTML = products.map(p => `
                 <div class="bg-white p-4 rounded-[25px] shadow-sm">
                     <img src="${p.img}" class="w-full h-32 object-cover rounded-2xl mb-3">
-                    <h3 class="font-bold">${p.name}</h3>
+                    <h3 class="font-bold text-sm">${p.name}</h3>
                     <div class="flex justify-between items-center mt-3">
                         <span class="text-green-600 font-black">${p.price}ج</span>
-                        <button onclick="addToCart(${p.id})" class="bg-black text-white w-8 h-8 rounded-full">+</button>
+                        <button onclick="addToCart(${p.id}, event)" class="btn-add bg-black text-white w-9 h-9 rounded-full flex items-center justify-center">
+                            <i class="fa-solid fa-plus"></i>
+                        </button>
                     </div>
                 </div>`).join('');
         }
 
-        function addToCart(id) {
-            cart.push(products.find(p => p.id === id));
+        function addToCart(id, event) {
+            // إضافة أنميشن بسيط عند الضغط
+            gsap.to(event.currentTarget, { scale: 0.8, duration: 0.1, yoyo: true, repeat: 1 });
+            
+            const product = products.find(p => p.id === id);
+            cart.push(product);
             updateCartUI();
         }
 
         function updateCartUI() {
             document.getElementById('badge').innerText = cart.length;
-            const itemsDiv = document.getElementById('cart-items');
-            itemsDiv.innerHTML = cart.map((item, index) => `
+            document.getElementById('total-price').innerText = cart.reduce((s, i) => s + i.price, 0) + ' ج.م';
+            
+            document.getElementById('cart-items').innerHTML = cart.map((item, index) => `
                 <div class="flex justify-between items-center bg-gray-50 p-3 rounded-xl">
                     <div class="flex items-center gap-3">
                         <img src="${item.img}" class="w-12 h-12 rounded-lg object-cover">
-                        <div><p class="font-bold text-sm">${item.name}</p><p class="text-xs text-gray-500">${item.price} ج.م</p></div>
+                        <div><p class="font-bold text-xs">${item.name}</p></div>
                     </div>
-                    <i onclick="removeFromCart(${index})" class="fa-solid fa-trash-can text-red-500 cursor-pointer"></i>
+                    <i onclick="removeFromCart(${index})" class="fa-solid fa-trash text-red-500"></i>
                 </div>`).join('');
-            document.getElementById('total-price').innerText = cart.reduce((s, i) => s + i.price, 0) + ' ج.م';
         }
 
         function removeFromCart(index) { cart.splice(index, 1); updateCartUI(); }
         function toggleCart(s) { document.getElementById('cart-panel').style.left = s ? '0' : '-100%'; }
-
-        function sendOrder() {
-            const name = document.getElementById('u-name').value;
-            if(!name || cart.length === 0) return alert('أضف أصنافاً واكتب اسمك');
-            const msg = `طلب جديد من: ${name}\nالأصناف: ${cart.map(i => i.name).join(', ')}\nالإجمالي: ${document.getElementById('total-price').innerText}`;
-            window.open(`https://wa.me/201016991319?text=${encodeURIComponent(msg)}`);
-        }
+        function sendOrder() { alert('سيتم تحويلك لواتساب لتأكيد الطلب'); }
 
         init();
     </script>
