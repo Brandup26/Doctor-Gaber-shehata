@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>إبن سوريا | طريقة البطل V3</title>
+    <title>إبن سوريا | طريقة البطل V4</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Alexandria:wght@400;700;900&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
@@ -15,19 +15,15 @@
         :root { --gold: #D4AF37; --bg: #FAFAFA; --dark: #1A1A1A; }
         body { font-family: 'Alexandria', sans-serif; background: var(--bg); overflow-x: hidden; touch-action: manipulation; }
 
-        /* Navigation */
         .header-nav {
             position: fixed; top: 0; width: 100%; z-index: 1000;
             padding: 15px 20px; display: flex; justify-content: space-between; align-items: center;
             background: rgba(255,255,255,0.9); backdrop-filter: blur(15px); border-bottom: 1px solid rgba(0,0,0,0.05);
         }
 
-        .cart-box {
-            background: var(--dark); color: white; padding: 10px 22px;
-            border-radius: 20px; position: relative; cursor: pointer;
-        }
+        .cart-box { background: var(--dark); color: white; padding: 10px 22px; border-radius: 20px; position: relative; cursor: pointer; }
 
-        /* Hero Gear - "طريقة البطل" */
+        /* Hero Gear - طريقة البطل المحدودة (بداية ونهاية) */
         .hero-viewport {
             position: relative; height: 260px; width: 100%;
             display: flex; justify-content: center; overflow: hidden;
@@ -37,6 +33,7 @@
         .hero-gear {
             position: absolute; top: 140px; width: 400px; height: 400px;
             border-radius: 50%; will-change: transform;
+            transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
         }
 
         .hero-cat-item {
@@ -50,15 +47,10 @@
             overflow: hidden; border: 3px solid #fff;
             box-shadow: 0 5px 15px rgba(0,0,0,0.1); transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
-
         .cat-img-wrapper img { width: 100%; height: 100%; object-fit: cover; }
 
-        .hero-cat-item.active .cat-img-wrapper {
-            transform: scale(1.3); border-color: var(--gold);
-            box-shadow: 0 10px 25px rgba(212, 175, 55, 0.4);
-        }
-
-        .hero-cat-item span { font-size: 11px; font-weight: 700; color: #bbb; margin-top: 12px; transition: 0.3s; white-space: nowrap; }
+        .hero-cat-item.active .cat-img-wrapper { transform: scale(1.3); border-color: var(--gold); }
+        .hero-cat-item span { font-size: 11px; font-weight: 700; color: #bbb; margin-top: 12px; transition: 0.3s; }
         .hero-cat-item.active span { color: var(--dark); font-weight: 900; }
 
         .hero-indicator {
@@ -67,32 +59,30 @@
         }
 
         /* Food Cards */
-        .food-card { background: white; border-radius: 30px; padding: 15px; border: 1px solid #f0f0f0; box-shadow: 0 4px 10px rgba(0,0,0,0.02); }
-        .add-btn {
-            background: var(--dark); color: white; width: 35px; height: 35px;
-            border-radius: 12px; display: flex; align-items: center; justify-content: center;
-            cursor: pointer; transition: 0.2s;
-        }
-        .add-btn:active { transform: scale(0.9); }
+        .food-card { background: white; border-radius: 30px; padding: 15px; border: 1px solid #f0f0f0; }
+        .add-btn { background: var(--dark); color: white; width: 35px; height: 35px; border-radius: 12px; display: flex; align-items: center; justify-content: center; }
 
-        /* Animation Fly Item */
-        .fly-item { position: fixed; z-index: 9999; pointer-events: none; width: 60px; height: 60px; border-radius: 50%; object-fit: cover; }
-
-        /* Sidebar Cart Panel */
+        /* السلة الجانبية والمدخلات */
         #cart-panel {
             position: fixed; top: 0; left: -100%; width: 100%; max-width: 400px;
             height: 100%; background: white; z-index: 2000; padding: 25px;
             transition: 0.6s cubic-bezier(0.7, 0, 0.3, 1); box-shadow: 20px 0 50px rgba(0,0,0,0.2);
-            overflow-y: auto;
+            overflow-y: auto; text-align: right;
         }
 
-        /* Inputs */
         .user-input {
             width: 100%; background: #f9f9f9; border: 1px solid #eee;
-            padding: 12px 15px; border-radius: 15px; margin-bottom: 10px;
-            outline: none; font-size: 14px; transition: 0.3s;
+            padding: 14px 18px; border-radius: 18px; margin-bottom: 12px;
+            outline: none; font-size: 14px; text-align: right; /* ضمان المحاذاة لليمين */
+            display: block; transition: 0.3s;
         }
         .user-input:focus { border-color: var(--gold); background: #fff; }
+
+        /* انيميشن طيران بسيط */
+        .fly-simple {
+            position: fixed; z-index: 9999; width: 40px; height: 40px;
+            border-radius: 50%; object-fit: cover; pointer-events: none;
+        }
     </style>
 </head>
 <body>
@@ -136,13 +126,11 @@
                 <input type="text" id="user-addr" class="user-input" placeholder="العنوان بالتفصيل">
             </div>
 
-            <button onclick="checkout()" class="w-full bg-black text-white py-5 rounded-2xl font-black shadow-xl active:scale-95 transition">تأكيد الطلب الآن</button>
-            <p class="text-[10px] text-center mt-4 text-gray-400">سيتم تحويلك للواتساب لتأكيد الطلب مع الإدارة</p>
+            <button onclick="checkout()" class="w-full bg-black text-white py-5 rounded-2xl font-black shadow-xl active:scale-95 transition">تأكيد الطلب</button>
         </div>
     </div>
 
     <script>
-        // الأقسام بصور حقيقية
         const categories = [
             { name: 'مشويات', img: 'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=200' },
             { name: 'شاورما', img: 'https://images.unsplash.com/photo-1561651823-34feb02250e4?w=200' },
@@ -154,17 +142,16 @@
 
         const products = [
             { id: 1, name: 'شاورما دجاج جامبو', price: 95, img: 'https://images.unsplash.com/photo-1561651823-34feb02250e4?w=400' },
-            { id: 2, name: 'بيتزا سوبر بريميوم', price: 180, img: 'https://images.unsplash.com/photo-1513104890138-7c749659a591?w=400' },
-            { id: 3, name: 'وجبة مشويات مشكلة', price: 250, img: 'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=400' }
+            { id: 2, name: 'بيتزا سوبر بريميوم', price: 180, img: 'https://images.unsplash.com/photo-1513104890138-7c749659a591?w=400' }
         ];
 
         let cart = [];
         let gearRotation = 0;
         const gear = document.getElementById('hero-gear');
+        const step = 360 / categories.length;
 
         function initHeroGear() {
-            const radius = 150; // تقريب الأقسام
-            const step = 360 / categories.length;
+            const radius = 150;
             categories.forEach((cat, i) => {
                 const item = document.createElement('div');
                 item.className = `hero-cat-item ${i === 0 ? 'active' : ''}`;
@@ -178,26 +165,41 @@
             renderFood();
         }
 
-        // تفاعلات اللمس "طريقة البطل"
         const hammer = new Hammer(document.getElementById('hero-touch'));
         let startRot = 0;
+
         hammer.on("panstart", () => startRot = gearRotation);
         hammer.on("panmove", (e) => {
-            gearRotation = startRot + (e.deltaX * 0.35);
+            let targetRot = startRot + (e.deltaX * 0.3);
+            
+            // إضافة "مقاومة" عند البداية والنهاية (بداية ونهاية حقيقية)
+            const minRot = - (categories.length - 1) * step;
+            const maxRot = 0;
+
+            if (targetRot > maxRot) targetRot = targetRot * 0.2; // مقاومة عند أول عنصر
+            if (targetRot < minRot) targetRot = minRot + (targetRot - minRot) * 0.2; // مقاومة عند آخر عنصر
+
+            gearRotation = targetRot;
             applyRotation(gearRotation);
         });
+
         hammer.on("panend", () => {
-            const step = 360 / categories.length;
-            const index = Math.round(-gearRotation / step);
-            const target = -index * step;
-            gsap.to(window, { duration: 0.6, onUpdate: () => {
-                gearRotation += (target - gearRotation) * 0.2;
+            const minRot = - (categories.length - 1) * step;
+            const maxRot = 0;
+
+            // تحديد القسم الأقرب مع الالتزام بالحدود
+            let finalRot = Math.round(gearRotation / step) * step;
+            if (finalRot > maxRot) finalRot = maxRot;
+            if (finalRot < minRot) finalRot = minRot;
+
+            gsap.to(window, { duration: 0.5, onUpdate: () => {
+                gearRotation += (finalRot - gearRotation) * 0.2;
                 applyRotation(gearRotation);
             }, onComplete: () => {
-                gearRotation = target;
-                const activeIdx = ((index % categories.length) + categories.length) % categories.length;
+                gearRotation = finalRot;
+                const activeIdx = Math.abs(finalRot / step);
                 updateActive(activeIdx);
-            }, ease: "back.out(1.5)"});
+            }, ease: "power2.out"});
         });
 
         function applyRotation(rot) {
@@ -219,42 +221,39 @@
             grid.innerHTML = '';
             products.forEach(p => {
                 grid.innerHTML += `
-                    <div class="food-card opacity-0">
+                    <div class="food-card">
                         <img src="${p.img}" class="w-full h-32 object-cover rounded-2xl mb-3" id="img-${p.id}">
                         <h3 class="font-bold text-sm mb-1">${p.name}</h3>
                         <div class="flex justify-between items-center mt-3">
                             <span class="font-black text-gold text-sm">${p.price} ج.م</span>
                             <div class="add-btn" onclick="addToCart(event, ${p.id})"><i class="fa-solid fa-plus"></i></div>
                         </div>
-                    </div>
-                `;
+                    </div>`;
             });
-            gsap.to(".food-card", { opacity: 1, y: -10, stagger: 0.1 });
         }
 
         function addToCart(e, id) {
             const product = products.find(p => p.id === id);
             cart.push(product);
 
-            // أنيميشن الطيران
             const img = document.getElementById(`img-${id}`);
             const cartIcon = document.getElementById('main-cart');
-            const flyImg = img.cloneNode(true);
-            flyImg.classList.add('fly-item');
-            document.body.appendChild(flyImg);
+            const fly = img.cloneNode(true);
+            fly.className = 'fly-simple';
+            document.body.appendChild(fly);
 
             const rect = img.getBoundingClientRect();
             const cartRect = cartIcon.getBoundingClientRect();
 
-            gsap.fromTo(flyImg, 
-                { top: rect.top, left: rect.left, scale: 1, opacity: 1 },
+            gsap.fromTo(fly, 
+                { top: rect.top, left: rect.left, opacity: 1, scale: 1 },
                 { 
-                    top: cartRect.top, left: cartRect.left, scale: 0.1, opacity: 0, 
-                    duration: 0.8, ease: "power3.inOut",
+                    top: cartRect.top, left: cartRect.left, opacity: 0, scale: 0.2, 
+                    duration: 0.5, ease: "power1.in", 
                     onComplete: () => {
-                        flyImg.remove();
+                        fly.remove();
                         updateCartUI();
-                        gsap.to(cartIcon, { scale: 1.2, duration: 0.1, yoyo: true, repeat: 1 });
+                        gsap.to(cartIcon, { scale: 1.15, duration: 0.1, yoyo: true, repeat: 1 });
                     }
                 }
             );
@@ -268,45 +267,26 @@
             cart.forEach((item, index) => {
                 total += item.price;
                 list.innerHTML += `
-                    <div class="flex justify-between items-center bg-gray-50 p-4 rounded-2xl border border-gray-100">
+                    <div class="flex justify-between items-center bg-gray-50 p-4 rounded-2xl">
                         <div class="flex items-center gap-3">
-                            <img src="${item.img}" class="w-12 h-12 rounded-lg object-cover">
-                            <div>
-                                <h4 class="font-bold text-xs">${item.name}</h4>
-                                <p class="text-gold font-black text-[12px]">${item.price} ج.م</p>
-                            </div>
+                            <img src="${item.img}" class="w-10 h-10 rounded-lg object-cover">
+                            <div><h4 class="font-bold text-xs">${item.name}</h4><p class="text-gold font-black text-[10px]">${item.price} ج.م</p></div>
                         </div>
-                        <i class="fa-solid fa-trash-can text-red-300 text-sm" onclick="removeItem(${index})"></i>
+                        <i class="fa-solid fa-trash text-red-200 text-xs" onclick="removeItem(${index})"></i>
                     </div>`;
             });
             document.getElementById('total-price').innerText = total + ' ج.م';
         }
 
-        function removeItem(idx) {
-            cart.splice(idx, 1);
-            updateCartUI();
-        }
-
-        function toggleCart(show) {
-            document.getElementById('cart-panel').style.left = show ? '0' : '-100%';
-        }
+        function removeItem(idx) { cart.splice(idx, 1); updateCartUI(); }
+        function toggleCart(show) { document.getElementById('cart-panel').style.left = show ? '0' : '-100%'; }
 
         function checkout() {
-            const name = document.getElementById('user-name').value;
-            const phone = document.getElementById('user-phone').value;
-            const addr = document.getElementById('user-addr').value;
-
-            if(!name || !phone || !addr) return alert('يرجى إكمال بياناتك يا بطل!');
-            if(cart.length === 0) return alert('السلة فارغة!');
-
-            let msg = `*طلب جديد من إبن سوريا* 🌯\n\n`;
-            msg += `*الاسم:* ${name}\n`;
-            msg += `*الهاتف:* ${phone}\n`;
-            msg += `*العنوان:* ${addr}\n\n`;
-            msg += `*الطلبات:*\n`;
-            cart.forEach((i, idx) => msg += `${idx+1}. ${i.name} (${i.price} ج.م)\n`);
-            msg += `\n*الإجمالي:* ${document.getElementById('total-price').innerText}`;
-
+            const n = document.getElementById('user-name').value;
+            const p = document.getElementById('user-phone').value;
+            const a = document.getElementById('user-addr').value;
+            if(!n || !p || !a) return alert('أكمل بياناتك يا بطل!');
+            let msg = `*طلب جديد*\nالاسم: ${n}\nالهاتف: ${p}\nالعنوان: ${a}\nالإجمالي: ${document.getElementById('total-price').innerText}`;
             window.open(`https://wa.me/201016991319?text=${encodeURIComponent(msg)}`);
         }
 
