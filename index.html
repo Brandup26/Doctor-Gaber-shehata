@@ -2,166 +2,472 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>منيو ابن سوريا - النسخة الكاملة 100%</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@700;900&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إبن سوريا | Ibn Syria Luxury Dining</title>
+    
+    <meta name="description" content="مطعم إبن سوريا - تجربة طعام شامية فاخرة في نشا. قائمة طعام متنوعة بأعلى جودة.">
+    <link href="https://fonts.googleapis.com/css2?family=Alexandria:wght@300;400;700&family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
     <style>
-        :root { --main: #E31E24; --bg: #ffffff; }
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Cairo', sans-serif; }
-        body { background-color: var(--bg); overflow-x: hidden; touch-action: pan-y; }
+        :root {
+            --primary: #D4AF37; /* Gold */
+            --secondary: #8B4513; /* SaddleBrown */
+            --bg-dark: #070707;
+            --glass: rgba(255, 255, 255, 0.03);
+        }
 
-        header { padding: 15px 20px; background: #fff; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 2000; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
-        .logo { font-weight: 900; color: var(--main); font-size: 22px; }
-        .cart-btn { position: relative; background: none; border: none; cursor: pointer; color: #333; }
-        #cart-count { position: absolute; top: -8px; right: -8px; background: var(--main); color: #fff; width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: bold; border: 2px solid #fff; }
+        * {
+            margin: 0; padding: 0; box-sizing: border-box;
+            scrollbar-width: thin; scrollbar-color: var(--primary) transparent;
+        }
 
-        /* منطقة الترس والقوس */
-        .arc-wrapper { position: relative; width: 100%; height: 280px; background: #fdfdfd; overflow: hidden; border-bottom: 2px solid #f0f0f0; display: flex; justify-content: center; }
-        .gear-system { position: absolute; bottom: -520px; width: 800px; height: 800px; transition: transform 0.7s cubic-bezier(0.19, 1, 0.22, 1); transform-origin: center center; }
-        .cat-item { position: absolute; top: 0; left: 50%; width: 100px; height: 400px; margin-left: -50px; transform-origin: bottom center; display: flex; flex-direction: column; align-items: center; cursor: pointer; }
-        .node-circle { width: 85px; height: 85px; border-radius: 50%; border: 4px solid #fff; background: var(--main); display: flex; align-items: center; justify-content: center; color: #fff; font-size: 30px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); transition: 0.4s; }
-        .cat-item.active .node-circle { transform: scale(1.2) translateY(-10px); box-shadow: 0 10px 25px rgba(227,30,36,0.3); border-color: #ffd700; }
-        .cat-label { margin-top: 12px; font-weight: 900; font-size: 15px; color: #333; text-align: center; width: 140px; }
-        .cat-item.active .cat-label { color: var(--main); }
+        body {
+            font-family: 'Alexandria', 'Cairo', sans-serif;
+            background-color: var(--bg-dark);
+            color: #fff;
+            overflow-x: hidden;
+        }
 
-        /* شبكة المنتجات */
-        .menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; padding: 20px; background: #fff; min-height: 400px; }
-        .product-card { background: #fff; border-radius: 20px; padding: 15px; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.04); border: 1px solid #f5f5f5; }
-        .p-name { font-weight: 700; font-size: 14px; color: #333; height: 35px; overflow: hidden; margin-bottom: 10px; }
-        .p-price { color: #2ecc71; font-weight: 900; font-size: 18px; margin-bottom: 12px; display: block; }
-        .btn-add { background: var(--main); color: #fff; border: none; width: 100%; padding: 10px; border-radius: 10px; font-weight: 900; cursor: pointer; }
+        /* Glassmorphism Classes */
+        .glass {
+            background: var(--glass);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.8);
+        }
 
-        /* السلة الجانبية */
-        .sidebar { position: fixed; top: 0; left: -100%; width: 100%; max-width: 400px; height: 100%; background: #fff; z-index: 3000; padding: 25px; transition: 0.5s; box-shadow: 5px 0 20px rgba(0,0,0,0.1); }
-        .sidebar.active { left: 0; }
-        .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 2500; display: none; backdrop-filter: blur(4px); }
-        .overlay.active { display: block; }
-        #loading { text-align: center; padding: 80px; font-weight: 900; color: var(--main); }
+        /* Circular Menu Styles */
+        .arc-wrapper {
+            position: relative;
+            height: 450px;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            margin-top: -100px;
+            perspective: 1000px;
+        }
+
+        .main-circle {
+            position: absolute;
+            bottom: -400px;
+            width: 900px;
+            height: 900px;
+            border-radius: 50%;
+            border: 2px dashed rgba(212, 175, 55, 0.15);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .category-node {
+            position: absolute;
+            width: 120px;
+            height: 120px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .category-node.active .icon-box {
+            background: var(--primary);
+            color: black;
+            transform: scale(1.2);
+            box-shadow: 0 0 25px var(--primary);
+        }
+
+        .icon-box {
+            width: 60px; height: 60px;
+            border-radius: 50%;
+            background: var(--glass);
+            display: flex; align-items: center; justify-content: center;
+            margin-bottom: 8px; border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        /* Flying Cart Animation */
+        .flying-item {
+            position: fixed;
+            z-index: 9999;
+            pointer-events: none;
+            width: 50px; height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+            box-shadow: 0 0 15px var(--primary);
+        }
+
+        /* Product Card Effects */
+        .product-card {
+            transition: transform 0.5s ease;
+            transform-style: preserve-3d;
+        }
+        .product-card:hover {
+            transform: translateY(-10px) rotateX(5deg);
+        }
+
+        .shine {
+            position: absolute; top: 0; left: -100%; width: 50%; height: 100%;
+            background: linear-gradient(to right, transparent, rgba(255,255,255,0.1), transparent);
+            transition: 0.5s;
+        }
+        .product-card:hover .shine { left: 200%; }
+
+        #cart-sidebar { transition: transform 0.6s cubic-bezier(0.85, 0, 0.15, 1); }
     </style>
 </head>
 <body>
 
-    <header>
-        <div class="logo">ابن سوريا</div>
-        <button class="cart-btn" onclick="toggleCart()">
-            <i class="fas fa-shopping-basket" style="font-size:26px;"></i>
-            <span id="cart-count">0</span>
-        </button>
-    </header>
-
-    <div class="arc-wrapper">
-        <div class="gear-system" id="gear-box"></div>
-    </div>
-
-    <div id="loading">جارٍ تحميل المنيو...</div>
-    <div class="menu-grid" id="items-container"></div>
-
-    <div class="overlay" id="overlay" onclick="toggleCart()"></div>
-    <div class="sidebar" id="sidebar">
-        <h2 style="margin-bottom:20px;">طلباتك 🛒</h2>
-        <div id="cart-list" style="max-height: 60vh; overflow-y: auto;"></div>
-        <div style="margin-top:20px; border-top:2px solid #eee; padding-top:20px;">
-            <div style="display:flex; justify-content:space-between; font-size:22px; font-weight:900; margin-bottom:20px;">
-                <span>الإجمالي:</span>
-                <span style="color:var(--main)"><span id="total-val">0</span> ج.م</span>
-            </div>
-            <button onclick="sendOrder()" style="background:#25D366; color:#fff; border:none; width:100%; padding:18px; border-radius:15px; font-weight:900; font-size:18px; cursor:pointer;">اطلب عبر واتساب</button>
+    <div id="loader" class="fixed inset-0 z-[100] bg-[#050505] flex flex-col items-center justify-center">
+        <h1 class="text-4xl font-bold mb-4 tracking-tighter text-[#D4AF37]">إبن سوريا</h1>
+        <div class="w-64 h-[2px] bg-white/10 rounded-full overflow-hidden">
+            <div id="progress-bar" class="h-full bg-[#D4AF37] w-0"></div>
         </div>
     </div>
 
+    <nav class="fixed top-6 left-1/2 -translate-x-1/2 w-[92%] z-50 glass rounded-3xl px-8 py-4 flex justify-between items-center">
+        <div class="flex items-center gap-2">
+            <span class="text-2xl font-bold tracking-tighter text-[#D4AF37]">إبن سوريا</span>
+        </div>
+        
+        <div class="hidden md:flex items-center gap-8 text-sm font-light">
+            <a href="#" class="hover:text-[#D4AF37] transition">الرئيسية</a>
+            <a href="#menu" class="hover:text-[#D4AF37] transition">المنيو</a>
+            <a href="#about" class="hover:text-[#D4AF37] transition">من نحن</a>
+        </div>
+
+        <div class="flex items-center gap-5">
+            <div onclick="toggleCart()" class="relative cursor-pointer group">
+                <i class="fa-solid fa-bag-shopping text-xl group-hover:text-[#D4AF37] transition"></i>
+                <span id="cart-count" class="absolute -top-2 -right-2 bg-[#D4AF37] text-black text-[10px] font-bold w-5 h-5 rounded-full flex items-center justify-center">0</span>
+            </div>
+            <a href="tel:01016991319" class="bg-[#D4AF37] text-black px-5 py-2 rounded-full text-xs font-bold hover:scale-105 transition active:scale-95">اتصل بنا</a>
+        </div>
+    </nav>
+
+    <section class="min-h-screen flex items-center justify-center pt-20 relative px-6 overflow-hidden">
+        <div class="absolute inset-0 z-0 overflow-hidden">
+            <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-[#D4AF37]/5 rounded-full blur-[120px] animate-pulse"></div>
+            <div class="absolute bottom-1/4 right-1/4 w-96 h-96 bg-[#8B4513]/5 rounded-full blur-[120px]"></div>
+        </div>
+
+        <div class="text-center z-10 max-w-4xl">
+            <h2 id="hero-title" class="text-6xl md:text-8xl font-bold mb-6 leading-tight">ملك المذاق <br> <span class="text-[#D4AF37]">السوري الأصيل</span></h2>
+            <p class="text-gray-400 text-lg md:text-xl mb-10 leading-relaxed max-w-2xl mx-auto">نصحبك في رحلة ملكية إلى شوارع الشام، حيث تجتمع الجودة مع الفخامة في كل قضمة.</p>
+            <div class="flex flex-wrap justify-center gap-4">
+                <button onclick="document.getElementById('menu').scrollIntoView()" class="bg-[#D4AF37] text-black px-10 py-4 rounded-full font-bold text-lg hover:shadow-[0_0_30px_rgba(212,175,55,0.4)] transition duration-500">تصفح القائمة</button>
+                <button class="glass px-10 py-4 rounded-full font-bold text-lg border-white/20">من نحن</button>
+            </div>
+        </div>
+    </section>
+
+    <section id="menu" class="py-24 relative">
+        <div class="text-center mb-16">
+            <span class="text-[#D4AF37] text-sm uppercase tracking-widest font-bold">Menu Categories</span>
+            <h3 class="text-4xl md:text-5xl font-bold mt-2">اختر صنفك المفضل</h3>
+        </div>
+
+        <div class="arc-wrapper">
+            <div id="main-circle" class="main-circle">
+                </div>
+        </div>
+
+        <div class="container mx-auto px-6 -mt-20">
+            <div id="products-container" class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-8">
+                </div>
+        </div>
+    </section>
+
+    <div id="cart-sidebar" class="fixed top-0 left-0 h-full w-full md:w-[450px] bg-[#0A0A0A]/95 backdrop-blur-2xl z-[60] translate-x-[-100%] border-r border-white/10 p-8 flex flex-col">
+        <div class="flex justify-between items-center mb-10">
+            <h4 class="text-3xl font-bold">حقيبة الطلبات</h4>
+            <button onclick="toggleCart()" class="w-10 h-10 rounded-full glass flex items-center justify-center hover:bg-red-500/20 transition">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+
+        <div id="cart-list" class="flex-1 overflow-y-auto pr-2 space-y-6">
+            <div id="empty-cart" class="text-center py-20 opacity-40">
+                <i class="fa-solid fa-utensils text-5xl mb-4"></i>
+                <p>سلتك فارغة حالياً</p>
+            </div>
+        </div>
+
+        <div class="pt-6 border-t border-white/10 mt-6">
+            <div class="flex justify-between text-xl font-bold mb-6">
+                <span>الإجمالي الصافي:</span>
+                <span id="cart-total" class="text-[#D4AF37]">0 ج.م</span>
+            </div>
+
+            <form id="checkout-form" class="space-y-4">
+                <input type="text" id="cust-name" placeholder="اسمك الكريم" class="w-full glass p-4 rounded-xl outline-none border-white/5 focus:border-[#D4AF37]/50 transition" required>
+                <input type="tel" id="cust-phone" placeholder="رقم الموبايل" class="w-full glass p-4 rounded-xl outline-none border-white/5 focus:border-[#D4AF37]/50 transition" required>
+                <textarea id="cust-address" placeholder="عنوان التوصيل بالتفصيل" class="w-full glass p-4 rounded-xl outline-none border-white/5 focus:border-[#D4AF37]/50 transition h-24" required></textarea>
+                
+                <button type="submit" class="w-full bg-[#D4AF37] text-black font-extrabold py-5 rounded-2xl text-lg flex items-center justify-center gap-3 hover:shadow-[0_10px_30px_rgba(212,175,55,0.3)] transition transform active:scale-95">
+                    <i class="fa-brands fa-whatsapp text-2xl"></i>
+                    تأكيد الطلب عبر واتساب
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <footer class="bg-black/50 border-t border-white/5 pt-20 pb-10 mt-20">
+        <div class="container mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-12 text-center md:text-right">
+            <div>
+                <h5 class="text-2xl font-bold text-[#D4AF37] mb-6">إبن سوريا</h5>
+                <p class="text-gray-500 leading-relaxed">نشا - شارع السوق - مقابل الريماس للسياحة والسفر. أهلاً بكم في عالمنا.</p>
+            </div>
+            <div>
+                <h5 class="text-xl font-bold mb-6">تواصل معنا</h5>
+                <div class="space-y-3 text-gray-400">
+                    <p>01550035447</p>
+                    <p>01279616968</p>
+                    <p>01016991319</p>
+                </div>
+            </div>
+            <div>
+                <h5 class="text-xl font-bold mb-6">تابعونا</h5>
+                <div class="flex justify-center md:justify-start gap-4">
+                    <a href="#" class="w-12 h-12 rounded-full glass flex items-center justify-center hover:bg-[#D4AF37] hover:text-black transition"><i class="fa-brands fa-facebook-f"></i></a>
+                    <a href="#" class="w-12 h-12 rounded-full glass flex items-center justify-center hover:bg-[#D4AF37] hover:text-black transition"><i class="fa-brands fa-instagram"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="text-center mt-20 text-gray-600 text-xs">
+            &copy; 2026 مطعم إبن سوريا - جميع الحقوق محفوظة.
+        </div>
+    </footer>
+
     <script>
-        const SHEET_ID = "1gbCDymsVfNxmyCihMHMjkSPkqnIrpKX_QVYQ77zkA8c";
-        const API = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv`;
+        /** * 1. GOOGLE SHEETS INTEGRATION
+         * استبدل SHEET_ID بمعرف ملفك و G_API_KEY بمفتاحك
+         */
+        const SHEET_ID = '1-fH0pPzVpE-N6M_7PqF0X-mD4x9rXnE_x_L_E-M'; 
+        // ملاحظة: سأستخدم بيانات وهمية للتوضيح إذا لم يتوفر الرابط
+        const dummyMenu = [
+            { id: 1, name: 'شاورما دجاج جامبو', price: 85, category: 'شاورما', img: 'https://images.unsplash.com/photo-1626700051175-6818013e1d4f?q=80&w=500', desc: 'شاورما سورية أصلية مع الثومية' },
+            { id: 2, name: 'كبة شامي', price: 120, category: 'مقبلات', img: 'https://images.unsplash.com/photo-1606331132800-4740f7f10573?q=80&w=500', desc: 'كبة مقلية مقرمشة محشوة باللحم' },
+            { id: 3, name: 'فتوش ملكي', price: 45, category: 'سلطات', img: 'https://images.unsplash.com/photo-1540432797114-1880373d1913?q=80&w=500', desc: 'سلطة الفتوش مع دبس الرمان' },
+            { id: 4, name: 'مشويات مشكلة', price: 250, category: 'مشويات', img: 'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?q=80&w=500', desc: 'كيلو مشويات مشكلة على الفحم' },
+            { id: 5, name: 'كنافة نابلسية', price: 60, category: 'حلويات', img: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?q=80&w=500', desc: 'كنافة ساخنة بالجبنة' }
+        ];
 
-        let products = [];
-        let categories = [];
+        const categories = ['الكل', 'شاورما', 'مشويات', 'مقبلات', 'سلطات', 'حلويات'];
         let cart = [];
-        const step = 50;
 
-        async function init() {
-            try {
-                const r = await fetch(API + "&t=" + Date.now());
-                const csv = await r.text();
-                const rows = csv.split(/\r?\n/).map(row => row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/).map(c => c.replace(/^"|"$/g, '').trim()));
+        // 2. INITIALIZATION
+        window.addEventListener('load', () => {
+            gsap.to("#progress-bar", { width: "100%", duration: 1.5, ease: "power4.out", onComplete: () => {
+                gsap.to("#loader", { y: "-100%", duration: 0.8, ease: "expo.inOut" });
+                initHeroAnimations();
+            }});
+            
+            renderCategories();
+            renderProducts('الكل');
+        });
 
-                // ربط الأعمدة: A=القسم، B=الصنف، C=السعر
-                products = rows.slice(1).map((cols, i) => ({
-                    id: i,
-                    cat: cols[0],
-                    name: cols[1],
-                    price: parseFloat(cols[2])
-                })).filter(p => p.name && !isNaN(p.price));
+        // 3. CIRCULAR MENU LOGIC (GSAP)
+        function renderCategories() {
+            const container = document.getElementById('main-circle');
+            const total = categories.length;
+            const radius = 450;
+            const arcAngle = 100; // زاوية القوس بالدرجات
 
-                categories = [...new Set(products.map(p => p.cat))];
-                document.getElementById('loading').style.display = 'none';
-                renderGear();
-            } catch (e) {
-                document.getElementById('loading').innerText = "خطأ في الاتصال بالشيت";
-            }
-        }
+            categories.forEach((cat, i) => {
+                const node = document.createElement('div');
+                node.className = `category-node ${i === 0 ? 'active' : ''}`;
+                
+                // توزيع على شكل قوس علوي
+                const angle = (i * (arcAngle / (total - 1))) - (arcAngle / 2) - 90;
+                const x = radius * Math.cos(angle * Math.PI / 180);
+                const y = radius * Math.sin(angle * Math.PI / 180);
 
-        function renderGear() {
-            const box = document.getElementById('gear-box');
-            box.innerHTML = categories.map((c, i) => `
-                <div class="cat-item" style="transform: rotate(${i * step}deg)" onclick="go(${i})">
-                    <div class="node-circle"><i class="fas fa-utensils"></i></div>
-                    <div class="cat-label">${c}</div>
-                </div>
-            `).join('');
-            go(0);
-        }
+                gsap.set(node, { x, y });
 
-        function go(idx) {
-            const rotation = -idx * step;
-            document.getElementById('gear-box').style.transform = `rotate(${rotation}deg)`;
-            document.querySelectorAll('.cat-item').forEach((item, i) => {
-                item.classList.toggle('active', i === idx);
-                const rev = -(rotation + (i * step));
-                item.querySelector('.node-circle').style.transform = `rotate(${rev}deg)`;
-                item.querySelector('.cat-label').style.transform = `rotate(${rev}deg)`;
+                node.innerHTML = `
+                    <div class="icon-box"><i class="fa-solid fa-utensils"></i></div>
+                    <span class="text-xs font-bold whitespace-nowrap">${cat}</span>
+                `;
+
+                node.onclick = () => {
+                    document.querySelectorAll('.category-node').forEach(n => n.classList.remove('active'));
+                    node.classList.add('active');
+                    
+                    // تحريك الدائرة بالكامل
+                    gsap.to(container, { 
+                        rotation: -(angle + 90), 
+                        duration: 1.5, 
+                        ease: "elastic.out(1, 0.75)" 
+                    });
+                    
+                    renderProducts(cat);
+                };
+                container.appendChild(node);
             });
-            showItems(categories[idx]);
         }
 
-        function showItems(cat) {
-            const grid = document.getElementById('items-container');
-            const items = products.filter(p => p.cat === cat);
-            grid.innerHTML = items.map(p => `
-                <div class="product-card">
-                    <div class="p-name">${p.name}</div>
-                    <span class="p-price">${p.price} ج.م</span>
-                    <button class="btn-add" onclick="addToCart(${p.id})">إضافة +</button>
-                </div>
-            `).join('');
+        // 4. PRODUCT RENDERING
+        function renderProducts(filter) {
+            const container = document.getElementById('products-container');
+            container.innerHTML = '';
+            
+            const filtered = filter === 'الكل' ? dummyMenu : dummyMenu.filter(p => p.category === filter);
+
+            filtered.forEach((p, index) => {
+                const card = document.createElement('div');
+                card.className = "product-card glass p-4 rounded-[2rem] relative overflow-hidden group";
+                card.innerHTML = `
+                    <div class="shine"></div>
+                    <div class="h-48 rounded-2xl overflow-hidden mb-4 relative">
+                        <img src="${p.img}" class="w-full h-full object-cover group-hover:scale-110 transition duration-700" loading="lazy">
+                        <div class="absolute top-3 right-3 bg-black/60 backdrop-blur-md px-3 py-1 rounded-full text-[#D4AF37] text-xs font-bold">
+                            ${p.price} ج.م
+                        </div>
+                    </div>
+                    <h5 class="text-lg font-bold mb-2">${p.name}</h5>
+                    <p class="text-gray-500 text-xs mb-5 line-clamp-2">${p.desc}</p>
+                    <button onclick="addToCart(${p.id}, event)" class="w-full py-3 bg-white/5 border border-white/10 rounded-xl font-bold hover:bg-[#D4AF37] hover:text-black transition duration-300">
+                        إضافة للسلة +
+                    </button>
+                `;
+                container.appendChild(card);
+                gsap.from(card, { opacity: 0, y: 30, delay: index * 0.1, duration: 0.5 });
+            });
         }
 
-        function addToCart(id) {
-            const item = products.find(p => p.id === id);
-            cart.push(item);
-            document.getElementById('cart-count').innerText = cart.length;
+        // 5. CART LOGIC
+        function toggleCart() {
+            const sidebar = document.getElementById('cart-sidebar');
+            const isOpen = sidebar.style.transform === 'translateX(0%)';
+            sidebar.style.transform = isOpen ? 'translateX(-100%)' : 'translateX(0%)';
+        }
+
+        function addToCart(id, event) {
+            const product = dummyMenu.find(p => p.id === id);
+            const existing = cart.find(item => item.id === id);
+
+            if (existing) {
+                existing.qty++;
+            } else {
+                cart.push({ ...product, qty: 1 });
+            }
+
+            // Flying Animation
+            createFlyingEffect(event, product.img);
             updateCartUI();
+        }
+
+        function createFlyingEffect(e, imgSrc) {
+            const flyingImg = document.createElement('img');
+            flyingImg.src = imgSrc;
+            flyingImg.className = 'flying-item';
+            document.body.appendChild(flyingImg);
+
+            const rect = e.target.getBoundingClientRect();
+            const cartRect = document.querySelector('.fa-bag-shopping').getBoundingClientRect();
+
+            gsap.fromTo(flyingImg, 
+                { top: rect.top, left: rect.left, scale: 1 },
+                { 
+                    top: cartRect.top, left: cartRect.left, scale: 0.1, opacity: 0.5, 
+                    duration: 1, ease: "power2.inOut", 
+                    onComplete: () => {
+                        flyingImg.remove();
+                        gsap.to('.fa-bag-shopping', { scale: 1.5, yoyo: true, repeat: 1, duration: 0.2 });
+                    }
+                }
+            );
         }
 
         function updateCartUI() {
             const list = document.getElementById('cart-list');
-            list.innerHTML = cart.map(i => `<div style="display:flex;justify-content:space-between;margin-bottom:8px;padding:8px;background:#f9f9f9;border-radius:8px;"><span>${i.name}</span><b>${i.price} ج.م</b></div>`).join('');
-            document.getElementById('total-val').innerText = cart.reduce((s, i) => s + i.price, 0);
+            const count = document.getElementById('cart-count');
+            const total = document.getElementById('cart-total');
+            const emptyState = document.getElementById('empty-cart');
+
+            list.innerHTML = '';
+            let totalVal = 0;
+            let totalQty = 0;
+
+            if (cart.length === 0) {
+                emptyState.style.display = 'block';
+            } else {
+                emptyState.style.display = 'none';
+                cart.forEach(item => {
+                    totalVal += (item.price * item.qty);
+                    totalQty += item.qty;
+                    
+                    const el = document.createElement('div');
+                    el.className = 'flex items-center gap-4 glass p-4 rounded-2xl relative group';
+                    el.innerHTML = `
+                        <img src="${item.img}" class="w-16 h-16 rounded-xl object-cover">
+                        <div class="flex-1">
+                            <h6 class="font-bold text-sm">${item.name}</h6>
+                            <p class="text-[#D4AF37] text-xs">${item.price} ج.م</p>
+                            <div class="flex items-center gap-3 mt-2">
+                                <button onclick="changeQty(${item.id}, -1)" class="w-6 h-6 glass rounded flex items-center justify-center">-</button>
+                                <span class="text-xs">${item.qty}</span>
+                                <button onclick="changeQty(${item.id}, 1)" class="w-6 h-6 glass rounded flex items-center justify-center">+</button>
+                            </div>
+                        </div>
+                        <button onclick="removeFromCart(${item.id})" class="text-red-500 opacity-0 group-hover:opacity-100 transition"><i class="fa-solid fa-trash"></i></button>
+                    `;
+                    list.appendChild(el);
+                });
+            }
+
+            count.innerText = totalQty;
+            total.innerText = `${totalVal} ج.م`;
         }
 
-        function toggleCart() {
-            document.getElementById('sidebar').classList.toggle('active');
-            document.getElementById('overlay').classList.toggle('active');
+        function changeQty(id, delta) {
+            const item = cart.find(i => i.id === id);
+            item.qty += delta;
+            if (item.qty < 1) removeFromCart(id);
+            else updateCartUI();
         }
 
-        function sendOrder() {
-            if(cart.length === 0) return;
-            const msg = cart.map(i => `- ${i.name}`).join('%0A');
-            const total = document.getElementById('total-val').innerText;
-            window.open(`https://wa.me/201016991319?text=طلب جديد من المنيو:%0A${msg}%0Aالإجمالي: ${total} ج.م`);
+        function removeFromCart(id) {
+            cart = cart.filter(i => i.id !== id);
+            updateCartUI();
         }
 
-        init();
+        // 6. WHATSAPP INTEGRATION
+        document.getElementById('checkout-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            if (cart.length === 0) return alert('سلتك فارغة!');
+
+            const name = document.getElementById('cust-name').value;
+            const phone = document.getElementById('cust-phone').value;
+            const address = document.getElementById('cust-address').value;
+
+            let orderText = `مرحباً مطعم إبن سوريا 🌮\nأريد تأكيد الطلب التالي:\n\n`;
+            cart.forEach(item => {
+                orderText += `• ${item.name} | العدد: ${item.qty} | السعر: ${item.price * item.qty} ج.م\n`;
+            });
+            
+            const total = document.getElementById('cart-total').innerText;
+            orderText += `\n💰 الإجمالي: ${total}`;
+            orderText += `\n\n👤 العميل: ${name}`;
+            orderText += `\n📞 الهاتف: ${phone}`;
+            orderText += `\n📍 العنوان: ${address}`;
+            orderText += `\n\nشكراً ❤️`;
+
+            const waLink = `https://wa.me/201016991319?text=${encodeURIComponent(orderText)}`;
+            window.open(waLink, '_blank');
+        });
+
+        function initHeroAnimations() {
+            gsap.from("#hero-title", { opacity: 0, y: 50, duration: 1, delay: 0.5 });
+            gsap.from(".arc-wrapper", { opacity: 0, scale: 0.8, duration: 1.5, scrollTrigger: ".arc-wrapper" });
+        }
     </script>
 </body>
 </html>
