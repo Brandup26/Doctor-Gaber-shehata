@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>إبن سوريا | القائمة الفاخرة</title>
+    <title>إبن سوريا | التصميم المتكامل</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Alexandria:wght@400;700;900&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
@@ -12,43 +12,33 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
-        :root { --gold: #D4AF37; --bg: #f8f8f8; --dark: #1A1A1A; --active-green: #89B42D; }
+        :root { --gold: #D4AF37; --bg: #f3f4f6; --dark: #1A1A1A; --active-green: #89B42D; }
         body { font-family: 'Alexandria', sans-serif; background: var(--bg); overflow-x: hidden; touch-action: manipulation; }
 
-        /* الهيدر العلوي */
         .header-nav {
             position: fixed; top: 0; width: 100%; z-index: 1000;
             padding: 15px 20px; display: flex; justify-content: space-between; align-items: center;
-            background: rgba(255,255,255,0.8); backdrop-filter: blur(10px);
+            background: rgba(255,255,255,0.85); backdrop-filter: blur(12px);
         }
 
         .cart-box { background: var(--dark); color: white; padding: 10px 22px; border-radius: 20px; position: relative; cursor: pointer; }
 
-        /* منطقة الأقسام مع الكيرف الخلفي (مثل الصورة تماماً) */
+        /* منطقة الأقسام مع الكيرف الداخلي المطلوب */
         .hero-section {
             position: relative;
-            background: var(--bg); /* لون الخلفية العلوي */
-            padding-top: 70px;
+            background: white; 
+            padding-top: 80px;
             overflow: hidden;
-        }
-
-        /* الطبقة البيضاء المنحنية */
-        .white-curve-bg {
-            position: absolute;
-            top: 140px; /* بداية الرفع للأقسام */
-            left: -10%;
-            width: 120%;
-            height: 2000px; /* تمتد لتغطي الأصناف */
-            background: white;
-            border-top-left-radius: 50% 100px; /* الكيرف العلوي */
-            border-top-right-radius: 50% 100px;
-            z-index: 1;
+            /* الكيرف الداخلي ناحية الأصناف (أسفل منطقة الأقسام) */
+            border-bottom-left-radius: 50% 40px;
+            border-bottom-right-radius: 50% 40px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            z-index: 10;
         }
 
         .hero-viewport {
-            position: relative; height: 280px; width: 100%;
-            display: flex; justify-content: center; z-index: 2;
-            touch-action: none;
+            position: relative; height: 260px; width: 100%;
+            display: flex; justify-content: center; touch-action: none;
         }
 
         .hero-gear {
@@ -64,31 +54,37 @@
         }
 
         .hero-cat-item span { 
-            position: absolute; top: -25px;
-            font-size: 12px; font-weight: 700; color: #bbb; transition: 0.3s;
+            position: absolute; top: -30px;
+            font-size: 13px; font-weight: 700; color: #aaa; transition: 0.3s;
         }
-        .hero-cat-item.active span { color: var(--active-green); font-weight: 900; }
+        .hero-cat-item.active span { color: var(--active-green); font-weight: 900; transform: scale(1.1); }
 
         .cat-img-wrapper {
-            width: 70px; height: 70px; border-radius: 50%;
-            background: white; overflow: hidden; border: 2px solid transparent;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.08); transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            width: 75px; height: 75px; border-radius: 50%;
+            background: white; overflow: hidden; border: 2.5px solid transparent;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.07); transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
-        .hero-cat-item.active .cat-img-wrapper { transform: scale(1.2); border-color: var(--active-green); }
-        .cat-img-wrapper img { width: 100%; height: 100%; object-fit: contain; padding: 5px; }
+        .hero-cat-item.active .cat-img-wrapper { transform: scale(1.25); border-color: var(--active-green); }
+        .cat-img-wrapper img { width: 100%; height: 100%; object-fit: contain; padding: 6px; }
 
-        /* منطقة المنتجات */
-        .content-area { position: relative; z-index: 2; background: transparent; padding: 0 20px 100px; margin-top: -40px; }
-        .food-card { background: white; border-radius: 25px; padding: 12px; box-shadow: 0 10px 20px rgba(0,0,0,0.03); border: 1px solid #f0f0f0; }
+        /* منطقة المنتجات تظهر خلف الكيرف */
+        .content-area { 
+            position: relative; z-index: 5; 
+            padding: 40px 20px 100px; 
+            margin-top: -20px; /* لدمجها مع كيرف الأقسام */
+        }
         
-        /* السلة */
+        .food-card { background: white; border-radius: 28px; padding: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.02); border: 1px solid #f0f0f0; transition: 0.3s; }
+        .food-card:active { transform: scale(0.97); }
+
+        /* بانل السلة الثابت */
         #cart-panel {
             position: fixed; top: 0; left: -100%; width: 100%; max-width: 400px;
             height: 100%; background: white; z-index: 2000; padding: 25px;
             transition: 0.6s cubic-bezier(0.7, 0, 0.3, 1); text-align: right;
         }
 
-        .user-input { width: 100%; background: #f9f9f9; padding: 14px; border-radius: 15px; margin-bottom: 10px; text-align: right; outline: none; }
+        .user-input { width: 100%; background: #f8f8f8; padding: 15px; border-radius: 18px; margin-bottom: 12px; border: 1px solid #eee; outline: none; }
     </style>
 </head>
 <body>
@@ -102,15 +98,16 @@
     </nav>
 
     <div class="hero-section">
-        <div class="white-curve-bg"></div>
-
         <div class="hero-viewport" id="hero-touch">
             <div id="hero-gear" class="hero-gear"></div>
         </div>
     </div>
 
     <main class="content-area">
-        <h2 id="cat-title" class="text-2xl font-black mb-6 text-gray-800">الأصناف</h2>
+        <div class="flex items-center justify-between mb-6">
+             <h2 id="cat-title" class="text-2xl font-black text-gray-800">الأصناف</h2>
+             <div class="h-[2px] flex-1 bg-gray-100 mx-4"></div>
+        </div>
         <div id="food-grid" class="grid grid-cols-2 gap-4"></div>
     </main>
 
@@ -127,8 +124,8 @@
             </div>
             <input type="text" id="user-name" class="user-input" placeholder="الاسم الكامل">
             <input type="tel" id="user-phone" class="user-input" placeholder="رقم الهاتف">
-            <input type="text" id="user-addr" class="user-input" placeholder="العنوان">
-            <button onclick="checkout()" class="w-full bg-black text-white py-5 rounded-2xl font-black mt-4">تأكيد الطلب عبر واتساب</button>
+            <input type="text" id="user-addr" class="user-input" placeholder="العنوان بالتفصيل">
+            <button onclick="checkout()" class="w-full bg-black text-white py-5 rounded-2xl font-black mt-4 active:bg-gray-800">إتمام الطلب (WhatsApp)</button>
         </div>
     </div>
 
@@ -143,7 +140,8 @@
 
         const products = [
             { id: 1, name: 'شاورما دجاج', price: 95, img: 'https://images.unsplash.com/photo-1561651823-34feb02250e4?w=400' },
-            { id: 2, name: 'بيتزا مارجريتا', price: 180, img: 'https://images.unsplash.com/photo-1513104890138-7c749659a591?w=400' }
+            { id: 2, name: 'بيتزا بريميوم', price: 180, img: 'https://images.unsplash.com/photo-1513104890138-7c749659a591?w=400' },
+            { id: 3, name: 'برجر كلاسيك', price: 120, img: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=400' }
         ];
 
         let cart = [];
@@ -167,16 +165,32 @@
         }
 
         const hammer = new Hammer(document.getElementById('hero-touch'));
+        
+        // إعادة سهولة الحركة (Inertia & Smoothness)
         hammer.on("panmove", (e) => {
-            gearRotation += e.velocity * 5;
+            let movement = e.deltaX * 0.15; // سرعة استجابة متوازنة
+            gearRotation += movement;
             applyRotation();
         });
-        hammer.on("panend", () => {
+
+        hammer.on("panend", (e) => {
+            // إضافة ميكانيكا السحب القوي (Swipe) لسهولة التنقل
+            let velocity = e.velocityX * 15;
+            gearRotation += velocity;
+
+            // محاذاة تلقائية (Snap)
             gearRotation = Math.round(gearRotation / step) * step;
+            
             if (gearRotation > 0) gearRotation = 0;
             const min = -(categories.length-1)*step;
             if (gearRotation < min) gearRotation = min;
-            gsap.to(gear, { rotation: gearRotation, duration: 0.5, ease: "power2.out" });
+
+            gsap.to(gear, { 
+                rotation: gearRotation, 
+                duration: 0.6, 
+                ease: "back.out(1.2)", // حركة ارتدادية خفيفة تعطي شعور بالفخامة
+                onUpdate: applyRotation 
+            });
             updateActive(Math.abs(gearRotation/step));
         });
 
@@ -202,7 +216,7 @@
                     <h3 class="font-bold text-sm">${p.name}</h3>
                     <div class="flex justify-between items-center mt-3">
                         <span class="font-black text-green-600 text-sm">${p.price} ج.م</span>
-                        <div class="w-8 h-8 bg-black text-white rounded-lg flex items-center justify-center" onclick="addToCart(${p.id})">+</div>
+                        <div class="w-8 h-8 bg-black text-white rounded-lg flex items-center justify-center cursor-pointer" onclick="addToCart(${p.id})">+</div>
                     </div>
                 </div>`).join('');
         }
@@ -222,8 +236,8 @@
 
         function checkout() {
             const n = document.getElementById('user-name').value;
-            if(!n) return alert('برجاء إدخال الاسم');
-            window.open(`https://wa.me/201016991319?text=طلب جديد من: ${n}\nالإجمالي: ${document.getElementById('total-price').innerText}`);
+            if(!n) return alert('برجاء إدخال اسمك');
+            window.open(`https://wa.me/201016991319?text=طلب جديد من ${n}\nالإجمالي: ${document.getElementById('total-price').innerText}`);
         }
 
         window.onload = init;
