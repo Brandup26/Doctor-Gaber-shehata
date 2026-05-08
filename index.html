@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>إبن سوريا | النسخة الأسطوانية</title>
+    <title>إبن سوريا | التصميم الدائري الاحترافي</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Alexandria:wght@400;700;900&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
@@ -12,221 +12,201 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
-        :root { --gold: #D4AF37; --bg: #F5F5F5; --active-green: #89B42D; }
-        body { font-family: 'Alexandria', sans-serif; background: var(--bg); overflow-x: hidden; touch-action: manipulation; }
+        :root { --active-green: #89B42D; --bg: #F8F9FA; }
+        body { font-family: 'Alexandria', sans-serif; background: var(--bg); overflow-x: hidden; touch-action: pan-y; }
 
+        /* الهيدر */
         .header-nav {
             position: fixed; top: 0; width: 100%; z-index: 1000;
             padding: 15px 20px; display: flex; justify-content: space-between; align-items: center;
-            background: rgba(255,255,255,0.85); backdrop-filter: blur(10px);
+            background: white;
         }
 
-        .cart-box { background: #1A1A1A; color: white; padding: 10px 22px; border-radius: 20px; position: relative; cursor: pointer; }
-
+        /* منطقة العرض */
         .hero-viewport {
-            position: relative; height: 300px; width: 100%;
-            background: #fff; overflow: hidden; touch-action: none;
-            display: flex; justify-content: center; padding-top: 50px;
+            position: relative; height: 350px; width: 100%;
+            background: white; overflow: hidden;
+            display: flex; justify-content: center;
         }
 
-        /* تصميم المسار الأسطواني (الخرطوم) */
-        .category-tube {
-            position: absolute; top: 140px; width: 540px; height: 540px;
-            border: 25px solid rgba(0,0,0,0.03); /* سمك الخرطوم */
-            border-style: double; border-radius: 50%;
-            pointer-events: none; z-index: 0;
-        }
-        .category-tube::before {
-            content: ''; position: absolute; inset: -2px;
-            border: 1px dashed rgba(0,0,0,0.1); border-radius: 50%;
+        /* المسار الوهمي (الخرطوم) - يمر بمنتصف الأيقونات */
+        .category-path-line {
+            position: absolute; 
+            top: 180px; /* مكان الخرطوم */
+            width: 550px; height: 550px;
+            border: 2px dashed rgba(0,0,0,0.1); 
+            border-radius: 50%;
+            pointer-events: none; z-index: 1;
         }
 
+        /* الكيرف الأبيض السفلي لإخفاء باقي الدائرة */
         .hero-viewport::after {
-            content: ''; position: absolute; bottom: -40px; left: -10%;
-            width: 120%; height: 80px; background: var(--bg);
-            border-top-left-radius: 50% 60px; border-top-right-radius: 50% 60px; z-index: 5;
+            content: ''; position: absolute; bottom: -50px; left: -10%;
+            width: 120%; height: 120px; background: var(--bg);
+            border-top-left-radius: 50% 100px; border-top-right-radius: 50% 100px; z-index: 10;
         }
 
+        /* الترس الحامل للأقسام */
         .hero-gear {
-            position: absolute; top: 140px; width: 600px; height: 600px;
-            border-radius: 50%; will-change: transform; z-index: 1;
+            position: absolute; top: 180px; width: 600px; height: 600px;
+            border-radius: 50%; will-change: transform; z-index: 5;
         }
 
         .hero-cat-item {
-            position: absolute; top: 50%; left: 50%; width: 100px; height: 120px;
-            margin-left: -50px; margin-top: -50px; display: flex;
-            flex-direction: column; align-items: center; justify-content: center;
+            position: absolute; top: 50%; left: 50%; width: 90px; height: 120px;
+            margin-left: -45px; margin-top: -60px; 
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
         }
 
-        /* اسم القسم في أعلى منتصف الأيقونة */
+        /* اسم القسم فوق الأيقونة */
         .hero-cat-item span { 
-            font-size: 13px; font-weight: 700; color: #777; 
-            position: absolute; top: -20px; width: 100%; text-align: center;
-            transition: 0.3s; pointer-events: none;
+            font-size: 14px; font-weight: 700; color: #999; 
+            margin-bottom: 12px; transition: 0.3s;
+            white-space: nowrap;
         }
-        .hero-cat-item.active span { color: var(--active-green); font-weight: 900; }
+        .hero-cat-item.active span { color: var(--active-green); font-weight: 900; transform: scale(1.1); }
 
+        /* غلاف الصورة الدائري */
         .cat-img-wrapper {
-            width: 80px; height: 80px; border-radius: 50%; background: #fff;
-            overflow: hidden; border: 3px solid transparent;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.08); transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            width: 85px; height: 85px; border-radius: 50%; background: #fff;
+            padding: 5px; border: 2px solid transparent;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.07); transition: 0.4s;
             display: flex; align-items: center; justify-content: center;
+            background: white;
         }
-        .hero-cat-item.active .cat-img-wrapper { transform: scale(1.15); border-color: var(--active-green); }
-        .cat-img-wrapper img { width: 100%; height: 100%; object-fit: cover; }
+        .hero-cat-item.active .cat-img-wrapper { 
+            border-color: var(--active-green); 
+            transform: scale(1.1);
+            box-shadow: 0 15px 30px rgba(137, 180, 45, 0.2);
+        }
+        .cat-img-wrapper img { width: 90%; height: 90%; object-fit: contain; border-radius: 50%; }
 
+        /* مؤشر الاختيار */
         .active-indicator {
-            position: absolute; bottom: 25px; width: 40px; height: 6px;
-            background: var(--active-green); border-radius: 10px; z-index: 10;
+            position: absolute; bottom: 35px; width: 40px; height: 5px;
+            background: var(--active-green); border-radius: 10px; z-index: 20;
         }
 
-        #cart-panel {
-            position: fixed; top: 0; left: -100%; width: 100%; max-width: 400px;
-            height: 100%; background: white; z-index: 2000; padding: 25px;
-            transition: 0.5s cubic-bezier(0.7, 0, 0.3, 1);
+        /* تنسيق المنتجات */
+        .product-card {
+            background: white; border-radius: 25px; padding: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.03); transition: 0.3s;
         }
     </style>
 </head>
 <body>
 
     <nav class="header-nav">
-        <h1 class="text-xl font-black">إبن سوريا<span class="text-green-600">.</span></h1>
-        <div class="cart-box" onclick="toggleCart(true)">
+        <div class="cart-box bg-black text-white p-2 px-4 rounded-full flex items-center gap-2">
             <i class="fa-solid fa-bag-shopping"></i>
-            <span id="badge" class="absolute -top-1 -right-1 bg-red-600 text-[10px] w-5 h-5 rounded-full flex items-center justify-center border-2 border-white">0</span>
+            <span id="badge">0</span>
         </div>
+        <h1 class="text-xl font-black">إبن سوريا<span class="text-green-600">.</span></h1>
     </nav>
 
     <div class="hero-viewport" id="hero-touch">
-        <div class="category-tube"></div>
-        <div id="hero-gear" class="hero-gear"></div>
+        <div class="category-path-line"></div> <div id="hero-gear" class="hero-gear"></div>
         <div class="active-indicator"></div>
     </div>
 
-    <main class="p-5">
-        <h2 id="cat-title" class="text-2xl font-black mb-6 text-gray-800">الأصناف</h2>
+    <main class="p-5" style="margin-top: -20px; position: relative; z-index: 20;">
+        <h2 id="cat-title" class="text-2xl font-black mb-6 text-gray-800 text-center">شاورما</h2>
         <div id="food-grid" class="grid grid-cols-2 gap-4"></div>
     </main>
 
-    <div id="cart-panel">
-        <div class="flex justify-between items-center mb-8">
-            <h2 class="text-2xl font-black">سلتك</h2>
-            <i onclick="toggleCart(false)" class="fa-solid fa-xmark text-xl cursor-pointer"></i>
-        </div>
-        <div id="cart-items" class="space-y-4 h-[50vh] overflow-y-auto mb-4"></div>
-        <div class="border-t pt-4">
-            <div class="flex justify-between mb-4 font-black text-xl">
-                <span>الإجمالي:</span>
-                <span id="total-price" class="text-green-600">0 ج.م</span>
-            </div>
-            <input type="text" id="u-name" class="w-full bg-gray-100 p-4 rounded-xl mb-3 outline-none" placeholder="الاسم">
-            <button onclick="sendOrder()" class="w-full bg-black text-white py-4 rounded-2xl font-black">تأكيد الطلب</button>
-        </div>
-    </div>
-
     <script>
-        // الصور الحقيقية للأقسام
         const categories = [
-            { id: 'cat1', name: 'شاورما', img: 'https://images.unsplash.com/photo-1561651823-34feb02250e4?w=200' },
-            { id: 'cat2', name: 'بيتزا', img: 'https://images.unsplash.com/photo-1513104890138-7c749659a591?w=200' },
-            { id: 'cat3', name: 'برجر', img: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=200' },
-            { id: 'cat4', name: 'مشويات', img: 'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=200' }
+            { name: 'شاورما', img: 'https://cdn-icons-png.flaticon.com/512/5741/5741085.png' },
+            { name: 'بيتزا', img: 'https://cdn-icons-png.flaticon.com/512/3595/3595455.png' },
+            { name: 'برجر', img: 'https://cdn-icons-png.flaticon.com/512/3075/3075977.png' },
+            { name: 'مشويات', img: 'https://cdn-icons-png.flaticon.com/512/3238/3238713.png' },
+            { name: 'ساندوتشات', img: 'https://cdn-icons-png.flaticon.com/512/2362/2362313.png' }
         ];
 
         const products = [
-            { id: 1, name: 'وجبة شاورما دجاج', price: 120, img: 'https://images.unsplash.com/photo-1561651823-34feb02250e4?w=400' },
-            { id: 2, name: 'بيتزا مارجريتا', price: 140, img: 'https://images.unsplash.com/photo-1513104890138-7c749659a591?w=400' }
+            { id: 1, name: 'شاورما عائلي', price: 150, img: 'https://images.unsplash.com/photo-1561651823-34feb02250e4?w=400' },
+            { id: 2, name: 'بيتزا إيطالي', price: 120, img: 'https://images.unsplash.com/photo-1513104890138-7c749659a591?w=400' }
         ];
 
-        let cart = [];
-        let gearRotation = 0;
+        let currentRot = 0;
         const gear = document.getElementById('hero-gear');
-        const step = 45; 
+        const step = 50; // الزاوية بين كل قسم
 
         function init() {
             categories.forEach((cat, i) => {
                 const item = document.createElement('div');
                 item.className = `hero-cat-item ${i === 0 ? 'active' : ''}`;
                 const angle = i * step;
-                const x = 270 * Math.sin(angle * Math.PI / 180);
-                const y = -270 * Math.cos(angle * Math.PI / 180);
+                // حساب الموقع على الدائرة (نصف القطر 275 ليكون فوق الخرطوم تماماً)
+                const x = 275 * Math.sin(angle * Math.PI / 180);
+                const y = -275 * Math.cos(angle * Math.PI / 180);
+                
                 item.style.transform = `translate(${x}px, ${y}px)`;
-                item.innerHTML = `<span>${cat.name}</span><div class="cat-img-wrapper"><img src="${cat.img}"></div>`;
+                item.innerHTML = `
+                    <span>${cat.name}</span>
+                    <div class="cat-img-wrapper">
+                        <img src="${cat.img}">
+                    </div>
+                `;
                 gear.appendChild(item);
             });
             renderFood();
         }
 
         const hammer = new Hammer(document.getElementById('hero-touch'));
-        hammer.on("panmove", (e) => {
-            let current = gearRotation + (e.velocityX * 6);
-            gear.style.transform = `rotate(${current}deg)`;
-            syncIcons(current);
+        hammer.on("pan", (e) => {
+            // تحريك الترس مع حركة الإصبع
+            let dragRot = currentRot + (e.deltaX / 5);
+            gsap.set(gear, { rotation: dragRot });
+            syncIcons(dragRot);
         });
 
         hammer.on("panend", (e) => {
-            gearRotation = Math.round(gearRotation / step) * step;
-            const min = -(categories.length - 1) * step;
-            if (gearRotation > 0) gearRotation = 0;
-            if (gearRotation < min) gearRotation = min;
+            // حساب أقرب قسم للثبات عليه (Snapping)
+            currentRot = Math.round(currentRot / step) * step;
+            // حدود الدوران
+            const maxRot = 0;
+            const minRot = -(categories.length - 1) * step;
             
+            if (currentRot > maxRot) currentRot = maxRot;
+            if (currentRot < minRot) currentRot = minRot;
+
             gsap.to(gear, { 
-                rotation: gearRotation, 
-                duration: 0.6, 
-                ease: "power2.out",
+                rotation: currentRot, 
+                duration: 0.5, 
+                ease: "back.out(1.2)",
                 onUpdate: () => syncIcons(gsap.getProperty(gear, "rotation"))
             });
-            updateActive(Math.abs(gearRotation / step));
+            
+            updateActiveState(Math.abs(currentRot / step));
         });
 
         function syncIcons(rot) {
+            // تدوير الأيقونات والأسماء عكس اتجاه الترس لتظل معدولة
             document.querySelectorAll('.hero-cat-item').forEach(it => {
-                it.querySelector('.cat-img-wrapper').style.transform = `rotate(${-rot}deg)`;
-                it.querySelector('span').style.transform = `rotate(${-rot}deg)`;
+                gsap.set(it.querySelector('.cat-img-wrapper'), { rotation: -rot });
+                gsap.set(it.querySelector('span'), { rotation: -rot });
             });
         }
 
-        function updateActive(idx) {
-            const i = Math.round(idx);
-            document.querySelectorAll('.hero-cat-item').forEach((it, j) => it.classList.toggle('active', j === i));
-            document.getElementById('cat-title').innerText = categories[i].name;
+        function updateActiveState(idx) {
+            const index = Math.round(idx);
+            document.querySelectorAll('.hero-cat-item').forEach((it, i) => {
+                it.classList.toggle('active', i === index);
+            });
+            document.getElementById('cat-title').innerText = categories[index].name;
         }
 
         function renderFood() {
             document.getElementById('food-grid').innerHTML = products.map(p => `
-                <div class="bg-white p-4 rounded-[25px] shadow-sm">
+                <div class="product-card">
                     <img src="${p.img}" class="w-full h-32 object-cover rounded-2xl mb-3">
-                    <h3 class="font-bold text-sm">${p.name}</h3>
+                    <h3 class="font-bold text-gray-800">${p.name}</h3>
                     <div class="flex justify-between items-center mt-3">
-                        <span class="text-green-600 font-black">${p.price}ج</span>
-                        <button onclick="addToCart(${p.id})" class="bg-black text-white w-9 h-9 rounded-full flex items-center justify-center">+</button>
+                        <span class="text-green-600 font-black">${p.price} ج</span>
+                        <button class="bg-black text-white w-8 h-8 rounded-full shadow-lg">+</button>
                     </div>
                 </div>`).join('');
-        }
-
-        function addToCart(id) {
-            cart.push(products.find(p => p.id === id));
-            updateCartUI();
-        }
-
-        function updateCartUI() {
-            document.getElementById('badge').innerText = cart.length;
-            document.getElementById('total-price').innerText = cart.reduce((s, i) => s + i.price, 0) + ' ج.م';
-            document.getElementById('cart-items').innerHTML = cart.map((item, index) => `
-                <div class="flex justify-between items-center bg-gray-50 p-3 rounded-xl">
-                    <img src="${item.img}" class="w-12 h-12 rounded-lg object-cover">
-                    <p class="font-bold text-xs flex-1 px-3">${item.name}</p>
-                    <i onclick="removeFromCart(${index})" class="fa-solid fa-trash text-red-500"></i>
-                </div>`).join('');
-        }
-
-        function removeFromCart(index) { cart.splice(index, 1); updateCartUI(); }
-        function toggleCart(s) { document.getElementById('cart-panel').style.left = s ? '0' : '-100%'; }
-
-        function sendOrder() {
-            const name = document.getElementById('u-name').value;
-            if(!name || cart.length === 0) return alert('برجاء إدخال البيانات');
-            alert('تم تأكيد طلبك بنجاح، ' + name);
         }
 
         init();
