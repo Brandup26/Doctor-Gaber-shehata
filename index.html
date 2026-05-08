@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>إبن سوريا | الترس الذكي</title>
+    <title>إبن سوريا | القائمة الدائرية</title>
     
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;500;700&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
@@ -12,10 +12,9 @@
 
     <style>
         :root {
-            --accent: #B8860B; /* ذهبي مطفي مريح */
-            --bg: #F9F9F7;    /* أبيض كريمي هادئ جداً */
-            --text: #2D2D2D;  /* رمادي غامق بدل الأسود الصريح */
-            --card: #FFFFFF;
+            --accent: #B8860B;
+            --bg: #F8F9FA;
+            --text: #1A1A1A;
         }
 
         body {
@@ -23,250 +22,311 @@
             background-color: var(--bg);
             color: var(--text);
             overflow-x: hidden;
-            user-select: none;
+            touch-action: manipulation;
         }
 
-        /* Gear Menu System */
-        .gear-wrapper {
-            position: relative;
-            height: 220px;
-            width: 100%;
-            margin-top: 20px;
-            overflow: hidden;
+        /* --- Header & Top Cart --- */
+        .top-nav {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(248, 249, 250, 0.8);
+            backdrop-filter: blur(10px);
+            padding: 15px 20px;
             display: flex;
-            justify-content: center;
-        }
-
-        .gear-container {
-            position: absolute;
-            bottom: -320px; /* مركز الترس بعيد ليعطي قوس انسيابي */
-            width: 700px;
-            height: 700px;
-            border-radius: 50%;
-            border: 1px solid rgba(0,0,0,0.03);
-            display: flex;
-            justify-content: center;
+            justify-content: space-between;
             align-items: center;
-            transition: transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
 
-        .gear-item {
+        .cart-trigger {
+            background: var(--text);
+            color: white;
+            padding: 8px 18px;
+            border-radius: 50px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 700;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            cursor: pointer;
+        }
+
+        /* --- Gear Menu System (Matches Video) --- */
+        .menu-viewport {
+            position: relative;
+            height: 280px; /* مساحة لعرض القوس */
+            width: 100%;
+            overflow: hidden;
+            background: linear-gradient(to bottom, #fff, var(--bg));
+        }
+
+        .gear-circle {
             position: absolute;
-            top: 50%; left: 50%;
-            width: 90px;
-            height: 120px;
-            margin-left: -45px;
-            margin-top: -350px; /* المسافة من المركز */
+            top: 50px; /* نزول الدائرة لتشكيل القوس */
+            left: 50%;
+            width: 600px;
+            height: 600px;
+            margin-left: -300px;
+            border-radius: 50%;
+            border: 1px solid rgba(0,0,0,0.05);
+            transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        .category-item {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 100px;
+            height: 100px;
+            margin-left: -50px;
+            margin-top: -50px;
             display: flex;
             flex-direction: column;
             align-items: center;
+            justify-content: center;
             cursor: pointer;
-            text-align: center;
-            transform-origin: center 350px;
+            /* الحفاظ على العناصر معتدلة دائماً */
+            transform-origin: center center;
         }
 
-        .category-circle {
-            width: 65px;
-            height: 65px;
-            background: var(--card);
-            border-radius: 20px; /* Rounded corners modern */
+        .icon-container {
+            width: 70px;
+            height: 70px;
+            background: white;
+            border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
-            transition: all 0.4s ease;
-            margin-bottom: 12px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+            margin-bottom: 8px;
             border: 2px solid transparent;
+            transition: all 0.4s ease;
         }
 
-        .gear-item.active .category-circle {
-            background: var(--accent);
-            color: white;
-            transform: scale(1.15) translateY(-10px);
-            box-shadow: 0 15px 30px rgba(184, 134, 11, 0.3);
+        .category-item.active .icon-container {
+            border-color: var(--accent);
+            transform: scale(1.1);
+            background: #fff;
+            box-shadow: 0 10px 25px rgba(184, 134, 11, 0.2);
         }
 
-        .gear-item span {
-            font-size: 13px;
-            font-weight: 500;
-            color: #888;
+        .category-item span {
+            font-size: 14px;
+            font-weight: 600;
+            color: #999;
             transition: 0.3s;
         }
 
-        .gear-item.active span {
-            color: var(--text);
-            font-weight: 700;
+        .category-item.active span {
+            color: var(--accent);
             transform: scale(1.1);
         }
 
-        /* Product Cards - Minimalist */
-        .product-card {
-            background: var(--card);
-            border-radius: 25px;
-            padding: 15px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.02);
-            transition: 0.3s;
-            border: 1px solid rgba(0,0,0,0.02);
-        }
-
-        /* Floating Order Button */
-        .floating-order {
-            position: fixed;
-            bottom: 30px;
+        /* --- Active Indicator (Green Bar like video) --- */
+        .indicator {
+            position: absolute;
+            top: 155px; /* تحت القسم النشط تماماً */
             left: 50%;
             transform: translateX(-50%);
-            background: var(--text);
-            color: white;
-            padding: 18px 45px;
-            border-radius: 100px;
-            font-weight: 700;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
-            z-index: 1000;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            transition: 0.3s;
+            width: 30px;
+            height: 4px;
+            background: #4CAF50;
+            border-radius: 10px;
+            z-index: 10;
         }
 
-        .floating-order:active { transform: translateX(-50%) scale(0.95); }
-
-        /* Smooth Skeleton Loading */
-        .skeleton {
-            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
-            background-size: 200% 100%;
-            animation: loading 1.5s infinite;
+        /* --- Product Grid --- */
+        .products-section {
+            padding: 0 20px 40px;
         }
 
-        @keyframes loading {
-            0% { background-position: 200% 0; }
-            100% { background-position: -200% 0; }
+        .product-card {
+            background: white;
+            border-radius: 25px;
+            padding: 15px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.02);
+        }
+
+        /* Sidebar Cart (Fly-out) */
+        #sidebar-cart {
+            position: fixed;
+            top: 0; right: -100%;
+            width: 100%; max-width: 400px;
+            height: 100%; background: white;
+            z-index: 1000; padding: 30px;
+            transition: 0.5s cubic-bezier(0.77, 0, 0.175, 1);
+            box-shadow: -10px 0 30px rgba(0,0,0,0.05);
         }
     </style>
 </head>
 <body>
 
-    <header class="px-6 pt-10 flex justify-between items-center">
-        <div>
-            <p class="text-gray-400 text-sm">أهلاً بك في</p>
-            <h1 class="text-2xl font-bold tracking-tight">إبن سوريا ✨</h1>
+    <nav class="top-nav">
+        <h1 class="text-xl font-bold">إبن سوريا</h1>
+        <div class="cart-trigger" onclick="toggleCart(true)">
+            <span id="cart-count">0</span>
+            <i class="fa-solid fa-cart-shopping"></i>
         </div>
-        <div class="w-12 h-12 bg-white rounded-2xl flex items-center justify-center shadow-sm border border-gray-100">
-            <i class="fa-solid fa-magnifying-glass text-gray-400"></i>
-        </div>
-    </header>
+    </nav>
 
-    <div class="gear-wrapper">
-        <div id="gear-container" class="gear-container">
+    <div class="menu-viewport">
+        <div class="indicator"></div>
+        <div id="gear-circle" class="gear-circle">
             </div>
     </div>
 
-    <main class="px-6 pb-32">
-        <div class="flex justify-between items-center mb-6">
-            <h2 id="current-cat-title" class="text-xl font-bold">البرجر</h2>
-            <span class="text-accent font-medium text-sm">عرض الكل</span>
+    <main class="products-section">
+        <div class="flex justify-between items-center mb-6 px-2">
+            <h2 id="cat-title" class="text-xl font-bold">الكل</h2>
+            <div class="w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-sm">
+                <i class="fa-solid fa-sliders text-xs"></i>
+            </div>
         </div>
 
-        <div id="products-grid" class="grid grid-cols-2 gap-4">
+        <div id="products-grid" class="grid grid-cols-2 gap-5">
             </div>
     </main>
 
-    <div class="floating-order" onclick="openCart()">
-        <span id="cart-count">0</span>
-        <span>طلب الآن</span>
-        <i class="fa-solid fa-chevron-left text-xs opacity-50"></i>
+    <div id="sidebar-cart">
+        <div class="flex justify-between items-center mb-8">
+            <h2 class="text-2xl font-bold">طلباتك</h2>
+            <i onclick="toggleCart(false)" class="fa-solid fa-xmark text-xl cursor-pointer"></i>
+        </div>
+        <div id="cart-list" class="space-y-4 h-[60%] overflow-y-auto">
+            </div>
+        <div class="absolute bottom-10 left-0 w-full px-8">
+            <div class="flex justify-between mb-4 font-bold text-xl">
+                <span>الإجمالي:</span>
+                <span id="cart-total">0 ج.م</span>
+            </div>
+            <button onclick="sendOrder()" class="w-full bg-black text-white py-5 rounded-2xl font-bold text-lg">تأكيد الطلب عبر واتساب</button>
+        </div>
     </div>
 
     <script>
         const categories = [
-            { id: 1, name: 'برجر', icon: '🍔', angle: 0 },
-            { id: 2, name: 'بيتزا', icon: '🍕', angle: 45 },
-            { id: 3, name: 'ساندوتشات', icon: '🌯', angle: 90 },
-            { id: 4, name: 'مكرونات', icon: '🍝', angle: 135 },
-            { id: 5, name: 'مقبلات', icon: '🍟', angle: 180 },
-            { id: 6, name: 'مشروبات', icon: '🥤', angle: 225 }
+            { id: 'burger', name: 'برجر', icon: '🍔' },
+            { id: 'pizza', name: 'بيتزا', icon: '🍕' },
+            { id: 'shawarma', name: 'ساندوتشات', icon: '🌯' },
+            { id: 'pasta', name: 'مكرونات', icon: '🍝' },
+            { id: 'appetizer', name: 'مقبلات', icon: '🍟' },
+            { id: 'drinks', name: 'مشروبات', icon: '🥤' }
         ];
 
         const products = [
-            { id: 101, catId: 1, name: 'برجر كلاسيك', price: 120, img: 'https://cdn-icons-png.flaticon.com/512/3075/3075977.png' },
-            { id: 102, catId: 1, name: 'برجر دجاج', price: 110, img: 'https://cdn-icons-png.flaticon.com/512/1046/1046784.png' },
-            { id: 201, catId: 2, name: 'بيتزا مارجريتا', price: 180, img: 'https://cdn-icons-png.flaticon.com/512/3595/3595455.png' },
-            { id: 301, catId: 3, name: 'شاورما لحم', price: 85, img: 'https://cdn-icons-png.flaticon.com/512/2362/2362253.png' }
+            { id: 1, cat: 'burger', name: 'برجر كلاسيك', price: 120, img: 'https://cdn-icons-png.flaticon.com/512/3075/3075977.png' },
+            { id: 2, cat: 'burger', name: 'برجر دجاج', price: 110, img: 'https://cdn-icons-png.flaticon.com/512/1046/1046784.png' },
+            { id: 3, cat: 'pizza', name: 'مارجريتا', price: 180, img: 'https://cdn-icons-png.flaticon.com/512/3595/3595455.png' },
+            { id: 4, cat: 'shawarma', name: 'شاورما لحم', price: 85, img: 'https://cdn-icons-png.flaticon.com/512/2362/2362253.png' }
         ];
 
-        function initMenu() {
-            const container = document.getElementById('gear-container');
-            categories.forEach((cat, index) => {
+        let cart = [];
+
+        function initGearMenu() {
+            const circle = document.getElementById('gear-circle');
+            const total = categories.length;
+            const radius = 280; // المسافة من مركز الدائرة للأصناف
+
+            categories.forEach((cat, i) => {
+                const angle = (i * (360 / total)) - 90; // البدء من الأعلى
                 const item = document.createElement('div');
-                item.className = `gear-item ${index === 0 ? 'active' : ''}`;
-                item.style.transform = `rotate(${cat.angle}deg)`;
+                item.className = `category-item ${i === 0 ? 'active' : ''}`;
+                
+                // توزيع العناصر بالرياضيات حول الدائرة
+                const x = radius * Math.cos(angle * Math.PI / 180);
+                const y = radius * Math.sin(angle * Math.PI / 180);
+                
+                item.style.transform = `translate(${x}px, ${y}px)`;
                 
                 item.innerHTML = `
-                    <div class="category-circle" style="transform: rotate(-${cat.angle}deg)">
-                        <span class="text-2xl">${cat.icon}</span>
+                    <div class="icon-container">
+                        <span class="text-3xl">${cat.icon}</span>
                     </div>
-                    <span style="transform: rotate(-${cat.angle}deg)">${cat.name}</span>
+                    <span>${cat.name}</span>
                 `;
 
-                item.onclick = () => selectCategory(index);
-                container.appendChild(item);
+                item.onclick = () => rotateTo(i);
+                circle.appendChild(item);
             });
             renderProducts(categories[0].id);
         }
 
-        function selectCategory(index) {
-            const container = document.getElementById('gear-container');
-            const items = document.querySelectorAll('.gear-item');
+        function rotateTo(index) {
+            const circle = document.getElementById('gear-circle');
+            const items = document.querySelectorAll('.category-item');
+            const angleStep = 360 / categories.length;
             
-            // حساب الزاوية المطلوبة ليكون العنصر المختار في الأعلى
-            const targetAngle = -categories[index].angle;
-            
-            container.style.transform = `rotate(${targetAngle}deg)`;
+            // تدوير الدائرة بالكامل
+            const rotation = - (index * angleStep);
+            circle.style.transform = `rotate(${rotation}deg)`;
 
+            // الحفاظ على الأيقونات معتدلة (عكس تدوير الدائرة)
             items.forEach((item, i) => {
+                const icons = item.querySelectorAll('.icon-container, span');
                 item.classList.toggle('active', i === index);
-                
-                // الحفاظ على الأيقونات والنصوص معتدلة أثناء دوران الترس
-                const icon = item.querySelector('.category-circle');
-                const text = item.querySelector('span');
-                // نلغي دوران الوالد (Container) ودوران العنصر نفسه (Item)
-                // المجموع لازم يكون صفر بالنسبة للشاشة
-                // gsap.to([icon, text], { rotation: - (categories[index].angle + targetAngle), duration: 0.8 });
+                icons.forEach(el => {
+                    el.style.transform = `rotate(${-rotation}deg)`;
+                });
             });
 
-            document.getElementById('current-cat-title').innerText = categories[index].name;
+            document.getElementById('cat-title').innerText = categories[index].name;
             renderProducts(categories[index].id);
         }
 
         function renderProducts(catId) {
             const grid = document.getElementById('products-grid');
             grid.innerHTML = '';
-            
-            const filtered = products.filter(p => p.catId === catId);
-            
-            if(filtered.length === 0) {
-                grid.innerHTML = `<div class="col-span-2 text-center py-10 text-gray-400">قريباً..</div>`;
-                return;
-            }
+            const filtered = products.filter(p => p.cat === catId);
 
             filtered.forEach((p, i) => {
-                const card = document.createElement('div');
-                card.className = 'product-card opacity-0 translate-y-4';
-                card.innerHTML = `
+                const el = document.createElement('div');
+                el.className = 'product-card opacity-0 translate-y-5';
+                el.innerHTML = `
                     <img src="${p.img}" class="w-full h-32 object-contain mb-4">
                     <h3 class="font-bold text-sm mb-1">${p.name}</h3>
-                    <div class="flex justify-between items-center mt-4">
+                    <div class="flex justify-between items-center mt-3">
                         <span class="text-accent font-bold">${p.price} ج.م</span>
-                        <div class="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center">
-                            <i class="fa-solid fa-plus text-xs"></i>
+                        <div onclick="addToCart(${p.id})" class="w-8 h-8 bg-gray-100 rounded-lg flex items-center justify-center cursor-pointer">
+                            <i class="fa-solid fa-plus text-[10px]"></i>
                         </div>
                     </div>
                 `;
-                grid.appendChild(card);
-                gsap.to(card, { opacity: 1, y: 0, delay: i * 0.1, duration: 0.5 });
+                grid.appendChild(el);
+                gsap.to(el, { opacity: 1, y: 0, delay: i * 0.1 });
             });
         }
 
-        window.onload = initMenu;
+        function toggleCart(show) {
+            document.getElementById('sidebar-cart').style.right = show ? '0' : '-100%';
+        }
+
+        function addToCart(id) {
+            const p = products.find(x => x.id === id);
+            cart.push(p);
+            updateCart();
+        }
+
+        function updateCart() {
+            document.getElementById('cart-count').innerText = cart.length;
+            const list = document.getElementById('cart-list');
+            let total = 0;
+            list.innerHTML = '';
+            cart.forEach(item => {
+                total += item.price;
+                list.innerHTML += `<div class="flex justify-between border-b pb-2 text-sm"><span>${item.name}</span><b>${item.price} ج.م</b></div>`;
+            });
+            document.getElementById('cart-total').innerText = total + ' ج.م';
+        }
+
+        function sendOrder() {
+            let msg = `طلب جديد من إبن سوريا 🌯\n\n`;
+            cart.forEach(i => msg += `- ${i.name}\n`);
+            msg += `\nالإجمالي: ${document.getElementById('cart-total').innerText}`;
+            window.open(`https://wa.me/201016991319?text=${encodeURIComponent(msg)}`);
+        }
+
+        window.onload = initGearMenu;
     </script>
 </body>
 </html>
