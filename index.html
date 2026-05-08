@@ -14,26 +14,27 @@
             --blue-ios: #007AFF;
             --white: #FFFFFF;
             --shadow: 0 4px 20px rgba(0,0,0,0.08);
+            --gradient: linear-gradient(135deg, #007AFF 0%, #00C6FF 100%);
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Cairo', sans-serif; -webkit-tap-highlight-color: transparent; }
         body { background-color: var(--bg-ios); color: #1C1C1E; overflow-x: hidden; }
 
-        /* الهيدر وتثبيت السلة فوق على الشمال */
         header {
             background: var(--white); padding: 20px;
             text-align: center; position: relative;
-            border-bottom-left-radius: 30px; border-bottom-right-radius: 30px;
+            border-bottom-left-radius: 35px; border-bottom-right-radius: 35px;
             box-shadow: var(--shadow);
         }
 
         .main-logo { width: 75px; height: 75px; border-radius: 20px; margin-bottom: 5px; object-fit: cover; }
 
+        /* السلة فوق على الشمال */
         .cart-trigger {
-            position: absolute; top: 25px; left: 20px; width: 50px; height: 50px;
-            background: #F2F2F7; border-radius: 15px; display: flex;
+            position: absolute; top: 25px; left: 20px; width: 52px; height: 52px;
+            background: var(--bg-ios); border-radius: 16px; display: flex;
             align-items: center; justify-content: center; cursor: pointer;
-            transition: 0.3s;
+            transition: 0.3s; border: 1px solid rgba(0,0,0,0.05);
         }
         #cart-count {
             position: absolute; top: -5px; right: -5px; background: #FF3B30;
@@ -45,29 +46,31 @@
         /* تثبيت الأقسام */
         .sticky-wrapper {
             position: sticky; top: 0; z-index: 1000; background: var(--bg-ios);
-            padding: 10px 0;
+            padding: 10px 0; box-shadow: 0 10px 20px rgba(0,0,0,0.02);
         }
         .categories-scroll { display: flex; gap: 12px; padding: 10px 20px; overflow-x: auto; scrollbar-width: none; }
         .categories-scroll::-webkit-scrollbar { display: none; }
 
         .cat-card { text-align: center; min-width: 85px; cursor: pointer; }
-        .cat-card img { width: 75px; height: 75px; border-radius: 50%; object-fit: cover; border: 3px solid white; box-shadow: var(--shadow); transition: 0.3s; }
+        .cat-card img { width: 75px; height: 75px; border-radius: 50%; object-fit: cover; border: 3px solid white; box-shadow: var(--shadow); transition: 0.3s; background: white; }
         .cat-card.active img { border-color: var(--blue-ios); transform: scale(1.1); }
-        .cat-card span { display: block; margin-top: 8px; font-weight: 800; font-size: 12px; }
+        .cat-card span { display: block; margin-top: 8px; font-weight: 800; font-size: 12px; color: #3A3A3C; }
 
-        /* عرض المنيو */
+        /* المنيو */
         .menu-container { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 10px 15px 120px; }
-        .food-item { background: var(--white); border-radius: 22px; padding: 15px; box-shadow: var(--shadow); display: flex; flex-direction: column; justify-content: space-between; }
-        .food-item h3 { font-size: 14px; font-weight: 800; text-align: center; min-height: 40px; margin-bottom: 10px; }
+        .food-item { background: var(--white); border-radius: 25px; padding: 15px; box-shadow: var(--shadow); display: flex; flex-direction: column; justify-content: space-between; }
+        .food-item h3 { font-size: 14px; font-weight: 800; text-align: center; min-height: 40px; margin-bottom: 12px; }
 
         .price-btn {
-            background: #F2F2F7; border: none; padding: 10px; border-radius: 12px;
+            background: #F2F2F7; border: none; padding: 12px; border-radius: 14px;
             font-size: 12px; font-weight: 700; cursor: pointer; display: flex;
-            justify-content: space-between; align-items: center; margin-bottom: 6px;
+            justify-content: space-between; align-items: center; margin-bottom: 7px;
+            transition: 0.2s;
         }
-        .price-btn i { color: var(--blue-ios); }
+        .price-btn i { color: var(--blue-ios); font-size: 16px; }
+        .price-btn:active { background: var(--blue-ios); color: white; transform: scale(0.95); }
 
-        /* سلة الطلبات iOS */
+        /* سلة الطلبات iOS Sheet */
         #cart-sheet-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); z-index: 2000;
@@ -75,28 +78,38 @@
         }
         #cart-sheet-overlay.active { visibility: visible; opacity: 1; }
         .ios-bottom-sheet {
-            width: 100%; background: var(--white); border-top-left-radius: 35px;
-            border-top-right-radius: 35px; padding: 25px; transform: translateY(100%);
+            width: 100%; background: var(--white); border-top-left-radius: 40px;
+            border-top-right-radius: 40px; padding: 25px; transform: translateY(100%);
             transition: 0.4s cubic-bezier(0.25, 1, 0.5, 1); max-height: 85vh; overflow-y: auto;
         }
         #cart-sheet-overlay.active .ios-bottom-sheet { transform: translateY(0); }
         .handle-bar { width: 40px; height: 5px; background: #D1D1D6; border-radius: 10px; margin: 0 auto 20px; }
 
         .input-group { margin-bottom: 12px; }
-        .input-group input { width: 100%; padding: 15px; border-radius: 15px; border: 1.5px solid #EEE; outline: none; font-size: 14px; font-weight: 600; }
+        .input-group input { 
+            width: 100%; padding: 16px; border-radius: 16px; border: 1.5px solid #E5E5EA; 
+            outline: none; font-size: 15px; font-weight: 600; transition: 0.3s;
+        }
+        .input-group input:focus { border-color: var(--blue-ios); background: #FBFBFF; }
         
-        .confirm-btn { width: 100%; padding: 18px; background: var(--blue-ios); color: white; border: none; border-radius: 20px; font-size: 17px; font-weight: 800; cursor: pointer; }
+        .confirm-btn { 
+            width: 100%; padding: 18px; background: var(--gradient); color: white; 
+            border: none; border-radius: 20px; font-size: 18px; font-weight: 800; 
+            cursor: pointer; margin-top: 15px; box-shadow: 0 8px 25px rgba(0,122,255,0.3);
+        }
+
+        .cart-item-row { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #F2F2F7; font-weight: 700; }
     </style>
 </head>
 <body>
 
 <header>
     <div class="cart-trigger" onclick="toggleCart(true)">
-        <i class="fas fa-shopping-cart" style="font-size: 22px; color: var(--blue-ios);"></i>
+        <i class="fas fa-shopping-bag" style="font-size: 22px; color: var(--blue-ios);"></i>
         <span id="cart-count">0</span>
     </div>
     <img src="logoo.jpg" class="main-logo" onerror="this.src='https://via.placeholder.com/100'">
-    <h2 style="font-weight: 900;">إبن سوريا</h2>
+    <h2 style="font-size: 22px; font-weight: 900;">إبن سوريا</h2>
 </header>
 
 <div class="sticky-wrapper">
@@ -108,20 +121,28 @@
 <div id="cart-sheet-overlay" onclick="if(event.target.id==='cart-sheet-overlay') toggleCart(false)">
     <div class="ios-bottom-sheet">
         <div class="handle-bar"></div>
-        <h2 style="text-align: center; margin-bottom: 20px; font-weight: 900;">سلة طلباتك</h2>
+        <h2 style="text-align: center; margin-bottom: 20px; font-weight: 900; font-size: 24px;">سلة طلباتك</h2>
+        
         <div id="cart-items-list" style="margin-bottom: 15px;"></div>
-        <div style="padding: 15px 0; display: flex; justify-content: space-between; font-size: 20px; font-weight: 900; color: var(--blue-ios);">
+        
+        <div style="padding: 15px 0; display: flex; justify-content: space-between; font-size: 22px; font-weight: 900; color: var(--blue-ios); border-top: 2px solid #F2F2F7;">
             <span>الإجمالي</span><span id="total-val">0 ج.م</span>
         </div>
-        <div class="input-group"><input type="text" id="c-name" placeholder="الاسم"></div>
+
+        <div class="input-group"><input type="text" id="c-name" placeholder="الاسم الكريم"></div>
         <div class="input-group"><input type="tel" id="c-phone" placeholder="رقم الهاتف"></div>
-        <div class="input-group"><input type="text" id="c-address" placeholder="العنوان"></div>
-        <button class="confirm-btn" onclick="submitFinalOrder()">تأكيد الطلب (واتساب) <i class="fab fa-whatsapp"></i></button>
+        <div class="input-group"><input type="text" id="c-address" placeholder="العنوان بالتفصيل"></div>
+
+        <button class="confirm-btn" onclick="submitFinalOrder()">
+            تأكيد الطلب (واتساب) <i class="fab fa-whatsapp"></i>
+        </button>
     </div>
 </div>
 
 <script>
+    // الرابط المباشر للشيت الخاص بك بصيغة CSV
     const sheetURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRwVeN6ohlItpy6_3Fr5nIPaPgJoMoffwDfq85i8oG1c92XjW3wFknmB6Ahvj8BpQ/pub?output=csv';
+
     let products = [], cart = [], categories = [];
 
     async function loadData() {
@@ -136,11 +157,12 @@
             categories = [...new Set(products.map(p => p.cat))];
             renderCats();
             if(categories.length > 0) filter(categories[0]);
-        } catch (e) { alert("تأكد من نشر الشيت كـ CSV"); }
+        } catch (e) {
+            console.error("خطأ في تحميل البيانات من الشيت");
+        }
     }
 
     function renderCats() {
-        // مبرمج لصور logo1.png, logo2.png...
         document.getElementById('cat-list').innerHTML = categories.map((c, i) => `
             <div class="cat-card ${i===0?'active':''}" onclick="filter('${c}', event)">
                 <img src="logo${i+1}.png" onerror="this.src='logoo.jpg'">
@@ -154,21 +176,22 @@
             <div class="food-item">
                 <h3>${p.name}</h3>
                 <div class="price-options">
-                    ${p.small && p.small !== '-' ? `<button class="price-btn" onclick="add('${p.name} (صغير)', ${p.small})"><span>${p.small}ج</span> <i class="fas fa-plus"></i></button>` : ''}
-                    ${p.medium && p.medium !== '-' ? `<button class="price-btn" onclick="add('${p.name} (وسط)', ${p.medium})"><span>${p.medium}ج</span> <i class="fas fa-plus"></i></button>` : ''}
-                    ${p.large && p.large !== '-' ? `<button class="price-btn" onclick="add('${p.name} (كبير)', ${p.large})"><span>${p.large}ج</span> <i class="fas fa-plus"></i></button>` : ''}
+                    ${p.small && p.small !== '-' ? `<button class="price-btn" onclick="add('${p.name} (صغير)', ${p.small})"><span>${p.small}ج</span> <i class="fas fa-plus-circle"></i></button>` : ''}
+                    ${p.medium && p.medium !== '-' ? `<button class="price-btn" onclick="add('${p.name} (وسط)', ${p.medium})"><span>${p.medium}ج</span> <i class="fas fa-plus-circle"></i></button>` : ''}
+                    ${p.large && p.large !== '-' ? `<button class="price-btn" onclick="add('${p.name} (كبير)', ${p.large})"><span>${p.large}ج</span> <i class="fas fa-plus-circle"></i></button>` : ''}
                 </div>
             </div>
         `).join('');
     }
 
     function add(n, p) { cart.push({name:n, price:parseFloat(p)}); updateUI(); }
+
     function updateUI() {
         document.getElementById('cart-count').innerText = cart.length;
         let t = 0;
         document.getElementById('cart-items-list').innerHTML = cart.map(i => {
             t += i.price;
-            return `<div style="display:flex; justify-content:space-between; padding:10px 0; border-bottom:1px solid #EEE;"><span>${i.name}</span><b>${i.price}ج</b></div>`;
+            return `<div class="cart-item-row"><span>${i.name}</span><span>${i.price} ج.م</span></div>`;
         }).join('');
         document.getElementById('total-val').innerText = t + " ج.م";
     }
@@ -182,11 +205,15 @@
     window.onpopstate = () => document.getElementById('cart-sheet-overlay').classList.remove('active');
 
     function submitFinalOrder() {
-        const n = document.getElementById('c-name').value, p = document.getElementById('c-phone').value, a = document.getElementById('c-address').value;
-        if(!n || !p || !a || cart.length === 0) return alert("اكمل البيانات");
-        let msg = `*طلب جديد من إبن سوريا*%0Aالاسم: ${n}%0Aالهاتف: ${p}%0Aالعنوان: ${a}%0A---%0A`;
+        const n = document.getElementById('c-name').value, 
+              p = document.getElementById('c-phone').value, 
+              a = document.getElementById('c-address').value;
+        if(!n || !p || !a || cart.length === 0) return alert("برجاء إكمال البيانات واختيار طلباتك");
+        
+        let msg = `*طلب جديد من إبن سوريا*%0A*الاسم:* ${n}%0A*الهاتف:* ${p}%0A*العنوان:* ${a}%0A---%0A*الأصناف:*%0A`;
         cart.forEach(i => msg += `- ${i.name} (${i.price}ج)%0A`);
-        msg += `---%0Aالإجمالي: ${document.getElementById('total-val').innerText}`;
+        msg += `---%0A*الإجمالي:* ${document.getElementById('total-val').innerText}`;
+        
         window.open(`https://wa.me/201016991319?text=${msg}`);
     }
 
