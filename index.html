@@ -31,10 +31,10 @@
 
         /* السلة فوق على الشمال */
         .cart-trigger {
-            position: absolute; top: 25px; left: 20px; width: 52px; height: 52px;
-            background: var(--bg-ios); border-radius: 16px; display: flex;
+            position: absolute; top: 25px; left: 20px; width: 55px; height: 55px;
+            background: var(--white); border-radius: 18px; display: flex;
             align-items: center; justify-content: center; cursor: pointer;
-            transition: 0.3s; border: 1px solid rgba(0,0,0,0.05);
+            box-shadow: var(--shadow); transition: 0.3s;
         }
         #cart-count {
             position: absolute; top: -5px; right: -5px; background: #FF3B30;
@@ -55,18 +55,22 @@
         .cat-card.active img { border-color: var(--blue-ios); transform: scale(1.1); }
         .cat-card span { display: block; margin-top: 8px; font-weight: 800; font-size: 12px; color: #3A3A3C; }
 
+        /* عرض المنيو */
         .menu-container { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 10px 15px 120px; }
         .food-item { background: var(--white); border-radius: 25px; padding: 15px; box-shadow: var(--shadow); display: flex; flex-direction: column; justify-content: space-between; }
-        .food-item h3 { font-size: 14px; font-weight: 800; text-align: center; min-height: 40px; margin-bottom: 12px; }
+        .food-item h3 { font-size: 15px; font-weight: 900; text-align: center; min-height: 40px; margin-bottom: 12px; line-height: 1.4; }
 
+        /* تكبير أزرار الأسعار */
+        .price-options { display: flex; flex-direction: column; gap: 8px; }
         .price-btn {
-            background: #F2F2F7; border: none; padding: 12px; border-radius: 14px;
-            font-size: 12px; font-weight: 700; cursor: pointer; display: flex;
-            justify-content: space-between; align-items: center; margin-bottom: 7px;
-            transition: 0.2s;
+            background: #F8F8FA; border: 1.5px solid #EEE; padding: 14px 10px; border-radius: 16px;
+            font-size: 13px; font-weight: 800; cursor: pointer; display: flex;
+            justify-content: space-between; align-items: center;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        .price-btn i { color: var(--blue-ios); font-size: 16px; }
-        .price-btn:active { background: var(--blue-ios); color: white; transform: scale(0.95); }
+        .price-btn i { color: var(--blue-ios); font-size: 18px; }
+        .price-btn:active { background: var(--blue-ios); color: white; border-color: var(--blue-ios); transform: scale(0.95); }
+        .price-btn:active i { color: white; }
 
         #cart-sheet-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -85,18 +89,14 @@
         .input-group { margin-bottom: 12px; }
         .input-group input { width: 100%; padding: 18px; border-radius: 18px; border: 1.5px solid #E5E5EA; outline: none; font-size: 15px; font-weight: 600; }
         
-        /* زرار تأكيد الطلب المحدث (أكبر وبدون كلمة واتساب) */
         .confirm-btn { 
             width: 100%; padding: 22px; background: var(--gradient); color: white; 
             border: none; border-radius: 22px; font-size: 20px; font-weight: 900; 
             cursor: pointer; margin-top: 15px; box-shadow: 0 10px 30px rgba(0,122,255,0.3);
             display: flex; align-items: center; justify-content: center; gap: 10px;
         }
-        .confirm-btn:active { transform: scale(0.98); opacity: 0.9; }
 
         .cart-item-row { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #F2F2F7; font-weight: 700; }
-
-        /* أنيميشن الطيران */
         .flyer { position: fixed; z-index: 9999; width: 30px; height: 30px; background: var(--blue-ios); border-radius: 50%; color: white; display: flex; align-items: center; justify-content: center; font-size: 14px; pointer-events: none; transition: all 0.7s cubic-bezier(0.32, 1, 0.23, 1); }
     </style>
 </head>
@@ -104,7 +104,7 @@
 
 <header>
     <div class="cart-trigger" onclick="toggleCart(true)">
-        <i class="fas fa-shopping-bag" style="font-size: 22px; color: var(--blue-ios);"></i>
+        <i class="fas fa-shopping-bag" style="font-size: 24px; color: var(--blue-ios);"></i>
         <span id="cart-count">0</span>
     </div>
     <img src="logoo.jpg" class="main-logo" onerror="this.src='https://via.placeholder.com/100'">
@@ -121,20 +121,14 @@
     <div class="ios-bottom-sheet">
         <div class="handle-bar"></div>
         <h2 style="text-align: center; margin-bottom: 20px; font-weight: 900; font-size: 24px;">سلة طلباتك</h2>
-        
-        <div id="cart-items-list" style="margin-bottom: 15px;"></div>
-        
+        <div id="cart-items-list"></div>
         <div style="padding: 15px 0; display: flex; justify-content: space-between; font-size: 22px; font-weight: 900; color: var(--blue-ios); border-top: 2px solid #F2F2F7;">
             <span>الإجمالي</span><span id="total-val">0 ج.م</span>
         </div>
-
         <div class="input-group"><input type="text" id="c-name" placeholder="الاسم الكريم"></div>
         <div class="input-group"><input type="tel" id="c-phone" placeholder="رقم الهاتف"></div>
         <div class="input-group"><input type="text" id="c-address" placeholder="العنوان بالتفصيل"></div>
-
-        <button class="confirm-btn" onclick="submitFinalOrder()">
-            تأكيد الطلب <i class="fab fa-whatsapp" style="font-size: 24px;"></i>
-        </button>
+        <button class="confirm-btn" onclick="submitFinalOrder()">تأكيد الطلب <i class="fab fa-whatsapp" style="font-size: 24px;"></i></button>
     </div>
 </div>
 
@@ -178,9 +172,9 @@
             <div class="food-item">
                 <h3>${p.name}</h3>
                 <div class="price-options">
-                    ${p.small && p.small !== '-' ? `<button class="price-btn" onclick="add('${p.name} (صغير)', ${p.small}, event)"><span>${p.small}ج</span> <i class="fas fa-plus-circle"></i></button>` : ''}
-                    ${p.medium && p.medium !== '-' ? `<button class="price-btn" onclick="add('${p.name} (وسط)', ${p.medium}, event)"><span>${p.medium}ج</span> <i class="fas fa-plus-circle"></i></button>` : ''}
-                    ${p.large && p.large !== '-' ? `<button class="price-btn" onclick="add('${p.name} (كبير)', ${p.large}, event)"><span>${p.large}ج</span> <i class="fas fa-plus-circle"></i></button>` : ''}
+                    ${p.small && p.small !== '-' ? `<button class="price-btn" onclick="add('${p.name} (صغير)', ${p.small}, event)"><span>صغير: ${p.small}ج</span> <i class="fas fa-plus-circle"></i></button>` : ''}
+                    ${p.medium && p.medium !== '-' ? `<button class="price-btn" onclick="add('${p.name} (وسط)', ${p.medium}, event)"><span>وسط: ${p.medium}ج</span> <i class="fas fa-plus-circle"></i></button>` : ''}
+                    ${p.large && p.large !== '-' ? `<button class="price-btn" onclick="add('${p.name} (كبير)', ${p.large}, event)"><span>كبير: ${p.large}ج</span> <i class="fas fa-plus-circle"></i></button>` : ''}
                 </div>
             </div>
         `).join('');
@@ -189,7 +183,7 @@
     function add(n, p, e) {
         cart.push({name:n, price:parseFloat(p)});
         updateUI();
-        flyAnimation(e); // تفعيل أنيميشن الطيران
+        flyAnimation(e);
     }
 
     function flyAnimation(e) {
@@ -199,16 +193,13 @@
         flyer.style.left = e.clientX + 'px';
         flyer.style.top = e.clientY + 'px';
         document.body.appendChild(flyer);
-        
         const cartPos = document.querySelector('.cart-trigger').getBoundingClientRect();
-        
         setTimeout(() => {
             flyer.style.left = (cartPos.left + 20) + 'px';
             flyer.style.top = (cartPos.top + 20) + 'px';
             flyer.style.opacity = '0';
             flyer.style.transform = 'scale(0.2) rotate(360deg)';
         }, 50);
-        
         setTimeout(() => flyer.remove(), 750);
     }
 
