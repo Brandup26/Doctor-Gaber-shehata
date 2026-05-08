@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>منيو إبن سوريا - النسخة النهائية</title>
+    <title>منيو إبن سوريا - النسخة الذكية</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -33,7 +33,6 @@
             overflow-x: hidden;
         }
 
-        /* الهيدر العلوي مع الشعار */
         header {
             background: var(--white);
             padding: 20px;
@@ -44,201 +43,64 @@
             position: relative;
         }
 
-        .main-logo {
-            width: 120px;
-            height: auto;
-            border-radius: 20px;
-            margin-bottom: 15px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        }
+        .main-logo { width: 120px; height: auto; border-radius: 20px; margin-bottom: 10px; }
 
-        /* السلة العلوية اليسرى */
         .cart-trigger {
-            position: absolute;
-            top: 25px;
-            left: 20px;
-            width: 50px;
-            height: 50px;
-            background: var(--white);
-            border-radius: 15px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: var(--shadow);
-            cursor: pointer;
-            border: 1px solid rgba(0,0,0,0.05);
+            position: absolute; top: 25px; left: 20px; width: 50px; height: 50px;
+            background: var(--white); border-radius: 15px; display: flex;
+            align-items: center; justify-content: center; box-shadow: var(--shadow);
+            cursor: pointer; border: 1px solid rgba(0,0,0,0.05);
         }
 
         #cart-count {
-            position: absolute;
-            top: -5px;
-            right: -5px;
-            background: #FF3B30;
-            color: white;
-            font-size: 11px;
-            width: 22px;
-            height: 22px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 900;
-            border: 2px solid white;
+            position: absolute; top: -5px; right: -5px; background: #FF3B30;
+            color: white; font-size: 11px; width: 22px; height: 22px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-weight: 900; border: 2px solid white;
         }
 
-        /* الأقسام بصور حقيقية */
-        .categories-scroll {
-            display: flex;
-            gap: 15px;
-            padding: 25px 20px;
-            overflow-x: auto;
-            scrollbar-width: none;
-        }
+        .categories-scroll { display: flex; gap: 15px; padding: 25px 20px; overflow-x: auto; scrollbar-width: none; }
         .categories-scroll::-webkit-scrollbar { display: none; }
 
         .cat-card { text-align: center; min-width: 85px; cursor: pointer; }
-        .cat-card img {
-            width: 75px;
-            height: 75px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 3px solid white;
-            box-shadow: var(--shadow);
-            transition: var(--transition-ios);
-        }
+        .cat-card img { width: 75px; height: 75px; border-radius: 50%; object-fit: cover; border: 3px solid white; box-shadow: var(--shadow); transition: var(--transition-ios); }
         .cat-card.active img { border-color: var(--blue-ios); transform: scale(1.1); }
         .cat-card span { display: block; margin-top: 8px; font-weight: 700; font-size: 13px; color: #3A3A3C; }
 
-        /* شبكة الطعام */
-        .menu-container {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            padding: 0 15px 100px;
-        }
+        .menu-container { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; padding: 0 15px 100px; }
 
-        .food-item {
-            background: var(--white);
-            border-radius: 28px;
-            padding: 12px;
-            box-shadow: var(--shadow);
-        }
-
-        .food-item img {
-            width: 100%;
-            height: 125px;
-            border-radius: 20px;
-            object-fit: cover;
-            margin-bottom: 10px;
-        }
-
+        .food-item { background: var(--white); border-radius: 28px; padding: 12px; box-shadow: var(--shadow); }
+        .food-item img { width: 100%; height: 125px; border-radius: 20px; object-fit: cover; margin-bottom: 10px; }
         .food-item h3 { font-size: 15px; font-weight: 800; }
-        .food-item p { font-size: 11px; color: var(--gray-ios); height: 32px; overflow: hidden; margin: 4px 0; }
-
-        .footer-row { display: flex; justify-content: space-between; align-items: center; margin-top: 8px; }
-        .price-val { color: var(--blue-ios); font-weight: 900; font-size: 16px; }
-
-        .add-circle {
-            width: 36px;
-            height: 36px;
-            background: #1C1C1E;
-            color: white;
-            border: none;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 16px;
-            cursor: pointer;
+        
+        .price-options { margin-top: 10px; display: flex; flex-direction: column; gap: 5px; }
+        .price-btn {
+            background: #F2F2F7; border: none; padding: 8px; border-radius: 10px;
+            font-size: 11px; font-weight: 700; cursor: pointer; display: flex;
+            justify-content: space-between; align-items: center; transition: 0.3s;
         }
+        .price-btn:active { background: var(--blue-ios); color: white; }
 
-        /* سلة الآيفون (BottomSheet) */
         #cart-sheet-overlay {
-            position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background: rgba(0,0,0,0.4);
-            backdrop-filter: blur(4px);
-            z-index: 2000;
-            visibility: hidden;
-            opacity: 0;
-            transition: var(--transition-ios);
-            display: flex;
-            align-items: flex-end;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.4); backdrop-filter: blur(4px); z-index: 2000;
+            visibility: hidden; opacity: 0; transition: var(--transition-ios);
+            display: flex; align-items: flex-end;
         }
-
         #cart-sheet-overlay.active { visibility: visible; opacity: 1; }
-
         .ios-bottom-sheet {
-            width: 100%;
-            background: var(--white);
-            border-top-left-radius: 35px;
-            border-top-right-radius: 35px;
-            padding: 20px 25px 40px;
-            transform: translateY(100%);
-            transition: var(--transition-ios);
-            max-height: 85vh;
-            overflow-y: auto;
+            width: 100%; background: var(--white); border-top-left-radius: 35px;
+            border-top-right-radius: 35px; padding: 20px 25px 40px; transform: translateY(100%);
+            transition: var(--transition-ios); max-height: 85vh; overflow-y: auto;
         }
-
         #cart-sheet-overlay.active .ios-bottom-sheet { transform: translateY(0); }
-
         .handle-bar { width: 40px; height: 5px; background: #D1D1D6; border-radius: 10px; margin: 0 auto 20px; }
 
-        .cart-item-row {
-            display: flex;
-            justify-content: space-between;
-            padding: 15px 0;
-            border-bottom: 1px solid #F2F2F7;
-            font-weight: 600;
-        }
+        .cart-item-row { display: flex; justify-content: space-between; padding: 15px 0; border-bottom: 1px solid #F2F2F7; font-weight: 600; }
+        .customer-form input { width: 100%; padding: 18px; background: #F2F2F7; border: none; border-radius: 16px; margin-bottom: 12px; font-size: 15px; font-weight: 600; }
+        .confirm-order-btn { width: 100%; padding: 20px; background: var(--blue-ios); color: white; border: none; border-radius: 20px; font-size: 18px; font-weight: 700; cursor: pointer; transition: 0.3s; }
 
-        .total-box {
-            padding: 20px 0;
-            display: flex;
-            justify-content: space-between;
-            font-size: 22px;
-            font-weight: 900;
-            color: var(--blue-ios);
-        }
-
-        /* فورم الزبون */
-        .customer-form input {
-            width: 100%;
-            padding: 18px;
-            background: #F2F2F7;
-            border: none;
-            border-radius: 16px;
-            margin-bottom: 12px;
-            font-size: 15px;
-            font-weight: 600;
-        }
-
-        .confirm-order-btn {
-            width: 100%;
-            padding: 20px;
-            background: var(--blue-ios);
-            color: white;
-            border: none;
-            border-radius: 20px;
-            font-size: 18px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-
-        .confirm-order-btn:active { transform: scale(0.96); opacity: 0.9; }
-
-        /* أنيميشن طيران */
-        .flyer {
-            position: fixed;
-            z-index: 3000;
-            width: 25px; height: 25px;
-            background: var(--blue-ios);
-            border-radius: 50%;
-            pointer-events: none;
-            transition: all 0.7s cubic-bezier(0.4, 0, 0.2, 1);
-        }
+        .flyer { position: fixed; z-index: 3000; width: 20px; height: 20px; background: var(--blue-ios); border-radius: 50%; pointer-events: none; transition: all 0.7s cubic-bezier(0.4, 0, 0.2, 1); }
     </style>
 </head>
 <body>
@@ -248,83 +110,87 @@
         <i class="fas fa-shopping-bag" style="font-size: 20px;"></i>
         <span id="cart-count">0</span>
     </div>
-    
     <img src="logoo.jpg" alt="مطعم إبن سوريا" class="main-logo">
     <h2 style="font-size: 22px; font-weight: 900;">إبن سوريا</h2>
-    <p style="color: var(--gray-ios); font-size: 14px;">كل لقمة حكاية</p>
 </header>
 
-<div class="categories-scroll" id="cat-list">
-    </div>
-
-<div class="menu-container" id="food-grid">
-    </div>
+<div class="categories-scroll" id="cat-list"></div>
+<div class="menu-container" id="food-grid"></div>
 
 <div id="cart-sheet-overlay" onclick="if(event.target.id==='cart-sheet-overlay') toggleCart()">
     <div class="ios-bottom-sheet">
         <div class="handle-bar"></div>
-        <h2 style="font-size: 24px; font-weight: 900; margin-bottom: 15px;">طلباتك المختارة</h2>
-        
+        <h2 style="font-size: 24px; font-weight: 900; margin-bottom: 15px;">طلباتك</h2>
         <div id="cart-items-list"></div>
-        
-        <div class="total-box">
-            <span>الإجمالي</span>
-            <span id="total-val">0 ج.م</span>
+        <div style="padding: 20px 0; display: flex; justify-content: space-between; font-size: 22px; font-weight: 900; color: var(--blue-ios);">
+            <span>الإجمالي</span><span id="total-val">0 ج.م</span>
         </div>
-
         <div class="customer-form">
             <input type="text" id="c-name" placeholder="الاسم بالكامل">
             <input type="tel" id="c-phone" placeholder="رقم الموبايل">
-            <input type="text" id="c-address" placeholder="عنوان التوصيل بالتفصيل">
+            <input type="text" id="c-address" placeholder="عنوان التوصيل">
             <button class="confirm-order-btn" onclick="submitFinalOrder()">تأكيد وإرسال الطلب</button>
-            <p onclick="toggleCart()" style="text-align: center; color: var(--gray-ios); margin-top: 15px; cursor: pointer;">رجوع للمنيو</p>
         </div>
     </div>
 </div>
 
 <script>
+    // رابط جوجل شيت المنشور كـ CSV
+    const sheetURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vST_UvWn4K96_tPzJ-5C7Osq6_eP0pYnC6qZlZ-6iXkS0mI7X0N7Z6u-p3rI_2yG8mN9vB9yO0-oZ6z/pub?output=csv'; 
+    // ملاحظة: الرابط أعلاه هو مثال، يجب وضع رابط الـ CSV الفعلي الخاص بك هنا.
+
+    let products = [];
     let cart = [];
-    const products = [
-        {id: 1, name: 'ساندوتش شاورما', price: 80, cat: 'شاورما', img: 'https://images.unsplash.com/photo-1633383718081-22ac93e3dbf1?q=80&w=400', d: 'شاورما دجاج، تومية، مخلل، خبز سوري'},
-        {id: 2, name: 'برجر كلاسيك', price: 135, cat: 'برجر', img: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?q=80&w=400', d: 'لحم بقري، جبنة، خس، صوص إبن سوريا'},
-        {id: 3, name: 'بيتزا مارجريتا', price: 120, cat: 'بيتزا', img: 'https://images.unsplash.com/photo-1513104890138-7c749659a591?q=80&w=400', d: 'صلصة إيطالية، موزاريلا، ريحان فريش'},
-        {id: 4, name: 'فتة شاورما', price: 150, cat: 'أطباق', img: 'https://images.unsplash.com/photo-1541518763669-27fef04b14ea?q=80&w=400', d: 'أرز بسمتي، قطع شاورما، صوص أبيض'}
-    ];
 
-    const categories = [
-        {name: 'شاورما', img: 'https://images.unsplash.com/photo-1633383718081-22ac93e3dbf1?q=80&w=150'},
-        {name: 'برجر', img: 'https://images.unsplash.com/photo-1571091718767-18b5b1457add?q=80&w=150'},
-        {name: 'بيتزا', img: 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?q=80&w=150'},
-        {name: 'أطباق', img: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?q=80&w=150'}
-    ];
-
-    function init() {
-        document.getElementById('cat-list').innerHTML = categories.map(c => `
-            <div class="cat-card" onclick="filterMenu('${c.name}', event)">
-                <img src="${c.img}">
-                <span>${c.name}</span>
-            </div>
-        `).join('');
-        render(products);
+    async function loadData() {
+        try {
+            const response = await fetch(sheetURL);
+            const data = await response.text();
+            const rows = data.split('\n').slice(1);
+            
+            products = rows.map((row, index) => {
+                const cols = row.split(',');
+                return {
+                    id: index,
+                    cat: cols[0]?.trim(),
+                    name: cols[1]?.trim(),
+                    small: cols[2]?.trim(),
+                    medium: cols[3]?.trim(),
+                    large: cols[4]?.trim(),
+                    img: 'logoo.jpg' // يمكنك وضع روابط صور في الشيت واستخدامها هنا
+                };
+            });
+            render();
+            renderCats();
+        } catch (e) { console.error("Error loading sheet:", e); }
     }
 
-    function render(items) {
+    function renderCats() {
+        const cats = ['الكل', ...new Set(products.map(p => p.cat))];
+        document.getElementById('cat-list').innerHTML = cats.map(c => `
+            <div class="cat-card" onclick="filter('${c}', event)">
+                <img src="logoo.jpg">
+                <span>${c}</span>
+            </div>
+        `).join('');
+    }
+
+    function render(items = products) {
         document.getElementById('food-grid').innerHTML = items.map(p => `
             <div class="food-item">
                 <img src="${p.img}">
                 <h3>${p.name}</h3>
-                <p>${p.d}</p>
-                <div class="footer-row">
-                    <span class="price-val">${p.price} ج.م</span>
-                    <button class="add-circle" onclick="add(${p.id}, event)"><i class="fas fa-plus"></i></button>
+                <div class="price-options">
+                    ${p.small ? `<button class="price-btn" onclick="add('${p.name} (صغير)', ${p.small}, event)"><span>صغير</span> <span>${p.small}ج</span></button>` : ''}
+                    ${p.medium ? `<button class="price-btn" onclick="add('${p.name} (وسط)', ${p.medium}, event)"><span>وسط</span> <span>${p.medium}ج</span></button>` : ''}
+                    ${p.large ? `<button class="price-btn" onclick="add('${p.name} (كبير)', ${p.large}, event)"><span>كبير</span> <span>${p.large}ج</span></button>` : ''}
                 </div>
             </div>
         `).join('');
     }
 
-    function add(id, e) {
-        const item = products.find(p => p.id === id);
-        cart.push(item);
+    function add(name, price, e) {
+        cart.push({name, price});
         update();
         fly(e);
     }
@@ -335,13 +201,8 @@
         f.style.left = e.clientX + 'px';
         f.style.top = e.clientY + 'px';
         document.body.appendChild(f);
-
-        const cartBtn = document.querySelector('.cart-trigger').getBoundingClientRect();
-        setTimeout(() => {
-            f.style.left = cartBtn.left + 25 + 'px';
-            f.style.top = cartBtn.top + 25 + 'px';
-            f.style.opacity = '0';
-        }, 50);
+        const target = document.querySelector('.cart-trigger').getBoundingClientRect();
+        setTimeout(() => { f.style.left = target.left + 25 + 'px'; f.style.top = target.top + 25 + 'px'; f.style.opacity = '0'; }, 50);
         setTimeout(() => f.remove(), 750);
     }
 
@@ -349,37 +210,30 @@
         document.getElementById('cart-count').innerText = cart.length;
         let t = 0;
         document.getElementById('cart-items-list').innerHTML = cart.map(i => {
-            t += i.price;
+            t += parseFloat(i.price);
             return `<div class="cart-item-row"><span>${i.name}</span><b>${i.price} ج.م</b></div>`;
         }).join('');
         document.getElementById('total-val').innerText = t + " ج.م";
     }
 
-    function toggleCart() {
-        document.getElementById('cart-sheet-overlay').classList.toggle('active');
-    }
+    function toggleCart() { document.getElementById('cart-sheet-overlay').classList.toggle('active'); }
 
-    function filterMenu(c, e) {
+    function filter(c, e) {
         document.querySelectorAll('.cat-card').forEach(x => x.classList.remove('active'));
         e.currentTarget.classList.add('active');
-        render(products.filter(p => p.cat === c));
+        render(c === 'الكل' ? products : products.filter(p => p.cat === c));
     }
 
     function submitFinalOrder() {
         const name = document.getElementById('c-name').value;
-        const phone = document.getElementById('c-phone').value;
-        const addr = document.getElementById('c-address').value;
-        if(!name || !phone || cart.length === 0) return alert("أكمل البيانات واختر وجباتك");
-        
-        let msg = `*طلب جديد من مطعم إبن سوريا*%0A*الاسم:* ${name}%0A*الهاتف:* ${phone}%0A*العنوان:* ${addr}%0A---%0A`;
+        if(!name || cart.length === 0) return alert("أكمل البيانات");
+        let msg = `*طلب جديد من إبن سوريا*%0A*الاسم:* ${name}%0A---%0A`;
         cart.forEach(i => msg += `- ${i.name} (${i.price} ج.م)%0A`);
         msg += `---%0A*الإجمالي:* ${document.getElementById('total-val').innerText}`;
-        
         window.open(`https://wa.me/201016991319?text=${msg}`);
     }
 
-    init();
+    loadData();
 </script>
-
 </body>
 </html>
