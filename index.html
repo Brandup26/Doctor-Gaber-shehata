@@ -46,7 +46,7 @@
         .categories-scroll::-webkit-scrollbar { display: none; }
 
         .cat-card { text-align: center; min-width: 90px; cursor: pointer; }
-        .cat-card img { width: 75px; height: 75px; border-radius: 22px; object-fit: cover; border: 3px solid white; box-shadow: var(--shadow); transition: var(--transition-ios); }
+        .cat-card img { width: 75px; height: 75px; border-radius: 22px; object-fit: cover; border: 3px solid white; box-shadow: var(--shadow); transition: var(--transition-ios); background: #f9f9f9; }
         .cat-card.active img { border-color: var(--blue-ios); transform: scale(1.1) rotate(3deg); }
         .cat-card span { display: block; margin-top: 8px; font-weight: 800; font-size: 12px; }
 
@@ -65,9 +65,7 @@
         }
         .price-btn i { color: var(--blue-ios); font-size: 14px; margin-right: 5px; }
         .price-btn:active { background: var(--blue-ios); border-color: var(--blue-ios); color: white; transform: scale(0.95); }
-        .price-btn:active i { color: white; }
 
-        /* سلة الطلبات */
         #cart-sheet-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0,0,0,0.4); backdrop-filter: blur(4px); z-index: 2000;
@@ -86,7 +84,7 @@
         .cart-item-row { display: flex; justify-content: space-between; padding: 15px 0; border-bottom: 1px solid #F2F2F7; font-weight: 700; }
         .confirm-order-btn { width: 100%; padding: 20px; background: var(--blue-ios); color: white; border: none; border-radius: 20px; font-size: 17px; font-weight: 800; cursor: pointer; margin-top: 15px; }
 
-        .flyer { position: fixed; z-index: 3000; width: 22px; height: 22px; background: var(--blue-ios); border-radius: 8px; color: white; display: flex; align-items: center; justify-content: center; font-size: 10px; pointer-events: none; transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1); }
+        .flyer { position: fixed; z-index: 3000; width: 22px; height: 22px; background: var(--blue-ios); border-radius: 8px; color: white; display: flex; align-items: center; justify-content: center; pointer-events: none; transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1); }
     </style>
 </head>
 <body>
@@ -111,15 +109,23 @@
         <div style="padding: 20px 0; display: flex; justify-content: space-between; font-size: 22px; font-weight: 900; color: var(--blue-ios);">
             <span>الإجمالي</span><span id="total-val">0 ج.م</span>
         </div>
-        <div style="display: flex; flex-direction: column; gap: 10px;">
-            <input type="text" id="c-name" placeholder="اسمك الكريم" style="padding: 16px; border-radius: 15px; border: 1.5px solid #EEE; outline: none; font-size: 15px;">
-            <button class="confirm-order-btn" onclick="submitFinalOrder()">إرسال الطلب واتساب <i class="fab fa-whatsapp"></i></button>
-        </div>
+        <input type="text" id="c-name" placeholder="اسمك الكريم" style="width:100%; padding: 16px; border-radius: 15px; border: 1.5px solid #EEE; margin-bottom:10px;">
+        <button class="confirm-order-btn" onclick="submitFinalOrder()">تأكيد الطلب واتساب <i class="fab fa-whatsapp"></i></button>
     </div>
 </div>
 
 <script>
     const sheetURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRwVeN6ohlItpy6_3Fr5nIPaPgJoMoffwDfq85i8oG1c92XjW3wFknmB6Ahvj8BpQ/pub?output=csv';
+
+    // مصفوفة ذكية لربط اسم القسم بصورة حقيقية من سيرفر خارجي
+    const autoImages = {
+        'البيتزا': 'https://img.icons8.com/plasticine/200/pizza.png',
+        'الكريب': 'https://img.icons8.com/plasticine/200/pancake.png',
+        'الوجبات الغربي': 'https://img.icons8.com/plasticine/200/hamburger.png',
+        'المقبلات': 'https://img.icons8.com/plasticine/200/french-fries.png',
+        'المشروبات': 'https://img.icons8.com/plasticine/200/soda-bottle.png',
+        'الساندوتشات': 'https://img.icons8.com/plasticine/200/hot-dog.png'
+    };
 
     let products = [];
     let cart = [];
@@ -138,7 +144,6 @@
 
             categories = [...new Set(products.map(p => p.cat))];
             renderCats();
-            // تفعيل أول قسم تلقائياً وحذف "الكل"
             if(categories.length > 0) filter(categories[0]);
         } catch (e) { console.error(e); }
     }
@@ -146,7 +151,7 @@
     function renderCats() {
         document.getElementById('cat-list').innerHTML = categories.map((c, i) => `
             <div class="cat-card ${i===0?'active':''}" onclick="filter('${c}', event)">
-                <img src="logo${i+1}.jpg" onerror="this.src='logoo.jpg'">
+                <img src="${autoImages[c] || 'https://img.icons8.com/plasticine/200/restaurant.png'}">
                 <span>${c}</span>
             </div>
         `).join('');
@@ -157,9 +162,9 @@
             <div class="food-item">
                 <h3>${p.name}</h3>
                 <div class="price-options">
-                    ${p.small && p.small !== '-' ? `<button class="price-btn" onclick="add('${p.name} (صغير)', ${p.small}, event)"><span>صغير: ${p.small}ج</span> <i class="fas fa-plus-circle"></i></button>` : ''}
-                    ${p.medium && p.medium !== '-' ? `<button class="price-btn" onclick="add('${p.name} (وسط)', ${p.medium}, event)"><span>وسط: ${p.medium}ج</span> <i class="fas fa-plus-circle"></i></button>` : ''}
-                    ${p.large && p.large !== '-' ? `<button class="price-btn" onclick="add('${p.name} (كبير)', ${p.large}, event)"><span>كبير: ${p.large}ج</span> <i class="fas fa-plus-circle"></i></button>` : ''}
+                    ${p.small && p.small !== '-' ? `<button class="price-btn" onclick="add('${p.name} (صغير)', ${p.small}, event)"><span>صغير: ${p.small}ج</span> <i class="fas fa-cart-plus"></i></button>` : ''}
+                    ${p.medium && p.medium !== '-' ? `<button class="price-btn" onclick="add('${p.name} (وسط)', ${p.medium}, event)"><span>وسط: ${p.medium}ج</span> <i class="fas fa-cart-plus"></i></button>` : ''}
+                    ${p.large && p.large !== '-' ? `<button class="price-btn" onclick="add('${p.name} (كبير)', ${p.large}, event)"><span>كبير: ${p.large}ج</span> <i class="fas fa-cart-plus"></i></button>` : ''}
                 </div>
             </div>
         `).join('');
@@ -175,15 +180,10 @@
         const f = document.createElement('div');
         f.className = 'flyer';
         f.innerHTML = '<i class="fas fa-cart-arrow-down"></i>';
-        f.style.left = e.clientX + 'px';
-        f.style.top = e.clientY + 'px';
+        f.style.left = e.clientX + 'px'; f.style.top = e.clientY + 'px';
         document.body.appendChild(f);
         const target = document.querySelector('.cart-trigger').getBoundingClientRect();
-        setTimeout(() => { 
-            f.style.left = (target.left + 20) + 'px'; 
-            f.style.top = (target.top + 20) + 'px'; 
-            f.style.opacity = '0';
-        }, 50);
+        setTimeout(() => { f.style.left = (target.left + 20) + 'px'; f.style.top = (target.top + 20) + 'px'; f.style.opacity = '0'; }, 50);
         setTimeout(() => f.remove(), 600);
     }
 
@@ -209,7 +209,7 @@
 
     function submitFinalOrder() {
         const name = document.getElementById('c-name').value;
-        if(!name || cart.length === 0) return alert("اكتب اسمك واختر طلباتك أولاً");
+        if(!name || cart.length === 0) return alert("اكتب اسمك واختر طلباتك");
         let msg = `*طلب جديد من إبن سوريا*%0A*العميل:* ${name}%0A---%0A`;
         cart.forEach(i => msg += `- ${i.name} (${i.price}ج)%0A`);
         msg += `---%0A*الإجمالي:* ${document.getElementById('total-val').innerText}`;
