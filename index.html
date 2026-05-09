@@ -22,14 +22,18 @@
         body { background-color: var(--bg-ios); color: #1C1C1E; overflow-x: hidden; }
 
         header {
-            background: var(--white); padding: 20px;
+            background: var(--white); padding: 25px 20px;
             text-align: center; position: relative;
             border-bottom-left-radius: 35px; border-bottom-right-radius: 35px;
             box-shadow: var(--shadow);
+            z-index: 10;
         }
 
-        .main-logo { width: 75px; height: 75px; border-radius: 20px; margin-bottom: 5px; object-fit: cover; }
-        .header-address { font-size: 13px; font-weight: 700; color: var(--text-soft); margin-top: 5px; line-height: 1.4; }
+        /* تكبير اللوجو قليلاً */
+        .main-logo { width: 90px; height: 90px; border-radius: 22px; margin-bottom: 8px; object-fit: cover; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        
+        /* تنسيق العنوان الظريف */
+        .header-address { font-size: 12px; font-weight: 700; color: var(--blue-ios); background: #F0F7FF; display: inline-block; padding: 4px 12px; border-radius: 10px; margin-top: 5px; }
 
         .cart-trigger {
             position: absolute; top: 25px; left: 20px; width: 55px; height: 55px;
@@ -46,7 +50,7 @@
 
         .sticky-wrapper {
             position: sticky; top: 0; z-index: 1000; background: var(--bg-ios);
-            padding: 10px 0; box-shadow: 0 10px 20px rgba(0,0,0,0.02);
+            padding: 10px 0;
         }
         .categories-scroll { display: flex; gap: 12px; padding: 10px 20px; overflow-x: auto; scrollbar-width: none; }
         .categories-scroll::-webkit-scrollbar { display: none; }
@@ -56,7 +60,7 @@
         .cat-card.active img { border-color: var(--blue-ios); transform: scale(1.1); }
         .cat-card span { display: block; margin-top: 8px; font-weight: 800; font-size: 12px; color: #3A3A3C; }
 
-        .menu-container { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 10px 15px 30px; }
+        .menu-container { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 10px 15px 20px; }
         .food-item { background: var(--white); border-radius: 25px; padding: 15px; box-shadow: var(--shadow); display: flex; flex-direction: column; justify-content: space-between; }
         .food-item h3 { font-size: 15px; font-weight: 900; text-align: center; min-height: 40px; margin-bottom: 12px; line-height: 1.4; }
 
@@ -64,23 +68,22 @@
         .price-btn {
             background: #F8F8FA; border: 1.5px solid #EEE; padding: 14px 10px; border-radius: 16px;
             font-size: 13px; font-weight: 800; cursor: pointer; display: flex;
-            justify-content: space-between; align-items: center;
-            transition: all 0.2s;
+            justify-content: space-between; align-items: center; transition: 0.2s;
         }
         .price-btn i { color: var(--blue-ios); font-size: 18px; }
 
-        /* تذييل الصفحة المنسق */
+        /* تذييل الصفحة المدمج بدون حواف ومساحة أقل */
         .footer-info { 
-            text-align: center; padding: 30px 20px; background: var(--white); 
+            text-align: center; padding: 20px; background: var(--white); 
             border-top-left-radius: 40px; border-top-right-radius: 40px; 
-            margin-top: 20px; box-shadow: 0 -5px 25px rgba(0,0,0,0.05);
-            margin-bottom: 20px;
+            box-shadow: 0 -5px 25px rgba(0,0,0,0.05);
+            margin-top: 10px;
         }
-        .dev-credit { font-size: 14px; font-weight: 800; color: var(--blue-ios); margin-bottom: 15px; display: block; text-decoration: none; }
-        .footer-title { font-size: 13px; font-weight: 700; color: #888; margin-bottom: 8px; }
-        .footer-nums { display: flex; flex-direction: column; gap: 8px; margin-bottom: 15px; }
-        .footer-nums a { font-size: 17px; font-weight: 900; color: #1C1C1E; text-decoration: none; direction: ltr; }
-        .copyright { font-size: 11px; font-weight: 700; color: #BBB; margin-top: 10px; border-top: 1px solid #F2F2F7; padding-top: 10px; }
+        .dev-credit { font-size: 13px; font-weight: 800; color: var(--blue-ios); margin-bottom: 10px; display: block; text-decoration: none; }
+        .footer-title { font-size: 12px; font-weight: 700; color: #999; margin-bottom: 5px; }
+        .footer-nums { display: flex; flex-direction: column; gap: 5px; margin-bottom: 12px; }
+        .footer-nums a { font-size: 16px; font-weight: 900; color: #1C1C1E; text-decoration: none; direction: ltr; }
+        .copyright { font-size: 10px; font-weight: 700; color: #CCC; border-top: 1px solid #F2F2F7; padding-top: 10px; margin-top: 5px; }
 
         #cart-sheet-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -118,8 +121,8 @@
         <span id="cart-count">0</span>
     </div>
     <img src="logoo.jpg" class="main-logo" onerror="this.src='https://via.placeholder.com/100'">
-    <h2 style="font-size: 22px; font-weight: 900;">إبن سوريا</h2>
-    <p class="header-address">عنوان المطعم: نشا شارع السوق مقابل الريماس للسياحه والسفر</p>
+    <h2 style="font-size: 24px; font-weight: 900;">إبن سوريا</h2>
+    <div class="header-address">العنوان: نشا شارع السوق مقابل الريماس للسياحه والسفر</div>
 </header>
 
 <div class="sticky-wrapper">
@@ -130,8 +133,7 @@
 
 <div class="footer-info">
     <a href="tel:01003800314" class="dev-credit">
-        Designed by Eng/ Anas Gaber Shehata<br>
-        <i class="fas fa-phone-alt" style="font-size: 12px;"></i> 01003800314
+        Designed by Eng/ Anas Gaber Shehata <i class="fas fa-phone-alt" style="font-size: 11px; margin-right: 5px;"></i>
     </a>
     
     <div class="footer-title">أرقام المطعم</div>
