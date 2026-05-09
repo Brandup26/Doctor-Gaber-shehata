@@ -28,8 +28,8 @@
         }
 
         .main-logo { width: 75px; height: 75px; border-radius: 20px; margin-bottom: 5px; object-fit: cover; }
+        .header-address { font-size: 13px; font-weight: 700; color: #666; margin-top: 5px; line-height: 1.4; }
 
-        /* السلة فوق على الشمال */
         .cart-trigger {
             position: absolute; top: 25px; left: 20px; width: 55px; height: 55px;
             background: var(--white); border-radius: 18px; display: flex;
@@ -55,22 +55,23 @@
         .cat-card.active img { border-color: var(--blue-ios); transform: scale(1.1); }
         .cat-card span { display: block; margin-top: 8px; font-weight: 800; font-size: 12px; color: #3A3A3C; }
 
-        /* عرض المنيو */
-        .menu-container { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 10px 15px 120px; }
+        .menu-container { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 10px 15px 30px; }
         .food-item { background: var(--white); border-radius: 25px; padding: 15px; box-shadow: var(--shadow); display: flex; flex-direction: column; justify-content: space-between; }
         .food-item h3 { font-size: 15px; font-weight: 900; text-align: center; min-height: 40px; margin-bottom: 12px; line-height: 1.4; }
 
-        /* تكبير أزرار الأسعار */
         .price-options { display: flex; flex-direction: column; gap: 8px; }
         .price-btn {
             background: #F8F8FA; border: 1.5px solid #EEE; padding: 14px 10px; border-radius: 16px;
             font-size: 13px; font-weight: 800; cursor: pointer; display: flex;
             justify-content: space-between; align-items: center;
-            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.2s;
         }
         .price-btn i { color: var(--blue-ios); font-size: 18px; }
-        .price-btn:active { background: var(--blue-ios); color: white; border-color: var(--blue-ios); transform: scale(0.95); }
-        .price-btn:active i { color: white; }
+
+        /* تذييل الصفحة */
+        .footer-info { text-align: center; padding: 20px; background: var(--white); border-top-left-radius: 35px; border-top-right-radius: 35px; margin-top: 20px; box-shadow: 0 -5px 20px rgba(0,0,0,0.03); margin-bottom: 100px; }
+        .footer-nums { font-size: 16px; font-weight: 900; color: var(--blue-ios); margin-bottom: 10px; direction: ltr; }
+        .dev-credit { font-size: 12px; font-weight: 700; color: #888; }
 
         #cart-sheet-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -81,23 +82,23 @@
         .ios-bottom-sheet {
             width: 100%; background: var(--white); border-top-left-radius: 40px;
             border-top-right-radius: 40px; padding: 25px; transform: translateY(100%);
-            transition: 0.4s cubic-bezier(0.25, 1, 0.5, 1); max-height: 85vh; overflow-y: auto;
+            transition: 0.4s; max-height: 85vh; overflow-y: auto;
         }
         #cart-sheet-overlay.active .ios-bottom-sheet { transform: translateY(0); }
         .handle-bar { width: 40px; height: 5px; background: #D1D1D6; border-radius: 10px; margin: 0 auto 20px; }
 
-        .input-group { margin-bottom: 12px; }
-        .input-group input { width: 100%; padding: 18px; border-radius: 18px; border: 1.5px solid #E5E5EA; outline: none; font-size: 15px; font-weight: 600; }
+        .input-group { margin-bottom: 12px; text-align: right; }
+        .input-group input { width: 100%; padding: 18px; border-radius: 18px; border: 1.5px solid #E5E5EA; outline: none; font-size: 15px; font-weight: 600; text-align: right; }
         
         .confirm-btn { 
             width: 100%; padding: 22px; background: var(--gradient); color: white; 
             border: none; border-radius: 22px; font-size: 20px; font-weight: 900; 
-            cursor: pointer; margin-top: 15px; box-shadow: 0 10px 30px rgba(0,122,255,0.3);
-            display: flex; align-items: center; justify-content: center; gap: 10px;
+            cursor: pointer; margin-top: 15px;
         }
 
-        .cart-item-row { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #F2F2F7; font-weight: 700; }
-        .flyer { position: fixed; z-index: 9999; width: 30px; height: 30px; background: var(--blue-ios); border-radius: 50%; color: white; display: flex; align-items: center; justify-content: center; font-size: 14px; pointer-events: none; transition: all 0.7s cubic-bezier(0.32, 1, 0.23, 1); }
+        .cart-item-row { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid #F2F2F7; font-weight: 700; }
+        .remove-item { color: #FF3B30; cursor: pointer; padding: 5px 10px; font-size: 18px; }
+        .flyer { position: fixed; z-index: 9999; width: 30px; height: 30px; background: var(--blue-ios); border-radius: 50%; color: white; display: flex; align-items: center; justify-content: center; pointer-events: none; transition: all 0.7s cubic-bezier(0.32, 1, 0.23, 1); }
     </style>
 </head>
 <body>
@@ -109,6 +110,7 @@
     </div>
     <img src="logoo.jpg" class="main-logo" onerror="this.src='https://via.placeholder.com/100'">
     <h2 style="font-size: 22px; font-weight: 900;">إبن سوريا</h2>
+    <p class="header-address">نشا شارع السوق مقابل الريماس للسياحه والسفر</p>
 </header>
 
 <div class="sticky-wrapper">
@@ -116,6 +118,18 @@
 </div>
 
 <div class="menu-container" id="food-grid"></div>
+
+<div class="footer-info">
+    <div class="footer-nums">
+        01550035447<br>
+        01279616968<br>
+        01016991319
+    </div>
+    <div class="dev-credit">
+        Designed by Eng/ Anas Gaber Shehata<br>
+        01003800314
+    </div>
+</div>
 
 <div id="cart-sheet-overlay" onclick="if(event.target.id==='cart-sheet-overlay') toggleCart(false)">
     <div class="ios-bottom-sheet">
@@ -126,9 +140,9 @@
             <span>الإجمالي</span><span id="total-val">0 ج.م</span>
         </div>
         <div class="input-group"><input type="text" id="c-name" placeholder="الاسم الكريم"></div>
-        <div class="input-group"><input type="tel" id="c-phone" placeholder="رقم الهاتف"></div>
+        <div class="input-group"><input type="tel" id="c-phone" placeholder="رقم الهاتف" style="direction: rtl;"></div>
         <div class="input-group"><input type="text" id="c-address" placeholder="العنوان بالتفصيل"></div>
-        <button class="confirm-btn" onclick="submitFinalOrder()">تأكيد الطلب <i class="fab fa-whatsapp" style="font-size: 24px;"></i></button>
+        <button class="confirm-btn" onclick="submitFinalOrder()">تأكيد الطلب</button>
     </div>
 </div>
 
@@ -155,7 +169,7 @@
             categories = [...new Set(products.map(p => p.cat))];
             renderCats();
             if(categories.length > 0) filter(categories[0]);
-        } catch (e) { console.error("Error:", e); }
+        } catch (e) { console.error(e); }
     }
 
     function renderCats() {
@@ -186,6 +200,11 @@
         flyAnimation(e);
     }
 
+    function removeItem(index) {
+        cart.splice(index, 1);
+        updateUI();
+    }
+
     function flyAnimation(e) {
         const flyer = document.createElement('div');
         flyer.className = 'flyer';
@@ -206,9 +225,13 @@
     function updateUI() {
         document.getElementById('cart-count').innerText = cart.length;
         let t = 0;
-        document.getElementById('cart-items-list').innerHTML = cart.map(i => {
+        document.getElementById('cart-items-list').innerHTML = cart.map((i, index) => {
             t += i.price;
-            return `<div class="cart-item-row"><span>${i.name}</span><span>${i.price} ج.م</span></div>`;
+            return `<div class="cart-item-row">
+                <i class="fas fa-trash-alt remove-item" onclick="removeItem(${index})"></i>
+                <span style="flex-grow:1; margin-right:10px;">${i.name}</span>
+                <span>${i.price} ج.م</span>
+            </div>`;
         }).join('');
         document.getElementById('total-val').innerText = t + " ج.م";
     }
