@@ -15,7 +15,7 @@
             --white: #FFFFFF;
             --shadow: 0 4px 20px rgba(0,0,0,0.08);
             --gradient: linear-gradient(135deg, #007AFF 0%, #00C6FF 100%);
-            --text-soft: #555;
+            --dev-color: #00BFFF; /* لون مميز لرقمك */
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Cairo', sans-serif; -webkit-tap-highlight-color: transparent; }
@@ -29,10 +29,7 @@
             z-index: 10;
         }
 
-        /* تكبير اللوجو قليلاً */
         .main-logo { width: 90px; height: 90px; border-radius: 22px; margin-bottom: 8px; object-fit: cover; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
-        
-        /* تنسيق العنوان الظريف */
         .header-address { font-size: 12px; font-weight: 700; color: var(--blue-ios); background: #F0F7FF; display: inline-block; padding: 4px 12px; border-radius: 10px; margin-top: 5px; }
 
         .cart-trigger {
@@ -72,18 +69,19 @@
         }
         .price-btn i { color: var(--blue-ios); font-size: 18px; }
 
-        /* تذييل الصفحة المدمج بدون حواف ومساحة أقل */
+        /* تذييل الصفحة المنسق بدون حواف أو فواصل لونية */
         .footer-info { 
-            text-align: center; padding: 20px; background: var(--white); 
-            border-top-left-radius: 40px; border-top-right-radius: 40px; 
-            box-shadow: 0 -5px 25px rgba(0,0,0,0.05);
-            margin-top: 10px;
+            text-align: center; padding: 20px; 
+            background: var(--bg-ios); /* نفس لون خلفية المنيو لإخفاء الحواف */
+            margin-top: 0;
         }
-        .dev-credit { font-size: 13px; font-weight: 800; color: var(--blue-ios); margin-bottom: 10px; display: block; text-decoration: none; }
-        .footer-title { font-size: 12px; font-weight: 700; color: #999; margin-bottom: 5px; }
-        .footer-nums { display: flex; flex-direction: column; gap: 5px; margin-bottom: 12px; }
+        .dev-credit { font-size: 13px; font-weight: 800; color: var(--blue-ios); text-decoration: none; display: block; margin-bottom: 5px; }
+        .dev-num { font-size: 15px; font-weight: 900; color: var(--dev-color); text-decoration: none; display: block; margin-bottom: 15px; direction: ltr; }
+        
+        .footer-title { font-size: 11px; font-weight: 700; color: #999; margin-bottom: 5px; }
+        .footer-nums { display: flex; flex-direction: column; gap: 4px; margin-bottom: 12px; }
         .footer-nums a { font-size: 16px; font-weight: 900; color: #1C1C1E; text-decoration: none; direction: ltr; }
-        .copyright { font-size: 10px; font-weight: 700; color: #CCC; border-top: 1px solid #F2F2F7; padding-top: 10px; margin-top: 5px; }
+        .copyright { font-size: 10px; font-weight: 700; color: #BBB; padding-top: 10px; margin-top: 5px; }
 
         #cart-sheet-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -132,8 +130,9 @@
 <div class="menu-container" id="food-grid"></div>
 
 <div class="footer-info">
-    <a href="tel:01003800314" class="dev-credit">
-        Designed by Eng/ Anas Gaber Shehata <i class="fas fa-phone-alt" style="font-size: 11px; margin-right: 5px;"></i>
+    <div class="dev-credit">Designed by Eng/ Anas Gaber Shehata</div>
+    <a href="tel:01003800314" class="dev-num">
+        <i class="fas fa-phone-alt" style="font-size: 12px; margin-right: 5px;"></i> 01003800314
     </a>
     
     <div class="footer-title">أرقام المطعم</div>
