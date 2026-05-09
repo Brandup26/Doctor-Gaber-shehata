@@ -21,6 +21,8 @@
             --gradient: linear-gradient(135deg, #007AFF 0%, #00C6FF 100%);
             --dev-color: #00BFFF;
             --green-ios: #34C759;
+            /* اللون الجديد للعنوان */
+            --address-text: #0056b3; 
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Cairo', sans-serif; -webkit-tap-highlight-color: transparent; }
@@ -29,7 +31,6 @@
             background-color: var(--bg-ios); 
             color: #1C1C1E; 
             overflow-x: hidden;
-            /* دعم حواف الآيفون */
             padding-top: env(safe-area-inset-top);
             padding-bottom: env(safe-area-inset-bottom);
         }
@@ -43,7 +44,19 @@
         }
 
         .main-logo { width: 90px; height: 90px; border-radius: 22px; margin-bottom: 8px; object-fit: cover; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
-        .header-address { font-size: 12px; font-weight: 700; color: var(--blue-ios); background: #F0F7FF; display: inline-block; padding: 4px 12px; border-radius: 10px; margin-top: 5px; }
+        
+        /* تعديل لون العنوان هنا */
+        .header-address { 
+            font-size: 12px; 
+            font-weight: 800; 
+            color: var(--address-text); /* لون أزرق غامق احترافي */
+            background: #EBF5FF; /* خلفية سماوية فاتحة جداً */
+            display: inline-block; 
+            padding: 5px 15px; 
+            border-radius: 12px; 
+            margin-top: 5px;
+            border: 1px solid rgba(0,122,255,0.1); /* إطار خفيف جداً */
+        }
 
         .cart-trigger {
             position: absolute; top: 25px; left: 20px; width: 55px; height: 55px;
@@ -70,7 +83,6 @@
         .cat-card.active img { border-color: var(--blue-ios); transform: scale(1.1); }
         .cat-card span { display: block; margin-top: 8px; font-weight: 800; font-size: 12px; color: #3A3A3C; }
 
-        /* التصميم القديم بتاعك (1fr 1fr) */
         .menu-container { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 10px 15px 20px; }
         
         .food-item { background: var(--white); border-radius: 25px; padding: 15px; box-shadow: var(--shadow); display: flex; flex-direction: column; justify-content: space-between; position: relative; }
@@ -131,7 +143,7 @@
     </div>
     <img src="logoo.jpg" class="main-logo" onerror="this.src='https://via.placeholder.com/100'">
     <h2 style="font-size: 24px; font-weight: 900;">إبن سوريا</h2>
-    <div class="header-address">العنوان: نشا شارع السوق مقابل الريماس للسياحه والسفر</div>
+    <div class="header-address"><i class="fas fa-map-marker-alt"></i> العنوان: نشا شارع السوق مقابل الريماس للسياحه والسفر</div>
 </header>
 
 <div class="sticky-wrapper">
@@ -221,8 +233,8 @@
                 <h3>${p.name}</h3>
                 <div class="price-options">
                     ${p.small && p.small !== '-' ? `<button class="price-btn" onclick="add('${p.name} (${labelSmall})', ${p.small}, event)"><span>${labelSmall}: ${p.small}ج</span> <i class="fas fa-plus-circle"></i></button>` : ''}
-                    ${p.medium && p.medium !== '-' ? `<button class="price-btn" onclick="add('${p.name} (${labelMedium})', ${p.medium}, event)"><span>${labelMedium}: ${p.medium}ج</span> <i class="fas fa-plus-circle"></i></button>` : ''}
-                    ${p.large && p.large !== '-' ? `<button class="price-btn" onclick="add('${p.name} (${labelLarge})', ${p.large}, event)"><span>${labelLarge}: ${p.large}ج</span> <i class="fas fa-plus-circle"></i></button>` : ''}
+                    ${p.medium && p.medium !== '-' ? `<button class="price-btn" onclick="add('${p.name} (${labelMedium})', ${p.medium}, event)"><span>وسط: ${p.medium}ج</span> <i class="fas fa-plus-circle"></i></button>` : ''}
+                    ${p.large && p.large !== '-' ? `<button class="price-btn" onclick="add('${p.name} (${labelLarge})', ${p.large}, event)"><span>كبير: ${p.large}ج</span> <i class="fas fa-plus-circle"></i></button>` : ''}
                 </div>
             </div>
         `}).join('');
