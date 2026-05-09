@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>إبن سوريا - تطبيق المنيو</title>
+    <title>منيو إبن سوريا - النسخة الاحترافية</title>
     
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -25,121 +25,119 @@
             --green-ios: #34C759;
         }
 
-        /* تنسيق الأبلكيشن ليكون سلس وسريع */
-        * { 
-            box-sizing: border-box; 
-            margin: 0; padding: 0; 
-            font-family: 'Cairo', sans-serif; 
-            -webkit-tap-highlight-color: transparent; 
-            user-select: none; /* يمنع التحديد المزعج كأنه تطبيق */
-        }
-
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Cairo', sans-serif; -webkit-tap-highlight-color: transparent; }
+        
         body { 
             background-color: var(--bg-ios); 
             color: #1C1C1E; 
             overflow-x: hidden;
-            /* دعم منطقة الآيفون العليا */
+            /* دعم هوامش الآيفون والأجهزة الحديثة */
             padding-top: env(safe-area-inset-top);
+            padding-bottom: env(safe-area-inset-bottom);
         }
 
         header {
-            background: var(--white); padding: 20px;
+            background: var(--white); padding: 25px 20px;
             text-align: center; position: relative;
-            border-bottom-left-radius: 30px; border-bottom-right-radius: 30px;
+            border-bottom-left-radius: 35px; border-bottom-right-radius: 35px;
             box-shadow: var(--shadow);
-            z-index: 1001;
+            z-index: 10;
         }
 
-        .main-logo { width: 85px; height: 85px; border-radius: 20px; margin-bottom: 5px; object-fit: cover; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
-        .header-address { font-size: 11px; font-weight: 700; color: var(--blue-ios); background: #F0F7FF; display: inline-block; padding: 4px 12px; border-radius: 10px; }
+        .main-logo { width: 90px; height: 90px; border-radius: 22px; margin-bottom: 8px; object-fit: cover; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        .header-address { font-size: 12px; font-weight: 700; color: var(--blue-ios); background: #F0F7FF; display: inline-block; padding: 4px 12px; border-radius: 10px; margin-top: 5px; }
 
         .cart-trigger {
-            position: absolute; top: 20px; left: 20px; width: 50px; height: 50px;
-            background: var(--white); border-radius: 15px; display: flex;
+            position: absolute; top: 25px; left: 20px; width: 55px; height: 55px;
+            background: var(--white); border-radius: 18px; display: flex;
             align-items: center; justify-content: center; cursor: pointer;
-            box-shadow: var(--shadow); transition: 0.2s;
+            box-shadow: var(--shadow); transition: 0.3s;
         }
         #cart-count {
             position: absolute; top: -5px; right: -5px; background: #FF3B30;
-            color: white; font-size: 10px; width: 20px; height: 20px;
+            color: white; font-size: 11px; width: 22px; height: 22px;
             border-radius: 50%; display: flex; align-items: center; justify-content: center;
             font-weight: 900; border: 2px solid white;
         }
 
         .sticky-wrapper {
             position: sticky; top: 0; z-index: 1000; background: var(--bg-ios);
-            padding: 10px 0; box-shadow: 0 10px 15px -10px rgba(0,0,0,0.05);
+            padding: 10px 0;
         }
-        .categories-scroll { display: flex; gap: 12px; padding: 5px 20px; overflow-x: auto; scrollbar-width: none; }
+        .categories-scroll { display: flex; gap: 12px; padding: 10px 20px; overflow-x: auto; scrollbar-width: none; }
         .categories-scroll::-webkit-scrollbar { display: none; }
 
-        .cat-card { text-align: center; min-width: 80px; cursor: pointer; transition: 0.3s; }
-        .cat-card img { width: 70px; height: 70px; border-radius: 50%; object-fit: cover; border: 3px solid white; box-shadow: var(--shadow); transition: 0.3s; background: white; }
-        .cat-card.active img { border-color: var(--blue-ios); transform: scale(1.05); }
-        .cat-card span { display: block; margin-top: 6px; font-weight: 800; font-size: 11px; color: #3A3A3C; }
+        .cat-card { text-align: center; min-width: 85px; cursor: pointer; }
+        .cat-card img { width: 75px; height: 75px; border-radius: 50%; object-fit: cover; border: 3px solid white; box-shadow: var(--shadow); transition: 0.3s; background: white; }
+        .cat-card.active img { border-color: var(--blue-ios); transform: scale(1.1); }
+        .cat-card span { display: block; margin-top: 8px; font-weight: 800; font-size: 12px; color: #3A3A3C; }
 
-        /* تعديل شبكة المنيو لتناسب كل الهواتف */
+        /* تعديل المنيو ليكون متجاوب تماماً مع جميع الهواتف */
         .menu-container { 
             display: grid; 
             grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); 
-            gap: 12px; padding: 15px; 
+            gap: 12px; padding: 10px 15px 20px; 
         }
-        
-        .food-item { background: var(--white); border-radius: 22px; padding: 12px; box-shadow: var(--shadow); display: flex; flex-direction: column; justify-content: space-between; position: relative; }
-        .food-item h3 { font-size: 14px; font-weight: 900; text-align: center; min-height: 35px; margin-bottom: 10px; line-height: 1.3; }
 
-        .price-options { display: flex; flex-direction: column; gap: 6px; }
+        .food-item { background: var(--white); border-radius: 25px; padding: 15px; box-shadow: var(--shadow); display: flex; flex-direction: column; justify-content: space-between; position: relative; }
+        .food-item h3 { font-size: 15px; font-weight: 900; text-align: center; min-height: 40px; margin-bottom: 12px; line-height: 1.4; }
+
+        .price-options { display: flex; flex-direction: column; gap: 8px; }
         .price-btn {
-            background: #F8F8FA; border: 1px solid #EEE; padding: 12px 8px; border-radius: 14px;
-            font-size: 12px; font-weight: 800; cursor: pointer; display: flex;
-            justify-content: space-between; align-items: center; transition: 0.2s;
+            background: #F8F8FA; border: 1.5px solid #EEE; padding: 14px 10px; border-radius: 16px;
+            font-size: 13px; font-weight: 800; cursor: pointer; display: flex;
+            justify-content: space-between; align-items: center; transition: all 0.3s ease;
         }
-        .price-btn i { color: var(--blue-ios); font-size: 16px; }
-        .price-btn.added { background: #E8F5E9; border-color: var(--green-ios); color: var(--green-ios); }
+        .price-btn i { color: var(--blue-ios); font-size: 18px; transition: 0.3s; }
+        
+        .price-btn.added { background: #E8F5E9; border-color: var(--green-ios); color: var(--green-ios); transform: scale(0.95); }
+        .price-btn.added i { color: var(--green-ios); transform: rotate(360deg); }
 
-        .add-toast { position: absolute; top: 5px; left: 50%; transform: translateX(-50%); background: var(--green-ios); color: white; padding: 3px 8px; border-radius: 8px; font-size: 9px; font-weight: 800; opacity: 0; transition: 0.3s; }
-        .add-toast.show { opacity: 1; }
+        .add-toast { position: absolute; top: -10px; left: 50%; transform: translateX(-50%); background: var(--green-ios); color: white; padding: 4px 10px; border-radius: 10px; font-size: 10px; font-weight: 800; opacity: 0; pointer-events: none; transition: 0.3s; }
+        .add-toast.show { top: 5px; opacity: 1; }
 
-        /* السلة (IOS Sheet) */
+        .footer-info { text-align: center; padding: 20px; background: var(--bg-ios); margin-top: 0; }
+        .dev-credit { font-size: 13px; font-weight: 800; color: var(--blue-ios); text-decoration: none; display: block; margin-bottom: 5px; }
+        .dev-num { font-size: 15px; font-weight: 900; color: var(--dev-color); text-decoration: none; display: block; margin-bottom: 15px; direction: ltr; }
+        .footer-title { font-size: 11px; font-weight: 700; color: #999; margin-bottom: 5px; }
+        .footer-nums { display: flex; flex-direction: column; gap: 4px; margin-bottom: 12px; }
+        .footer-nums a { font-size: 16px; font-weight: 900; color: #1C1C1E; text-decoration: none; direction: ltr; }
+        .copyright { font-size: 10px; font-weight: 700; color: #BBB; padding-top: 10px; margin-top: 5px; }
+
         #cart-sheet-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.4); backdrop-filter: blur(5px); z-index: 2000;
-            visibility: hidden; opacity: 0; transition: 0.3s; display: flex; align-items: flex-end;
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); z-index: 2000;
+            visibility: hidden; opacity: 0; transition: 0.4s; display: flex; align-items: flex-end;
         }
         #cart-sheet-overlay.active { visibility: visible; opacity: 1; }
         .ios-bottom-sheet {
-            width: 100%; background: var(--white); border-top-left-radius: 35px;
-            border-top-right-radius: 35px; padding: 20px 20px calc(20px + env(safe-area-inset-bottom)); 
-            transform: translateY(100%); transition: 0.4s cubic-bezier(0.25, 0.1, 0.25, 1);
-            max-height: 80vh; overflow-y: auto;
+            width: 100%; background: var(--white); border-top-left-radius: 40px;
+            border-top-right-radius: 40px; padding: 25px 25px calc(25px + env(safe-area-inset-bottom)); 
+            transform: translateY(100%);
+            transition: 0.4s cubic-bezier(0.25, 0.1, 0.25, 1);
+            max-height: 85vh; overflow-y: auto;
         }
         #cart-sheet-overlay.active .ios-bottom-sheet { transform: translateY(0); }
-        .handle-bar { width: 35px; height: 4px; background: #D1D1D6; border-radius: 10px; margin: 0 auto 15px; }
+        .handle-bar { width: 40px; height: 5px; background: #D1D1D6; border-radius: 10px; margin: 0 auto 20px; }
 
-        .input-group input { 
-            width: 100%; padding: 15px; border-radius: 15px; border: 1px solid #E5E5EA; 
-            outline: none; font-size: 14px; font-weight: 600; text-align: right; background: #F9F9F9;
-            margin-bottom: 10px;
-        }
-        
-        .confirm-btn { width: 100%; padding: 18px; background: var(--gradient); color: white; border: none; border-radius: 20px; font-size: 18px; font-weight: 900; cursor: pointer; }
+        .input-group { margin-bottom: 12px; text-align: right; }
+        .input-group input { width: 100%; padding: 18px; border-radius: 18px; border: 1.5px solid #E5E5EA; outline: none; font-size: 15px; font-weight: 600; text-align: right; }
+        .confirm-btn { width: 100%; padding: 22px; background: var(--gradient); color: white; border: none; border-radius: 22px; font-size: 20px; font-weight: 900; cursor: pointer; margin-top: 15px; }
 
-        .footer-info { text-align: center; padding: 30px 20px; background: var(--bg-ios); }
-        .dev-credit { font-size: 12px; font-weight: 800; color: var(--blue-ios); display: block; margin-bottom: 2px; text-decoration: none;}
-        .dev-num { font-size: 14px; font-weight: 900; color: var(--dev-color); direction: ltr; display: block; margin-bottom: 15px; text-decoration: none;}
-
-        .flyer { position: fixed; z-index: 9999; width: 25px; height: 25px; background: var(--blue-ios); border-radius: 50%; color: white; display: flex; align-items: center; justify-content: center; pointer-events: none; transition: all 0.6s ease-in; }
+        .cart-item-row { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid #F2F2F7; font-weight: 700; }
+        .remove-item { color: #FF3B30; cursor: pointer; padding: 5px 10px; font-size: 18px; }
+        .flyer { position: fixed; z-index: 9999; width: 30px; height: 30px; background: var(--blue-ios); border-radius: 50%; color: white; display: flex; align-items: center; justify-content: center; pointer-events: none; transition: all 0.7s cubic-bezier(0.32, 1, 0.23, 1); }
     </style>
 </head>
 <body>
 
 <header>
     <div class="cart-trigger" onclick="toggleCart(true)">
-        <i class="fas fa-shopping-bag" style="font-size: 22px; color: var(--blue-ios);"></i>
+        <i class="fas fa-shopping-bag" style="font-size: 24px; color: var(--blue-ios);"></i>
         <span id="cart-count">0</span>
     </div>
     <img src="logoo.jpg" class="main-logo" onerror="this.src='https://via.placeholder.com/100'">
-    <h2 style="font-size: 22px; font-weight: 900;">إبن سوريا</h2>
+    <h2 style="font-size: 24px; font-weight: 900;">إبن سوريا</h2>
     <div class="header-address">العنوان: نشا شارع السوق مقابل الريماس للسياحه والسفر</div>
 </header>
 
@@ -151,31 +149,34 @@
 
 <div class="footer-info">
     <div class="dev-credit">Designed by Eng/ Anas Gaber Shehata</div>
-    <a href="tel:01003800314" class="dev-num">01003800314</a>
+    <a href="tel:01003800314" class="dev-num">
+        <i class="fas fa-phone-alt" style="font-size: 12px; margin-right: 5px;"></i> 01003800314
+    </a>
     
-    <div style="font-size: 10px; color: #999; margin-bottom: 5px;">أرقام المطعم</div>
-    <div style="display: flex; flex-direction: column; gap: 5px; margin-bottom: 15px;">
-        <a href="tel:01550035447" style="text-decoration:none; color:#1C1C1E; font-weight:900;">01550035447</a>
-        <a href="tel:01279616968" style="text-decoration:none; color:#1C1C1E; font-weight:900;">01279616968</a>
-        <a href="tel:01016991319" style="text-decoration:none; color:#1C1C1E; font-weight:900;">01016991319</a>
+    <div class="footer-title">أرقام المطعم</div>
+    <div class="footer-nums">
+        <a href="tel:01550035447">01550035447</a>
+        <a href="tel:01279616968">01279616968</a>
+        <a href="tel:01016991319">01016991319</a>
     </div>
-    <div style="font-size: 9px; color: #BBB;">جميع الحقوق محفوظة لـ مطعم ابن سوريا 2026 ©</div>
+
+    <div class="copyright">
+        جميع الحقوق محفوظة لـ مطعم ابن سوريا 2026 ©
+    </div>
 </div>
 
 <div id="cart-sheet-overlay" onclick="if(event.target.id==='cart-sheet-overlay') toggleCart(false)">
     <div class="ios-bottom-sheet">
         <div class="handle-bar"></div>
-        <h3 style="text-align: center; margin-bottom: 15px; font-weight: 900;">سلة طلباتك</h3>
-        <div id="cart-items-list" style="margin-bottom: 15px;"></div>
-        <div style="padding: 10px 0; border-top: 1px solid #EEE; display: flex; justify-content: space-between; font-size: 20px; font-weight: 900; color: var(--blue-ios); margin-bottom: 15px;">
+        <h2 style="text-align: center; margin-bottom: 20px; font-weight: 900; font-size: 24px;">سلة طلباتك</h2>
+        <div id="cart-items-list"></div>
+        <div style="padding: 15px 0; border-top: 2px solid #F2F2F7; display: flex; justify-content: space-between; font-size: 22px; font-weight: 900; color: var(--blue-ios);">
             <span>الإجمالي</span><span id="total-val">0 ج.م</span>
         </div>
-        <div class="input-group">
-            <input type="text" id="c-name" placeholder="الاسم" autocomplete="name">
-            <input type="tel" id="c-phone" placeholder="رقم الهاتف" autocomplete="tel">
-            <input type="text" id="c-address" placeholder="العنوان بالتفصيل">
-        </div>
-        <button class="confirm-btn" onclick="submitFinalOrder()">إرسال الطلب عبر واتساب</button>
+        <div class="input-group"><input type="text" id="c-name" placeholder="الاسم"></div>
+        <div class="input-group"><input type="tel" id="c-phone" placeholder="رقم الهاتف" style="direction: rtl;"></div>
+        <div class="input-group"><input type="text" id="c-address" placeholder="العنوان بالتفصيل"></div>
+        <button class="confirm-btn" onclick="submitFinalOrder()">تأكيد الطلب</button>
     </div>
 </div>
 
@@ -183,23 +184,26 @@
     const sheetURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRwVeN6ohlItpy6_3Fr5nIPaPgJoMoffwDfq85i8oG1c92XjW3wFknmB6Ahvj8BpQ/pub?output=csv';
     let products = [], cart = [], categories = [];
 
-    // جلب البيانات بسرعة
+    function parseCSV(text) {
+        const rows = text.split('\n');
+        return rows.slice(1).map(row => {
+            const cols = row.match(/(".*?"|[^",\r\n]+)(?=\s*,|\s*$)/g);
+            if (cols) {
+                const cleanCols = cols.map(c => c.replace(/^"|"$/g, '').trim());
+                return { cat: cleanCols[0], name: cleanCols[1], small: cleanCols[2], medium: cleanCols[3], large: cleanCols[4] };
+            }
+        }).filter(item => item && item.name);
+    }
+
     async function loadData() {
         try {
             const res = await fetch(sheetURL);
             const text = await res.text();
-            const rows = text.split('\n').slice(1);
-            products = rows.map(row => {
-                const cols = row.match(/(".*?"|[^",\r\n]+)(?=\s*,|\s*$)/g);
-                if (cols) {
-                    const clean = cols.map(c => c.replace(/^"|"$/g, '').trim());
-                    return { cat: clean[0], name: clean[1], small: clean[2], medium: clean[3], large: clean[4] };
-                }
-            }).filter(p => p && p.name);
+            products = parseCSV(text);
             categories = [...new Set(products.map(p => p.cat))];
             renderCats();
             if(categories.length > 0) filter(categories[0]);
-        } catch (e) { alert("تأكد من نشر الشيت كـ CSV"); }
+        } catch (e) { console.error(e); }
     }
 
     function renderCats() {
@@ -211,62 +215,77 @@
         `).join('');
     }
 
-    function filter(cat, e) {
-        if(e) {
-            document.querySelectorAll('.cat-card').forEach(x => x.classList.remove('active'));
-            e.currentTarget.classList.add('active');
-        }
-        const filtered = products.filter(p => p.cat === cat);
-        document.getElementById('food-grid').innerHTML = filtered.map(p => {
+    function render(items) {
+        document.getElementById('food-grid').innerHTML = items.map(p => {
             const isPizza = p.cat.includes('بيتزا');
-            const lSmall = isPizza ? 'صغير' : 'السعر';
+            const labelSmall = isPizza ? 'صغير' : 'السعر';
+            const labelMedium = isPizza ? 'وسط' : 'وسط';
+            const labelLarge = isPizza ? 'كبير' : 'كبير';
+
             return `
             <div class="food-item">
                 <div class="add-toast">تمت الإضافة ✓</div>
                 <h3>${p.name}</h3>
                 <div class="price-options">
-                    ${p.small && p.small !== '-' ? `<button class="price-btn" onclick="add('${p.name} (${lSmall})', ${p.small}, event)"><span>${lSmall}: ${p.small}ج</span> <i class="fas fa-plus-circle"></i></button>` : ''}
-                    ${p.medium && p.medium !== '-' ? `<button class="price-btn" onclick="add('${p.name} (وسط)', ${p.medium}, event)"><span>وسط: ${p.medium}ج</span> <i class="fas fa-plus-circle"></i></button>` : ''}
-                    ${p.large && p.large !== '-' ? `<button class="price-btn" onclick="add('${p.name} (كبير)', ${p.large}, event)"><span>كبير: ${p.large}ج</span> <i class="fas fa-plus-circle"></i></button>` : ''}
+                    ${p.small && p.small !== '-' ? `<button class="price-btn" onclick="add('${p.name} (${labelSmall})', ${p.small}, event)"><span>${labelSmall}: ${p.small}ج</span> <i class="fas fa-plus-circle"></i></button>` : ''}
+                    ${p.medium && p.medium !== '-' ? `<button class="price-btn" onclick="add('${p.name} (${labelMedium})', ${p.medium}, event)"><span>${labelMedium}: ${p.medium}ج</span> <i class="fas fa-plus-circle"></i></button>` : ''}
+                    ${p.large && p.large !== '-' ? `<button class="price-btn" onclick="add('${p.name} (${labelLarge})', ${p.large}, event)"><span>${labelLarge}: ${p.large}ج</span> <i class="fas fa-plus-circle"></i></button>` : ''}
                 </div>
-            </div>`;
-        }).join('');
+            </div>
+        `}).join('');
     }
 
     function add(n, p, e) {
         cart.push({name:n, price:parseFloat(p)});
         updateUI();
+        flyAnimation(e);
         
-        // تأثير الزرار
         const btn = e.currentTarget;
+        const icon = btn.querySelector('i');
         const toast = btn.closest('.food-item').querySelector('.add-toast');
+        
         btn.classList.add('added');
+        icon.className = 'fas fa-check-circle';
         toast.classList.add('show');
-        setTimeout(() => { btn.classList.remove('added'); toast.classList.remove('show'); }, 1000);
+        
+        setTimeout(() => {
+            btn.classList.remove('added');
+            icon.className = 'fas fa-plus-circle';
+            toast.classList.remove('show');
+        }, 1200);
+    }
 
-        // أنيميشن الطيران
-        const fly = document.createElement('div');
-        fly.className = 'flyer'; fly.innerHTML = '❤️';
-        fly.style.left = e.clientX + 'px'; fly.style.top = e.clientY + 'px';
-        document.body.appendChild(fly);
+    function removeItem(index) {
+        cart.splice(index, 1);
+        updateUI();
+    }
+
+    function flyAnimation(e) {
+        const flyer = document.createElement('div');
+        flyer.className = 'flyer';
+        flyer.innerHTML = '<i class="fas fa-cart-plus"></i>';
+        flyer.style.left = e.clientX + 'px';
+        flyer.style.top = e.clientY + 'px';
+        document.body.appendChild(flyer);
         const cartPos = document.querySelector('.cart-trigger').getBoundingClientRect();
         setTimeout(() => {
-            fly.style.left = (cartPos.left + 20) + 'px';
-            fly.style.top = (cartPos.top + 20) + 'px';
-            fly.style.opacity = '0';
+            flyer.style.left = (cartPos.left + 20) + 'px';
+            flyer.style.top = (cartPos.top + 20) + 'px';
+            flyer.style.opacity = '0';
+            flyer.style.transform = 'scale(0.2) rotate(360deg)';
         }, 50);
-        setTimeout(() => fly.remove(), 600);
+        setTimeout(() => flyer.remove(), 750);
     }
 
     function updateUI() {
         document.getElementById('cart-count').innerText = cart.length;
         let t = 0;
-        document.getElementById('cart-items-list').innerHTML = cart.map((i, idx) => {
+        document.getElementById('cart-items-list').innerHTML = cart.map((i, index) => {
             t += i.price;
-            return `<div style="display:flex; justify-content:space-between; padding:10px 0; border-bottom:1px solid #F2F2F7; font-size:14px; font-weight:700;">
-                <span onclick="cart.splice(${idx},1);updateUI()" style="color:#FF3B30;">❌</span>
-                <span style="flex-grow:1; margin-right:10px; text-align:right;">${i.name}</span>
-                <span>${i.price}ج</span>
+            return `<div class="cart-item-row">
+                <i class="fas fa-trash-alt remove-item" onclick="removeItem(${index})"></i>
+                <span style="flex-grow:1; margin-right:10px;">${i.name}</span>
+                <span>${i.price} ج.م</span>
             </div>`;
         }).join('');
         document.getElementById('total-val').innerText = t + " ج.م";
@@ -278,20 +297,36 @@
         else { o.classList.remove('active'); }
     }
 
+    window.onpopstate = () => document.getElementById('cart-sheet-overlay').classList.remove('active');
+
     function submitFinalOrder() {
         const n = document.getElementById('c-name').value, p = document.getElementById('c-phone').value, a = document.getElementById('c-address').value;
-        if(!n || !p || !a || cart.length === 0) return alert("اكمل البيانات والطلبات أولاً");
+        if(!n || !p || !a || cart.length === 0) return alert("برجاء إكمال البيانات");
         
-        let msg = `*طلب جديد من إبن سوريا* 🌯%0A%0A👤 *الاسم:* ${n}%0A📱 *الهاتف:* ${p}%0A📍 *العنوان:* ${a}%0A%0A📑 *الطلبات:*%0A`;
-        cart.forEach((i, idx) => msg += `${idx + 1}- ${i.name} (${i.price}ج)%0A`);
-        msg += `%0A💰 *الإجمالي:* ${document.getElementById('total-val').innerText}`;
+        let msg = `*طلب جديد من إبن سوريا* 🌯%0A%0A`;
+        msg += `👤 *الاسم:* ${n}%0A`;
+        msg += `📱 *الهاتف:* ${p}%0A`;
+        msg += `📍 *العنوان:* ${a}%0A%0A`;
+        msg += `📑 *الطلبات:*%0A`;
         
+        cart.forEach((i, idx) => {
+            msg += `${idx + 1}- ${i.name} (${i.price}ج)%0A`;
+        });
+        
+        msg += `%0A💰 *الإجمالي النهائي:* ${document.getElementById('total-val').innerText}`;
+
         window.open(`https://wa.me/201016991319?text=${msg}`);
     }
 
-    window.onpopstate = () => toggleCart(false);
+    function filter(cat, e) {
+        if(e) {
+            document.querySelectorAll('.cat-card').forEach(x => x.classList.remove('active'));
+            e.currentTarget.classList.add('active');
+        }
+        render(products.filter(p => p.cat === cat));
+    }
+
     loadData();
 </script>
-
 </body>
 </html>
