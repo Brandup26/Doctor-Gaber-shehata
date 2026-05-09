@@ -16,6 +16,7 @@
             --shadow: 0 4px 20px rgba(0,0,0,0.08);
             --gradient: linear-gradient(135deg, #007AFF 0%, #00C6FF 100%);
             --dev-color: #00BFFF;
+            --green-ios: #34C759; /* لون النجاح للاضافة */
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Cairo', sans-serif; -webkit-tap-highlight-color: transparent; }
@@ -58,25 +59,27 @@
         .cat-card span { display: block; margin-top: 8px; font-weight: 800; font-size: 12px; color: #3A3A3C; }
 
         .menu-container { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 10px 15px 20px; }
-        .food-item { background: var(--white); border-radius: 25px; padding: 15px; box-shadow: var(--shadow); display: flex; flex-direction: column; justify-content: space-between; }
+        .food-item { background: var(--white); border-radius: 25px; padding: 15px; box-shadow: var(--shadow); display: flex; flex-direction: column; justify-content: space-between; position: relative; }
         .food-item h3 { font-size: 15px; font-weight: 900; text-align: center; min-height: 40px; margin-bottom: 12px; line-height: 1.4; }
 
         .price-options { display: flex; flex-direction: column; gap: 8px; }
         .price-btn {
             background: #F8F8FA; border: 1.5px solid #EEE; padding: 14px 10px; border-radius: 16px;
             font-size: 13px; font-weight: 800; cursor: pointer; display: flex;
-            justify-content: space-between; align-items: center; transition: 0.2s;
+            justify-content: space-between; align-items: center; transition: all 0.3s ease;
         }
-        .price-btn i { color: var(--blue-ios); font-size: 18px; }
+        .price-btn i { color: var(--blue-ios); font-size: 18px; transition: 0.3s; }
+        
+        /* حالة الضغط (Added state) */
+        .price-btn.added { background: #E8F5E9; border-color: var(--green-ios); color: var(--green-ios); transform: scale(0.95); }
+        .price-btn.added i { color: var(--green-ios); transform: rotate(360deg); }
 
-        .footer-info { 
-            text-align: center; padding: 20px; 
-            background: var(--bg-ios);
-            margin-top: 0;
-        }
+        .add-toast { position: absolute; top: -10px; left: 50%; transform: translateX(-50%); background: var(--green-ios); color: white; padding: 4px 10px; border-radius: 10px; font-size: 10px; font-weight: 800; opacity: 0; pointer-events: none; transition: 0.3s; }
+        .add-toast.show { top: 5px; opacity: 1; }
+
+        .footer-info { text-align: center; padding: 20px; background: var(--bg-ios); margin-top: 0; }
         .dev-credit { font-size: 13px; font-weight: 800; color: var(--blue-ios); text-decoration: none; display: block; margin-bottom: 5px; }
         .dev-num { font-size: 15px; font-weight: 900; color: var(--dev-color); text-decoration: none; display: block; margin-bottom: 15px; direction: ltr; }
-        
         .footer-title { font-size: 11px; font-weight: 700; color: #999; margin-bottom: 5px; }
         .footer-nums { display: flex; flex-direction: column; gap: 4px; margin-bottom: 12px; }
         .footer-nums a { font-size: 16px; font-weight: 900; color: #1C1C1E; text-decoration: none; direction: ltr; }
@@ -98,12 +101,7 @@
 
         .input-group { margin-bottom: 12px; text-align: right; }
         .input-group input { width: 100%; padding: 18px; border-radius: 18px; border: 1.5px solid #E5E5EA; outline: none; font-size: 15px; font-weight: 600; text-align: right; }
-        
-        .confirm-btn { 
-            width: 100%; padding: 22px; background: var(--gradient); color: white; 
-            border: none; border-radius: 22px; font-size: 20px; font-weight: 900; 
-            cursor: pointer; margin-top: 15px;
-        }
+        .confirm-btn { width: 100%; padding: 22px; background: var(--gradient); color: white; border: none; border-radius: 22px; font-size: 20px; font-weight: 900; cursor: pointer; margin-top: 15px; }
 
         .cart-item-row { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid #F2F2F7; font-weight: 700; }
         .remove-item { color: #FF3B30; cursor: pointer; padding: 5px 10px; font-size: 18px; }
@@ -151,7 +149,7 @@
         <div class="handle-bar"></div>
         <h2 style="text-align: center; margin-bottom: 20px; font-weight: 900; font-size: 24px;">سلة طلباتك</h2>
         <div id="cart-items-list"></div>
-        <div style="padding: 15px 0; display: flex; justify-content: space-between; font-size: 22px; font-weight: 900; color: var(--blue-ios); border-top: 2px solid #F2F2F7;">
+        <div style="padding: 15px 0; border-top: 2px solid #F2F2F7; display: flex; justify-content: space-between; font-size: 22px; font-weight: 900; color: var(--blue-ios);">
             <span>الإجمالي</span><span id="total-val">0 ج.م</span>
         </div>
         <div class="input-group"><input type="text" id="c-name" placeholder="الاسم"></div>
@@ -198,7 +196,6 @@
 
     function render(items) {
         document.getElementById('food-grid').innerHTML = items.map(p => {
-            // منطق تعديل مسميات الأحجام بناءً على القسم
             const isPizza = p.cat.includes('بيتزا');
             const labelSmall = isPizza ? 'صغير' : 'السعر';
             const labelMedium = isPizza ? 'وسط' : 'وسط';
@@ -206,6 +203,7 @@
 
             return `
             <div class="food-item">
+                <div class="add-toast">تمت الإضافة ✓</div>
                 <h3>${p.name}</h3>
                 <div class="price-options">
                     ${p.small && p.small !== '-' ? `<button class="price-btn" onclick="add('${p.name} (${labelSmall})', ${p.small}, event)"><span>${labelSmall}: ${p.small}ج</span> <i class="fas fa-plus-circle"></i></button>` : ''}
@@ -220,6 +218,21 @@
         cart.push({name:n, price:parseFloat(p)});
         updateUI();
         flyAnimation(e);
+        
+        // تأثيرات بصرية على الزرار
+        const btn = e.currentTarget;
+        const icon = btn.querySelector('i');
+        const toast = btn.closest('.food-item').querySelector('.add-toast');
+        
+        btn.classList.add('added');
+        icon.className = 'fas fa-check-circle';
+        toast.classList.add('show');
+        
+        setTimeout(() => {
+            btn.classList.remove('added');
+            icon.className = 'fas fa-plus-circle';
+            toast.classList.remove('show');
+        }, 1200);
     }
 
     function removeItem(index) {
