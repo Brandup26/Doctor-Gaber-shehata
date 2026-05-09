@@ -5,14 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>منيو إبن سوريا - النسخة الاحترافية</title>
     
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#007AFF">
+    <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="إبن سوريا">
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="theme-color" content="#007AFF">
     <link rel="apple-touch-icon" href="logoo.jpg">
-    
-    <link rel="manifest" href="data:application/manifest+json,{%22name%22:%22%D8%A5%D8%A8%D9%86%20%D8%B3%D9%84%D8%A7%D9%85%22,%22short_name%22:%22%D8%A5%D8%A8%D9%86%20%D8%B3%D9%88%D8%B1%D9%8A%D8%A7%22,%22start_url%22:%22.%22,%22display%22:%22standalone%22,%22background_color%22:%22#F2F2F7%22,%22theme_color%22:%22#007AFF%22,%22icons%22:[{%22src%22:%22logoo.jpg%22,%22sizes%22:%22512x512%22,%22type%22:%22image/jpg%22}]}">
 
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -217,13 +216,12 @@
 </div>
 
 <script>
-    // Service Worker Registration for PWA Install
+    // تفعيل الـ Service Worker لتمكين ميزة "التثبيت"
     if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
-            const swCode = `self.addEventListener('fetch', function(e) { e.respondWith(fetch(e.request)); });`;
-            const blob = new Blob([swCode], {type: 'text/javascript'});
-            const url = URL.createObjectURL(blob);
-            navigator.serviceWorker.register(url);
+            navigator.serviceWorker.register('sw.js')
+            .then(reg => console.log('Service Worker Registered!'))
+            .catch(err => console.log('Service Worker Failed!', err));
         });
     }
 
