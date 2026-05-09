@@ -281,22 +281,17 @@
         const n = document.getElementById('c-name').value, p = document.getElementById('c-phone').value, a = document.getElementById('c-address').value;
         if(!n || !p || !a || cart.length === 0) return alert("برجاء إكمال البيانات");
         
-        // تنسيق الرسالة بشكل احترافي مع Emoji
-        let msg = `*طلب جديد من إبن سوريا* 🌯%0A`;
-        msg += `══════════════%0A`;
+        let msg = `*طلب جديد من إبن سوريا* 🌯%0A%0A`;
         msg += `👤 *الاسم:* ${n}%0A`;
         msg += `📱 *الهاتف:* ${p}%0A`;
-        msg += `📍 *العنوان:* ${a}%0A`;
-        msg += `══════════════%0A`;
+        msg += `📍 *العنوان:* ${a}%0A%0A`;
         msg += `📑 *الطلبات:*%0A`;
         
         cart.forEach((i, idx) => {
-            msg += `${idx + 1}◽️ ${i.name} ⬅️ (${i.price}ج)%0A`;
+            msg += `${idx + 1}- ${i.name} (${i.price}ج)%0A`;
         });
         
-        msg += `══════════════%0A`;
-        msg += `💰 *الإجمالي النهائي:* ${document.getElementById('total-val').innerText}%0A`;
-        msg += `══════════════`;
+        msg += `%0A💰 *الإجمالي النهائي:* ${document.getElementById('total-val').innerText}`;
 
         window.open(`https://wa.me/201016991319?text=${msg}`);
     }
