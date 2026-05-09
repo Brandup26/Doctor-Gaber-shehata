@@ -2,14 +2,12 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>منيو إبن سوريا - النسخة الاحترافية</title>
     
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="إبن سوريا">
-    <link rel="apple-touch-icon" href="logoo.jpg">
-    <meta name="theme-color" content="#007AFF">
 
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -31,7 +29,7 @@
             background-color: var(--bg-ios); 
             color: #1C1C1E; 
             overflow-x: hidden;
-            /* دعم هوامش الآيفون والأجهزة الحديثة */
+            /* دعم حواف الآيفون */
             padding-top: env(safe-area-inset-top);
             padding-bottom: env(safe-area-inset-bottom);
         }
@@ -72,13 +70,9 @@
         .cat-card.active img { border-color: var(--blue-ios); transform: scale(1.1); }
         .cat-card span { display: block; margin-top: 8px; font-weight: 800; font-size: 12px; color: #3A3A3C; }
 
-        /* تعديل المنيو ليكون متجاوب تماماً مع جميع الهواتف */
-        .menu-container { 
-            display: grid; 
-            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); 
-            gap: 12px; padding: 10px 15px 20px; 
-        }
-
+        /* التصميم القديم بتاعك (1fr 1fr) */
+        .menu-container { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 10px 15px 20px; }
+        
         .food-item { background: var(--white); border-radius: 25px; padding: 15px; box-shadow: var(--shadow); display: flex; flex-direction: column; justify-content: space-between; position: relative; }
         .food-item h3 { font-size: 15px; font-weight: 900; text-align: center; min-height: 40px; margin-bottom: 12px; line-height: 1.4; }
 
@@ -114,8 +108,7 @@
             width: 100%; background: var(--white); border-top-left-radius: 40px;
             border-top-right-radius: 40px; padding: 25px 25px calc(25px + env(safe-area-inset-bottom)); 
             transform: translateY(100%);
-            transition: 0.4s cubic-bezier(0.25, 0.1, 0.25, 1);
-            max-height: 85vh; overflow-y: auto;
+            transition: 0.4s; max-height: 85vh; overflow-y: auto;
         }
         #cart-sheet-overlay.active .ios-bottom-sheet { transform: translateY(0); }
         .handle-bar { width: 40px; height: 5px; background: #D1D1D6; border-radius: 10px; margin: 0 auto 20px; }
