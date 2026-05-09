@@ -16,7 +16,7 @@
             --shadow: 0 4px 20px rgba(0,0,0,0.08);
             --gradient: linear-gradient(135deg, #007AFF 0%, #00C6FF 100%);
             --dev-color: #00BFFF;
-            --green-ios: #34C759; /* لون النجاح للاضافة */
+            --green-ios: #34C759;
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Cairo', sans-serif; -webkit-tap-highlight-color: transparent; }
@@ -70,7 +70,6 @@
         }
         .price-btn i { color: var(--blue-ios); font-size: 18px; transition: 0.3s; }
         
-        /* حالة الضغط (Added state) */
         .price-btn.added { background: #E8F5E9; border-color: var(--green-ios); color: var(--green-ios); transform: scale(0.95); }
         .price-btn.added i { color: var(--green-ios); transform: rotate(360deg); }
 
@@ -219,7 +218,6 @@
         updateUI();
         flyAnimation(e);
         
-        // تأثيرات بصرية على الزرار
         const btn = e.currentTarget;
         const icon = btn.querySelector('i');
         const toast = btn.closest('.food-item').querySelector('.add-toast');
@@ -282,9 +280,24 @@
     function submitFinalOrder() {
         const n = document.getElementById('c-name').value, p = document.getElementById('c-phone').value, a = document.getElementById('c-address').value;
         if(!n || !p || !a || cart.length === 0) return alert("برجاء إكمال البيانات");
-        let msg = `*طلب جديد من إبن سوريا*%0A*الاسم:* ${n}%0A*الهاتف:* ${p}%0A*العنوان:* ${a}%0A---%0A`;
-        cart.forEach(i => msg += `- ${i.name} (${i.price}ج)%0A`);
-        msg += `---%0A*الإجمالي:* ${document.getElementById('total-val').innerText}`;
+        
+        // تنسيق الرسالة بشكل احترافي مع Emoji
+        let msg = `*طلب جديد من إبن سوريا* 🌯%0A`;
+        msg += `══════════════%0A`;
+        msg += `👤 *الاسم:* ${n}%0A`;
+        msg += `📱 *الهاتف:* ${p}%0A`;
+        msg += `📍 *العنوان:* ${a}%0A`;
+        msg += `══════════════%0A`;
+        msg += `📑 *الطلبات:*%0A`;
+        
+        cart.forEach((i, idx) => {
+            msg += `${idx + 1}◽️ ${i.name} ⬅️ (${i.price}ج)%0A`;
+        });
+        
+        msg += `══════════════%0A`;
+        msg += `💰 *الإجمالي النهائي:* ${document.getElementById('total-val').innerText}%0A`;
+        msg += `══════════════`;
+
         window.open(`https://wa.me/201016991319?text=${msg}`);
     }
 
