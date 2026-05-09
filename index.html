@@ -15,7 +15,7 @@
             --white: #FFFFFF;
             --shadow: 0 4px 20px rgba(0,0,0,0.08);
             --gradient: linear-gradient(135deg, #007AFF 0%, #00C6FF 100%);
-            --dev-color: #00BFFF; /* لون مميز لرقمك */
+            --dev-color: #00BFFF;
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Cairo', sans-serif; -webkit-tap-highlight-color: transparent; }
@@ -69,10 +69,9 @@
         }
         .price-btn i { color: var(--blue-ios); font-size: 18px; }
 
-        /* تذييل الصفحة المنسق بدون حواف أو فواصل لونية */
         .footer-info { 
             text-align: center; padding: 20px; 
-            background: var(--bg-ios); /* نفس لون خلفية المنيو لإخفاء الحواف */
+            background: var(--bg-ios);
             margin-top: 0;
         }
         .dev-credit { font-size: 13px; font-weight: 800; color: var(--blue-ios); text-decoration: none; display: block; margin-bottom: 5px; }
@@ -198,16 +197,23 @@
     }
 
     function render(items) {
-        document.getElementById('food-grid').innerHTML = items.map(p => `
+        document.getElementById('food-grid').innerHTML = items.map(p => {
+            // منطق تعديل مسميات الأحجام بناءً على القسم
+            const isPizza = p.cat.includes('بيتزا');
+            const labelSmall = isPizza ? 'صغير' : 'السعر';
+            const labelMedium = isPizza ? 'وسط' : 'وسط';
+            const labelLarge = isPizza ? 'كبير' : 'كبير';
+
+            return `
             <div class="food-item">
                 <h3>${p.name}</h3>
                 <div class="price-options">
-                    ${p.small && p.small !== '-' ? `<button class="price-btn" onclick="add('${p.name} (صغير)', ${p.small}, event)"><span>صغير: ${p.small}ج</span> <i class="fas fa-plus-circle"></i></button>` : ''}
-                    ${p.medium && p.medium !== '-' ? `<button class="price-btn" onclick="add('${p.name} (وسط)', ${p.medium}, event)"><span>وسط: ${p.medium}ج</span> <i class="fas fa-plus-circle"></i></button>` : ''}
-                    ${p.large && p.large !== '-' ? `<button class="price-btn" onclick="add('${p.name} (كبير)', ${p.large}, event)"><span>كبير: ${p.large}ج</span> <i class="fas fa-plus-circle"></i></button>` : ''}
+                    ${p.small && p.small !== '-' ? `<button class="price-btn" onclick="add('${p.name} (${labelSmall})', ${p.small}, event)"><span>${labelSmall}: ${p.small}ج</span> <i class="fas fa-plus-circle"></i></button>` : ''}
+                    ${p.medium && p.medium !== '-' ? `<button class="price-btn" onclick="add('${p.name} (${labelMedium})', ${p.medium}, event)"><span>${labelMedium}: ${p.medium}ج</span> <i class="fas fa-plus-circle"></i></button>` : ''}
+                    ${p.large && p.large !== '-' ? `<button class="price-btn" onclick="add('${p.name} (${labelLarge})', ${p.large}, event)"><span>${labelLarge}: ${p.large}ج</span> <i class="fas fa-plus-circle"></i></button>` : ''}
                 </div>
             </div>
-        `).join('');
+        `}).join('');
     }
 
     function add(n, p, e) {
