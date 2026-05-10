@@ -112,17 +112,6 @@
         .food-item { background: var(--card-bg); border-radius: 25px; padding: 15px; box-shadow: var(--shadow); display: flex; flex-direction: column; justify-content: space-between; position: relative; }
         .food-item h3 { font-size: 15px; font-weight: 900; text-align: center; min-height: 40px; margin-bottom: 12px; line-height: 1.4; color: var(--text-color); }
 
-        /* Skeleton Loading Style */
-        .skeleton-card {
-            background: var(--card-bg); border-radius: 25px; height: 180px; position: relative; overflow: hidden; box-shadow: var(--shadow);
-        }
-        .skeleton-card::after {
-            content: ""; position: absolute; top: 0; right: 0; bottom: 0; left: 0;
-            background: linear-gradient(90deg, transparent, rgba(120,120,128,0.08), transparent);
-            animation: skeleton-loading 1.2s infinite;
-        }
-        @keyframes skeleton-loading { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
-
         .price-options { display: flex; flex-direction: column; gap: 8px; }
         .price-btn {
             background: rgba(120, 120, 128, 0.08); border: var(--border-val); padding: 14px 10px; border-radius: 16px;
@@ -227,6 +216,7 @@
 </div>
 
 <script>
+    // تفعيل الـ Service Worker لتمكين ميزة "التثبيت"
     if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
             navigator.serviceWorker.register('sw.js')
@@ -255,8 +245,10 @@
     }
 
     const sheetURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRwVeN6ohlItpy6_3Fr5nIPaPgJoMoffwDfq85i8oG1c92XjW3wFknmB6Ahvj8BpQ/pub?output=csv';
-    const CACHE_KEY = 'ebn_syria_menu_cache';
     let products = [], cart = [], categories = [];
+
+    // مفتاح تخزين عداد الطلبات في المتصفح
+    const ORDER_COUNT_KEY = 'ebn_syria_order_count';
 
     function parseCSV(text) {
         const rows = text.split('\n');
@@ -269,43 +261,15 @@
         }).filter(item => item && item.name);
     }
 
-    // دالة لعرض مربعات التحميل الوهمية
-    function showSkeletons() {
-        const grid = document.getElementById('food-grid');
-        grid.innerHTML = '<div class="skeleton-card"></div>'.repeat(6);
-    }
-
     async function loadData() {
-        showSkeletons(); // ابدأ بعرض شاشة التحميل
-
-        // 1. حاول تجيب البيانات من ذاكرة الموبايل فوراً لسرعة الفتح
-        const cachedData = localStorage.getItem(CACHE_KEY);
-        if (cachedData) {
-            products = JSON.parse(cachedData);
-            renderInitialUI();
-        }
-
         try {
-            // 2. روح هات الجديد من جوجل شيت
             const res = await fetch(sheetURL);
             const text = await res.text();
-            const freshProducts = parseCSV(text);
-            
-            // تحديث الذاكرة والبيانات
-            products = freshProducts;
-            localStorage.setItem(CACHE_KEY, JSON.stringify(freshProducts));
-            
-            renderInitialUI();
-        } catch (e) { 
-            console.error(e);
-            if (!cachedData) document.getElementById('food-grid').innerHTML = "<p style='text-align:center; grid-column: 1/3; padding: 20px;'>عفواً، فشل تحميل المنيو. تأكد من اتصالك بالإنترنت.</p>";
-        }
-    }
-
-    function renderInitialUI() {
-        categories = [...new Set(products.map(p => p.cat))];
-        renderCats();
-        if(categories.length > 0) filter(categories[0]);
+            products = parseCSV(text);
+            categories = [...new Set(products.map(p => p.cat))];
+            renderCats();
+            if(categories.length > 0) filter(categories[0]);
+        } catch (e) { console.error(e); }
     }
 
     function renderCats() {
@@ -354,7 +318,7 @@
     function updateUI() {
         document.getElementById('cart-count').innerText = cart.length;
         let t = 0;
-        document.getElementById('cart-items-list').innerHTML = cart.map((i, index) => {
+        let html = cart.map((i, index) => {
             t += i.price;
             return `<div class="cart-item-row">
                 <i class="fas fa-trash-alt remove-item" onclick="removeItem(${index})"></i>
@@ -362,6 +326,24 @@
                 <span>${i.price} ج.م</span>
             </div>`;
         }).join('');
+
+        // جزء الهدية: فحص العداد وعرض الرسالة المناسبة في السلة
+        let currentCount = parseInt(localStorage.getItem(ORDER_COUNT_KEY)) || 0;
+        if (currentCount < 4) {
+            html += `<div style="padding:10px; background:#e1f5fe; border-radius:10px; font-size:12px; margin-top:10px; color:#0277bd; text-align:center;">
+                باقي لك ${5 - currentCount} طلبات وتحصل على باكت بطاطس مجاني مع طلبك القادم! 🍟
+            </div>`;
+        } else if (currentCount === 4) {
+            html += `<div style="padding:10px; background:#fff3e0; border-radius:10px; font-size:12px; margin-top:10px; color:#ef6c00; text-align:center;">
+                 اطلب دلوقتي واحصل على باكت البطاطس مع طلبك الحالي! 🎁🍟
+            </div>`;
+        } else {
+             html += `<div style="padding:10px; background:#e8f5e9; border-radius:10px; font-size:12px; margin-top:10px; color:#2e7d32; text-align:center; font-weight:bold;">
+                تهانينا! هذا الطلب يتضمن باكت بطاطس مجاني 🍟🎁
+            </div>`;
+        }
+
+        document.getElementById('cart-items-list').innerHTML = html;
         document.getElementById('total-val').innerText = t + " ج.م";
     }
 
@@ -394,8 +376,22 @@
     function submitFinalOrder() {
         const n = document.getElementById('c-name').value, p = document.getElementById('c-phone').value, a = document.getElementById('c-address').value;
         if(!n || !p || !a || cart.length === 0) return alert("برجاء إكمال البيانات");
+
+        // زيادة عداد الطلبات بمجرد الضغط على تأكيد
+        let currentCount = parseInt(localStorage.getItem(ORDER_COUNT_KEY)) || 0;
+        currentCount++;
+        localStorage.setItem(ORDER_COUNT_KEY, currentCount);
+
         let msg = `*طلب جديد من إبن سوريا* 🌯%0A%0A👤 *الاسم:* ${n}%0A📱 *الهاتف:* ${p}%0A📍 *العنوان:* ${a}%0A%0A📑 *الطلبات:*%0A`;
+        
         cart.forEach((i, idx) => { msg += `${idx + 1}- ${i.name} (${i.price}ج)%0A`; });
+
+        // إضافة رسالة الهدية في الواتساب لو دي المرة الخامسة أو أكتر
+        if (currentCount >= 5) {
+            msg += `%0A🎁 *مبروك! العميل يستحق باكت بطاطس هدية (هذا هو الطلب رقم ${currentCount})!*%0A`;
+            // ملحوظة: العداد لا يصفر تلقائياً لضمان استمرار الرسالة حتى يراها صاحب المطعم.
+        }
+
         msg += `%0A💰 *الإجمالي النهائي:* ${document.getElementById('total-val').innerText}`;
         window.open(`https://wa.me/201016991319?text=${msg}`);
     }
