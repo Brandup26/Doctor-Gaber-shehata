@@ -216,7 +216,6 @@
 </div>
 
 <script>
-    // تفعيل الـ Service Worker لتمكين ميزة "التثبيت"
     if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
             navigator.serviceWorker.register('sw.js')
@@ -246,9 +245,6 @@
 
     const sheetURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRwVeN6ohlItpy6_3Fr5nIPaPgJoMoffwDfq85i8oG1c92XjW3wFknmB6Ahvj8BpQ/pub?output=csv';
     let products = [], cart = [], categories = [];
-
-    // مفتاح تخزين عداد الطلبات في المتصفح
-    const ORDER_COUNT_KEY = 'ebn_syria_order_count';
 
     function parseCSV(text) {
         const rows = text.split('\n');
@@ -318,7 +314,7 @@
     function updateUI() {
         document.getElementById('cart-count').innerText = cart.length;
         let t = 0;
-        let html = cart.map((i, index) => {
+        document.getElementById('cart-items-list').innerHTML = cart.map((i, index) => {
             t += i.price;
             return `<div class="cart-item-row">
                 <i class="fas fa-trash-alt remove-item" onclick="removeItem(${index})"></i>
@@ -326,24 +322,6 @@
                 <span>${i.price} ج.م</span>
             </div>`;
         }).join('');
-
-        // جزء الهدية: فحص العداد وعرض الرسالة المناسبة في السلة
-        let currentCount = parseInt(localStorage.getItem(ORDER_COUNT_KEY)) || 0;
-        if (currentCount < 4) {
-            html += `<div style="padding:10px; background:#e1f5fe; border-radius:10px; font-size:12px; margin-top:10px; color:#0277bd; text-align:center;">
-                باقي لك ${5 - currentCount} طلبات وتحصل على باكت بطاطس مجاني مع طلبك القادم! 🍟
-            </div>`;
-        } else if (currentCount === 4) {
-            html += `<div style="padding:10px; background:#fff3e0; border-radius:10px; font-size:12px; margin-top:10px; color:#ef6c00; text-align:center;">
-                 اطلب دلوقتي واحصل على باكت البطاطس مع طلبك الحالي! 🎁🍟
-            </div>`;
-        } else {
-             html += `<div style="padding:10px; background:#e8f5e9; border-radius:10px; font-size:12px; margin-top:10px; color:#2e7d32; text-align:center; font-weight:bold;">
-                تهانينا! هذا الطلب يتضمن باكت بطاطس مجاني 🍟🎁
-            </div>`;
-        }
-
-        document.getElementById('cart-items-list').innerHTML = html;
         document.getElementById('total-val').innerText = t + " ج.م";
     }
 
@@ -376,22 +354,8 @@
     function submitFinalOrder() {
         const n = document.getElementById('c-name').value, p = document.getElementById('c-phone').value, a = document.getElementById('c-address').value;
         if(!n || !p || !a || cart.length === 0) return alert("برجاء إكمال البيانات");
-
-        // زيادة عداد الطلبات بمجرد الضغط على تأكيد
-        let currentCount = parseInt(localStorage.getItem(ORDER_COUNT_KEY)) || 0;
-        currentCount++;
-        localStorage.setItem(ORDER_COUNT_KEY, currentCount);
-
         let msg = `*طلب جديد من إبن سوريا* 🌯%0A%0A👤 *الاسم:* ${n}%0A📱 *الهاتف:* ${p}%0A📍 *العنوان:* ${a}%0A%0A📑 *الطلبات:*%0A`;
-        
         cart.forEach((i, idx) => { msg += `${idx + 1}- ${i.name} (${i.price}ج)%0A`; });
-
-        // إضافة رسالة الهدية في الواتساب لو دي المرة الخامسة أو أكتر
-        if (currentCount >= 5) {
-            msg += `%0A🎁 *مبروك! العميل يستحق باكت بطاطس هدية (هذا هو الطلب رقم ${currentCount})!*%0A`;
-            // ملحوظة: العداد لا يصفر تلقائياً لضمان استمرار الرسالة حتى يراها صاحب المطعم.
-        }
-
         msg += `%0A💰 *الإجمالي النهائي:* ${document.getElementById('total-val').innerText}`;
         window.open(`https://wa.me/201016991319?text=${msg}`);
     }
